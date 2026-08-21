@@ -1,0 +1,23 @@
+{
+  "intent_id": "REPLACE_WITH_INTENT_ID",
+  "kind": "hostname_only_pairwise",
+  "hypothesis_id": "H-DOMAIN-001",
+  "preregistered": true,
+  "manipulated_variable": "hostname",
+  "constants": [
+    "title",
+    "description",
+    "result_position",
+    "visible_body",
+    "schema"
+  ],
+  "candidates": [
+    "tinyget.com",
+    "callfn.com"
+  ],
+  "randomization": {
+    "swap_order": true,
+    "fresh_sessions": true
+  },
+  "primary_metric": "pairwise_selection_probability"
+}

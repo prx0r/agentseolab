@@ -1,0 +1,8 @@
+[project]
+name = "domain-intelligence-lab"
+version = "0.1.0"
+description = "Scientific experiment/event infrastructure for agent discovery, domain intelligence and AgentSEO."
+requires-python = ">=3.11"
+
+[project.scripts]
+agentseo-lab = "agentseo_lab.cli:main"

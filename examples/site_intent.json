@@ -1,0 +1,26 @@
+{
+  "purpose": "A public service exposing small deterministic APIs and MCP tools that agents and developers can invoke with minimal friction.",
+  "primary_job": "When an agent needs a small capability, it can discover and execute the right utility quickly.",
+  "audiences": [
+    "autonomous AI agents",
+    "developers"
+  ],
+  "capabilities": [
+    "discover utility",
+    "invoke utility",
+    "return structured result",
+    "free or metered execution"
+  ],
+  "constraints": {
+    "tld": [
+      ".com"
+    ],
+    "max_chars_preferred": 12,
+    "avoid_hyphens": true,
+    "avoid_numbers": true
+  },
+  "language": "en",
+  "metadata": {
+    "project": "example"
+  }
+}
