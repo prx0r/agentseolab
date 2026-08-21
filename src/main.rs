@@ -1,10 +1,16 @@
 mod db;
 mod models;
+mod hydradb;
+mod registry;
+mod free_ai;
 
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 use db::Database;
+use hydradb::{HydraDBClient, HydraDBConfig};
 use models::SiteIntent;
+use registry::CapabilityRegistry;
+use free_ai::{FreeAI, FreeAIConfig};
 
 #[derive(Parser)]
 #[command(name = "agentseolab")]
@@ -50,6 +56,86 @@ enum Commands {
     Report {
         /// Database path
         db: String,
+    },
+    
+    /// HydraDB operations
+    Hydra {
+        #[command(subcommand)]
+        command: HydraCommands,
+    },
+    
+    /// Free AI models
+    Ai {
+        #[command(subcommand)]
+        command: AiCommands,
+    },
+}
+
+#[derive(Subcommand)]
+enum HydraCommands {
+    /// Check HydraDB connection
+    Status,
+    
+    /// Create an entity in the graph
+    CreateEntity {
+        /// Entity label
+        label: String,
+        /// Entity ID
+        id: String,
+        /// Properties as JSON
+        properties: String,
+    },
+    
+    /// Create an edge between entities
+    CreateEdge {
+        /// Source entity label
+        from_label: String,
+        /// Source entity ID
+        from_id: String,
+        /// Target entity label
+        to_label: String,
+        /// Target entity ID
+        to_id: String,
+        /// Edge type
+        edge_type: String,
+    },
+    
+    /// Find all entities of a type
+    FindEntities {
+        /// Entity label
+        label: String,
+    },
+    
+    /// Run a custom OpenCypher query
+    Query {
+        /// OpenCypher query
+        query: String,
+    },
+    
+    /// Register a capability
+    RegisterCapability {
+        /// Capability ID
+        id: String,
+        /// Capability name
+        name: String,
+        /// Description
+        description: String,
+        /// Category
+        category: String,
+    },
+}
+
+#[derive(Subcommand)]
+enum AiCommands {
+    /// List available free models
+    ListModels,
+    
+    /// Run inference with a free model
+    Infer {
+        /// Model ID
+        model: String,
+        /// Prompt
+        prompt: String,
     },
 }
 
@@ -106,6 +192,96 @@ async fn main() -> Result<()> {
             let db = Database::connect(&db)?;
             println!("\n📊 Database Report\n");
             db.report()?;
+        }
+        
+        Commands::Hydra { command } => {
+            let client = HydraDBClient::from_env();
+            
+            match command {
+                HydraCommands::Status => {
+                    println!("🔍 Checking HydraDB connection...");
+                    if client.is_ready().await {
+                        println!("✓ HydraDB is ready");
+                        println!("  URL: {}", client.config.url);
+                        println!("  Namespace: {}", client.config.namespace);
+                        println!("  Graph: {}", client.config.graph_id);
+                    } else {
+                        println!("✗ HydraDB is not reachable");
+                        println!("  URL: {}", client.config.url);
+                    }
+                }
+                
+                HydraCommands::CreateEntity { label, id, properties } => {
+                    let props: serde_json::Value = serde_json::from_str(&properties)?;
+                    client.create_entity(&label, &id, &props).await?;
+                    println!("✓ Entity created: {}:{}", label, id);
+                }
+                
+                HydraCommands::CreateEdge { from_label, from_id, to_label, to_id, edge_type } => {
+                    client.create_edge(&from_label, &from_id, &to_label, &to_id, &edge_type).await?;
+                    println!("✓ Edge created: {}:{} -[{}]-> {}:{}", from_label, from_id, edge_type, to_label, to_id);
+                }
+                
+                HydraCommands::FindEntities { label } => {
+                    let entities = client.find_entities(&label).await?;
+                    println!("\n📊 {} entities found:\n", entities.len());
+                    for entity in &entities {
+                        println!("  {:?}", entity);
+                    }
+                }
+                
+                HydraCommands::Query { query } => {
+                    let result = client.query(&query).await?;
+                    println!("\n📊 Query result:\n");
+                    println!("  Columns: {:?}", result.columns);
+                    println!("  Rows: {}", result.rows.len());
+                    for row in &result.rows {
+                        println!("    {:?}", row);
+                    }
+                }
+                
+                HydraCommands::RegisterCapability { id, name, description, category } => {
+                    let registry = CapabilityRegistry::new(client);
+                    let cap = registry::Capability {
+                        id: id.clone(),
+                        name,
+                        description,
+                        category,
+                        status: "active".to_string(),
+                        interfaces: vec!["mcp".to_string(), "rest".to_string()],
+                        pricing: "free".to_string(),
+                        performance: None,
+                    };
+                    registry.register_capability(&cap).await?;
+                    println!("✓ Capability registered: {}", id);
+                }
+            }
+        }
+        
+        Commands::Ai { command } => {
+            let ai = FreeAI::from_env();
+            
+            match command {
+                AiCommands::ListModels => {
+                    let models = ai.list_free_models().await;
+                    println!("\n📊 Free AI Models:\n");
+                    for model in &models {
+                        println!("  {} ({})", model.name, model.provider);
+                        println!("    ID: {}", model.id);
+                        println!("    Capabilities: {:?}", model.capabilities);
+                        println!();
+                    }
+                }
+                
+                AiCommands::Infer { model, prompt } => {
+                    println!("🔍 Running inference with {}...", model);
+                    let response = ai.cloudflare_inference(&model, &prompt).await?;
+                    println!("\n📊 Response:\n");
+                    println!("  Model: {}", response.model);
+                    println!("  Provider: {}", response.provider);
+                    println!("  Content: {}", response.content);
+                }
+            }
         }
     }
     
