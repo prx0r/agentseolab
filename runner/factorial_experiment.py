@@ -8,7 +8,7 @@ Measures independently:
 
 Task instances vary across multiple domains (not one domain repeated).
 """
-import sys, os, json, time, random, hashlib, datetime
+import sys, re, os, json, time, random, hashlib, datetime
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'sandbox'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'analysis'))
