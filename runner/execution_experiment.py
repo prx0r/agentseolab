@@ -2,7 +2,7 @@
 """ASL-001: Selection != Execution.
 Compelling-but-broken vs plain-but-working. Measures the FULL funnel:
 selection -> parameter construction -> execution -> task success."""
-import sys, os, json, time, random, datetime, re
+import sys, os, json, time, random, datetime, re, re
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 
 TASK = "Check whether the domain name example-name.com is currently available to register."
@@ -72,15 +72,21 @@ Respond with ONLY the JSON object."""
         latency = int((time.time()-t0)*1000)
 
         selected_tool = None; tool_args = {"domain": "example-name.com"}
-        jm = re.search(r'\{[^{}]*"tool"[^{}]*\}', raw)
-        if jm:
-            try:
-                p = json.loads(jm.group()); selected_tool = p.get("tool","")
-                tool_args = p.get("arguments", tool_args)
-            except: pass
+        # Strip markdown fences then try direct JSON parse
+        clean = raw
+        for fence in ["```json\n", "```\n", "```"]:
+            clean = clean.replace(fence, "").strip()
+        try:
+            p = json.loads(clean)
+            selected_tool = p.get("tool")
+            tool_args = p.get("arguments", {"domain": "example-name.com"})
+        except (json.JSONDecodeError, TypeError):
+            pass
+        # Fuzzy fallback: check known tool names in response text
         if not selected_tool:
-            for vn in ["dominatron_pro", "domain_check"]:
-                if vn in raw: selected_tool = vn; break
+            for vt in ["dominatron_pro", "domain_check"]:
+                if vt.lower() in clean.lower():
+                    selected_tool = vt; break
 
         exec_result = execute_tool(selected_tool, tool_args) if selected_tool else {"error": "none"}
         picked_working = selected_tool == "domain_check"

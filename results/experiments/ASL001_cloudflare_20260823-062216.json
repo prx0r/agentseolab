@@ -1,0 +1,122 @@
+{
+ "experiment": "ASL-001",
+ "backend": "cloudflare",
+ "model": "1",
+ "trials": [
+  {
+   "trial_no": 1,
+   "ordering": "compelling_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 175,
+   "session_id": "s_1787466134954359458",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 2,
+   "ordering": "plain_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 181,
+   "session_id": "s_1787466135135790492",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 3,
+   "ordering": "compelling_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 166,
+   "session_id": "s_1787466135302287998",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 4,
+   "ordering": "plain_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 179,
+   "session_id": "s_1787466135482306887",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 5,
+   "ordering": "compelling_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 149,
+   "session_id": "s_1787466135632597636",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 6,
+   "ordering": "plain_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 208,
+   "session_id": "s_1787466135841662476",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 7,
+   "ordering": "compelling_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 186,
+   "session_id": "s_1787466136028671105",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 8,
+   "ordering": "plain_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 177,
+   "session_id": "s_1787466136206639133",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 9,
+   "ordering": "compelling_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 162,
+   "session_id": "s_1787466136369760250",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 10,
+   "ordering": "plain_first",
+   "selected_tool": null,
+   "picked_working": false,
+   "executed": false,
+   "task_succeeded": false,
+   "latency_ms": 181,
+   "session_id": "s_1787466136551725389",
+   "response_snippet": ""
+  }
+ ],
+ "summary": {
+  "correct_selection": 0,
+  "task_succeeded": 0,
+  "total": 10
+ }
+}

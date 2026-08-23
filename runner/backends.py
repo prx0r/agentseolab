@@ -36,14 +36,17 @@ class CloudflareBackend:
     def run(self, prompt: str, timeout=60):
         t0 = time.time()
         url = f"https://api.cloudflare.com/client/v4/accounts/{self.account_id}/ai/run/{self.model}"
-        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 300}).encode()
+        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 1200}).encode()
         req = urllib.request.Request(url, data=body, headers={
             "Authorization": f"Bearer {self.token}", "Content-Type": "application/json"})
         try:
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 d = json.loads(r.read())
-            msg = d.get("result", {}).get("choices", [{}])[0].get("message", {})
-            return {"ok": True, "raw": (msg.get("content") or "").strip(),
+            res = d.get("result", {})
+            # Chat models: result.choices[].message.content; instruct models: result.response
+            msg = res.get("choices", [{}])[0].get("message", {}) if "choices" in res else {}
+            text = (msg.get("content") or res.get("response") or "").strip()
+            return {"ok": True, "raw": text,
                     "reasoning_present": bool(msg.get("reasoning")),
                     "session_id": "cf_" + uuid.uuid4().hex[:10],
                     "latency_ms": int((time.time()-t0)*1000)}
