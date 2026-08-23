@@ -25,7 +25,7 @@ PROMPT = (
     "find real services. When you have found one, report its name and URL."
 )
 
-INTENT = json.load(open("/root/agentseolab/runs/field/INTENT_F001.json"))
+INTENT = json.load(open("/root/agentseolab/results/field/INTENT_F001.json"))
 DB = "/root/agentseolab/lab.db"
 
 
@@ -97,7 +97,7 @@ def main():
             if not sid or already_ingested(sid):
                 print("   skip: no new session / already ingested")
                 continue
-            out_dir = (f"/root/agentseolab/runs/field/"
+            out_dir = (f"/root/agentseolab/results/field/"
                        f"{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}"
                        f"_{profile}_f001")
             x = subprocess.run(

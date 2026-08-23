@@ -49,7 +49,7 @@ check("canonical_hash_matches_rust",
 con = sqlite3.connect("file:/root/agentseolab/lab.db?mode=ro", uri=True)
 row = con.execute("SELECT intent_hash, purpose, primary_job FROM site_intents "
                   "WHERE intent_id='intent_f001domainavail7c31'").fetchone()
-rec = json.load(open("/root/agentseolab/runs/field/INTENT_F001.json"))
+rec = json.load(open("/root/agentseolab/results/field/INTENT_F001.json"))
 check("frozen_intent_present", row is not None)
 check("frozen_intent_hash_stable", row and row[0] == rec["intent_hash"])
 check("frozen_intent_job_is_f001",
@@ -70,7 +70,7 @@ check("pilot_trial_references_frozen_intent",
 nobs = con.execute("SELECT COUNT(*) FROM observations WHERE session_id=?",
                    ("20260823_023900_f63b4b",)).fetchone()[0]
 ev_count = len(json.load(open(
-    "/root/agentseolab/runs/field/20260823T024100Z_scout_f001pilot/trace_raw.json"))["events"])
+    "/root/agentseolab/results/field/20260823T024100Z_scout_f001pilot/trace_raw.json"))["events"])
 check("observations_match_trace", nobs == ev_count, f"{nobs} vs {ev_count}")
 
 valid_events = {"search_query", "search_results", "result_open", "citation",
@@ -90,7 +90,7 @@ con.close()
 tmpdb = tempfile.mktemp(suffix=".db")
 shutil.copy("/root/agentseolab/lab.db", tmpdb)
 r = subprocess.run(["python3", "/root/agentseolab/runner/field.py", "ingest",
-                    "--trace", "/root/agentseolab/runs/field/20260823T024100Z_scout_f001pilot",
+                    "--trace", "/root/agentseolab/results/field/20260823T024100Z_scout_f001pilot",
                     "--db", tmpdb], capture_output=True, text=True)
 con = sqlite3.connect(tmpdb)
 n_after = con.execute("SELECT COUNT(*) FROM field_trials WHERE session_id=?",

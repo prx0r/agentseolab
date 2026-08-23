@@ -12,7 +12,7 @@ sys.path.insert(0, "/root/agentseolab/runner")
 
 SESSION = "20260823_023900_f63b4b"
 PROFILE = "scout"
-OUT = "/root/agentseolab/runs/field/20260823T024100Z_scout_f001pilot"
+OUT = "/root/agentseolab/results/field/20260823T024100Z_scout_f001pilot"
 
 r = subprocess.run([
     "python3", "/root/agentseolab/runner/field.py", "extract",

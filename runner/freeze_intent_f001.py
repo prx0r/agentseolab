@@ -12,7 +12,7 @@ import sys
 sys.path.insert(0, "/root/agentseolab/runner")
 from field import canonical_hash
 
-REC = json.load(open("/root/agentseolab/runs/field/INTENT_F001.json"))
+REC = json.load(open("/root/agentseolab/results/field/INTENT_F001.json"))
 DB = "/root/agentseolab/lab.db"
 
 payload_json = json.dumps({
