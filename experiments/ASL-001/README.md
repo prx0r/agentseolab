@@ -41,3 +41,12 @@ python3 runner/execution_experiment.py opencode 10     # ox-alpha-free
 ## Cross-Family Verdict
 Same direction ✓ · Mistral CI excludes 0.5 ✓ · Different organisations (Meta + Mistral AI) ✓
 → REPLICATION CONFIRMED for this finding at current power level.
+
+## Workflow Reference
+1. Read `AGENTS.md` for model policy and general principles
+2. Read `docs/experiments-rules.md` for canonical controls, stats, evidence lifecycle
+3. Run experiment using the command above
+4. Save results to `results/experiments/`
+5. Write `PEER_REVIEW.md` in this folder with findings + next experiment recommendation
+6. Run `python3 analysis/audit.py` to verify integrity before committing
+7. Commit with descriptive message referencing this experiment ID
