@@ -114,7 +114,8 @@ if __name__ == "__main__":
             print(f"[{label}] unhealthy — skipped")
             continue
         print(f"[{label}]")
-        plans = build_plan(seed + hash(label) % 9999, n_per_task)
+        model_seed = int(hashlib.sha256(label.encode()).hexdigest()[:8], 16)
+        plans = build_plan(seed + model_seed % 9999, n_per_task)
         trials = []
         for i, plan in enumerate(plans):
             r = b.run(render(plan), timeout=90)

@@ -1,6 +1,6 @@
 {
  "ledger_version": 1,
- "updated": "2026-08-23T08:20:00Z",
+ "updated": "2026-08-23T11:00:28.909277Z",
  "hypotheses": [
   {
    "id": "H-ASL001a",
@@ -155,6 +155,149 @@
      "n": 11
     }
    ]
+  },
+  {
+   "id": "H-ASL002C",
+   "statement": "Description seduction is CONTRAST-driven: symmetrizing descriptions (fluff on both candidates) collapses P(pick working) to exactly chance in every family tested, including previously-seduced and resistant ones",
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "verdict": "Discriminant arm ASL-002B (fluff_both): llama 12/24, mistral 12/24, qwen3 12/24, gpt-oss-20b 12/24 \u2014 all exactly 0.50. Rejects absolute plain-description preference AND coherence-penalty accounts for these families; selection tracks the description contrast, not description style per se nor tool identity. n=24/family is pilot power; rerun at n>=30 before promotion.",
+   "runs": [
+    {
+     "run_id": "asl002b-llama70b",
+     "model": "meta-llama-3.3-70b",
+     "family": "Meta",
+     "provider": "cloudflare",
+     "n_decided": 24,
+     "p_working": 0.5,
+     "ci95": [
+      0.32,
+      0.68
+     ],
+     "sig": false
+    },
+    {
+     "run_id": "asl002b-mistral",
+     "model": "mistral-small-24b",
+     "family": "Mistral AI",
+     "provider": "cloudflare",
+     "n_decided": 24,
+     "p_working": 0.5,
+     "ci95": [
+      0.32,
+      0.68
+     ],
+     "sig": false
+    },
+    {
+     "run_id": "asl002b-qwen3",
+     "model": "qwen3-30b",
+     "family": "Alibaba",
+     "provider": "cloudflare",
+     "n_decided": 24,
+     "p_working": 0.5,
+     "ci95": [
+      0.32,
+      0.68
+     ],
+     "sig": false
+    },
+    {
+     "run_id": "asl002b-gptoss20b",
+     "model": "gpt-oss-20b",
+     "family": "OpenAI",
+     "provider": "cloudflare",
+     "n_decided": 24,
+     "p_working": 0.5,
+     "ci95": [
+      0.32,
+      0.68
+     ],
+     "sig": false
+    }
+   ],
+   "prereg": "results/experiments/asl002b/PREREG_20260823-101525.json manifest 7822ceb8",
+   "created": "2026-08-23T10:31:59.072024Z"
+  },
+  {
+   "id": "H-TLD01",
+   "statement": "Position primacy dominates SERP-style agent choice (87% pick slot 1); conditional on occupying the top slot, .com wins it (100% vs 79-95% for other TLDs); off-slot .com retains small residual preference (15% vs ~1%)",
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "verdict": "n=123 decided, 7 families, prereg manifest 89d81af9. CORRECTED ANALYSIS: raw marginal '.com premium' was largely position artifact (.com sat at pos0 29x vs org 19x by chance). Position-stratified estimands are primary: P(pick|pos0): com 29/29, org 18/19, dev 22/28, io 21/26, xyz 17/21. P(pick|off-pos0): com 14/94=0.15 vs others <=0.01. Original predictions partially resolved: P1 hierarchy=WITHIN-SLOT only; P2 task interaction=not detectable at n=18/family; P3 universal .xyz discount=REJECTED pooled (0.138 CI[0.088,0.210] includes 0.2). Family heterogeneity: mimo .com 0.78*, ox-alpha .com 0.47*; uniform families llama/mistral/qwen3/gptoss20b.",
+   "runs": [
+    {
+     "run_id": "tld-v1-pooled",
+     "model": "7-family-pooled",
+     "family": "multi",
+     "provider": "multi",
+     "n_decided": 123,
+     "p_working": 0.35,
+     "ci95": [
+      0.271,
+      0.437
+     ],
+     "sig": true,
+     "note": "position-confounded marginal; see position-stratified verdict"
+    },
+    {
+     "run_id": "tld-v1-mimo",
+     "model": "mimo-v2.5",
+     "family": "MiMo",
+     "provider": "opencode-go",
+     "n_decided": 18,
+     "p_working": 0.78,
+     "ci95": [
+      0.55,
+      0.91
+     ],
+     "sig": true
+    },
+    {
+     "run_id": "tld-v1-oxalpha",
+     "model": "ox-alpha-free",
+     "family": "ox",
+     "provider": "opencode-go",
+     "n_decided": 15,
+     "p_working": 0.47,
+     "ci95": [
+      0.25,
+      0.7
+     ],
+     "sig": false
+    }
+   ],
+   "design_flaws_fixed_next": [
+    "full TLD-x-position Latin square",
+    "3 prompt templates",
+    "2 query paraphrases/task",
+    "n>=30/family"
+   ],
+   "created": "2026-08-23T11:00:28.909277Z"
+  },
+  {
+   "id": "H-NAMING01",
+   "statement": "When descriptions are informative, tool NAME style (query-echo / neutral / brand) does NOT affect selection in ANY tested family (ceiling null)",
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "verdict": "6 families x 36 trials each, ALL p=1.0 in every arm (216/216 target picked). Description content exhaustively determines choice under easy discrimination; name channel has zero measured marginal effect. Boundary condition established, NOT a law about naming under weak/ambiguous descriptions. NAMING-02 will test degraded-description regime (factorial: name-style x description-strength) to create discriminability headroom.",
+   "runs": [
+    {
+     "run_id": "naming01-ceiling",
+     "model": "6-family-matrix",
+     "family": "multi",
+     "provider": "multi",
+     "n_decided": 215,
+     "p_working": 1.0,
+     "ci95": [
+      0.985,
+      1.0
+     ],
+     "sig": true
+    }
+   ],
+   "prereg": "results/experiments/naming01/PREREG_20260823-104235.json manifest 26a995a4",
+   "created": "2026-08-23T11:00:28.909277Z"
   }
  ],
  "open_questions": [

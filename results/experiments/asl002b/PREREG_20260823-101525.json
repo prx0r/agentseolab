@@ -1,0 +1,16 @@
+{
+ "experiment": "ASL-002B",
+ "protocol_version": 2,
+ "seed": 20260823,
+ "arm": "fluff_both",
+ "n": 24,
+ "temperature": 0,
+ "models": [
+  "cf",
+  "cf",
+  "cf",
+  "cf"
+ ],
+ "discriminates": "H-coherence vs H-plain-pref",
+ "manifest_hash": "7822ceb8ea441cc7589412dd781a9d90b22dec3e7af6f15ab7b8618f3c81d838"
+}

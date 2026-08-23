@@ -1,0 +1,912 @@
+{
+ "spec": {
+  "experiment": "ASL-002B",
+  "protocol_version": 2,
+  "seed": 20260823,
+  "arm": "fluff_both",
+  "n": 24,
+  "temperature": 0,
+  "models": [
+   "cf",
+   "cf",
+   "cf",
+   "cf"
+  ],
+  "discriminates": "H-coherence vs H-plain-pref",
+  "manifest_hash": "7822ceb8ea441cc7589412dd781a9d90b22dec3e7af6f15ab7b8618f3c81d838"
+ },
+ "results": {
+  "meta-llama-3.3-70b": {
+   "decided": 24,
+   "picked_working": 12,
+   "p": 0.5,
+   "trials": [
+    {
+     "trial_no": 1,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 2,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 3,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 4,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 5,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 6,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 7,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 8,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 9,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 10,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 11,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 12,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 13,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 14,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 15,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 16,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 17,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 18,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 19,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 20,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 21,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 22,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 23,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 24,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    }
+   ]
+  },
+  "mistral-small-24b": {
+   "decided": 24,
+   "picked_working": 12,
+   "p": 0.5,
+   "trials": [
+    {
+     "trial_no": 1,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 2,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 3,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 4,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 5,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 6,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 7,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 8,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 9,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 10,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 11,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 12,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 13,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 14,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 15,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 16,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 17,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 18,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 19,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 20,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 21,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 22,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 23,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    },
+    {
+     "trial_no": 24,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "```json\n{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```"
+    }
+   ]
+  },
+  "qwen3-30b": {
+   "decided": 24,
+   "picked_working": 12,
+   "p": 0.5,
+   "trials": [
+    {
+     "trial_no": 1,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 2,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 3,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 4,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 5,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 6,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 7,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 8,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 9,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 10,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 11,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 12,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 13,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 14,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 15,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 16,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 17,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 18,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 19,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 20,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 21,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 22,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 23,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    },
+    {
+     "trial_no": 24,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+    }
+   ]
+  },
+  "gpt-oss-20b": {
+   "decided": 24,
+   "picked_working": 12,
+   "p": 0.5,
+   "trials": [
+    {
+     "trial_no": 1,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 2,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 3,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 4,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 5,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 6,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 7,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 8,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 9,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 10,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 11,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 12,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 13,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 14,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 15,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 16,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 17,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 18,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 19,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 20,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 21,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 22,
+     "pos_flip": false,
+     "order_working_first": true,
+     "selected_tool": "domain_check",
+     "picked_working": true,
+     "task_succeeded": true,
+     "snippet": "{\"tool\":\"domain_check\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 23,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    },
+    {
+     "trial_no": 24,
+     "pos_flip": true,
+     "order_working_first": false,
+     "selected_tool": "dominatron_pro",
+     "picked_working": false,
+     "task_succeeded": false,
+     "snippet": "{\"tool\":\"dominatron_pro\",\"arguments\":{\"domain\":\"example-name.com\"}}"
+    }
+   ]
+  }
+ }
+}

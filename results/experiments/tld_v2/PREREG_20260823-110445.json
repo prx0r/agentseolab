@@ -1,0 +1,24 @@
+{
+ "experiment": "TLD-V2",
+ "protocol_version": 2,
+ "seed": 20260824,
+ "n_per_family": 30,
+ "templates": 3,
+ "paraphrases": 2,
+ "latin_square_positions": true,
+ "models": [
+  "meta-llama-3.3-70b",
+  "mistral-small-24b",
+  "qwen3-30b",
+  "gpt-oss-20b",
+  "nemotron-super-120b",
+  "mimo-v2.5"
+ ],
+ "temperature": 0,
+ "estimands": [
+  "P(slot)",
+  "P(tld|slot)",
+  "template invariance"
+ ],
+ "manifest_hash": "8bfd98ef85a1b50725a6b17bc8879b8dcf43e552530ef5cdb8cbed99709bfd1a"
+}

@@ -1,0 +1,31 @@
+{
+ "experiment": "NAMING-01",
+ "protocol_version": 2,
+ "seed": 20260823,
+ "n_per_cell": 12,
+ "arms": [
+  "match",
+  "neutral",
+  "brand"
+ ],
+ "tasks": [
+  "domain_check",
+  "price_lookup",
+  "file_convert"
+ ],
+ "models": [
+  "meta-llama-3.3-70b",
+  "mistral-small-24b",
+  "qwen3-30b",
+  "gpt-oss-20b",
+  "nemotron-super-120b",
+  "mimo-v2.5"
+ ],
+ "temperature": 0,
+ "predictions": [
+  "p(match)>p(neutral)",
+  "effect larger in description-ignoring families",
+  "brand<=neutral<match"
+ ],
+ "manifest_hash": "26a995a4b22471341443e770402e5ad256763e8b80b579c04ba5d37d319c5f4a"
+}

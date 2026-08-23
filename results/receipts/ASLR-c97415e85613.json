@@ -1,0 +1,27 @@
+{
+ "schema_version": 1,
+ "receipt_id": "ASLR-c97415e85613",
+ "experiment": "H-NAMING01",
+ "claim": "When descriptions are informative, tool NAME style (query-echo / neutral / brand) does NOT affect selection in ANY tested family (ceiling null)",
+ "outcome": "6 families x 36 trials each, ALL p=1.0 in every arm (216/216 target picked). Description content exhaustively determines choice under easy discrimination; name channel has zero measured marginal effect. Boundary condition established, NOT a law about naming under weak/ambiguous descriptions. NAMING-02 will test degraded-description regime (factorial: name-style x description-strength) to create discriminability headroom.",
+ "quantities": {
+  "n_decided": 215,
+  "p_effect": 1.0,
+  "ci95": [
+   0.985,
+   1.0
+  ],
+  "significant": true
+ },
+ "source": {
+  "lab": "agentseolab",
+  "model": "6-family-matrix",
+  "family": "multi",
+  "provider": "multi",
+  "protocol_version": 2,
+  "manifest_ref": "results/experiments/asl001_v2/PREREG_20260823-072124.json"
+ },
+ "extracted_at": "2026-08-23T11:00:28.946639Z",
+ "supports_hypothesis_ids": [],
+ "challenges_hypothesis_ids": []
+}

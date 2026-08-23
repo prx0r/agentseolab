@@ -1,0 +1,357 @@
+{
+ "spec": {
+  "experiment": "ASL-002",
+  "protocol_version": 2,
+  "hypothesis_id": "H-ASL002a",
+  "causal_question": "Does moving the fluff description onto the working tool move each family's preference with it (attraction follows description), or do families stay loyal to their ASL-001 choice (attraction follows tool identity)?",
+  "arms": {
+   "fluff_broken": "ASL-001 config",
+   "fluff_working": "fluff text on working tool"
+  },
+  "metric": "picked_working proportion per arm (Wilson CI)",
+  "seed": 20260828,
+  "n_trials": 24,
+  "temperature": 0,
+  "backend": "or",
+  "model": "nvidia/nemotron-3-super-120b-a12b:free",
+  "manifest_hash": "650f81480fa26b4d18cc8949c3583f90c8e6f39a3715dd8d7ff38c771b5aee7c"
+ },
+ "trials": [
+  {
+   "trial_no": 1,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 15521,
+   "session_id": "hm_a72511dc5d",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 2,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": false
+   },
+   "selected_tool": null,
+   "picked_working": false,
+   "task_succeeded": false,
+   "executed": false,
+   "latency_ms": 90066,
+   "session_id": "hm_a61b1a995d",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 3,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": true
+   },
+   "selected_tool": null,
+   "picked_working": false,
+   "task_succeeded": false,
+   "executed": false,
+   "latency_ms": 90050,
+   "session_id": "hm_d654e71986",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 4,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 52900,
+   "session_id": "hm_d9a0eab382",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 5,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 22761,
+   "session_id": "hm_c221f91554",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 6,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 33898,
+   "session_id": "hm_6a2bcc2c7d",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 7,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 21732,
+   "session_id": "hm_f983745ff5",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 8,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 24307,
+   "session_id": "hm_fd72853d44",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 9,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": false
+   },
+   "selected_tool": "dominatron_pro",
+   "picked_working": false,
+   "task_succeeded": false,
+   "executed": true,
+   "latency_ms": 82130,
+   "session_id": "hm_563224b38b",
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 10,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 41810,
+   "session_id": "hm_1a1339b491",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 11,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 33072,
+   "session_id": "hm_eb471cbf28",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 12,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": true
+   },
+   "selected_tool": null,
+   "picked_working": false,
+   "task_succeeded": false,
+   "executed": false,
+   "latency_ms": 90105,
+   "session_id": "hm_cc51466f6b",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 13,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": false
+   },
+   "selected_tool": "dominatron_pro",
+   "picked_working": false,
+   "task_succeeded": false,
+   "executed": true,
+   "latency_ms": 46705,
+   "session_id": "hm_4fada7c217",
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 14,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 15950,
+   "session_id": "hm_fd39f65414",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 15,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 35554,
+   "session_id": "hm_3404eb2cff",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 16,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 17287,
+   "session_id": "hm_948e0f6c36",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 17,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 23557,
+   "session_id": "hm_9549c23489",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 18,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 24334,
+   "session_id": "hm_afe084b73d",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 19,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 27232,
+   "session_id": "hm_1b9948c7a1",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 20,
+   "plan": {
+    "arm": "fluff_working",
+    "pos_flip": true
+   },
+   "selected_tool": "dominatron_pro",
+   "picked_working": false,
+   "task_succeeded": false,
+   "executed": true,
+   "latency_ms": 40642,
+   "session_id": "hm_b4fed14dde",
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 21,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 15828,
+   "session_id": "hm_cb82c9d355",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 22,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": false
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 10421,
+   "session_id": "hm_08f486cab0",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  },
+  {
+   "trial_no": 23,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": true
+   },
+   "selected_tool": null,
+   "picked_working": false,
+   "task_succeeded": false,
+   "executed": false,
+   "latency_ms": 90030,
+   "session_id": "hm_a4b9597d0a",
+   "response_snippet": ""
+  },
+  {
+   "trial_no": 24,
+   "plan": {
+    "arm": "fluff_broken",
+    "pos_flip": true
+   },
+   "selected_tool": "domain_check",
+   "picked_working": true,
+   "task_succeeded": true,
+   "executed": true,
+   "latency_ms": 26407,
+   "session_id": "hm_f4989d3f85",
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}"
+  }
+ ]
+}

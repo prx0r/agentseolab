@@ -1,0 +1,10 @@
+prereg manifest 7822ceb8ea44…
+[meta-llama-3.3-70b] fluff_both
+   picked working 12/24 (0.50)
+[mistral-small-24b] fluff_both
+   picked working 12/24 (0.50)
+[qwen3-30b] fluff_both
+   picked working 12/24 (0.50)
+[gpt-oss-20b] fluff_both
+   picked working 12/24 (0.50)
+saved /root/agentseolab/results/experiments/asl002b/RUN_20260823-101525.json

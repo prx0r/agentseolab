@@ -42,8 +42,10 @@ def build_plan(seed, n_per_cell):
             badge = badge_names[i % len(badge_names)]
             # every 5th trial: badge goes on DECOY instead of best (interaction control)
             badge_on_decoy = (i % 5 == 4) and badge != "none"
-            serp = ["best", "d1", "d2", "d3"]
-            pos = rng.randint(0, 3)
+            # POSITION BALANCE: best candidate rotates through all 4 slots evenly
+            pos = i % 4
+            others = ["d1", "d2", "d3"]
+            serp = others[:pos] + ["best"] + others[pos:]
             plans.append({"stakes": stakes, "badge": badge,
                           "badge_on_decoy": badge_on_decoy,
                           "serp": serp, "best_pos": pos})

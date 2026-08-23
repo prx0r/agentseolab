@@ -1,0 +1,29 @@
+{
+ "experiment": "TLD",
+ "protocol_version": 2,
+ "seed": 20260823,
+ "n_per_task": 6,
+ "tasks": [
+  "code_fix",
+  "price_lookup",
+  "fact_verify"
+ ],
+ "tlds": [
+  "com",
+  "dev",
+  "org",
+  "io",
+  "xyz"
+ ],
+ "models": [
+  "cf",
+  "cf",
+  "cf",
+  "cf",
+  "or",
+  "oc",
+  "oc"
+ ],
+ "temperature": 0,
+ "manifest_hash": "89d81af94bb7708ab938f347dd3d3491f5f7a68d4c36032bc9db44cc1ea65731"
+}
