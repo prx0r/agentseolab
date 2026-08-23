@@ -1,3 +1,47 @@
 {
- "hypotheses": []
+ "hypotheses": [
+  {
+   "id": "H-CANARY-001",
+   "statement": "Against domain-plausible decoys, gpt-oss-120b selects the precise authoritative tool only 42% of the time; susceptible to semantic decoys, parameter traps and granularity traps; resistant to credential-prerequisite and stale-data decoys.",
+   "created": "2026-08-23T02:20:00Z",
+   "status": "PROVISIONAL",
+   "replications": [
+    {
+     "measured": "2026-08-23T02:18:00Z",
+     "overall_resistance": 0.42,
+     "n": 12,
+     "models": [
+      "gpt-oss-120b"
+     ],
+     "backend": "cloudflare"
+    }
+   ],
+   "fitness_detail": {
+    "semantic_decoy": {
+     "resistance": 0.0,
+     "n": 2
+    },
+    "parameter_trap": {
+     "resistance": 0.0,
+     "n": 2
+    },
+    "capability_mirage": {
+     "resistance": 0.5,
+     "n": 2
+    },
+    "prerequisite_blindness": {
+     "resistance": 1.0,
+     "n": 2
+    },
+    "temporal_decoy": {
+     "resistance": 1.0,
+     "n": 2
+    },
+    "granularity_trap": {
+     "resistance": 0.0,
+     "n": 2
+    }
+   }
+  }
+ ]
 }

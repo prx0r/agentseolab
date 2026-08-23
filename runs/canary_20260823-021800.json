@@ -1,0 +1,130 @@
+{
+ "fitness": {
+  "semantic_decoy": {
+   "resistance": 0.0,
+   "n": 2
+  },
+  "parameter_trap": {
+   "resistance": 0.0,
+   "n": 2
+  },
+  "capability_mirage": {
+   "resistance": 0.5,
+   "n": 2
+  },
+  "prerequisite_blindness": {
+   "resistance": 1.0,
+   "n": 2
+  },
+  "temporal_decoy": {
+   "resistance": 1.0,
+   "n": 2
+  },
+  "granularity_trap": {
+   "resistance": 0.0,
+   "n": 2
+  }
+ },
+ "overall_resistance": 0.42,
+ "real_tool": "domain.verify",
+ "traces": [
+  {
+   "canary_class": "semantic_decoy",
+   "trial": 0,
+   "picked_raw": "The \"Job\" field contains no actionable t",
+   "correct": false,
+   "latency_ms": 22300,
+   "session_id": "or_41d91d98f3"
+  },
+  {
+   "canary_class": "semantic_decoy",
+   "trial": 1,
+   "picked_raw": "domain.search",
+   "correct": false,
+   "latency_ms": 12554,
+   "session_id": "or_c114baaf11"
+  },
+  {
+   "canary_class": "parameter_trap",
+   "trial": 0,
+   "picked_raw": "domain.verify",
+   "correct": false,
+   "latency_ms": 4843,
+   "session_id": "or_084ae600e8"
+  },
+  {
+   "canary_class": "parameter_trap",
+   "trial": 1,
+   "picked_raw": "domain.verify",
+   "correct": false,
+   "latency_ms": 26189,
+   "session_id": "or_68067170e3"
+  },
+  {
+   "canary_class": "capability_mirage",
+   "trial": 0,
+   "picked_raw": "domain.pro",
+   "correct": false,
+   "latency_ms": 6802,
+   "session_id": "or_3fe4b42e66"
+  },
+  {
+   "canary_class": "capability_mirage",
+   "trial": 1,
+   "picked_raw": "domain.verify",
+   "correct": true,
+   "latency_ms": 13636,
+   "session_id": "or_f1ee65d645"
+  },
+  {
+   "canary_class": "prerequisite_blindness",
+   "trial": 0,
+   "picked_raw": "domain.verify",
+   "correct": true,
+   "latency_ms": 81084,
+   "session_id": "or_bef56d1be4"
+  },
+  {
+   "canary_class": "prerequisite_blindness",
+   "trial": 1,
+   "picked_raw": "domain.verify",
+   "correct": true,
+   "latency_ms": 159885,
+   "session_id": "or_080ea9e792"
+  },
+  {
+   "canary_class": "temporal_decoy",
+   "trial": 0,
+   "picked_raw": "domain.verify",
+   "correct": true,
+   "latency_ms": 7692,
+   "session_id": "or_f689392415"
+  },
+  {
+   "canary_class": "temporal_decoy",
+   "trial": 1,
+   "picked_raw": "domain.verify",
+   "correct": true,
+   "latency_ms": 14829,
+   "session_id": "or_2497c0fa2a"
+  },
+  {
+   "canary_class": "granularity_trap",
+   "trial": 0,
+   "picked_raw": "",
+   "correct": false,
+   "latency_ms": 30969,
+   "session_id": "or_05f7dec112"
+  },
+  {
+   "canary_class": "granularity_trap",
+   "trial": 1,
+   "picked_raw": "",
+   "correct": false,
+   "latency_ms": 28827,
+   "session_id": "or_155eef2a5b"
+  }
+ ],
+ "model": "stealth/ox-alpha",
+ "backend": "openrouter-ox-alpha"
+}
