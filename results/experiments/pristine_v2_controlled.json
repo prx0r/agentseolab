@@ -1,0 +1,180 @@
+{
+ "ox-alpha-free": {
+  "wins": {
+   "evidence_led": 3,
+   "process_led": 0
+  },
+  "trials": [
+   {
+    "trial": 1,
+    "order": "PF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "",
+    "chosen": "ambiguous"
+   },
+   {
+    "trial": 2,
+    "order": "PF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "",
+    "chosen": "ambiguous"
+   },
+   {
+    "trial": 3,
+    "order": "EF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "tool_alpha",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 4,
+    "order": "EF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_beta",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 5,
+    "order": "PF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "",
+    "chosen": "ambiguous"
+   },
+   {
+    "trial": 6,
+    "order": "EF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "",
+    "chosen": "ambiguous"
+   },
+   {
+    "trial": 7,
+    "order": "PF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "",
+    "chosen": "ambiguous"
+   },
+   {
+    "trial": 8,
+    "order": "EF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_beta",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 9,
+    "order": "EF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "",
+    "chosen": "ambiguous"
+   },
+   {
+    "trial": 10,
+    "order": "PF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "",
+    "chosen": "ambiguous"
+   }
+  ],
+  "n_decided": 3
+ },
+ "llama-3.3-70b": {
+  "wins": {
+   "evidence_led": 5,
+   "process_led": 5
+  },
+  "trials": [
+   {
+    "trial": 1,
+    "order": "PF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_alpha",
+    "chosen": "process"
+   },
+   {
+    "trial": 2,
+    "order": "PF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "tool_beta",
+    "chosen": "process"
+   },
+   {
+    "trial": 3,
+    "order": "EF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "tool_alpha",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 4,
+    "order": "EF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_beta",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 5,
+    "order": "PF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_alpha",
+    "chosen": "process"
+   },
+   {
+    "trial": 6,
+    "order": "EF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_beta",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 7,
+    "order": "PF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_alpha",
+    "chosen": "process"
+   },
+   {
+    "trial": 8,
+    "order": "EF",
+    "ev_name": "tool_beta",
+    "pr_name": "tool_alpha",
+    "picked_raw": "tool_beta",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 9,
+    "order": "EF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "tool_alpha",
+    "chosen": "evidence"
+   },
+   {
+    "trial": 10,
+    "order": "PF",
+    "ev_name": "tool_alpha",
+    "pr_name": "tool_beta",
+    "picked_raw": "tool_beta",
+    "chosen": "process"
+   }
+  ],
+  "n_decided": 10
+ }
+}

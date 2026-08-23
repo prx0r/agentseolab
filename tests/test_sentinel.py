@@ -157,22 +157,24 @@ class TestReplay(unittest.TestCase):
     def test_pairwise_replay_maps_letter_to_variant_with_reversal(self):
         be = FakeBackend()
         # AB answered A -> variant a; BA answered B -> variant a
-        be.replies = ["A", "B"] * 3
+        # 5 pairs x 2 trials = fixed 10-trial convention
+        be.replies = ["A", "B"] * 5
         rec = sentinel.replay_pairwise_case(self.pair, get_backend=gb_factory(be))
-        self.assertEqual(rec["n_decided"], 6)
+        self.assertEqual(rec["n_decided"], 10)
         self.assertEqual(rec["observed_value"], 1.0)
-        self.assertEqual(rec["detail"]["a"], 6)
+        self.assertEqual(rec["detail"]["a"], 10)
         self.assertEqual(rec["detail"]["b"], 0)
         orders = [t["ordering"] for t in rec["trials"]]
-        self.assertEqual(orders, ["AB", "BA"] * 3)
+        self.assertEqual(orders, ["AB", "BA"] * 5)
 
     def test_unparseable_pairwise_trial_not_decided(self):
         be = FakeBackend()
-        be.replies = ["A", "I cannot decide", "A", "B", "A", "ABSTAIN"]
+        be.replies = ["A", "I cannot decide", "A", "B",
+                      "ABSTAIN", "A", "B", "A", "B", "A"]
         rec = sentinel.replay_pairwise_case(self.pair, get_backend=gb_factory(be))
         self.assertEqual(rec["detail"]["unparseable"], 1)
         self.assertEqual(rec["detail"]["abstain"], 1)
-        self.assertEqual(rec["n_decided"], 4)
+        self.assertEqual(rec["n_decided"], 8)
 
 
 class TestRunSuiteAndAdoption(unittest.TestCase):

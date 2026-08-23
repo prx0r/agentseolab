@@ -1,7 +1,12 @@
-/target
-ref/
+__pycache__/
+*.pyc
+.pytest_cache/
+target/
+*.db
+*.db-shm
+*.db-wal
+.env
 runner/.env
-
-# SQLite sidecar files regenerate on every connection
-/lab.db-shm
-/lab.db-wal
+logs/
+node_modules/
+artifacts/

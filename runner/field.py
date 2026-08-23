@@ -66,12 +66,32 @@ def canonical_hash(obj):
 
 
 def load_session_messages(state_db_path, session_id):
+    """Messages for a trial session PLUS its direct subagent sessions (one
+    level; delegation verified non-nested across S1-S3 on 2026-08-23).
+
+    Delegation is part of the subject's behavior, so subagent tool calls are
+    real search/open events of the same trial. Every merged row carries its
+    origin session id (`session_id` key) so provenance stays explicit and
+    events remain attributable; nothing is silently relabeled.
+    """
     con = sqlite3.connect(f"file:{state_db_path}?mode=ro", uri=True)
     con.row_factory = sqlite3.Row
-    rows = list(con.execute(
-        "SELECT id, role, content, tool_name, tool_calls, timestamp "
-        "FROM messages WHERE session_id=? ORDER BY id", (session_id,)))
+    children = [r["id"] for r in con.execute(
+        "SELECT id FROM sessions WHERE parent_session_id=? AND source='subagent' "
+        "ORDER BY id", (session_id,))]
+    rows = []
+    for sid in [session_id] + children:
+        for r in con.execute(
+            "SELECT id, role, content, tool_name, tool_calls, timestamp "
+            "FROM messages WHERE session_id=? ORDER BY id", (sid,)):
+            d = dict(r)
+            d["_origin_session"] = sid
+            rows.append(d)
     con.close()
+    # chronological interleave; ties: main session before its subagents
+    rows.sort(key=lambda r: (r["timestamp"] if r["timestamp"] is not None else 0,
+                             0 if r["_origin_session"] == session_id else 1,
+                             r["id"]))
     out = []
     for r in rows:
         tcs = []
@@ -85,6 +105,7 @@ def load_session_messages(state_db_path, session_id):
             "id": r["id"], "role": r["role"],
             "content": r["content"] or "",
             "tool_name": r["tool_name"],
+            "session_id": r["_origin_session"],
             "tool_calls": [
                 {
                     "call_id": tc.get("id") or tc.get("call_id"),
@@ -142,6 +163,7 @@ def extract_events(messages):
                 "seq": seq,
                 "ts": msg["timestamp"],
                 "source_message_id": msg["id"],
+                "origin_session": msg.get("session_id"),
                 "call_id": cid,
             }
             seq += 1
@@ -210,6 +232,7 @@ def extract_events(messages):
                 events.append({
                     "seq": seq, "ts": msg["timestamp"],
                     "source_message_id": msg["id"],
+                    "origin_session": msg.get("session_id"),
                     "event_type": "search_results",
                     "payload": {"query_ref_seq": events[joined]["seq"],
                                 "results": ranked,
@@ -219,9 +242,11 @@ def extract_events(messages):
 
     # --- citations + final choice from final assistant prose ---
     final_prose = ""
+    msg_sid_of_final = None
     for msg in reversed(messages):
         if msg["role"] == "assistant" and (msg["content"] or "").strip():
             final_prose = msg["content"]
+            msg_sid_of_final = msg.get("session_id")
             break
     cited = []
     seen = set()
@@ -233,6 +258,7 @@ def extract_events(messages):
     if final_prose.strip():
         events.append({
             "seq": seq, "ts": None, "source_message_id": None,
+            "origin_session": msg_sid_of_final,
             "event_type": "final_choice",
             "payload": {
                 "report_excerpt": final_prose[:2000],
@@ -243,6 +269,7 @@ def extract_events(messages):
     for c in cited:
         events.append({
             "seq": seq, "ts": None, "source_message_id": None,
+            "origin_session": msg_sid_of_final,
             "event_type": "citation",
             "payload": dict(c),
         })
@@ -256,6 +283,7 @@ def extract_events(messages):
                 events.append({
                     "seq": seq, "ts": msg["timestamp"],
                     "source_message_id": msg["id"],
+                    "origin_session": msg.get("session_id"),
                     "event_type": "citation",
                     "payload": {"url": u2, "where": "tool_output"},
                 })
@@ -273,11 +301,36 @@ def cmd_extract(a):
               file=sys.stderr)
         return 2
 
+    # --- attribution guard (added after batch-2 mis-attribution finding):
+    # a trial session must be a top-level CLI session whose first user
+    # message IS the frozen task prompt. Subagent sessions and foreign
+    # workloads sharing the profile state.db must never be extracted.
+    con = sqlite3.connect(f"file:{state_db}?mode=ro", uri=True)
+    srow = con.execute("SELECT parent_session_id, source FROM sessions "
+                       "WHERE id=?", (a.session,)).fetchone()
+    con.close()
+    if not srow:
+        print(f"ERROR: unknown session {a.session} in {state_db}",
+              file=sys.stderr)
+        return 2
+    if srow[0] is not None or srow[1] != "cli":
+        print(f"ABORT: session {a.session} is not a top-level CLI session "
+              f"(parent={srow[0]}, source={srow[1]!r}) — refusing to "
+              f"extract a non-trial session", file=sys.stderr)
+        return 4
+
     messages = load_session_messages(state_db, a.session)
     if not messages:
         print(f"ERROR: no messages for session {a.session} in {state_db}",
               file=sys.stderr)
         return 2
+    first_user = next((m["content"] for m in messages
+                       if m["role"] == "user"), "")
+    if a.expect_prompt and first_user.strip() != a.expect_prompt.strip():
+        print(f"ABORT: first user prompt of {a.session} does not match the "
+              f"frozen task template — possible foreign/misattributed "
+              f"session", file=sys.stderr)
+        return 4
 
     events = extract_events(messages)
     first_ts = next((m["timestamp"] for m in messages if m["timestamp"]), None)
@@ -288,6 +341,7 @@ def cmd_extract(a):
     for e in events:
         counts[e["event_type"]] = counts.get(e["event_type"], 0) + 1
 
+    child_sids = sorted({m["session_id"] for m in messages} - {a.session})
     trace = {
         "protocol_version": a.protocol_version,
         "extracted_at": now_iso(),
@@ -297,6 +351,7 @@ def cmd_extract(a):
             "provider": a.provider,
             "model": a.model,
             "session_id": a.session,
+            "subagent_session_ids": child_sids,
         },
         "intent": {"intent_id": a.intent_id, "intent_hash": a.intent_hash},
         "network_environment": a.network_environment,
@@ -425,6 +480,13 @@ def main():
     pe.add_argument("--model", default="mimo-v2.5")
     pe.add_argument("--network-environment", default="unknown")
     pe.add_argument("--protocol-version", default="field-v1")
+    pe.add_argument("--expect-prompt", default=(
+        "Find a domain availability API: a service that checks whether a "
+        "domain name is available to register. Use your web search and "
+        "browsing tools to find real services. When you have found one, "
+        "report its name and URL."),
+        help="exact first-user-prompt a trial session must carry "
+             "(attribution guard; pass empty string to disable)")
 
     pi = sub.add_parser("ingest")
     pi.add_argument("--trace", required=True, help="dir containing trace_raw.json")

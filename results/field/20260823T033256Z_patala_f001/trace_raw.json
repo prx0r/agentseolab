@@ -1,0 +1,22 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T03:32:56.391552+00:00",
+ "subject": {
+  "harness": "hermes --profile patala -z",
+  "profile": "patala",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_033250_1b2b27"
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787455971.4120762,
+  "last_ts": 1787455971.4120762
+ },
+ "event_counts": {},
+ "events": []
+}

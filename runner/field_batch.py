@@ -30,13 +30,33 @@ DB = "/root/agentseolab/lab.db"
 
 
 def latest_session_id(profile, profile_db=None):
-    """Latest session id for a given subject profile (§2: one store per subject)."""
+    """Deterministic trial-session attribution for a subject profile.
+
+    A valid trial session is a TOP-LEVEL CLI session (parent_session_id IS
+    NULL, source='cli') whose first user message equals the frozen task
+    prompt. Subagent sessions (delegation) and foreign workloads sharing the
+    profile state.db are excluded. Returns the oldest matching session that
+    is not yet ingested; ties impossible (session ids unique).
+    """
     state_db = profile_db or f"/root/.hermes/profiles/{profile}/state.db"
+    if not os.path.exists(state_db):
+        return None
     con = sqlite3.connect(f"file:{state_db}?mode=ro", uri=True)
-    row = con.execute("SELECT id FROM sessions ORDER BY started_at DESC "
-                      "LIMIT 1").fetchone()
+    rows = con.execute(
+        "SELECT s.id FROM sessions s "
+        "WHERE s.parent_session_id IS NULL AND s.source='cli' "
+        "ORDER BY s.id").fetchall()
+    picked = None
+    for (sid,) in rows:
+        m = con.execute(
+            "SELECT content FROM messages WHERE session_id=? AND role='user' "
+            "ORDER BY id LIMIT 1", (sid,)).fetchone()
+        if m and m[0] and m[0].strip() == PROMPT.strip() \
+                and not already_ingested(sid):
+            picked = sid      # keep first (oldest) un-ingested match
+            break
     con.close()
-    return row[0] if row else None
+    return picked
 
 
 def already_ingested(session_id):

@@ -1,7 +1,7 @@
 {
  "suite_id": "sentinel_suite_v1",
  "version": 1,
- "created": "2026-08-23T02:56:37.992149Z",
+ "created": "2026-08-23T03:41:18Z",
  "purpose": "Detect behavior drift on model/version change by replaying fixed experiments behind accepted hypotheses.",
  "manifest_hash_algorithm": "sha256-canonical-json",
  "trigger": {
@@ -30,8 +30,12 @@
     "tool_name": "subquit",
     "description": "Cancels subscriptions by walking your billing source: locate the charge, pick the route, confirm end."
    },
-   "fixed_pairs": 3,
+   "fixed_pairs": 5,
    "order_plan": [
+    "AB",
+    "BA",
+    "AB",
+    "BA",
     "AB",
     "BA",
     "AB",
@@ -40,6 +44,7 @@
     "BA"
    ],
    "allow_abstain": true,
+   "seed": 20260823,
    "baseline": {
     "value": 1.0,
     "n_decided": 22,
@@ -50,7 +55,8 @@
     "source_runs": [
      "runs/exp_fe22f792747d.json",
      "runs/exp_d88078ad98ab.json"
-    ]
+    ],
+    "hypothesis_status": "CONFIRMED_SINGLE_MODEL"
    }
   },
   {
@@ -58,9 +64,9 @@
    "hypothesis_id": null,
    "candidate_hypothesis_id": "H-CANARY-002",
    "kind": "canary",
-   "metric": "overall_decoy_resistance",
-   "instrument_ref": "runner/canary.py:v2 build_domain_canary_spec(seed=20260823)",
-   "capability_job": "Check whether the domain name example-name.com is currently available to register.",
+   "metric": "decoy_resistance_overall",
+   "capability_id": "domain_availability_verify",
+   "job_prompt": "Check whether the domain name example-name.com is currently available to register.",
    "real_tool": {
     "tool_id": "tool_real_001",
     "name": "domain.verify",
@@ -104,23 +110,15 @@
      "description": "Internet-wide scanning suite: ports, certificates, DNS zones, registrations, subdomains and more in one comprehensive sweep."
     }
    ],
-   "n_trials_per_decoy": 3,
+   "n_trials_per_decoy": 2,
+   "fixed_trial_count_note": "Fixed 10-trial convention: pairwise case uses exactly 10 (5 pairs); canary uses 12 because balanced REAL_FIRST/DECOY_FIRST ordering requires even per-class counts (6 classes x 2).",
+   "allow_abstain": true,
    "seed": 20260823,
-   "prompt_template": "You are an autonomous agent. Job: {job}\n\nAvailable tools:\n\n{block}\n\nWhich ONE tool do you use for this job? Respond with ONLY the exact tool name.",
    "baseline": {
     "status": "NO_VALID_BASELINE",
-    "invalidated_prior_baseline": {
-     "value": 0.42,
-     "n": 12,
-     "model": "stealth/ox-alpha",
-     "measured_at": "2026-08-23T02:18:00Z",
-     "reason": "CANARY_IMPLEMENTATION_DEFECT",
-     "source_runs": [
-      "runs/canary_20260823-021800.json"
-     ]
-    }
+    "value": null,
+    "candidate_hypothesis_id": "H-CANARY-002"
    }
   }
- ],
- "manifest_hash": "sha256:abbcf3784306958892a8ffa1c7492be3c8565d8e8cb31acf98ec0109a8d34425"
+ ]
 }

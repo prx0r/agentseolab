@@ -82,7 +82,7 @@ def save(lib): json.dump(lib, open(LIB_PATH, "w"), indent=1)
 
 def collect_runs(min_n=2):
     sig = {}
-    for f in sorted(glob.glob("/root/agentseolab/runs/exp_*.json")):
+    for f in sorted(glob.glob("/root/agentseolab/results/experiments/exp_*.json")):
         if ".spec." in f: continue
         d = json.load(open(f))
         if "summary" not in d or "trials" not in d: continue

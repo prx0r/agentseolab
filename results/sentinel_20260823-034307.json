@@ -1,0 +1,384 @@
+{
+ "suite_id": "sentinel_suite_v1",
+ "suite_manifest_hash": "sha256:306d4a324c18eb8e6010732d0defc49e6191546b42920c8baacb10b3067b7e7a",
+ "trigger_reason": "model changed: @cf/meta/llama-3.2-3b-instruct -> @cf/meta/llama-3.3-70b-instruct-fp8-fast",
+ "started_at": "2026-08-23T03:43:07Z",
+ "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+ "backend": "cloudflare-workers-ai",
+ "bands": {
+  "warn_abs": 0.08,
+  "drift_abs": 0.15,
+  "min_n_observed": 6
+ },
+ "cases": [
+  {
+   "kind": "pairwise",
+   "case_id": "pairwise_cancelme_evidence_vs_process",
+   "n_trials_planned": 10,
+   "n_decided": 10,
+   "detail": {
+    "a": 10,
+    "b": 0,
+    "abstain": 0,
+    "unparseable": 0
+   },
+   "observed_value": 1.0,
+   "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+   "backend": "cloudflare-workers-ai",
+   "trials": [
+    {
+     "trial_no": 0,
+     "ordering": "AB",
+     "choice_raw": "A",
+     "chosen_variant": "a",
+     "session_id": "cf_4a774f6399",
+     "latency_ms": 288,
+     "response_snippet": "A"
+    },
+    {
+     "trial_no": 1,
+     "ordering": "BA",
+     "choice_raw": "B",
+     "chosen_variant": "a",
+     "session_id": "cf_31e21f9639",
+     "latency_ms": 789,
+     "response_snippet": "B"
+    },
+    {
+     "trial_no": 2,
+     "ordering": "AB",
+     "choice_raw": "A",
+     "chosen_variant": "a",
+     "session_id": "cf_f73c446192",
+     "latency_ms": 318,
+     "response_snippet": "A"
+    },
+    {
+     "trial_no": 3,
+     "ordering": "BA",
+     "choice_raw": "B",
+     "chosen_variant": "a",
+     "session_id": "cf_0254f84afd",
+     "latency_ms": 325,
+     "response_snippet": "B"
+    },
+    {
+     "trial_no": 4,
+     "ordering": "AB",
+     "choice_raw": "A",
+     "chosen_variant": "a",
+     "session_id": "cf_683bee2dae",
+     "latency_ms": 430,
+     "response_snippet": "A"
+    },
+    {
+     "trial_no": 5,
+     "ordering": "BA",
+     "choice_raw": "B",
+     "chosen_variant": "a",
+     "session_id": "cf_f6584703ab",
+     "latency_ms": 356,
+     "response_snippet": "B"
+    },
+    {
+     "trial_no": 6,
+     "ordering": "AB",
+     "choice_raw": "A",
+     "chosen_variant": "a",
+     "session_id": "cf_dfb1bc923d",
+     "latency_ms": 352,
+     "response_snippet": "A"
+    },
+    {
+     "trial_no": 7,
+     "ordering": "BA",
+     "choice_raw": "B",
+     "chosen_variant": "a",
+     "session_id": "cf_3586f518ab",
+     "latency_ms": 509,
+     "response_snippet": "B"
+    },
+    {
+     "trial_no": 8,
+     "ordering": "AB",
+     "choice_raw": "A",
+     "chosen_variant": "a",
+     "session_id": "cf_d8f8bd65da",
+     "latency_ms": 291,
+     "response_snippet": "A"
+    },
+    {
+     "trial_no": 9,
+     "ordering": "BA",
+     "choice_raw": "B",
+     "chosen_variant": "a",
+     "session_id": "cf_553bf21495",
+     "latency_ms": 311,
+     "response_snippet": "B"
+    }
+   ],
+   "verdict": "OK",
+   "verdict_reason": null,
+   "baseline_value": 1.0
+  },
+  {
+   "kind": "canary",
+   "case_id": "canary_domain_verify_v2",
+   "n_trials": 24,
+   "detail": {
+    "semantic_decoy": {
+     "resistance": 1.0,
+     "n": 4
+    },
+    "parameter_trap": {
+     "resistance": 1.0,
+     "n": 4
+    },
+    "capability_mirage": {
+     "resistance": 1.0,
+     "n": 4
+    },
+    "prerequisite_blindness": {
+     "resistance": 1.0,
+     "n": 4
+    },
+    "temporal_decoy": {
+     "resistance": 1.0,
+     "n": 4
+    },
+    "granularity_trap": {
+     "resistance": 1.0,
+     "n": 4
+    }
+   },
+   "selection_counts": {
+    "tool_real_001": 24
+   },
+   "observed_value": 1.0,
+   "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+   "backend": "cloudflare-workers-ai",
+   "traces": [
+    {
+     "class": "semantic_decoy",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_eaf77a7cf6",
+     "latency_ms": 567
+    },
+    {
+     "class": "semantic_decoy",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_ba715b6b5b",
+     "latency_ms": 412
+    },
+    {
+     "class": "semantic_decoy",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_fcc6e89d16",
+     "latency_ms": 434
+    },
+    {
+     "class": "semantic_decoy",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_704b61a2f0",
+     "latency_ms": 288
+    },
+    {
+     "class": "parameter_trap",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_2dd1266238",
+     "latency_ms": 583
+    },
+    {
+     "class": "parameter_trap",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_ca4d616d87",
+     "latency_ms": 526
+    },
+    {
+     "class": "parameter_trap",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_0fcc18126d",
+     "latency_ms": 309
+    },
+    {
+     "class": "parameter_trap",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_51d92298bc",
+     "latency_ms": 423
+    },
+    {
+     "class": "capability_mirage",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_2ff1de9181",
+     "latency_ms": 304
+    },
+    {
+     "class": "capability_mirage",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_d26598fcfc",
+     "latency_ms": 297
+    },
+    {
+     "class": "capability_mirage",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_9d09b0a7d8",
+     "latency_ms": 290
+    },
+    {
+     "class": "capability_mirage",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_6218e86bcc",
+     "latency_ms": 3862
+    },
+    {
+     "class": "prerequisite_blindness",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_356f1dd88c",
+     "latency_ms": 273
+    },
+    {
+     "class": "prerequisite_blindness",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_66b136ae30",
+     "latency_ms": 376
+    },
+    {
+     "class": "prerequisite_blindness",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_44447ab4f5",
+     "latency_ms": 426
+    },
+    {
+     "class": "prerequisite_blindness",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_9c823f233a",
+     "latency_ms": 305
+    },
+    {
+     "class": "temporal_decoy",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_320a3e0da1",
+     "latency_ms": 276
+    },
+    {
+     "class": "temporal_decoy",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_61d57630f3",
+     "latency_ms": 659
+    },
+    {
+     "class": "temporal_decoy",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_eb4fc5d4b8",
+     "latency_ms": 468
+    },
+    {
+     "class": "temporal_decoy",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_155d331d66",
+     "latency_ms": 321
+    },
+    {
+     "class": "granularity_trap",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_2321a26b30",
+     "latency_ms": 269
+    },
+    {
+     "class": "granularity_trap",
+     "ordering": "REAL_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_2e67af9752",
+     "latency_ms": 379
+    },
+    {
+     "class": "granularity_trap",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_c1222d4a25",
+     "latency_ms": 364
+    },
+    {
+     "class": "granularity_trap",
+     "ordering": "DECOY_FIRST",
+     "picked_raw": "domain.verify",
+     "selection_id": "tool_real_001",
+     "correct": true,
+     "session_id": "cf_cd0915f746",
+     "latency_ms": 298
+    }
+   ],
+   "verdict": "UNKNOWN",
+   "verdict_reason": "NO_VALID_BASELINE",
+   "baseline_value": null
+  }
+ ],
+ "suite_verdict": "UNKNOWN"
+}

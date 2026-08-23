@@ -1,70 +1,56 @@
-# AgentSEOLab — Domain Intelligence Lab
+# AgentSEOLab
 
-> Rust experiment infrastructure for measuring how search-capable agents discover, select, and act on domains and machine-readable web properties.
+**Experimental system discovering causal rules governing how autonomous agents discover, evaluate, select, invoke, trust and reuse machine-readable capabilities.**
 
-## What it does
+Not an SEO product. An empirical science lab.
 
-Runs controlled experiments to measure:
-- Agent preference for domain names
-- Search-result selection behavior
-- Human vs agent preference differences
-- Domain demand patterns
+## Current Status
 
-## Quick start
-
-```bash
-# Build
-cargo build --release
-
-# Initialize database
-./target/release/agentseolab init-db lab.db
-
-# Create intent
-./target/release/agentseolab create-intent lab.db intent.json
-
-# Create experiment
-./target/release/agentseolab create-experiment lab.db experiment.json
-
-# Ingest observation
-./target/release/agentseolab ingest-observation lab.db observation.json
-
-# Generate report
-./target/release/agentseolab report lab.db
-```
+**Evidence: zero REPLICATED findings.** The system correctly invalidated its first headline result and refused to promote unreplicated effects. See `RESULTS.md`.
 
 ## Architecture
 
 ```
-agentseolab/
-├── src/
-│   ├── main.rs       # CLI
-│   ├── models.rs     # SiteIntent, Experiment, Observation
-│   └── db.rs         # SQLite database
-├── docs/             # Scientific method, evidence library
-├── schemas/          # Observation schema
-└── examples/         # Intent and experiment templates
+runner/          Python experiment pipeline
+  experiment.py    ExperimentSpec + pairwise tournament (seeded, AB/BA)
+  backends.py      Provider-neutral inference (Cloudflare/OpenCode/Hermes)
+  canary.py        Adversarial decoy factory (6 trap classes)
+  validator.py     Fail-closed experiment gate
+  provenance.py    Per-trial runtime identity
+  sentinel.py      Drift detection (CONFIRMED/REPLICATED only)
+analysis/        Statistics + evidence management
+  wilson.py        Wilson score CI (verified vs statsmodels)
+  bt_analysis.py   Effect reporting from raw runs
+  evidence_library.py  Hypothesis ledger w/ promotion gates
+  audit.py         Anti-theatre integrity check
+src/             Rust CLI (contracts, DB, immutable records)
+tests/           pytest suite
+results/         Immutable experimental outputs
+docs/            Dev plans + archived research notes
 ```
 
-## Scientific Principle
+## Quick Start
 
-Do not infer agent-search behavior only by asking a model what it *would* search for.
+```bash
+pip install -e .
+cargo build --release
+./target/release/agentseolab init-db lab.db
 
-Use two evidence tiers:
-1. **Field trials** — give an agent real tools and log what it actually does
-2. **Controlled lab trials** — hold everything constant except one variable
+# Run an experiment (uses free models only — see AGENTS.md)
+python3 runner/experiment.py
 
-## Anti-Bias Controls
+# Check evidence integrity
+python3 analysis/audit.py
 
-- Freeze immutable SiteIntent before generating candidates
-- Separate generator and judge calls
-- Randomize candidate order
-- Repeat pairwise trials with reversed ordering
-- Use fresh sessions and log model/provider/version
-- Store immutable observations; derive scores as projections
+# View hypothesis ledger
+python3 analysis/evidence_library.py
 
-## Integration
+# Tests
+python3 -m pytest tests/test_stats_and_validity.py -q
+```
 
-This project integrates with:
-- **domainnamechecker** — domain verification and availability
-- **agentseo** — codebase optimization
-- **finalbuilds2** — control plane orchestration
+## Key Principle
+
+> No effect enters the evidence library unless the experiment itself has passed validation.
+
+See `AGENTS.md` for model policy (free tiers only). See `abuse.md` for full strategy.
