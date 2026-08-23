@@ -16,18 +16,15 @@ TLDS = ["com", "dev", "org", "io", "xyz"]
 TASKS = {
     "code_fix": {
         "query": "python ModuleNotFoundError fix after pip install",
-        "best_desc": "Step-by-step fix for missing modules: venv paths, sys.path, and reinstall order.",
-        "other_desc": "General Python troubleshooting forum thread with mixed advice.",
+        "neutral_desc": "Technical guide page covering causes, diagnostics, and fixes for this error.",
     },
     "price_lookup": {
         "query": "cheapest managed postgres pricing comparison",
-        "best_desc": "Live-updated managed Postgres price table across 12 providers with per-tier costs.",
-        "other_desc": "Blog post about database pricing trends from last year.",
+        "neutral_desc": "Comparison page listing providers, tiers, and current prices for this service.",
     },
     "fact_verify": {
         "query": "height Eiffel Tower versus Golden Gate Bridge",
-        "best_desc": "Verified measurements: Eiffel Tower 330 m; Golden Gate Bridge towers 227 m.",
-        "other_desc": "Travel article mentioning both landmarks casually.",
+        "neutral_desc": "Reference page with measured dimensions and supporting citations.",
     },
 }
 
@@ -51,10 +48,10 @@ def build_plan(seed, n_per_task):
 
 def render(plan):
     t = TASKS[plan["task_family"]]
+    # PEER-REVIEW FIX: identical snippet for ALL candidates — only the domain differs.
     lines = []
     for i, tld in enumerate(plan["serp"], 1):
-        desc = t["best_desc"] if tld == plan["best_tld"] else t["other_desc"]
-        lines.append(f"{i}. https://docs-example.{tld}/guide — \"{t['query']}\"\n   {desc}")
+        lines.append(f"{i}. https://docs-example.{tld}/guide — \"{t['query']}\"\n   {t['neutral_desc']}")
     return f"""Search results for: {t['query']}
 
 {chr(10).join(lines)}

@@ -39,11 +39,11 @@ ENDPOINTS = {
 }
 
 
-def call(kind, model, prompt, timeout=90):
+def call(kind, model, prompt, timeout=90, temperature=0):
     url, key = ENDPOINTS[kind]
     if kind == "cf":
         url = url + model
-    body_obj = {"messages": [{"role": "user", "content": prompt}], "max_tokens": 400, "temperature": 0}
+    body_obj = {"messages": [{"role": "user", "content": prompt}], "max_tokens": 400, "temperature": temperature}
     if kind != "cf":
         body_obj["model"] = model
     req = urllib.request.Request(url, data=json.dumps(body_obj).encode(),
@@ -59,12 +59,12 @@ def call(kind, model, prompt, timeout=90):
         return ""
 
 
-def harvest_queries(reps=3):
+def harvest_queries(reps=3, temperature=0):
     out = []
     for tfam, task in TASKS.items():
         for kind, model in MODELS:
             for rep in range(reps):
-                raw = call(kind, model, ELICIT_PROMPT.format(task=task))
+                raw = call(kind, model, ELICIT_PROMPT.format(task=task), temperature=temperature)
                 m = re.search(r'QUERY:\s*(.+)', raw)
                 q = m.group(1).strip().strip('"') if m else ""
                 out.append({"task_family": tfam, "model": model.split("/")[-1], "query": q})
@@ -91,8 +91,8 @@ def moltbook_sample(limit=800):
     """Sample Moltbook posts via HF datasets-server (search endpoint, no auth needed)."""
     posts = []
     try:
-        url = (f"https://datasets-server.huggingface.co/search?dataset=SimulaMet%2Fmoltbook-observatory-archive"
-               f"&config=default&split=train&query=API&offset=0&length=100")
+        url = ("https://datasets-server.huggingface.co/rows?dataset=SimulaMet%2Fmoltbook-observatory-archive"
+               "&config=posts&split=archive&offset=0&length=100")
         req = urllib.request.Request(url, headers={"User-Agent": "qlex/1.0"})
         with urllib.request.urlopen(req, timeout=30) as r:
             d = json.loads(r.read())
@@ -108,17 +108,18 @@ def moltbook_sample(limit=800):
 
 
 if __name__ == "__main__":
+    TEMP = float(os.environ.get("QLEX_TEMP", "0"))
     stamp = datetime.datetime.utcnow().strftime("%Y%m%d-%H%M%S")
     outdir = "/root/agentseolab/results/experiments/qlex"
     os.makedirs(outdir, exist_ok=True)
 
     spec = {"experiment": "QLEX", "protocol_version": 2, "seed_tasks": list(TASKS),
-            "models": [m[1] for m in MODELS], "reps_per_cell": 3, "temperature": 0}
+            "models": [m[1] for m in MODELS], "reps_per_cell": 3, "temperature": "env QLEX_TEMP"}
     spec["manifest_hash"] = hashlib.sha256(json.dumps(spec, sort_keys=True).encode()).hexdigest()
     json.dump({**spec, "ts": stamp}, open(f"{outdir}/PREREG_{stamp}.json", "w"), indent=1)
 
     print("harvesting elicited queries…")
-    queries = harvest_queries()
+    queries = harvest_queries(temperature=TEMP)
     print(f"  got {len(queries)} queries")
 
     print("sampling observatory corpus…")

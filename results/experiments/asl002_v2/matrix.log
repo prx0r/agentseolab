@@ -72,3 +72,8 @@ preregistered /root/agentseolab/results/experiments/asl002_v2/PREREG_cf_20260823
   t5[FW]: tool=None             pick=X
   t6[FB]: tool=domain_check     pick=OK
   t7[FB]: tool=domain_check     pick=OK
+  t8[FB]: tool=None             pick=X
+  t9[FW]: tool=domain_check     pick=OK
+  t10[FW]: tool=None             pick=X
+  t11[FW]: tool=domain_check     pick=OK
+  t12[FW]: tool=domain_check     pick=OK
