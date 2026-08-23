@@ -1,24 +1,21 @@
-# Runner
-Backends read keys from `runner/.env` (gitignored — copy from `.env.template`) or process env:
-`CF_ACCOUNT_ID`, `CF_TOKEN`, `OPENROUTER_API_KEY`, `OPENCODE_GO_API_KEY`.
+# Runner — experiment machinery
 
-## Sentinel suite (`sentinel_suite_v1`)
+## Active entry points
+| File | Purpose |
+|---|---|
+| `execution_experiment.py` | ASL-001 v2 single-model run (preregisters, temp=0, seeded AB/BA, name-decoupling) |
+| `canonical_asl001.py` | ASL-001 v2 full canonical matrix (7 families) |
+| `asl002_swap.py` + `asl002_matrix.sh` | ASL-002 fluff-swap causality |
+| `qlex.py` | Agent Query Lexicon harvester (elicited + Moltbook sample) |
+| `sentinel_rerun.py` | daily drift probe (cron 04:17) |
+| `backends.py` | provider adapters (CF chat+instruct formats, temp=0) |
+| `canary.py` | decoy factory v2 |
+| `experiment.py`, `validator.py`, `provenance.py`, `opencode_direct.py` | shared infra |
 
-Fixed-trial drift replay of accepted experiments, fired on model/version change
-(abuse.md item 10; validity-sprint A7: INVALIDATED findings are never baselines).
+## Archive
+- `field/` — L3/L4 field harnesses, episode runners, superseded v1 batch scripts (kept for provenance)
+- `../analysis/_legacy/` — old sentinel
 
-- Spec: `runner/sentinel_suite_v1.spec.json` — 2 cases:
-  `pairwise_cancelme_evidence_vs_process` (H-0001 baseline p=1.0, n=22;
-  5 pairs x AB/BA = fixed 10 trials) and `canary_domain_verify_v2`
-  (H-CANARY-002 candidate; 6 decoy classes x 2 = 12 balanced trials).
-- Run manually: `python3 -m runner.sentinel --force`
-- Scheduled: hourly probe job `agentseolab-watch` (builder cron `572032c82616`)
-  runs `~/.hermes/profiles/builder/scripts/sentinel_tick.sh`, which invokes
-  `python3 -m runner.sentinel`; the runner fires the full replay only on
-  model/version change vs `runs/sentinel_state.json`, else weekly fallback.
-- Verdicts per case: OK / WARN (>0.08 abs) / DRIFT (>=0.15 abs) /
-  UNKNOWN (n<6 or NO_VALID_BASELINE). Cross-model deltas are labeled
-  CROSS_MODEL_COMPARISON (non-transfer signal), never auto-staled.
-- Adopting a canary baseline after a clean run:
-  `python3 -c "import sys; sys.path.insert(0,'runner'); import sentinel; print(sentinel.adopt_baseline(report_path='runs/<report>.json'))"`
-  (moves the case off NO_VALID_BASELINE; changes the manifest hash by design).
+## Conventions
+Every new experiment: prereg JSON before trials · temp=0 · UA header on non-CF providers ·
+usage logging via providers/track_usage.py · results to results/experiments/<exp>/
