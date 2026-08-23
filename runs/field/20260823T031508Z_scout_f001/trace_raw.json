@@ -1,0 +1,126 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T03:15:08.974900+00:00",
+ "subject": {
+  "harness": "hermes --profile scout -z",
+  "profile": "scout",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_031354_03c1ed"
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787454835.1139154,
+  "last_ts": 1787454893.5667922
+ },
+ "event_counts": {
+  "search_results": 2,
+  "tool_invocation": 2,
+  "final_choice": 1,
+  "citation": 4
+ },
+ "events": [
+  {
+   "seq": 0,
+   "ts": 1787454849.09931,
+   "source_message_id": 140,
+   "call_id": "call_e85115966a564a60a3bb1648",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+api+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 1,
+   "ts": 1787454861.44326,
+   "source_message_id": 142,
+   "call_id": "call_87d016bc9e9243f09a4cdf69",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+check+api+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 2,
+   "ts": 1787454877.0266864,
+   "source_message_id": 144,
+   "call_id": "call_9cea31b68f694353bb4f26b3",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 3,
+   "ts": 1787454892.2685044,
+   "source_message_id": 146,
+   "call_id": "call_ccca3bd06b2e447f90147fc7",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_vision",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 4,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "final_choice",
+   "payload": {
+    "report_excerpt": "Google blocked the search. Let me try alternative approaches.",
+    "named_urls": []
+   }
+  },
+  {
+   "seq": 5,
+   "ts": 1787454853.578104,
+   "source_message_id": 141,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Ddomain%2Bavailability%2Bcheck%2Bapi%2Bservice%26sei%3DgmWKaoHlOMzU7M8Pz6PiiAo&q=EhAqAQT4HBjvbAAAAAAAAAABGIPLqdQGIjBd9dQw9OwOK5KvyAApiE_OSeMvcw6KeV-YUc8OitAPe9nu8Sp0Z9NlgBoaUK_hmk0yAVJaAUM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 6,
+   "ts": 1787454853.578104,
+   "source_message_id": 141,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+api+service&sei=gmWKaoHlOMzU7M8Pz6PiiAo",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 7,
+   "ts": 1787454853.578104,
+   "source_message_id": 141,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+api+service&sei=gmWKaoHlOMzU7M8Pz6PiiAo\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 8,
+   "ts": 1787454865.374178,
+   "source_message_id": 143,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+check+api+service",
+    "where": "tool_output"
+   }
+  }
+ ]
+}

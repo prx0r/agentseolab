@@ -1,0 +1,249 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T03:23:38.220300+00:00",
+ "subject": {
+  "harness": "hermes --profile patala -z",
+  "profile": "patala",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_032021_5385fb"
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787455222.41618,
+  "last_ts": 1787455416.8006945
+ },
+ "event_counts": {
+  "tool_invocation": 5,
+  "search_results": 1,
+  "result_open": 2,
+  "final_choice": 1,
+  "citation": 11
+ },
+ "events": [
+  {
+   "seq": 0,
+   "ts": 1787455232.1990602,
+   "source_message_id": 21254,
+   "call_id": "call_6d2e2c432c5c4ac5b1b1e89e",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 1,
+   "ts": 1787455244.6863828,
+   "source_message_id": 21256,
+   "call_id": "call_584c0f8bf06c4c7b9cdb525e",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+API+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 2,
+   "ts": 1787455264.0411057,
+   "source_message_id": 21258,
+   "call_id": "call_43f9b5b42c9c479f92721128",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.namecheap.com/domains/domain-name-search/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 3,
+   "ts": 1787455264.0411057,
+   "source_message_id": 21258,
+   "call_id": "call_0d7b166cf3f64dcdbe150035",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 4,
+   "ts": 1787455305.3407848,
+   "source_message_id": 21261,
+   "call_id": "call_3a363dc1eb7a4bce8af86f2b",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 5,
+   "ts": 1787455305.3407848,
+   "source_message_id": 21261,
+   "call_id": "call_3020ee0278ce453c81ccf540",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 6,
+   "ts": 1787455336.1511824,
+   "source_message_id": 21264,
+   "call_id": "call_6ff39e811656419d9bc05bd5",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 7,
+   "ts": 1787455336.1511824,
+   "source_message_id": 21264,
+   "call_id": "call_3731ee346523403dbdfaaea4",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 8,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "final_choice",
+   "payload": {
+    "report_excerpt": "Here are real domain availability check APIs I verified:\n\n---\n\n1. Verisign RDAP (Free, No API Key Required)\n   URL: https://rdap.verisign.com/com/v1/domain/{domain}.com\n\n   How it works:\n   - GET https://rdap.verisign.com/com/v1/domain/yourdomain.com\n   - HTTP 200 + JSON response = domain is REGISTERED (taken)\n   - HTTP 404 = domain is AVAILABLE\n\n   I tested it live:\n   - google.com returned 200 (registered, with full WHOIS data)\n   - xyznonexistent12345abc.com returned 404 (available)\n\n   This is an open standard (RDAP = Registration Data Access Protocol)\n   run by Verisign for .com domains. Completely free, no registration.\n\n\n2. WhoisXML API (Commercial with Free Trial)\n   URL: https://www.whoisxmlapi.com/\n\n   A comprehensive domain intelligence platform offering:\n   - Domain Availability Check API\n   - WHOIS Lookup API\n   - Reverse WHOIS, DNS, IP Geolocation\n   - 28.7 billion+ WHOIS records\n   - 50 billion+ domains and subdomains tracked\n\n   Free trial available. Paid plans for production use.\n\n\n3. WhoisFreaks API (Commercial with Free Trial)\n   URL: https://whoisfreaks.com/\n   Endpoint: https://api.whoisfreaks.com/v1.0/domain/availability?domainName={domain}\n\n   Offers domain availability checking plus full WHOIS data. Requires an API key (free trial available).\n\n\n---\n\nRecommendation: If you need a quick, free, no-signup option, use the Verisign RDAP endpoint. If you need richer data (bulk checks, historical WHOIS, pricing info), WhoisXML API is the most established provider.",
+    "named_urls": [
+     "https://rdap.verisign.com/com/v1/domain/{domain}.com",
+     "https://rdap.verisign.com/com/v1/domain/yourdomain.com",
+     "https://www.whoisxmlapi.com/",
+     "https://whoisfreaks.com/",
+     "https://api.whoisfreaks.com/v1.0/domain/availability?domainName={domain}"
+    ]
+   }
+  },
+  {
+   "seq": 9,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/{domain}.com",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 10,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/yourdomain.com",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 11,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 12,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://whoisfreaks.com/",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 13,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.whoisfreaks.com/v1.0/domain/availability?domainName={domain}",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 14,
+   "ts": 1787455232.4361129,
+   "source_message_id": 21255,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://support.google.com/websearch\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 15,
+   "ts": 1787455246.9742317,
+   "source_message_id": 21257,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Ddomain%2Bavailability%2Bcheck%2BAPI%2Bservice%26sei%3DDWeKaob4Iue1kdUPqOD_kAo&q=EhAqAQT4HBjvbAAAAAAAAAABGI3OqdQGIjCqYWYL80DBMeZ3M178k_6oVpP_cPH-ulqhLEXJeXF4MKPxx8WrOKH06u9T2vHcQekyAVJaAUM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 16,
+   "ts": 1787455246.9742317,
+   "source_message_id": 21257,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+API+service&sei=DWeKaob4Iue1kdUPqOD_kAo",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 17,
+   "ts": 1787455246.9742317,
+   "source_message_id": 21257,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+API+service&sei=DWeKaob4Iue1kdUPqOD_kAo\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 18,
+   "ts": 1787455265.0220742,
+   "source_message_id": 21259,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com/domains/domain-name-search/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 19,
+   "ts": 1787455340.4789822,
+   "source_message_id": 21266,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "where": "tool_output"
+   }
+  }
+ ]
+}

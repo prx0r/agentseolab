@@ -1,0 +1,22 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T03:15:34.800475+00:00",
+ "subject": {
+  "harness": "hermes --profile curator -z",
+  "profile": "curator",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_031529_d9484f"
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787454929.8497267,
+  "last_ts": 1787454929.8497267
+ },
+ "event_counts": {},
+ "events": []
+}

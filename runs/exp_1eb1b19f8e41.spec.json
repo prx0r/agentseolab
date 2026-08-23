@@ -1,0 +1,22 @@
+{
+ "manifest_hash": "sha256:625cc52c78e16f9b940bc3cb250a9eca69a67c37b166642f23f1bbcd3a6d9609",
+ "experiment_id": "exp_1eb1b19f8e41",
+ "name": "pristine-evidence-vs-process-llama3b",
+ "intent_id": "intent_46bc68daf5044d6c808697c9fad78049",
+ "job_prompt": "Job: I need to cancel a subscription service.",
+ "variant_a": {
+  "tool_name": "cancelme",
+  "description": "Ends subscriptions via verified cancellation routes checked against live registry data today. Returns confirmation with timestamp."
+ },
+ "variant_b": {
+  "tool_name": "subquit",
+  "description": "Manages subscription lifecycle through structured workflow: locate billing source, select cancellation path, confirm end date."
+ },
+ "preregistered_metric": "correct_selection",
+ "n_pairs": 5,
+ "holdout": false,
+ "seed": 43,
+ "created_at": "2026-08-23T03:27:16.274876Z",
+ "runner": "hermes/opencode-go",
+ "model_profile": "builder"
+}

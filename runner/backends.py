@@ -15,11 +15,19 @@ if _envf.exists():
 
 
 
+FREE_CF_MODELS = [
+    "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "@cf/mistralai/mistral-small-3.1-24b-instruct",
+    "@cf/qwen/qwen3-30b-a3b-fp8",
+    "@cf/deepseek-ai/deepseek-v4-flash-0731",
+    "@cf/openai/gpt-oss-20b",
+]
+
 class CloudflareBackend:
-    """Cloudflare Workers AI — @cf/openai/gpt-oss-120b (or any CF model id)."""
+    """Cloudflare Workers AI — rotate across free model families."""
     name = "cloudflare-workers-ai"
 
-    def __init__(self, account_id=None, token=None, model="@cf/meta/llama-3.2-3b-instruct"):
+    def __init__(self, account_id=None, token=None, model="@cf/meta/llama-3.3-70b-instruct-fp8-fast"):
         self.account_id = account_id or os.environ.get("CF_ACCOUNT_ID", "954612afb5a97bb15dddcdc70176813d")
         self.token = token or os.environ.get("CF_TOKEN") or os.environ.get("CLOUDFLARE_API_TOKEN")
         if not self.account_id: self.account_id = os.environ.get("CF_ACCOUNT_ID", "")
