@@ -50,3 +50,26 @@ Same direction ✓ · Mistral CI excludes 0.5 ✓ · Different organisations (Me
 5. Write `PEER_REVIEW.md` in this folder with findings + next experiment recommendation
 6. Run `python3 analysis/audit.py` to verify integrity before committing
 7. Commit with descriptive message referencing this experiment ID
+
+## Protocol v2 (2026-08-23) — compliance fixes
+v1 pilots violated three rules in docs/experiments-rules.md. v2 corrects:
+1. temperature=0 on all backends (was provider default)
+2. seed-driven Fisher-Yates AB/BA shuffle (was deterministic i%2 alternation)
+3. name↔position decoupling via mapping_flip (kills "dominatron_pro name preference" confound)
+4. formal preregistration JSON + sha256 manifest written BEFORE any trial
+5. UNPARSEABLE excluded from selection rate (decided denominator), per rule 7
+
+Runner: `runner/canonical_asl001.py N SEED` · Analysis: `analysis/asl001_report.py`
+Raw: `results/experiments/asl001_v2/RUN_*.json` · Prereg: `PREREG_*.json` (same dir)
+
+### v1 pilot results (PROVISIONAL ONLY — protocol violations noted)
+| Model | n | Picked working | Note |
+|---|---|---|---|
+| llama-3.3-70b CF | 10+10+30* | 6/10, 9/10, 11/30 | high run-to-run variance pre-temp=0 |
+| mistral-small CF | 10 | 10/10 | |
+| nemotron-super OR | 10 | 10/10 | |
+| ox-alpha-free OC | 10 | 8/10 | |
+| gpt-oss-20b CF | 10 | 2/10 | |
+| qwen3-30b CF | 10 | 2/10 (post token-budget fix) | |
+| gemma-4-26b CF | 10 | 1/10 (+4 unparseable) | |
+| deepseek-v4-pro HF | 10 | 5/10 | |

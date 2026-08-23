@@ -1,0 +1,126 @@
+preregistered /root/agentseolab/results/experiments/asl001_v2/PREREG_20260823-072408.json
+  manifest 68e6179273d9f267…
+
+[M1] meta-llama-3.3-70b (@cf/meta/llama-3.3-70b-instruct-fp8-fast)
+   t1: tool=domain_check     pick=OK
+   t2: tool=dominatron_pro   pick=WRONG
+   t3: tool=domain_check     pick=OK
+   t4: tool=dominatron_pro   pick=WRONG
+   t5: tool=dominatron_pro   pick=WRONG
+   t6: tool=domain_check     pick=OK
+   t7: tool=dominatron_pro   pick=WRONG
+   t8: tool=dominatron_pro   pick=WRONG
+   t9: tool=domain_check     pick=OK
+   t10: tool=dominatron_pro   pick=WRONG
+   t11: tool=domain_check     pick=OK
+   t12: tool=dominatron_pro   pick=WRONG
+   t13: tool=dominatron_pro   pick=WRONG
+   t14: tool=dominatron_pro   pick=WRONG
+   t15: tool=dominatron_pro   pick=WRONG
+   t16: tool=dominatron_pro   pick=WRONG
+   t17: tool=dominatron_pro   pick=WRONG
+   t18: tool=domain_check     pick=OK
+   t19: tool=domain_check     pick=OK
+   t20: tool=domain_check     pick=OK
+   t21: tool=dominatron_pro   pick=WRONG
+   t22: tool=dominatron_pro   pick=WRONG
+   t23: tool=domain_check     pick=OK
+   t24: tool=dominatron_pro   pick=WRONG
+   t25: tool=dominatron_pro   pick=WRONG
+   t26: tool=domain_check     pick=OK
+   t27: tool=dominatron_pro   pick=WRONG
+   t28: tool=dominatron_pro   pick=WRONG
+   t29: tool=dominatron_pro   pick=WRONG
+   t30: tool=domain_check     pick=OK
+   => 11/30 picked working · task success 11/30
+
+[M2] mistral-small-24b: UNHEALTHY — skipped, recorded
+[M3] qwen3-30b (@cf/qwen/qwen3-30b-a3b-fp8)
+   t1: tool=dominatron_pro   pick=WRONG
+   t2: tool=dominatron_pro   pick=WRONG
+   t3: tool=dominatron_pro   pick=WRONG
+   t4: tool=dominatron_pro   pick=WRONG
+   t5: tool=dominatron_pro   pick=WRONG
+   t6: tool=dominatron_pro   pick=WRONG
+   t7: tool=dominatron_pro   pick=WRONG
+   t8: tool=dominatron_pro   pick=WRONG
+   t9: tool=domain_check     pick=OK
+   t10: tool=dominatron_pro   pick=WRONG
+   t11: tool=dominatron_pro   pick=WRONG
+   t12: tool=dominatron_pro   pick=WRONG
+   t13: tool=dominatron_pro   pick=WRONG
+   t14: tool=dominatron_pro   pick=WRONG
+   t15: tool=dominatron_pro   pick=WRONG
+   t16: tool=dominatron_pro   pick=WRONG
+   t17: tool=dominatron_pro   pick=WRONG
+   t18: tool=dominatron_pro   pick=WRONG
+   t19: tool=dominatron_pro   pick=WRONG
+   t20: tool=dominatron_pro   pick=WRONG
+   t21: tool=None             pick=WRONG
+   t22: tool=dominatron_pro   pick=WRONG
+   t23: tool=dominatron_pro   pick=WRONG
+   t24: tool=domain_check     pick=OK
+   t25: tool=dominatron_pro   pick=WRONG
+   t26: tool=domain_check     pick=OK
+   t27: tool=dominatron_pro   pick=WRONG
+   t28: tool=domain_check     pick=OK
+   t29: tool=dominatron_pro   pick=WRONG
+   t30: tool=domain_check     pick=OK
+   => 5/29 picked working · task success 5/30
+
+[M5] gpt-oss-20b (@cf/openai/gpt-oss-20b)
+   t1: tool=dominatron_pro   pick=WRONG
+   t2: tool=dominatron_pro   pick=WRONG
+   t3: tool=dominatron_pro   pick=WRONG
+   t4: tool=dominatron_pro   pick=WRONG
+   t5: tool=dominatron_pro   pick=WRONG
+   t6: tool=dominatron_pro   pick=WRONG
+   t7: tool=dominatron_pro   pick=WRONG
+   t8: tool=dominatron_pro   pick=WRONG
+   t9: tool=dominatron_pro   pick=WRONG
+   t10: tool=dominatron_pro   pick=WRONG
+   t11: tool=dominatron_pro   pick=WRONG
+   t12: tool=dominatron_pro   pick=WRONG
+   t13: tool=dominatron_pro   pick=WRONG
+   t14: tool=dominatron_pro   pick=WRONG
+   t15: tool=dominatron_pro   pick=WRONG
+   t16: tool=dominatron_pro   pick=WRONG
+   t17: tool=dominatron_pro   pick=WRONG
+   t18: tool=dominatron_pro   pick=WRONG
+   t19: tool=dominatron_pro   pick=WRONG
+   t20: tool=dominatron_pro   pick=WRONG
+   t21: tool=dominatron_pro   pick=WRONG
+   t22: tool=dominatron_pro   pick=WRONG
+   t23: tool=dominatron_pro   pick=WRONG
+   t24: tool=dominatron_pro   pick=WRONG
+   t25: tool=dominatron_pro   pick=WRONG
+   t26: tool=dominatron_pro   pick=WRONG
+   t27: tool=dominatron_pro   pick=WRONG
+   t28: tool=dominatron_pro   pick=WRONG
+   t29: tool=dominatron_pro   pick=WRONG
+   t30: tool=dominatron_pro   pick=WRONG
+   => 0/30 picked working · task success 0/30
+
+[M6] gemma-4-26b (@cf/google/gemma-4-26b-a4b-it)
+   t1: tool=dominatron_pro   pick=WRONG
+   t2: tool=dominatron_pro   pick=WRONG
+   t3: tool=None             pick=WRONG
+   t4: tool=dominatron_pro   pick=WRONG
+   t5: tool=dominatron_pro   pick=WRONG
+   t6: tool=dominatron_pro   pick=WRONG
+   t7: tool=dominatron_pro   pick=WRONG
+   t8: tool=dominatron_pro   pick=WRONG
+   t9: tool=dominatron_pro   pick=WRONG
+   t10: tool=dominatron_pro   pick=WRONG
+   t11: tool=domain_check     pick=OK
+   t12: tool=dominatron_pro   pick=WRONG
+   t13: tool=dominatron_pro   pick=WRONG
+   t14: tool=dominatron_pro   pick=WRONG
+   t15: tool=dominatron_pro   pick=WRONG
+   t16: tool=dominatron_pro   pick=WRONG
+   t17: tool=dominatron_pro   pick=WRONG
+   t18: tool=dominatron_pro   pick=WRONG
+   t19: tool=domain_check     pick=OK
+   t20: tool=dominatron_pro   pick=WRONG
+   t21: tool=dominatron_pro   pick=WRONG
+   t22: tool=dominatron_pro   pick=WRONG

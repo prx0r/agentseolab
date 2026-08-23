@@ -82,9 +82,13 @@ class Backend:
         return call(self.kind, self.model, prompt, timeout)
 
 
-def probe(b):
-    r = b.run("Reply with exactly: OK", timeout=60)
-    return r.get("ok") and bool((r.get("raw") or "").strip())
+def probe(b, attempts=3):
+    for a in range(attempts):
+        r = b.run("Reply with exactly: OK", timeout=60)
+        if r.get("ok") and bool((r.get("raw") or "").strip()):
+            return True
+        time.sleep(5)  # transient CF cold-start 404s / slow reasoning models
+    return False
 
 
 if __name__ == "__main__":
