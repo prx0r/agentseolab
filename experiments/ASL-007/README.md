@@ -3,20 +3,23 @@
 ## Hypothesis
 Tool name semanticity and description quality have independent AND interaction effects on selection. A good name cannot compensate for a bad description, and vice versa.
 
-## Independent Variable
-2×2 factorial:
-- Name quality: descriptive ("domain_verify") vs opaque ("tool_7f3")
-- Description quality: clear vs vague
+## Design: 2×2 Factorial
+| | Good description | Bad description |
+|---|---|---|
+| Good name (domain_verify) | Best predicted | Name compensates? |
+| Bad name (tool_7f3) | Description compensates? | Worst predicted |
 
 ## Controls
-Same functionality across all four cells. Same candidate pool size.
+Same functionality. Same candidate pool size. Same task. Only name and description quality vary in factorial design.
 
 ## Primary Endpoint
-`selection_rate` per cell + interaction effect size
+selection_rate per cell + interaction effect size
 
 ## Expected Finding
-Good name + good description > good name + bad description ≈ bad name + good description > bad name + bad description.
-Interaction effect: name matters MORE when description is weak (agents fall back to naming heuristics).
+Name matters MORE when description is weak (agents fall back to naming heuristics). When descriptions are rich, names become less important.
+
+## Connects To
+Original NAMING_SCIENCE.md domain naming work — this gives it an experimental home.
 
 ## Status
-NOT YET RUN — connects to original domain/naming work from NAMING_SCIENCE.md
+NOT YET RUN

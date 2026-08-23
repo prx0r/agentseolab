@@ -1,26 +1,20 @@
 # Field Trials — Real Agent Behavior Observation
 
 ## Purpose
-Observe actual agent search/browse/select behavior on frozen SiteIntents.
-No synthetic judgments — the TRACE is ground truth.
+Observe actual agent search/browse/select behavior on frozen SiteIntents using real hermes sessions. The TRACE is ground truth — never ask the agent why it chose something.
 
-## Methodology
-1. Freeze SiteIntent BEFORE any candidate generation
-2. Give search-capable agent normal search tools only
-3. Record observable trace: queries[], results[], opens[], citations[], selections[]
-4. Never ask agent "why did you choose X" as ground truth
-
-## Event Ontology (strict separation)
+## Event Ontology (strict separation, never collapse)
 SEARCH_RESULT_EXPOSED / OPENED / SOURCE_READ / USED / CITED /
 CAPABILITY_SELECTED / INVOKED / EXECUTION_SUCCEEDED / TASK_VERIFIED
 
 ## ⚠️ task_success ≠ citation presence
-Historical task_success was computed from URL-in-final-answer.
-This measures FINAL_URL_REPORTED, not task success.
-All historical observations with this metric are invalidated.
+Historical task_success computed from URL-in-final-answer measured FINAL_URL_REPORTED.
+All such observations are INVALIDATED per dev plan P0.
+
+## Known Gap
+All field subjects (S1-S3) use mimo-v2.5/opencode-go — violates multi-family field repetition rule from SCIENTIFIC_METHOD.md.
 
 ## Current Data
-8 field traces from scout/curator/patala profiles on F-001 intent.
-All profiles are mimo-v2.5 — violates multi-family requirement.
+8 field traces from F-001 intent across scout/curator/patala profiles.
 
-## Status: PROTOCOL DESIGNED, SCALING IN PROGRESS
+## Status: PROTOCOL DESIGNED, SCALING IN PROGRESS via hermes builder

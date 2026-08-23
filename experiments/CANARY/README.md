@@ -2,36 +2,41 @@
 
 ## Purpose
 Test whether a model selects the REAL tool over plausible-but-wrong decoys.
-Each canary class exploits a different failure mode in tool selection.
+Each canary class exploits a different, well-documented failure mode.
 
-## The Six Trap Classes
-| Class | Exploits |
-|-------|----------|
-| semantic_decoy | Same vocabulary space, different job entirely |
+## The Six Trap Classes (from canary tools research, arXiv:2608.04719)
+| Class | Failure Mode Exploited |
+|-------|----------------------|
+| semantic_decoy | Same vocabulary space, different job entirely — noun-space collision |
 | parameter_trap | Right-sounding name, unsatisfiable parameter requirements |
 | capability_mirage | Enterprise-grade fluff that can't actually do the job |
-| prerequisite_blindness | Requires credentials the agent doesn't have |
+| prerequisite_blindness | Requires credentials/enterprise agreement the agent doesn't have |
 | temporal_decoy | Stale cached data presented as current |
-| granularity_trap | Comprehensive suite instead of precise tool |
+| granularity_trap | Comprehensive suite instead of the precise needed tool |
 
 ## Primary Endpoint
-`decoy_resistance` per class + overall. Resistance = fraction of trials where model selects the real tool.
+decoy_resistance per class + overall = fraction of trials where model selects real tool
 
 ## Current Results
-| Model | Overall Resistance | n | Status |
-|-------|-------------------|---|--------|
-| ox-alpha-free | **0.958** | 24 | PROVISIONAL (single family) |
-| gpt-oss-120b | ~~0.42~~ | ~~12~~ | INVALIDATED (scorer defect) |
+| Model | Overall | n | Status |
+|-------|---------|---|--------|
+| ox-alpha-free | **0.958** | 24 | PROVISIONAL — needs cross-family replication |
+| gpt-oss-120b | ~~0.42~~ | ~~12~~ | ❌ INVALIDATED (scorer defect) |
+
+## Key Finding
+ox-alpha-free resists all six trap classes at 95.8% — nearly perfectly discriminates.
+Only wobble: 1/4 fell for "enterprise-grade" breadth claims (capability_mirage).
+This contrasts sharply with gpt-oss-120b's invalidated 0.42 result (scorer defect).
+
+## ArXiv References
+- Canary Tools (arXiv:2608.04719) — diagnostic tools exposing 6 tool-selection failure modes; different models show substantially different susceptibility profiles
+- MCPAgentBench (arXiv:2512.24565) — distractor-rich simulated MCP environments
+- MCPToolBench++ (arXiv:2508.07575) — AST evaluation + pass@k metrics
 
 ## How to Run
 ```bash
 python3 runner/canary.py --backend opencode --n 3 --out runs/canary_custom.json
+python3 runner/canary.py --backend cloudflare --n 3   # CF llama-3.3-70b
 ```
 
-## Rules
-- Position randomised (real tool first/second, seed-driven)
-- Scoring by exact tool_id match (never substring)
-- UNPARSEABLE ≠ incorrect selection — it's a separate category
-- Each trial gets fresh session
-
-## Status: ACTIVE — needs cross-family replication for REPLICATED status
+## Status: ACTIVE — H-CANARY-002 PROVISIONAL, needs cross-family replication

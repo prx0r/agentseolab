@@ -1,19 +1,19 @@
 # ASL-003: Prerequisite Blindness
 
 ## Hypothesis
-Agents select tools without inspecting credential/prerequisite requirements, leading to failed invocations that could be avoided by reading the full description.
+Agents select tools without inspecting credential/prerequisite requirements in descriptions, leading to failed invocations that could be avoided by reading the full description before selecting.
 
 ## Independent Variable
-Prerequisite disclosure: works immediately / requires auth / requires enterprise account / requires payment
+Prerequisite disclosure level: works immediately / requires auth / requires enterprise account / requires unavailable credential / requires payment
 
 ## Controls
-Same underlying functionality. Same task. Only prerequisite requirements differ.
+Same underlying functionality when prerequisites met. Same task. Same description structure except requirement clause.
 
 ## Primary Endpoint
-`wrong_invocation_rate` — fraction of selections that lead to authentication/credential errors
+wrong_invocation_rate — fraction of selections leading to authentication/credential errors
 
 ## Expected Finding
-Agents will select tools with hidden prerequisites at rates similar to immediately-functional tools because they evaluate descriptions on capability claims, not requirement disclosures.
+Agents select tools with hidden prerequisites at rates similar to immediately-functional tools because they evaluate capability claims, not requirement disclosures.
 
 ## Status
-NOT YET RUN — canary stub exists but needs sandbox integration
+NOT YET RUN — canary stub exists, needs sandbox integration

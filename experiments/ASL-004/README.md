@@ -1,24 +1,22 @@
-# ASL-004: Freshness Sensitivity (Causal Interaction)
+# ASL-004: Freshness Sensitivity (Causal Interaction Design)
 
 ## Hypothesis
-Explicit freshness information in tool descriptions affects selection ONLY when task freshness is relevant. This is a causal INTERACTION design, not a main effect test.
+Explicit freshness information affects selection ONLY when the task requires current data. This is a causal INTERACTION experiment, not a main effect test.
 
-## Independent Variable
-2×2 factorial:
-- Description freshness signal: live/today vs cached/no declaration
-- Task freshness relevance: current-data-required vs historical-data-sufficient
+## Design: 2×2 Factorial
+| | Task needs current data | Task doesn't need current data |
+|---|---|---|
+| Description says "live/today" | Predicted: ↑ selection | Predicted: no effect |
+| Description says "cached" | Predicted: ↓ selection | Predicted: no effect |
 
 ## Controls
-Same tool functionality. Same base description structure. Only freshness claim and task urgency vary independently.
+Same tool functionality across all cells. Same base description structure. Only freshness claim and task urgency vary independently.
 
 ## Primary Endpoint
-`TASK_VERIFIED` with interaction term: freshness_signal × task_relevance
-
-## Expected Finding
-Freshness language matters only when the task requires current data. When it doesn't matter, both descriptions perform equally.
+Interaction term: freshness_signal × task_relevance on TASK_VERIFIED
 
 ## ArXiv References
-- GEO Princeton (arXiv:2311.09735) — statistics-with-sources up to +40%
+- GEO Princeton (arXiv:2311.09735) — statistics-with-sources up to +40% improvement
 - SAGEO Arena (arXiv:2602.12187) — stage-specific evaluation essential
 
 ## Status
