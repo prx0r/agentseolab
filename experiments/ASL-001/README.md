@@ -39,8 +39,11 @@ python3 runner/execution_experiment.py opencode 10     # ox-alpha-free
 | 2026-08-23 | mistral-small-24b | 10 | 10 (100%) | 10 (100%) | [0.722, 1.0] | Significant |
 
 ## Cross-Family Verdict
-Same direction ✓ · Mistral CI excludes 0.5 ✓ · Different organisations (Meta + Mistral AI) ✓
-→ REPLICATION CONFIRMED for this finding at current power level.
+⚠️ SUPERSEDED — the v1 pilots above violated protocol rules (temperature unset, deterministic
+alternation instead of seeded shuffle, no name↔description decoupling) and this verdict was
+WRONG: later v2 runs showed llama-3.3-70b flips direction across prompt formats. The
+authoritative record is the machine ledger (`results/ledger/evidence.json`), not this file.
+See PEER_REVIEW.md for the protocol-compliant v2 result.
 
 ## Workflow Reference
 1. Read `AGENTS.md` for model policy and general principles

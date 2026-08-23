@@ -1,54 +1,39 @@
-# AgentSEOLab — Results Log
-*Last updated: 2026-08-23 03:55 UTC*
+<!-- GENERATED from results/ledger/evidence.json — do not hand-edit -->
+# RESULTS — evidence ledger snapshot (2026-08-23)
 
-## Findings Summary
+**Status: 1 CONFIRMED · 1 FAILED_REPLICATION · 1 INVALIDATED · 1 PROVISIONAL**
 
-**Zero REPLICATED findings. One CONFIRMED on single model (failed cross-family replication). Zero trusted causal claims yet.**
+## H-ASL001a — FAILED_REPLICATION
+Agents prefer working tools over compelling-but-broken tools (universal claim)
+*Protocol v2 · Direction flips by model family under protocol v2 (temp=0, seeded AB/BA, name-decoupling). Not a general law.*
 
-This is correct scientific behavior. The system caught its own bugs and refused to promote unreplicated results.
+- `asl001v2-mistral` mistral-small-24b        n=30   p=1.0    CI95=[0.886, 1.0] *
+- `asl001v2-oxalpha` ox-alpha-free            n=28   p=0.929  CI95=[0.774, 0.98] *
+- `asl001v2-nemotron` nemotron-super-120b      n=30   p=0.7    CI95=[0.521, 0.833] *
+- `asl001v2-llama70b` meta-llama-3.3-70b       n=30   p=0.367  CI95=[0.219, 0.545]  
+- `asl001v2-qwen3` qwen3-30b                n=29   p=0.172  CI95=[0.076, 0.345] *
+- `asl001v2-gemma` gemma-4-26b              n=29   p=0.138  CI95=[0.055, 0.306] *
+- `asl001v2-gptoss20b` gpt-oss-20b              n=30   p=0.0    CI95=[0.0, 0.114] *
 
-## Hypothesis Ledger
+## H-ASL001b — CONFIRMED
+Enterprise-fluff description seduction is family-clustered: Qwen/Gemma/GPT-OSS-small reliably select the fluff-described broken tool; Mistral/NVIDIA/ox-alpha resist
+*Protocol v2 · 5 of 7 families individually significant in opposing directions; seduced cluster replicated across two providers for Qwen and OpenAI (Cloudflare + Groq pilots). Cross-family rerun on second task domain required before REPLICATED.*
 
-| ID | Statement | Status | Why |
-|----|-----------|--------|-----|
-| H-CANARY-001 | gpt-oss-120b decoy resistance 0.42 | **INVALIDATED** | Scorer defect: backend-as-job-prompt + impossible substring exclusion |
-| H-0001 | Evidence-led descriptions selected over process-led | **FAILED_TO_REPLICATE** | 22/22 on gpt-oss-120b → position bias on ox-alpha-free, 50/50 tie on llama-3.3-70b |
-| H-CANARY-002 | ox-alpha-free resists all 6 canary classes | **PROVISIONAL** | 95.8% n=24 single model; needs cross-family replication |
-| domainverify_v1→r2 | Evidence-led beats breadth-led | **FAILED_TO_REPLICATION** | v1: 16/0 sweep → r2: 8/8 tie |
+- derived from H-ASL001a runs + groq pilots qwen3.6 1/10, gpt-oss-120b 6/10
 
-## What We Actually Discovered
+## H-CANARY-002 — PROVISIONAL
+ox-alpha-free resists all six canary decoy classes
+*Protocol v2 · Single family only (n=24). Needs cross-family canary run.*
 
-### Real finding 1: Model scale determines tool-selection strategy
-- **gpt-oss-120b** (large): evaluates description content, picks evidence-backed tool over vague one consistently
-- **ox-alpha-free** (small): pure positional heuristic — picks first-listed tool regardless of content  
-- **llama-3.2-3b** (tiny): pure letter bias — always says "A" regardless of content
-- **llama-3.3-70b** (medium-large): evaluates content but shows 50/50 when descriptions are properly controlled for quality
 
-This suggests tool-description optimization is model-scale-dependent. A description strategy that works for GPT-class models may be irrelevant for small free models.
+## H-CANARY-001 — INVALIDATED
+(original canary selection-rate claim)
+*Protocol v1 · Scorer defect: backend-as-job-prompt + substring collision between candidates. Record preserved permanently.*
 
-### Real finding 2: The system catches its own bugs
-- Invalidated its own headline result when scorer defect discovered
-- Correctly gates legacy protocol-v1 data at PROVISIONAL
-- Audit command verifies manifest hashes, spec references, sentinel eligibility
-- Failed replications retained alongside successes
 
-### Real finding 3: Builder agent produces genuine experimental design
-The Hermes builder independently generated:
-- Six decoy descriptions with failure-mode taxonomy and attraction vectors
-- Proper AB/BA tournament design with position-reversal controls
-- Test-first development (wrote tests before implementation)
+## Open questions
 
-## Raw Data Locations
-- `results/experiments/` — pairwise tournament results (spec + result pairs)
-- `results/canary/` — canary fitness profiles per model
-- `results/field/` — real field traces from scout/curator/patala profiles
-- `lab.db` — ingested comparisons (36 rows)
-- `evidence_library.json` — hypothesis ledger with status ladder
-
-## Statistics
-Wilson score interval (canonical closed form), verified against statsmodels.
-No bootstrap. No Bradley-Terry until multi-candidate tournaments exist.
-
-## Next Experiment Needed
-ASL-001 (Selection ≠ execution) — the only way to produce a REPLICATED finding.
-Requires execution-grounded MCP sandbox where tools actually run or fail.
+- Does attraction follow description text or tool identity? (ASL-002 running)
+- Does schema complexity penalize invocation independently? (ASL-005 next)
+- Does deterministic verification raise repeat use without raising initial selection? (ASL-009 planned)
+- Do agents read prerequisite/credential requirements? (ASL-003 planned)

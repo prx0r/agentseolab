@@ -2,3 +2,14 @@
 preregistered /root/agentseolab/results/experiments/asl002_v2/PREREG_cf_20260823-075815.json
   manifest 9bf70df65e69a189…
   t1[FB]: tool=domain_check     pick=OK
+  t2[FW]: tool=domain_check     pick=OK
+  t3[FW]: tool=domain_check     pick=OK
+  t4[FW]: tool=None             pick=X
+  t5[FW]: tool=domain_check     pick=OK
+  t6[FB]: tool=domain_check     pick=OK
+  t7[FB]: tool=domain_check     pick=OK
+  t8[FB]: tool=domain_check     pick=OK
+  t9[FW]: tool=domain_check     pick=OK
+  t10[FW]: tool=domain_check     pick=OK
+  t11[FW]: tool=domain_check     pick=OK
+  t12[FB]: tool=domain_check     pick=OK
