@@ -1,0 +1,366 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T03:13:51.801398+00:00",
+ "subject": {
+  "harness": "hermes --profile scout -z",
+  "profile": "scout",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_031053_16f604"
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787454654.0210888,
+  "last_ts": 1787454830.3026755
+ },
+ "event_counts": {
+  "search_results": 4,
+  "tool_invocation": 6,
+  "result_open": 2,
+  "final_choice": 1,
+  "citation": 18
+ },
+ "events": [
+  {
+   "seq": 0,
+   "ts": 1787454658.2351227,
+   "source_message_id": 114,
+   "call_id": "call_1cbab60d6e3c4de2ac9a4563",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+check+if+domain+is+available",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 1,
+   "ts": 1787454672.4816067,
+   "source_message_id": 116,
+   "call_id": "call_7a93ea4490b04e9b82ab3f6f",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+check+if+domain+is+available",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 2,
+   "ts": 1787454684.710285,
+   "source_message_id": 118,
+   "call_id": "call_ee36a734ade14bbfb7c5ad9e",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+check+API+programmatic+whois+lookup",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 3,
+   "ts": 1787454714.3326213,
+   "source_message_id": 120,
+   "call_id": "call_c4fee09200e949d89fd97a61",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 4,
+   "ts": 1787454745.9835858,
+   "source_message_id": 122,
+   "call_id": "call_c0ffa5fa45644432903e8d77",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=Namecheap+domain+availability+API+documentation",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 5,
+   "ts": 1787454763.8766701,
+   "source_message_id": 124,
+   "call_id": "call_e8832bd98431481a8394c38d",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.namecheap.com/support/api/methods/domains/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 6,
+   "ts": 1787454784.4987395,
+   "source_message_id": 126,
+   "call_id": "call_0c368ed1027f47a58c87f252",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://developer.godaddy.com/doc",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 7,
+   "ts": 1787454792.3643594,
+   "source_message_id": 128,
+   "call_id": "call_2d310e6a54e443fdabd8fe39",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 8,
+   "ts": 1787454800.7060928,
+   "source_message_id": 130,
+   "call_id": "call_982dd43ace4846d79e035316",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 9,
+   "ts": 1787454805.3557215,
+   "source_message_id": 132,
+   "call_id": "call_976fafefc3e7456baaf5d77d",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 10,
+   "ts": 1787454813.720092,
+   "source_message_id": 134,
+   "call_id": "call_22ac1ac5042a4f5ebfd005d7",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 11,
+   "ts": 1787454819.5499156,
+   "source_message_id": 136,
+   "call_id": "call_935cafc2374b4556837b4b2c",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 12,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "final_choice",
+   "payload": {
+    "report_excerpt": "I found a real domain availability API service. Here are the details:\n\nSERVICE: GoDaddy Domains API (v3)\nURL: https://developer.godaddy.com/doc/endpoint/domains/v3#tag/Search/operation/checkAvailability\n\nENDPOINT:\n  GET https://api.godaddy.com/v3/domains/check-availability?domain={domain}\n\nKEY DETAILS:\n  - Checks whether a specific domain is available for registration\n  - Returns availability status and indicative per-term pricing\n  - Requires a Personal Access Token (PAT) for authentication\n  - Read-only operation; no payment method required\n  - Supports two modes: SPEED (cached, faster) or ACCURACY (live registry check)\n\nEXAMPLE REQUEST:\n  curl -s \"https://api.godaddy.com/v3/domains/check-availability?domain=your-idea.com\" \\\n    -H \"Authorization: Bearer ***\"\n\nEXAMPLE RESPONSE:\n  {\n    \"domain\": \"your-idea.com\",\n    \"available\": true,\n    \"definitive\": false,\n    \"inventory\": \"REGISTRY\",\n    \"prices\": [\n      {\n        \"term\": \"YEAR\",\n        \"period\": 1,\n        \"price\": { \"currencyCode\": \"USD\", \"value\": \"1199\" },\n        \"renewalPrice\": { \"currencyCode\": \"USD\", \"value\": \"2299\" }\n      }\n    ]\n  }\n\nADDITIONAL FEATURES:\n  - Also offers a suggestions endpoint for natural-language domain queries\n  - Supports multiple programming languages (curl, Node, Python, Go)\n  - Base URL: https://api.godaddy.com\n\nThis is a real, production API from GoDaddy, one of the largest domain registrars in the world.",
+    "named_urls": [
+     "https://developer.godaddy.com/doc/endpoint/domains/v3#tag/Search/operation/checkAvailability",
+     "https://api.godaddy.com/v3/domains/check-availability?domain={domain}",
+     "https://api.godaddy.com/v3/domains/check-availability?domain=your-idea.com",
+     "https://api.godaddy.com"
+    ]
+   }
+  },
+  {
+   "seq": 13,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://developer.godaddy.com/doc/endpoint/domains/v3#tag/Search/operation/checkAvailability",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 14,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains/check-availability?domain={domain}",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 15,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains/check-availability?domain=your-idea.com",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 16,
+   "ts": null,
+   "source_message_id": null,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 17,
+   "ts": 1787454662.9015315,
+   "source_message_id": 115,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Ddomain%2Bavailability%2BAPI%2Bcheck%2Bif%2Bdomain%2Bis%2Bavailable%26sei%3DxGSKarzFIaGrkdUPzfbbmQo&q=EhAqAQT4HBjvbAAAAAAAAAABGMTJqdQGIjBjwMRwCWgMtxjAL3aLxBwj7YKQJ_mCNfobKUFU_zTh-gQwNlilCH67crmR59OKAGoyAVJaAUM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 18,
+   "ts": 1787454662.9015315,
+   "source_message_id": 115,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+check+if+domain+is+available&sei=xGSKarzFIaGrkdUPzfbbmQo",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 19,
+   "ts": 1787454662.9015315,
+   "source_message_id": 115,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+check+if+domain+is+available&sei=xGSKarzFIaGrkdUPzfbbmQo\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 20,
+   "ts": 1787454676.0109289,
+   "source_message_id": 117,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+check+if+domain+is+available",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 21,
+   "ts": 1787454676.0109289,
+   "source_message_id": 117,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 22,
+   "ts": 1787454676.0109289,
+   "source_message_id": 117,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 23,
+   "ts": 1787454676.0109289,
+   "source_message_id": 117,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 24,
+   "ts": 1787454709.458614,
+   "source_message_id": 119,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+check+API+programmatic+whois+lookup",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 25,
+   "ts": 1787454749.5226064,
+   "source_message_id": 123,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=Namecheap+domain+availability+API+documentation",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 26,
+   "ts": 1787454781.8307085,
+   "source_message_id": 125,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com/support/api/methods/domains/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 27,
+   "ts": 1787454787.8375788,
+   "source_message_id": 127,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://developer.godaddy.com/en/docs/api-users",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 28,
+   "ts": 1787454787.8375788,
+   "source_message_id": 127,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 29,
+   "ts": 1787454801.9003236,
+   "source_message_id": 131,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 30,
+   "ts": 1787454820.652693,
+   "source_message_id": 137,
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains/check-availability?domain=your-idea.com\\\\\\",
+    "where": "tool_output"
+   }
+  }
+ ]
+}

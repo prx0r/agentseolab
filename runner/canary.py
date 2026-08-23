@@ -88,7 +88,7 @@ def run_canary(*, spec: dict, backend_obj, backend_name: str):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--backend", default=os.environ.get("ASL_BACKEND", "openrouter"))
+    ap.add_argument("--backend", default=os.environ.get("ASL_BACKEND", "opencode"))
     ap.add_argument("--n", type=int, default=3)
     ap.add_argument("--out", default=None)
     args = ap.parse_args()

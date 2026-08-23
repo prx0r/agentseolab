@@ -7,7 +7,7 @@ Contract per abuse.md item 2/3/4:
 - Runner: fresh isolated hermes session per trial, AB/BA order reversal,
   position-bias control, abstention allowed, structured trace capture.
 """
-import hashlib, json, subprocess, uuid, datetime, os, sys, time
+import hashlib, json, subprocess, uuid, datetime, os, sys, time, random
 
 def canonical_hash(obj) -> str:
     def canon(v):
@@ -99,6 +99,9 @@ def run_pairwise(spec: ExperimentSpec, db_path="./lab.db"):
         order_plan += ["AB", "BA"]
 
     results = {"a": 0, "b": 0, "abstain": 0, "unparseable": 0}
+    # A6: seed-driven randomized ordering (balanced AB/BA but sequence shuffled)
+    rng = random.Random(spec.spec["seed"])
+    rng.shuffle(order_plan)
     for i, order in enumerate(order_plan):
         first, second = (desc_a, desc_b) if order == "AB" else (desc_b, desc_a)
         prompt = (f"{job}\n\nYou have two tools available:\n\n"

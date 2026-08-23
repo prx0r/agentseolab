@@ -45,11 +45,15 @@ class TestSuiteSpec(unittest.TestCase):
         pair = kinds["pairwise_cancelme_evidence_vs_process"]
         canary = kinds["canary_domain_verify_v2"]
         self.assertEqual(pair["hypothesis_id"], "H-0001")
-        self.assertEqual(pair["fixed_pairs"], 3)
-        self.assertEqual(len(pair["order_plan"]), 6)
+        self.assertEqual(pair["fixed_pairs"], 5)
+        self.assertEqual(len(pair["order_plan"]), 10)   # 10-trial convention
         self.assertEqual(canary["hypothesis_id"], None)
         self.assertEqual(canary["candidate_hypothesis_id"], "H-CANARY-002")
         self.assertEqual(len(canary["decoys"]), 6)
+        # canary needs even per-class counts for balanced ordering:
+        # 6 classes x 2 = 12 trials (documented deviation from literal 10)
+        self.assertEqual(canary["n_trials_per_decoy"], 2)
+        self.assertIn("10-trial", canary["fixed_trial_count_note"])
 
     def test_baselines(self):
         pair = next(c for c in self.spec["cases"] if c["kind"] == "pairwise")
@@ -140,12 +144,12 @@ class TestReplay(unittest.TestCase):
 
     def test_canary_replay_counts_identity_scoring(self):
         be = FakeBackend()
-        be.replies = ["domain.verify"] * 36          # 6 decoys x 6 trials ([T,F]*3)
+        be.replies = ["domain.verify"] * 12          # 6 decoys x 2 trials
         rec = sentinel.replay_canary_case(self.canary, get_backend=gb_factory(be))
-        self.assertEqual(rec["n_trials"], 36)
+        self.assertEqual(rec["n_trials"], 12)
         self.assertEqual(rec["observed_value"], 1.0)
-        self.assertEqual(rec["selection_counts"]["tool_real_001"], 36)
-        self.assertEqual(len(be.prompts), 36)
+        self.assertEqual(rec["selection_counts"]["tool_real_001"], 12)
+        self.assertEqual(len(be.prompts), 12)
         # both orderings present per class (seed-driven balanced shuffle)
         orderings = {t["ordering"] for t in rec["traces"]}
         self.assertEqual(orderings, {"REAL_FIRST", "DECOY_FIRST"})
@@ -177,9 +181,9 @@ class TestRunSuiteAndAdoption(unittest.TestCase):
                 os.path.join(td, "out"))
 
     def _fake_be_all_real(self):
-        # suite order: pairwise (6) first, then canary (36)
+        # suite order: pairwise (10) first, then canary (12)
         be = FakeBackend()
-        be.replies = ["A", "B"] * 3 + ["domain.verify"] * 36
+        be.replies = ["A", "B"] * 5 + ["domain.verify"] * 12
         return be
 
     def test_no_valid_baseline_yields_unknown_then_adoption_activates(self):
