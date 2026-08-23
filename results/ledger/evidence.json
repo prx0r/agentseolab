@@ -1,52 +1,166 @@
 {
-  "ledger_version": 1,
-  "updated": "2026-08-23T08:20:00Z",
-  "hypotheses": [
+ "ledger_version": 1,
+ "updated": "2026-08-23T08:20:00Z",
+ "hypotheses": [
+  {
+   "id": "H-ASL001a",
+   "statement": "Agents prefer working tools over compelling-but-broken tools (universal claim)",
+   "status": "FAILED_REPLICATION",
+   "protocol_version": 2,
+   "verdict": "Direction flips by model family under protocol v2 (temp=0, seeded AB/BA, name-decoupling). Not a general law.",
+   "runs": [
     {
-      "id": "H-ASL001a",
-      "statement": "Agents prefer working tools over compelling-but-broken tools (universal claim)",
-      "status": "FAILED_REPLICATION",
-      "protocol_version": 2,
-      "verdict": "Direction flips by model family under protocol v2 (temp=0, seeded AB/BA, name-decoupling). Not a general law.",
-      "runs": [
-        {"run_id": "asl001v2-mistral", "model": "mistral-small-24b", "family": "Mistral AI", "provider": "cloudflare", "n_decided": 30, "p_working": 1.0, "ci95": [0.886, 1.0], "sig": true},
-        {"run_id": "asl001v2-oxalpha", "model": "ox-alpha-free", "family": "ox", "provider": "opencode-go", "n_decided": 28, "p_working": 0.929, "ci95": [0.774, 0.98], "sig": true},
-        {"run_id": "asl001v2-nemotron", "model": "nemotron-super-120b", "family": "NVIDIA", "provider": "openrouter", "n_decided": 30, "p_working": 0.7, "ci95": [0.521, 0.833], "sig": true},
-        {"run_id": "asl001v2-llama70b", "model": "meta-llama-3.3-70b", "family": "Meta", "provider": "cloudflare", "n_decided": 30, "p_working": 0.367, "ci95": [0.219, 0.545], "sig": false},
-        {"run_id": "asl001v2-qwen3", "model": "qwen3-30b", "family": "Alibaba", "provider": "cloudflare", "n_decided": 29, "p_working": 0.172, "ci95": [0.076, 0.345], "sig": true},
-        {"run_id": "asl001v2-gemma", "model": "gemma-4-26b", "family": "Google", "provider": "cloudflare", "n_decided": 29, "p_working": 0.138, "ci95": [0.055, 0.306], "sig": true},
-        {"run_id": "asl001v2-gptoss20b", "model": "gpt-oss-20b", "family": "OpenAI", "provider": "cloudflare", "n_decided": 30, "p_working": 0.0, "ci95": [0.0, 0.114], "sig": true}
-      ]
+     "run_id": "asl001v2-mistral",
+     "model": "mistral-small-24b",
+     "family": "Mistral AI",
+     "provider": "cloudflare",
+     "n_decided": 30,
+     "p_working": 1.0,
+     "ci95": [
+      0.886,
+      1.0
+     ],
+     "sig": true
     },
     {
-      "id": "H-ASL001b",
-      "statement": "Enterprise-fluff description seduction is family-clustered: Qwen/Gemma/GPT-OSS-small reliably select the fluff-described broken tool; Mistral/NVIDIA/ox-alpha resist",
-      "status": "CONFIRMED",
-      "protocol_version": 2,
-      "verdict": "5 of 7 families individually significant in opposing directions; seduced cluster replicated across two providers for Qwen and OpenAI (Cloudflare + Groq pilots). Cross-family rerun on second task domain required before REPLICATED.",
-      "runs": ["derived from H-ASL001a runs + groq pilots qwen3.6 1/10, gpt-oss-120b 6/10"]
+     "run_id": "asl001v2-oxalpha",
+     "model": "ox-alpha-free",
+     "family": "ox",
+     "provider": "opencode-go",
+     "n_decided": 28,
+     "p_working": 0.929,
+     "ci95": [
+      0.774,
+      0.98
+     ],
+     "sig": true
     },
     {
-      "id": "H-CANARY-002",
-      "statement": "ox-alpha-free resists all six canary decoy classes",
-      "status": "PROVISIONAL",
-      "protocol_version": 2,
-      "verdict": "Single family only (n=24). Needs cross-family canary run.",
-      "runs": [{"run_id": "canary-v2-20260823", "model": "ox-alpha-free", "n_decided": 24, "p_correct": 0.958}]
+     "run_id": "asl001v2-nemotron",
+     "model": "nemotron-super-120b",
+     "family": "NVIDIA",
+     "provider": "openrouter",
+     "n_decided": 30,
+     "p_working": 0.7,
+     "ci95": [
+      0.521,
+      0.833
+     ],
+     "sig": true
     },
     {
-      "id": "H-CANARY-001",
-      "statement": "(original canary selection-rate claim)",
-      "status": "INVALIDATED",
-      "protocol_version": 1,
-      "verdict": "Scorer defect: backend-as-job-prompt + substring collision between candidates. Record preserved permanently.",
-      "runs": []
+     "run_id": "asl001v2-llama70b",
+     "model": "meta-llama-3.3-70b",
+     "family": "Meta",
+     "provider": "cloudflare",
+     "n_decided": 30,
+     "p_working": 0.367,
+     "ci95": [
+      0.219,
+      0.545
+     ],
+     "sig": false
+    },
+    {
+     "run_id": "asl001v2-qwen3",
+     "model": "qwen3-30b",
+     "family": "Alibaba",
+     "provider": "cloudflare",
+     "n_decided": 29,
+     "p_working": 0.172,
+     "ci95": [
+      0.076,
+      0.345
+     ],
+     "sig": true
+    },
+    {
+     "run_id": "asl001v2-gemma",
+     "model": "gemma-4-26b",
+     "family": "Google",
+     "provider": "cloudflare",
+     "n_decided": 29,
+     "p_working": 0.138,
+     "ci95": [
+      0.055,
+      0.306
+     ],
+     "sig": true
+    },
+    {
+     "run_id": "asl001v2-gptoss20b",
+     "model": "gpt-oss-20b",
+     "family": "OpenAI",
+     "provider": "cloudflare",
+     "n_decided": 30,
+     "p_working": 0.0,
+     "ci95": [
+      0.0,
+      0.114
+     ],
+     "sig": true
     }
-  ],
-  "open_questions": [
-    "Does attraction follow description text or tool identity? (ASL-002 running)",
-    "Does schema complexity penalize invocation independently? (ASL-005 next)",
-    "Does deterministic verification raise repeat use without raising initial selection? (ASL-009 planned)",
-    "Do agents read prerequisite/credential requirements? (ASL-003 planned)"
-  ]
+   ]
+  },
+  {
+   "id": "H-ASL001b",
+   "statement": "Enterprise-fluff description seduction is family-clustered: Qwen/Gemma/GPT-OSS-small reliably select the fluff-described broken tool; Mistral/NVIDIA/ox-alpha resist",
+   "status": "CONFIRMED",
+   "protocol_version": 2,
+   "verdict": "5 of 7 families individually significant in opposing directions; seduced cluster replicated across two providers for Qwen and OpenAI (Cloudflare + Groq pilots). Cross-family rerun on second task domain required before REPLICATED.",
+   "runs": [
+    "derived from H-ASL001a runs + groq pilots qwen3.6 1/10, gpt-oss-120b 6/10"
+   ]
+  },
+  {
+   "id": "H-CANARY-002",
+   "statement": "ox-alpha-free resists all six canary decoy classes",
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "verdict": "Single family only (n=24). Needs cross-family canary run.",
+   "runs": [
+    {
+     "run_id": "canary-v2-20260823",
+     "model": "ox-alpha-free",
+     "n_decided": 24,
+     "p_correct": 0.958
+    }
+   ]
+  },
+  {
+   "id": "H-CANARY-001",
+   "statement": "(original canary selection-rate claim)",
+   "status": "INVALIDATED",
+   "protocol_version": 1,
+   "verdict": "Scorer defect: backend-as-job-prompt + substring collision between candidates. Record preserved permanently.",
+   "runs": []
+  },
+  {
+   "id": "H-SERVE01",
+   "statement": "Serverless LLM inference at temperature=0 is non-deterministic across time windows (same byte-identical prompt flips behaviour)",
+   "status": "CONFIRMED",
+   "protocol_version": 2,
+   "verdict": "qwen3-30b @cf: 5/29 pro-working at 07:24 vs 11/11 at 08:50 on diff-verified identical prompts. Consequence: only within-run contrasts are admissible for fine distinctions; family classifications require multi-window replication.",
+   "runs": [
+    {
+     "run_id": "asl001v2-qwen3",
+     "window": "07:24",
+     "p_working": 0.172,
+     "n": 29
+    },
+    {
+     "run_id": "asl002-fb-qwen3",
+     "window": "08:32",
+     "p_working": 1.0,
+     "n": 11
+    }
+   ]
+  }
+ ],
+ "open_questions": [
+  "Does attraction follow description text or tool identity? (ASL-002 running)",
+  "Does schema complexity penalize invocation independently? (ASL-005 next)",
+  "Does deterministic verification raise repeat use without raising initial selection? (ASL-009 planned)",
+  "Do agents read prerequisite/credential requirements? (ASL-003 planned)"
+ ]
 }

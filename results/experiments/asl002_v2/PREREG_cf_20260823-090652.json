@@ -1,0 +1,17 @@
+{
+ "experiment": "ASL-002",
+ "protocol_version": 2,
+ "hypothesis_id": "H-ASL002a",
+ "causal_question": "Does moving the fluff description onto the working tool move each family's preference with it (attraction follows description), or do families stay loyal to their ASL-001 choice (attraction follows tool identity)?",
+ "arms": {
+  "fluff_broken": "ASL-001 config",
+  "fluff_working": "fluff text on working tool"
+ },
+ "metric": "picked_working proportion per arm (Wilson CI)",
+ "seed": 20260827,
+ "n_trials": 24,
+ "temperature": 0,
+ "backend": "cf",
+ "model": "@cf/google/gemma-4-26b-a4b-it",
+ "manifest_hash": "870cb4391baebc80c3d52e9f33d4d4d21d6cbee2bbb6256b2c42d5d42a8347b3"
+}
