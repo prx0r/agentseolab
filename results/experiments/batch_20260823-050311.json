@@ -1,0 +1,26 @@
+[
+ {
+  "model": "llama-3.3-70b",
+  "domain": "example-name.com",
+  "TASK_VERIFIED": true,
+  "real_calls": 2,
+  "decoy_calls": 3,
+  "total_calls": 5
+ },
+ {
+  "model": "mistral-small-24b",
+  "domain": "example-name.com",
+  "TASK_VERIFIED": false,
+  "real_calls": 0,
+  "decoy_calls": 0,
+  "total_calls": 0
+ },
+ {
+  "model": "gpt-oss-20b",
+  "domain": "example-name.com",
+  "TASK_VERIFIED": true,
+  "real_calls": 1,
+  "decoy_calls": 1,
+  "total_calls": 2
+ }
+]
