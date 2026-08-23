@@ -116,6 +116,424 @@
     }
    ],
    "invalidates_note": "supersedes INVALIDATED H-CANARY-001 (scorer defect)"
+  },
+  {
+   "id": "H-C76BB10000",
+   "statement": "Experiment \"pristine-evidence-vs-process-llama3b\": tool-description selection effect",
+   "causal_question": "pristine-evidence-vs-process-llama3b",
+   "intent_family": "intent_46bc68daf5044d6c808697c9fad78049",
+   "created": "2026-08-23T07:51:26.844648Z",
+   "replications": [
+    {
+     "experiment_id": "exp_1eb1b19f8e41",
+     "model_ids": [
+      "@cf/meta/llama-3.2-3b-instruct"
+     ],
+     "n_decided": 10,
+     "wins_a": 5,
+     "wins_b": 5,
+     "p_variant_a": 0.5,
+     "wilson_ci": [
+      0.237,
+      0.763
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844478Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 10,
+    "distinct_model_families": [
+     "@cf/meta/llama-3.2-3b-instruct"
+    ],
+    "same_direction": false,
+    "all_cis_exclude_half": false,
+    "last_verified": "2026-08-23T07:51:26.895564Z"
+   }
+  },
+  {
+   "id": "H-C292F67530",
+   "statement": "Experiment \"pristine-evidence-vs-process-oxalpha\": tool-description selection effect",
+   "causal_question": "pristine-evidence-vs-process-oxalpha",
+   "intent_family": "intent_46bc68daf5044d6c808697c9fad78049",
+   "created": "2026-08-23T07:51:26.844710Z",
+   "replications": [
+    {
+     "experiment_id": "exp_348d4050dba1",
+     "model_ids": [
+      "@cf/meta/llama-3.2-3b-instruct"
+     ],
+     "n_decided": 10,
+     "wins_a": 5,
+     "wins_b": 5,
+     "p_variant_a": 0.5,
+     "wilson_ci": [
+      0.237,
+      0.763
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844508Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 10,
+    "distinct_model_families": [
+     "@cf/meta/llama-3.2-3b-instruct"
+    ],
+    "same_direction": false,
+    "all_cis_exclude_half": false,
+    "last_verified": "2026-08-23T07:51:26.895577Z"
+   }
+  },
+  {
+   "id": "H-B720E69D3A",
+   "statement": "Experiment \"cancelme-vs-generic-v1-recheck\": tool-description selection effect",
+   "causal_question": "cancelme-vs-generic-v1-recheck",
+   "intent_family": "intent_46bc68daf5044d6c808697c9fad78049",
+   "created": "2026-08-23T07:51:26.844742Z",
+   "replications": [
+    {
+     "experiment_id": "exp_41494347759b",
+     "model_ids": [
+      "UNKNOWN"
+     ],
+     "n_decided": 4,
+     "wins_a": 4,
+     "wins_b": 0,
+     "p_variant_a": 1.0,
+     "wilson_ci": [
+      0.51,
+      1.0
+     ],
+     "protocol_version": 1,
+     "measured": "2026-08-23T07:51:26.844518Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 4,
+    "distinct_model_families": [],
+    "same_direction": true,
+    "all_cis_exclude_half": true,
+    "last_verified": "2026-08-23T07:51:26.895589Z"
+   }
+  },
+  {
+   "id": "H-4F9E28C95E",
+   "statement": "Experiment \"cancelme-vs-generic-gptoss\": tool-description selection effect",
+   "causal_question": "cancelme-vs-generic-gptoss",
+   "intent_family": "intent_46bc68daf5044d6c808697c9fad78049",
+   "created": "2026-08-23T07:51:26.844771Z",
+   "replications": [
+    {
+     "experiment_id": "exp_52036ad24ec8",
+     "model_ids": [
+      "UNKNOWN"
+     ],
+     "n_decided": 6,
+     "wins_a": 6,
+     "wins_b": 0,
+     "p_variant_a": 1.0,
+     "wilson_ci": [
+      0.61,
+      1.0
+     ],
+     "protocol_version": 1,
+     "measured": "2026-08-23T07:51:26.844524Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 6,
+    "distinct_model_families": [],
+    "same_direction": true,
+    "all_cis_exclude_half": true,
+    "last_verified": "2026-08-23T07:51:26.895601Z"
+   }
+  },
+  {
+   "id": "H-AFF749DD06",
+   "statement": "Experiment \"ASL-001 v2: does description quality override execution capability in tool selection?\": tool-description selection effect",
+   "causal_question": "ASL-001 v2: does description quality override execution capability in tool selection?",
+   "intent_family": "domain_availability_check",
+   "created": "2026-08-23T07:51:26.844798Z",
+   "replications": [
+    {
+     "experiment_id": "exp_ASL001v2_gemma_4_26b_20260823-074941",
+     "model_ids": [
+      "gemma-4-26b"
+     ],
+     "n_decided": 29,
+     "wins_a": 4,
+     "wins_b": 25,
+     "p_variant_a": 0.138,
+     "wilson_ci": [
+      0.055,
+      0.306
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844530Z"
+    },
+    {
+     "experiment_id": "exp_ASL001v2_gpt_oss_20b_20260823-074941",
+     "model_ids": [
+      "gpt-oss-20b"
+     ],
+     "n_decided": 30,
+     "wins_a": 0,
+     "wins_b": 30,
+     "p_variant_a": 0.0,
+     "wilson_ci": [
+      0.0,
+      0.114
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844536Z"
+    },
+    {
+     "experiment_id": "exp_ASL001v2_meta_llama_3.3_70b_20260823-074941",
+     "model_ids": [
+      "meta-llama-3.3-70b"
+     ],
+     "n_decided": 30,
+     "wins_a": 11,
+     "wins_b": 19,
+     "p_variant_a": 0.367,
+     "wilson_ci": [
+      0.219,
+      0.545
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844547Z"
+    },
+    {
+     "experiment_id": "exp_ASL001v2_mistral_small_24b_20260823-074941",
+     "model_ids": [
+      "mistral-small-24b"
+     ],
+     "n_decided": 30,
+     "wins_a": 30,
+     "wins_b": 0,
+     "p_variant_a": 1.0,
+     "wilson_ci": [
+      0.886,
+      1.0
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844562Z"
+    },
+    {
+     "experiment_id": "exp_ASL001v2_nemotron_super_120b_20260823-074941",
+     "model_ids": [
+      "nemotron-super-120b"
+     ],
+     "n_decided": 30,
+     "wins_a": 21,
+     "wins_b": 9,
+     "p_variant_a": 0.7,
+     "wilson_ci": [
+      0.521,
+      0.833
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844574Z"
+    },
+    {
+     "experiment_id": "exp_ASL001v2_ox_alpha_free_20260823-074941",
+     "model_ids": [
+      "ox-alpha-free"
+     ],
+     "n_decided": 28,
+     "wins_a": 26,
+     "wins_b": 2,
+     "p_variant_a": 0.929,
+     "wilson_ci": [
+      0.774,
+      0.98
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844582Z"
+    },
+    {
+     "experiment_id": "exp_ASL001v2_qwen3_30b_20260823-074941",
+     "model_ids": [
+      "qwen3-30b"
+     ],
+     "n_decided": 29,
+     "wins_a": 5,
+     "wins_b": 24,
+     "p_variant_a": 0.172,
+     "wilson_ci": [
+      0.076,
+      0.345
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844589Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 206,
+    "distinct_model_families": [
+     "gemma-4-26b",
+     "gpt-oss-20b",
+     "meta-llama-3.3-70b",
+     "mistral-small-24b",
+     "nemotron-super-120b",
+     "ox-alpha-free",
+     "qwen3-30b"
+    ],
+    "same_direction": false,
+    "all_cis_exclude_half": false,
+    "last_verified": "2026-08-23T07:51:26.895632Z"
+   }
+  },
+  {
+   "id": "H-8EF809F12E",
+   "statement": "Experiment \"ox-alpha-real-evidence-vs-process\": tool-description selection effect",
+   "causal_question": "ox-alpha-real-evidence-vs-process",
+   "intent_family": "intent_46bc68daf5044d6c808697c9fad78049",
+   "created": "2026-08-23T07:51:26.844917Z",
+   "replications": [
+    {
+     "experiment_id": "exp_d88078ad98ab",
+     "model_ids": [
+      "UNKNOWN"
+     ],
+     "n_decided": 6,
+     "wins_a": 6,
+     "wins_b": 0,
+     "p_variant_a": 1.0,
+     "wilson_ci": [
+      0.61,
+      1.0
+     ],
+     "protocol_version": 1,
+     "measured": "2026-08-23T07:51:26.844596Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 6,
+    "distinct_model_families": [],
+    "same_direction": true,
+    "all_cis_exclude_half": true,
+    "last_verified": "2026-08-23T07:51:26.895643Z"
+   }
+  },
+  {
+   "id": "H-758B3374F6",
+   "statement": "Experiment \"domain-verify-evidence-led-vs-breadth-led\": tool-description selection effect",
+   "causal_question": "domain-verify-evidence-led-vs-breadth-led",
+   "intent_family": "intent_657f4e7a4dfcee6f7cf1c5fa9b7ce38b",
+   "created": "2026-08-23T07:51:26.844944Z",
+   "replications": [
+    {
+     "experiment_id": "exp_domainverify_ev_breadth_v1",
+     "model_ids": [
+      "@cf/openai/gpt-oss-120b"
+     ],
+     "n_decided": 16,
+     "wins_a": 16,
+     "wins_b": 0,
+     "p_variant_a": 1.0,
+     "wilson_ci": [
+      0.806,
+      1.0
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844602Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 16,
+    "distinct_model_families": [
+     "@cf/openai/gpt-oss-120b"
+    ],
+    "same_direction": true,
+    "all_cis_exclude_half": true,
+    "last_verified": "2026-08-23T07:51:26.895652Z"
+   }
+  },
+  {
+   "id": "H-B670201E50",
+   "statement": "Experiment \"domain-verify-evidence-led-vs-breadth-led-r2-llama32\": tool-description selection effect",
+   "causal_question": "domain-verify-evidence-led-vs-breadth-led-r2-llama32",
+   "intent_family": "intent_657f4e7a4dfcee6f7cf1c5fa9b7ce38b",
+   "created": "2026-08-23T07:51:26.844970Z",
+   "replications": [
+    {
+     "experiment_id": "exp_domainverify_ev_breadth_v1_r2",
+     "model_ids": [
+      "@cf/meta/llama-3.2-3b-instruct"
+     ],
+     "n_decided": 16,
+     "wins_a": 8,
+     "wins_b": 8,
+     "p_variant_a": 0.5,
+     "wilson_ci": [
+      0.28,
+      0.72
+     ],
+     "protocol_version": 2,
+     "measured": "2026-08-23T07:51:26.844609Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 16,
+    "distinct_model_families": [
+     "@cf/meta/llama-3.2-3b-instruct"
+    ],
+    "same_direction": false,
+    "all_cis_exclude_half": false,
+    "last_verified": "2026-08-23T07:51:26.895662Z"
+   }
+  },
+  {
+   "id": "H-6AB9D52CC0",
+   "statement": "Experiment \"evidence-led-vs-process-led\": tool-description selection effect",
+   "causal_question": "evidence-led-vs-process-led",
+   "intent_family": "intent_46bc68daf5044d6c808697c9fad78049",
+   "created": "2026-08-23T07:51:26.844996Z",
+   "replications": [
+    {
+     "experiment_id": "exp_fe22f792747d",
+     "model_ids": [
+      "UNKNOWN"
+     ],
+     "n_decided": 16,
+     "wins_a": 16,
+     "wins_b": 0,
+     "p_variant_a": 1.0,
+     "wilson_ci": [
+      0.806,
+      1.0
+     ],
+     "protocol_version": 1,
+     "measured": "2026-08-23T07:51:26.844614Z"
+    }
+   ],
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "aggregate": {
+    "total_n": 16,
+    "distinct_model_families": [],
+    "same_direction": true,
+    "all_cis_exclude_half": true,
+    "last_verified": "2026-08-23T07:51:26.895671Z"
+   }
   }
  ]
 }

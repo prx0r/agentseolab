@@ -1,0 +1,7 @@
+{
+ "name": "ASL-001 v2: does description quality override execution capability in tool selection?",
+ "intent_id": "domain_availability_check",
+ "hypothesis_key": null,
+ "seed": 20260823,
+ "protocol_version": 2
+}

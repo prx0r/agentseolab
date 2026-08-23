@@ -1,0 +1,520 @@
+{
+ "experiment_id": "exp_ASL001v2_meta_llama_3.3_70b_20260823-074941",
+ "experiment": "ASL-001",
+ "summary": {
+  "wins_a": 11,
+  "wins_b": 19
+ },
+ "trials": [
+  {
+   "trial_no": 1,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469851083066231",
+   "latency_ms": 473,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 2,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469853363692951",
+   "latency_ms": 700,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 3,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469855689965558",
+   "latency_ms": 826,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 4,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469857832387592",
+   "latency_ms": 562,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 5,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469860138705221",
+   "latency_ms": 806,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 6,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469862225678579",
+   "latency_ms": 586,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 7,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469864374890433",
+   "latency_ms": 565,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 8,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469866527349794",
+   "latency_ms": 652,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 9,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469869012025552",
+   "latency_ms": 984,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 10,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469871211806785",
+   "latency_ms": 626,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 11,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469873276633415",
+   "latency_ms": 564,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 12,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469875788561662",
+   "latency_ms": 916,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 13,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469879083275105",
+   "latency_ms": 1794,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 14,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469881268541325",
+   "latency_ms": 685,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 15,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469883343049693",
+   "latency_ms": 574,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 16,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469885907944627",
+   "latency_ms": 1064,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 17,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469887939730866",
+   "latency_ms": 531,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 18,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469889944147388",
+   "latency_ms": 504,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 19,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469892588395507",
+   "latency_ms": 1065,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 20,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469894770661473",
+   "latency_ms": 591,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 21,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469896959089848",
+   "latency_ms": 613,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 22,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469899134552581",
+   "latency_ms": 675,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 23,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469901394504791",
+   "latency_ms": 759,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 24,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469903711263955",
+   "latency_ms": 721,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 25,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469906200513851",
+   "latency_ms": 989,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 26,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469908502449149",
+   "latency_ms": 801,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 27,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469910726851077",
+   "latency_ms": 626,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 28,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469913657894798",
+   "latency_ms": 1430,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 29,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "cf_1787469916221821601",
+   "latency_ms": 1063,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 30,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "cf_1787469918463365521",
+   "latency_ms": 741,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "meta-llama-3.3-70b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  }
+ ]
+}

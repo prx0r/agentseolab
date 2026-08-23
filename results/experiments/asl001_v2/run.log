@@ -168,3 +168,43 @@ preregistered /root/agentseolab/results/experiments/asl001_v2/PREREG_20260823-07
    => 21/30 picked working · task success 21/30
 
 [M9] ox-alpha-free (ox-alpha-free)
+   t1: tool=domain_check     pick=OK
+   t2: tool=domain_check     pick=OK
+   t3: tool=dominatron_pro   pick=WRONG
+   t4: tool=domain_check     pick=OK
+   t5: tool=domain_check     pick=OK
+   t6: tool=domain_check     pick=OK
+   t7: tool=domain_check     pick=OK
+   t8: tool=domain_check     pick=OK
+   t9: tool=domain_check     pick=OK
+   t10: tool=None             pick=WRONG
+   t11: tool=domain_check     pick=OK
+   t12: tool=None             pick=WRONG
+   t13: tool=domain_check     pick=OK
+   t14: tool=domain_check     pick=OK
+   t15: tool=domain_check     pick=OK
+   t16: tool=domain_check     pick=OK
+   t17: tool=domain_check     pick=OK
+   t18: tool=domain_check     pick=OK
+   t19: tool=domain_check     pick=OK
+   t20: tool=domain_check     pick=OK
+   t21: tool=dominatron_pro   pick=WRONG
+   t22: tool=domain_check     pick=OK
+   t23: tool=domain_check     pick=OK
+   t24: tool=domain_check     pick=OK
+   t25: tool=domain_check     pick=OK
+   t26: tool=domain_check     pick=OK
+   t27: tool=domain_check     pick=OK
+   t28: tool=domain_check     pick=OK
+   t29: tool=domain_check     pick=OK
+   t30: tool=domain_check     pick=OK
+   => 26/28 picked working · task success 26/30
+
+saved: /root/agentseolab/results/experiments/asl001_v2/RUN_20260823-072408.json
+
+model                  wins/decided      p               CI95 sig
+Traceback (most recent call last):
+  File "/root/agentseolab/runner/canonical_asl001.py", line 147, in <module>
+    print(f"{label:22s} {'—':>12s}")
+                                     
+KeyError: 'excludes_half'

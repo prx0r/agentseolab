@@ -149,7 +149,10 @@ def update_library():
         exps = data["experiments"]
         if not exps: continue
         
-        h = known.get(hk) or {
+        h = known.get(hk)
+        is_new = h is None
+        if is_new:
+            h = {
             "id": hk,
             "statement": f'Experiment "{data["exp_name"]}": tool-description selection effect',
             "causal_question": data["exp_name"],
@@ -159,6 +162,8 @@ def update_library():
             "status": "PROVISIONAL",
             "protocol_version": PROTOCOL_VERSION,
         }
+            lib["hypotheses"].append(h)
+            known[hk] = h
         
         # A4: each replication batch = one experiment's immutable result (not cumulative)
         for e in exps:

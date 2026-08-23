@@ -1,0 +1,520 @@
+{
+ "experiment_id": "exp_ASL001v2_mistral_small_24b_20260823-074941",
+ "experiment": "ASL-001",
+ "summary": {
+  "wins_a": 30,
+  "wins_b": 0
+ },
+ "trials": [
+  {
+   "trial_no": 1,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471254367469583",
+   "latency_ms": 4267,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 2,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471261946845061",
+   "latency_ms": 7479,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 3,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471266984123979",
+   "latency_ms": 4943,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 4,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471267943992443",
+   "latency_ms": 872,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 5,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471268952343925",
+   "latency_ms": 893,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 6,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471270373720980",
+   "latency_ms": 1335,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 7,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471271262726486",
+   "latency_ms": 776,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 8,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471272108432330",
+   "latency_ms": 748,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 9,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471273185416965",
+   "latency_ms": 987,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 10,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471273932254044",
+   "latency_ms": 655,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 11,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471274725544752",
+   "latency_ms": 708,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 12,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471275832521404",
+   "latency_ms": 1005,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 13,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471276877560516",
+   "latency_ms": 942,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 14,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471277634347523",
+   "latency_ms": 645,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 15,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471278396296826",
+   "latency_ms": 682,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 16,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471279200998813",
+   "latency_ms": 708,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 17,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471279978713331",
+   "latency_ms": 689,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 18,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471280982976632",
+   "latency_ms": 929,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 19,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471281683557368",
+   "latency_ms": 621,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 20,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471283103227832",
+   "latency_ms": 1346,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 21,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471283974949236",
+   "latency_ms": 781,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 22,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471284817283857",
+   "latency_ms": 739,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 23,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471285961309888",
+   "latency_ms": 1062,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 24,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471286726920256",
+   "latency_ms": 693,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 25,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471287450233748",
+   "latency_ms": 639,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 26,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471288472610912",
+   "latency_ms": 939,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 27,
+   "ordering": "plain_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471289527679383",
+   "latency_ms": 971,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 28,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471290261168652",
+   "latency_ms": 645,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 29,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471290976850144",
+   "latency_ms": 640,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  },
+  {
+   "trial_no": 30,
+   "ordering": "compelling_first",
+   "choice_raw": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "chosen_variant": "a",
+   "session_id": "cf_1787471291795679770",
+   "latency_ms": 738,
+   "response_snippet": "```json\n{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}\n```",
+   "provenance": {
+    "provider": "cloudflare",
+    "model_id": "mistral-small-24b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "c340ec0e938aee99"
+   }
+  }
+ ]
+}

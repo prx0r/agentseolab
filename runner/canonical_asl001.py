@@ -47,8 +47,10 @@ def call(kind, model, prompt, timeout=120):
     else:
         url = ENDPOINTS[kind][0]
     key = ENDPOINTS[kind][1]
-    body = json.dumps({"model": model, "messages": [{"role": "user", "content": prompt}],
-                       "max_tokens": 1200, "temperature": 0}).encode()
+    body_obj = {"messages": [{"role": "user", "content": prompt}], "max_tokens": 1200, "temperature": 0}
+    if kind != "cf":
+        body_obj["model"] = model  # CF: model in URL only; mistral-small 404s if duplicated in body
+    body = json.dumps(body_obj).encode()
     req = urllib.request.Request(url, data=body, headers={
         "Authorization": f"Bearer {key}", "Content-Type": "application/json",
         "User-Agent": "agentseolab/2.0"})
@@ -148,4 +150,4 @@ if __name__ == "__main__":
             continue
         w = wilson(res["wins"], res["decided"])
         print(f"{label:22s} {str(res['wins'])+'/'+str(res['decided']):>12s} "
-              f"{w['p']:>6} {str(w['ci95']):>18s} {'*' if w['excludes_half'] else ''}")
+              f"{w['p']:>6} {str(w['ci95']):>18s} {'*' if w['excludes_0.5'] else ''}")

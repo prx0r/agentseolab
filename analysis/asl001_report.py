@@ -21,12 +21,12 @@ for label, res in data["results"].items():
         print(f"{label:22s} no decided trials"); continue
     ws = wilson(w, d)
     rows.append((label, w, d, ws))
-    flag = "SIG" if ws["excludes_half"] else "ns "
+    flag = "SIG" if ws["excludes_0.5"] else "ns "
     direction = "→ working" if ws["p"] > 0.5 else ("→ BROKEN" if ws["p"] < 0.5 else "tie")
     print(f"{label:22s} {w:>3}/{d:<3} p={ws['p']:<6} CI={ws['ci95']} {flag} {direction}")
 
-sig_working = [r for r in rows if r[3]["excludes_half"] and r[1]/r[2] > 0.5]
-sig_broken  = [r for r in rows if r[3]["excludes_half"] and r[1]/r[2] < 0.5]
+sig_working = [r for r in rows if r[3]["excludes_0.5"] and r[1]/r[2] > 0.5]
+sig_broken  = [r for r in rows if r[3]["excludes_0.5"] and r[1]/r[2] < 0.5]
 print(f"\nSignificant pro-working : {[r[0] for r in sig_working]}")
 print(f"Significant pro-broken  : {[r[0] for r in sig_broken]}")
 print(f"Family-clustered seduction CONFIRMED iff ≥1 family significant each way")

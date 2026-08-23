@@ -1,0 +1,520 @@
+{
+ "experiment_id": "exp_ASL001v2_nemotron_super_120b_20260823-074941",
+ "experiment": "ASL-001",
+ "summary": {
+  "wins_a": 21,
+  "wins_b": 9
+ },
+ "trials": [
+  {
+   "trial_no": 1,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470321419108973",
+   "latency_ms": 806,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 2,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470325049261000",
+   "latency_ms": 2129,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 3,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470327734061162",
+   "latency_ms": 1078,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 4,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470332322047408",
+   "latency_ms": 2882,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 5,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470335005857375",
+   "latency_ms": 1105,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 6,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470338328465215",
+   "latency_ms": 1742,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 7,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470341013836851",
+   "latency_ms": 1185,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 8,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470344555342704",
+   "latency_ms": 1952,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 9,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470347719860087",
+   "latency_ms": 1586,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 10,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470350395143794",
+   "latency_ms": 1175,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 11,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470352771094688",
+   "latency_ms": 874,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 12,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470355492397147",
+   "latency_ms": 1135,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 13,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470358600691748",
+   "latency_ms": 1521,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 14,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470370325222059",
+   "latency_ms": 10138,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 15,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470372868787404",
+   "latency_ms": 1043,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 16,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470376345236403",
+   "latency_ms": 1888,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 17,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470386099932242",
+   "latency_ms": 8254,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 18,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470391747249544",
+   "latency_ms": 4067,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 19,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470394390506047",
+   "latency_ms": 1045,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 20,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470397522986304",
+   "latency_ms": 1560,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 21,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470402328206415",
+   "latency_ms": 3305,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 22,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470405125115557",
+   "latency_ms": 1217,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 23,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "b",
+   "session_id": "or_1787470407470044899",
+   "latency_ms": 844,
+   "response_snippet": "{\"tool\": \"dominatron_pro\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "acde29cf6bea50ad"
+   }
+  },
+  {
+   "trial_no": 24,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470410435272825",
+   "latency_ms": 1464,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 25,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470413284693677",
+   "latency_ms": 1252,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 26,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470418466715420",
+   "latency_ms": 3581,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 27,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470430868529152",
+   "latency_ms": 10813,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 28,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470435522889300",
+   "latency_ms": 3079,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 29,
+   "ordering": "plain_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470438542412112",
+   "latency_ms": 1443,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  },
+  {
+   "trial_no": 30,
+   "ordering": "compelling_first",
+   "choice_raw": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "chosen_variant": "a",
+   "session_id": "or_1787470444418470350",
+   "latency_ms": 4283,
+   "response_snippet": "{\"tool\": \"domain_check\", \"arguments\": {\"domain\": \"example-name.com\"}}",
+   "provenance": {
+    "provider": "openrouter",
+    "model_id": "nemotron-super-120b",
+    "temperature": 0.0,
+    "max_tokens": 1200,
+    "prompt_hash": "68e6179273d9f267",
+    "response_hash": "1051842e8d4432cc"
+   }
+  }
+ ]
+}
