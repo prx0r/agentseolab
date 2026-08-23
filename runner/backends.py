@@ -4,6 +4,16 @@ Each backend = one fresh isolated inference session per trial.
 Records model/provider/version/runtime with every observation.
 """
 import os, time, json, urllib.request, uuid
+import os as _os
+from pathlib import Path as _Path
+_envf = _Path(__file__).parent / '.env'
+if _envf.exists():
+    for _line in _envf.read_text().splitlines():
+        if '=' in _line and not _line.startswith('#'):
+            _k, _v = _line.split('=', 1)
+            _os.environ.setdefault(_k.strip(), _v.strip())
+
+
 
 class CloudflareBackend:
     """Cloudflare Workers AI — @cf/openai/gpt-oss-120b (or any CF model id)."""
@@ -57,11 +67,15 @@ class HermesBackend:
                     "session_id": "hm_" + uuid.uuid4().hex[:10],
                     "latency_ms": int((time.time()-t0)*1000)}
 
-def get_backend(preferred="cloudflare"):
-    order = [preferred] + [b for b in ("cloudflare", "opencode-go") if b != preferred]
+from opencode_direct import OpenCodeDirect
+
+def get_backend(preferred="opencode"):
+    order = [preferred] + [b for b in ("opencode", "cloudflare") if b != preferred]
     for name in order:
         if name == "cloudflare":
             b = CloudflareBackend()
+        elif name == "opencode":
+            b = OpenCodeDirect()
         else:
             b = HermesBackend()
         # health probe

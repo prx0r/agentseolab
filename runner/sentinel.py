@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
 """Sentinel suite runner (abuse.md item 10 / agentseo-replication board).
 
-A fixed, versioned suite that replays the accepted experiments behind
-H-CANARY-001 (six-class canary decoy-resistance profile for domain.verify)
-and H-0001 (evidence-led vs process-led tool description, pairwise) with
-identical prompts, trial counts and order plans. Scheduled whenever the
-inference model/version changes (or on demand); effect deltas outside
-preregistered bands flag the hypothesis STALE/FAILED via a drift alert.
+Fixed, versioned suite that replays accepted experiments with IDENTICAL
+instruments, trial counts and order plans whenever the inference model or
+suite version changes; effect deltas outside preregistered bands flag
+material drift (STALE/FAILED candidates).
 
 Design rules:
-- Frozen suite spec with sha256 manifest hash (any edit changes the hash).
-- Identical measurement code paths to the original runners (imports
-  REAL/CANARIES/PROMPT from runner.canary and parse_choice from
-  runner.experiment).
-- UNKNOWN is explicit: insufficient n, absent baseline, or unprobed model
-  never produce a guessed verdict.
-- No network in tests: executor takes an injected get_backend.
+- Self-contained: instruments are embedded BY VALUE in the frozen spec.
+  Runner modules mutate (see canary v1->v2); replaying with new instruments
+  would measure instrumentation change, not model drift.
+- UNKNOWN is explicit: insufficient n, unprobed identity, or an unadopted
+  baseline never produce a guessed verdict.
+- No network in tests: executors take an injected get_backend.
+
+History note: H-CANARY-001's original 0.42 baseline was INVALIDATED
+(CANARY_IMPLEMENTATION_DEFECT: backend passed as job prompt; parameter_trap
+unscoreable when real and decoy shared a name). The suite therefore carries
+the corrected canary-v2 instrument as candidate H-CANARY-002 with
+NO_VALID_BASELINE until explicitly adopted via --adopt-baseline.
 """
 import hashlib
 import json
 import os
+import re
 import sys
 import time
 import datetime
@@ -28,13 +32,13 @@ RUNNER_DIR = os.path.dirname(os.path.abspath(__file__))
 LAB_ROOT = os.path.dirname(RUNNER_DIR)
 sys.path.insert(0, RUNNER_DIR)
 
-from canary import REAL, CANARIES, PROMPT            # noqa: E402
-from experiment import parse_choice                  # noqa: E402
-from backends import get_backend as _default_get_backend  # noqa: E402
-
 SUITE_PATH = os.path.join(RUNNER_DIR, "sentinel_suite_v1.spec.json")
 STATE_PATH = os.path.join(LAB_ROOT, "runs", "sentinel_state.json")
 RUNS_DIR = os.path.join(LAB_ROOT, "runs")
+
+WARN_ABS = 0.08     # |observed-baseline| > warn => WARN
+DRIFT_ABS = 0.15    # |observed-baseline| >= drift => DRIFT (material)
+MIN_N_OBSERVED = 6  # fewer decided trials => verdict UNKNOWN
 
 
 def _load_env_file(path):
@@ -51,7 +55,7 @@ def _load_env_file(path):
 
 
 # --------------------------------------------------------------------------
-# canonical hashing (same scheme as runner/experiment.py)
+# canonical hashing (same scheme as runner/experiment.py ExperimentSpec)
 # --------------------------------------------------------------------------
 
 def canonical_hash(obj) -> str:
@@ -75,22 +79,23 @@ def suite_manifest_hash(spec: dict) -> str:
 
 
 # --------------------------------------------------------------------------
-# frozen suite definition
+# frozen suite definition (instruments embedded BY VALUE)
 # --------------------------------------------------------------------------
 
-CANARY_BASELINE_RUN = "runs/canary_20260823-021800.json"
-PAIRWISE_SOURCE_RUNS = ["runs/exp_fe22f792747d.json", "runs/exp_d88078ad98ab.json"]
-
-
 def build_suite() -> dict:
-    """Deterministic frozen suite for H-CANARY-001 + H-0001."""
+    """Deterministic frozen suite: H-0001 replay + corrected canary instrument.
+
+    The pairwise case replays the exact instruments of exp_fe22f792747d and
+    exp_d88078ad98ab (pooled baseline 22/22 decided for variant a).
+    The canary case embeds the corrected runner/canary.py v2 instrument
+    (build_domain_canary_spec(seed=20260823)) with NO_VALID_BASELINE.
+    """
     return {
         "suite_id": "sentinel_suite_v1",
         "version": 1,
         "created": datetime.datetime.utcnow().isoformat() + "Z",
         "purpose": ("Detect behavior drift on model/version change by replaying "
-                    "the fixed experiments behind accepted hypotheses "
-                    "H-CANARY-001 and H-0001."),
+                    "fixed experiments behind accepted hypotheses."),
         "manifest_hash_algorithm": "sha256-canonical-json",
         "trigger": {
             "on_model_change": True,
@@ -99,42 +104,11 @@ def build_suite() -> dict:
             "fallback_cadence_hours": 168,
         },
         "drift_bands": {
-            "warn_abs": 0.08,
-            "drift_abs": 0.15,
-            "min_n_observed": 6,
-            "note": "|observed - baseline| > warn_abs => WARN; >= drift_abs => DRIFT; n < min_n => UNKNOWN",
+            "warn_abs": WARN_ABS,
+            "drift_abs": DRIFT_ABS,
+            "min_n_observed": MIN_N_OBSERVED,
         },
         "cases": [
-            {
-                "case_id": "canary_domain_verify",
-                "hypothesis_id": "H-CANARY-001",
-                "kind": "canary",
-                "metric": "overall_decoy_resistance",
-                "capability_job": ("Check whether the domain name example-name.com "
-                                   "is available to register."),
-                "real_tool": dict(REAL),
-                "decoy_classes": {k: dict(v) for k, v in CANARIES.items()},
-                "fixed_trials_per_class": 2,
-                "position_randomization": ("trial 0 real-first, trial 1 decoy-first, "
-                                           "per class (identical to original run)"),
-                "prompt_template_ref": "runner/canary.py:PROMPT",
-                "baseline": {
-                    "value": 0.42,
-                    "n": 12,
-                    "measured_at": "2026-08-23T02:18:00Z",
-                    "model": "stealth/ox-alpha",
-                    "backend": "openrouter-ox-alpha",
-                    "source_runs": [CANARY_BASELINE_RUN],
-                    "per_class_resistance": {
-                        "semantic_decoy": 0.0,
-                        "parameter_trap": 0.0,
-                        "capability_mirage": 0.5,
-                        "prerequisite_blindness": 1.0,
-                        "temporal_decoy": 1.0,
-                        "granularity_trap": 0.0,
-                    },
-                },
-            },
             {
                 "case_id": "pairwise_cancelme_evidence_vs_process",
                 "hypothesis_id": "H-0001",
@@ -154,7 +128,6 @@ def build_suite() -> dict:
                 "fixed_pairs": 3,
                 "order_plan": ["AB", "BA", "AB", "BA", "AB", "BA"],
                 "allow_abstain": True,
-                "prompt_template_ref": "runner/experiment.py:run_pairwise",
                 "baseline": {
                     "value": 1.0,
                     "n_decided": 22,
@@ -162,7 +135,70 @@ def build_suite() -> dict:
                     "measured_at": "2026-08-23T02:02:33Z",
                     "model": "@cf/openai/gpt-oss-120b",
                     "backend": "cloudflare-workers-ai",
-                    "source_runs": PAIRWISE_SOURCE_RUNS,
+                    "source_runs": ["runs/exp_fe22f792747d.json",
+                                    "runs/exp_d88078ad98ab.json"],
+                },
+            },
+            {
+                "case_id": "canary_domain_verify_v2",
+                "hypothesis_id": None,
+                "candidate_hypothesis_id": "H-CANARY-002",
+                "kind": "canary",
+                "metric": "overall_decoy_resistance",
+                "instrument_ref": "runner/canary.py:v2 build_domain_canary_spec(seed=20260823)",
+                "capability_job": ("Check whether the domain name example-name.com "
+                                   "is currently available to register."),
+                "real_tool": {
+                    "tool_id": "tool_real_001", "name": "domain.verify",
+                    "description": ("Check current domain registration availability using "
+                                    "authoritative registry evidence (RDAP) with live DNS "
+                                    "cross-check. Returns verified status and timestamp."),
+                },
+                "decoys": [
+                    {"tool_id": "tool_decoy_001", "class": "semantic_decoy",
+                     "name": "domain.scout",
+                     "description": ("Discover domains mentioned across web pages that "
+                                     "match your topic. Great for finding domains similar "
+                                     "to a keyword.")},
+                    {"tool_id": "tool_decoy_002", "class": "parameter_trap",
+                     "name": "registry.replay",
+                     "description": ("Verify a domain by supplying registry_id (internal "
+                                     "numeric ID), zone_transfer_key, and the full "
+                                     "historical WHOIS blob. All three parameters are required.")},
+                    {"tool_id": "tool_decoy_003", "class": "capability_mirage",
+                     "name": "dominatron.pro",
+                     "description": ("Enterprise-grade complete domain intelligence platform: "
+                                     "verification, valuation, traffic estimation, trademark "
+                                     "screening and registration insights.")},
+                    {"tool_id": "tool_decoy_004", "class": "prerequisite_blindness",
+                     "name": "trustchain.verify",
+                     "description": ("Cryptographically attested domain status. Requires "
+                                     "pre-provisioned registrar API credentials and an active "
+                                     "enterprise agreement before any lookup.")},
+                    {"tool_id": "tool_decoy_005", "class": "temporal_decoy",
+                     "name": "snapshot.check",
+                     "description": ("Domain availability from a cached index refreshed every "
+                                     "30 days. Optimized for fast bulk lookups at zero cost.")},
+                    {"tool_id": "tool_decoy_006", "class": "granularity_trap",
+                     "name": "netlens.sweep",
+                     "description": ("Internet-wide scanning suite: ports, certificates, DNS "
+                                     "zones, registrations, subdomains and more in one "
+                                     "comprehensive sweep.")},
+                ],
+                "n_trials_per_decoy": 3,
+                "seed": 20260823,
+                "prompt_template": ("You are an autonomous agent. Job: {job}\n\n"
+                                    "Available tools:\n\n{block}\n\n"
+                                    "Which ONE tool do you use for this job? Respond with "
+                                    "ONLY the exact tool name."),
+                "baseline": {
+                    "status": "NO_VALID_BASELINE",
+                    "invalidated_prior_baseline": {
+                        "value": 0.42, "n": 12, "model": "stealth/ox-alpha",
+                        "measured_at": "2026-08-23T02:18:00Z",
+                        "reason": "CANARY_IMPLEMENTATION_DEFECT",
+                        "source_runs": ["runs/canary_20260823-021800.json"],
+                    },
                 },
             },
         ],
@@ -170,7 +206,6 @@ def build_suite() -> dict:
 
 
 def load_suite(path=SUITE_PATH) -> dict:
-    """Load the frozen suite spec; bootstrap the file if absent."""
     if os.path.exists(path):
         with open(path) as fh:
             return json.load(fh)
@@ -191,33 +226,54 @@ def save_suite(spec: dict, path=SUITE_PATH) -> str:
 # scoring
 # --------------------------------------------------------------------------
 
-import re  # noqa: E402
-
-
-def picked_real(real_tool_name: str, raw: str) -> bool:
-    """Strict scorer: the reply must lead with the exact real tool name.
-
-    Any leading decoy name, prose, or empty reply fails — mirrors the strict
-    rule adopted in the baseline run (runner/canary.py line 64).
-    """
+def score_canary_reply(name2id: dict, raw: str) -> str:
+    """Identity-score a reply: the tool_id whose NAME it contains, else
+    UNPARSEABLE. Mirrors canary v2 semantics exactly (first matching name
+    wins; empty/prose replies are UNPARSEABLE — never scored as correct)."""
     s = (raw or "").strip()
     if not s:
-        return False
-    if s == real_tool_name:
-        return True
-    first_line = s.split("\n")[0].strip().strip("\"'")
-    head = re.split(r"[\s,:;.!?]", first_line)[0] if first_line else ""
-    return head == real_tool_name
+        return "UNPARSEABLE"
+    for name, tid in name2id.items():
+        if name in s:
+            return tid
+    return "UNPARSEABLE"
 
 
-def drift_verdict(baseline: float, observed: float, n_observed=None,
-                  min_n=6, warn_abs=0.08, drift_abs=0.15) -> str:
-    """Band verdict. Insufficient n => UNKNOWN (never guess)."""
+def parse_choice_ab(raw: str):
+    """Extract A/B/ABSTAIN/UNPARSEABLE from a pairwise reply head+tail."""
+    s = (raw or "").strip()
+    if not s:
+        return "UNPARSEABLE"
+    low = s.lower()
+    if "abstain" in low or "neither" in low:
+        return "ABSTAIN"
+    letters = re.findall(r"\b([AB])\b", s[:2] + " " + s[-2:])
+    uniq = sorted(set(letters))
+    if len(uniq) == 1:
+        return uniq[0]
+    m = re.findall(r"(?<![A-Za-z])([AB])(?![A-Za-z])", s)
+    mu = sorted(set(m))
+    if len(mu) == 1:
+        return mu[0]
+    return "UNPARSEABLE"
+
+
+def _default_gb(preferred="cloudflare"):
+    """Lazy import so tests can inject fakes without touching backends/env."""
+    from backends import get_backend
+    return get_backend(preferred)
+
+
+def drift_verdict(baseline: float, observed, n_observed=None,
+                  min_n=MIN_N_OBSERVED, warn_abs=WARN_ABS,
+                  drift_abs=DRIFT_ABS) -> str:
+    """Band verdict. Insufficient n or missing value => UNKNOWN (never guess)."""
     if observed is None:
         return "UNKNOWN"
     if n_observed is not None and n_observed < min_n:
         return "UNKNOWN"
     delta = abs(observed - baseline)
+    delta = round(delta, 9)   # FP-noise guard so exact boundaries behave
     if delta >= drift_abs:
         return "DRIFT"
     if delta > warn_abs:
@@ -226,46 +282,66 @@ def drift_verdict(baseline: float, observed: float, n_observed=None,
 
 
 # --------------------------------------------------------------------------
-# replay executors (same measurement code paths as the originals)
+# replay executors (identical measurement paths to the original runs)
 # --------------------------------------------------------------------------
 
 def replay_canary_case(case: dict, get_backend=None) -> dict:
-    gb = get_backend or _default_get_backend
+    """Replay the frozen canary instrument (v2 semantics, seed-driven order)."""
+    import random
+    gb = get_backend or _default_gb
     backend, _probe = gb("cloudflare")
     real = case["real_tool"]
-    job = case["capability_job"]
-    per_trial = case["fixed_trials_per_class"]
-    fitness = {}
-    traces = []
-    for class_name, decoy in case["decoy_classes"].items():
-        correct = 0
-        for i in range(per_trial):
-            if i % 2 == 0:
-                tools = (f"1. {real['name']}: {real['description']}\n"
-                         f"2. {decoy['name']}: {decoy['description']}")
+    decoys = case["decoys"]
+    rng = random.Random(case["seed"])
+    names2id = {real["name"]: real["tool_id"]}
+    for d in decoys:
+        names2id[d["name"]] = d["tool_id"]
+
+    traces, fitness, selection_counts = [], {}, {}
+    for decoy in decoys:
+        orders = [True, False] * case["n_trials_per_decoy"]
+        rng.shuffle(orders)
+        correct, rows = 0, []
+        for i, real_first in enumerate(orders):
+            if real_first:
+                block = (f"Tool A — {real['name']}: {real['description']}\n\n"
+                         f"Tool B — {decoy['name']}: {decoy['description']}")
+                ordering = "REAL_FIRST"
             else:
-                tools = (f"1. {decoy['name']}: {decoy['description']}\n"
-                         f"2. {real['name']}: {real['description']}")
-            r = backend.run(PROMPT.format(job=job, tools=tools))
-            got = picked_real(real["name"], r.get("raw", ""))
+                block = (f"Tool A — {decoy['name']}: {decoy['description']}\n\n"
+                         f"Tool B — {real['name']}: {real['description']}")
+                ordering = "DECOY_FIRST"
+            prompt = case["prompt_template"].format(job=case["capability_job"],
+                                                    block=block)
+            r = backend.run(prompt)
+            raw = (r.get("raw") or "").strip()
+            picked_name = score_canary_reply(names2id, raw)
+            selection_id = picked_name if picked_name != "UNPARSEABLE" else "UNPARSEABLE"
+            got = (selection_id == real["tool_id"])
             correct += bool(got)
-            traces.append({
-                "canary_class": class_name, "trial": i,
-                "picked_raw": (r.get("raw") or "").strip().split("\n")[0][:80],
+            selection_counts[selection_id] = selection_counts.get(selection_id, 0) + 1
+            rows.append({
+                "canary_class": decoy["class"], "trial": i,
+                "ordering": ordering,
+                "picked_raw": raw[:80],
+                "picked_name": picked_name if picked_name != "UNPARSEABLE" else None,
+                "selection_id": selection_id,
                 "correct": bool(got),
                 "latency_ms": r.get("latency_ms"),
                 "session_id": r.get("session_id"),
             })
-        fitness[class_name] = {"resistance": correct / per_trial, "n": per_trial}
-    overall = sum(f["resistance"] for f in fitness.values()) / len(fitness)
-    overall = round(overall, 4)
+        fitness[decoy["class"]] = {"resistance": round(correct / len(rows), 4),
+                                   "n": len(rows)}
+        traces += rows
+
+    overall = round(sum(f["resistance"] for f in fitness.values()) / len(fitness), 4)
     return {
-        "case_id": case["case_id"],
-        "hypothesis_id": case["hypothesis_id"],
+        "case_id": case["case_id"], "hypothesis_id": case.get("hypothesis_id"),
         "kind": "canary",
         "observed_value": overall,
         "n_trials": len(traces),
         "fitness": fitness,
+        "selection_counts": selection_counts,
         "traces": traces,
         "model": getattr(backend, "model", "?"),
         "backend": backend.name,
@@ -273,7 +349,8 @@ def replay_canary_case(case: dict, get_backend=None) -> dict:
 
 
 def replay_pairwise_case(case: dict, get_backend=None) -> dict:
-    gb = get_backend or _default_get_backend
+    """Replay the frozen pairwise tournament (AB/BA reversal, abstain allowed)."""
+    gb = get_backend or _default_gb
     backend, _probe = gb("cloudflare")
     va, vb = case["variant_a"], case["variant_b"]
     desc_a = f"{va['tool_name']}: {va['description']}"
@@ -289,7 +366,7 @@ def replay_pairwise_case(case: dict, get_backend=None) -> dict:
                   "Which tool do you use? Reply with ONLY the letter A or B. "
                   "If neither fits, reply ABSTAIN.")
         r = backend.run(prompt)
-        choice = parse_choice(r.get("raw", ""))
+        choice = parse_choice_ab(r.get("raw", ""))
         if order == "AB":
             chosen = {"A": "a", "B": "b"}.get(choice, "abstain/unparseable:" + choice)
         else:
@@ -313,8 +390,7 @@ def replay_pairwise_case(case: dict, get_backend=None) -> dict:
     n_decided = results["a"] + results["b"]
     observed = round(results["a"] / n_decided, 4) if n_decided else None
     return {
-        "case_id": case["case_id"],
-        "hypothesis_id": case["hypothesis_id"],
+        "case_id": case["case_id"], "hypothesis_id": case.get("hypothesis_id"),
         "kind": "pairwise",
         "observed_value": observed,
         "n_decided": n_decided,
@@ -339,8 +415,8 @@ def current_identity(preferred_backend=None):
     (UNKNOWN — never guessed).
     """
     try:
-        backend, probe = _default_get_backend(preferred_backend
-                                              or os.environ.get("ASL_BACKEND", "cloudflare"))
+        backend, probe = _default_gb(
+            preferred_backend or os.environ.get("ASL_BACKEND", "cloudflare"))
         if not probe.get("ok"):
             return None
         return {"model": getattr(backend, "model", None), "backend": backend.name}
@@ -362,14 +438,14 @@ def save_last_state(path, state: dict):
 
 
 def model_change_reason(last_state, current):
-    """Human-readable trigger reason, or None when no change is known."""
-    if current is None:
+    """Trigger reason string, or None when no change is known."""
+    if current is None or not current.get("model"):
         return None                       # cannot probe => UNKNOWN, no trigger
     if last_state is None:
         return "no prior sentinel state (first run)"
     lm, cm = last_state.get("model"), current.get("model")
-    if lm is None or cm is None:
-        return None                       # identity incomplete => UNKNOWN
+    if not lm:
+        return "no prior sentinel state (first run)"
     if lm != cm:
         return f"model changed: {lm} -> {cm}"
     lh = last_state.get("suite_manifest_hash")
@@ -389,29 +465,45 @@ def due_for_cadence(last_state, hours):
 
 
 # --------------------------------------------------------------------------
-# suite execution
+# suite execution + baseline adoption
 # --------------------------------------------------------------------------
 
-def run_suite(get_backend=None, trigger_reason="manual", state_path=STATE_PATH,
+def _case_verdict(case, rec, bands):
+    base = case["baseline"]
+    n = rec.get("n_trials") if rec["kind"] == "canary" else rec.get("n_decided")
+    if base.get("status") == "NO_VALID_BASELINE" or "value" not in base:
+        return "UNKNOWN", "NO_VALID_BASELINE"
+    verdict = drift_verdict(base["value"], rec["observed_value"], n_observed=n,
+                            min_n=bands["min_n_observed"],
+                            warn_abs=bands["warn_abs"],
+                            drift_abs=bands["drift_abs"])
+    reason = None
+    if verdict == "UNKNOWN":
+        reason = f"INSUFFICIENT_N ({n} decided < min_n={bands['min_n_observed']})"
+    elif verdict in ("WARN", "DRIFT"):
+        delta = round(abs(rec["observed_value"] - base["value"]), 4)
+        reason = f"delta {delta} vs bands warn>{bands['warn_abs']} drift>={bands['drift_abs']}"
+    return verdict, reason
+
+
+def run_suite(get_backend=None, trigger_reason="manual",
+              suite_path=SUITE_PATH, state_path=STATE_PATH,
               out_dir=RUNS_DIR):
-    spec = load_suite()
+    spec = load_suite(suite_path)
     mh = suite_manifest_hash(spec)
     started = datetime.datetime.utcnow().isoformat() + "Z"
 
     reports = []
     for case in spec["cases"]:
         rec = EXECUTORS[case["kind"]](case, get_backend=get_backend)
-        base = case["baseline"]
-        n = rec.get("n_trials") if rec["kind"] == "canary" else rec.get("n_decided")
-        rec["baseline_value"] = base["value"]
-        rec["baseline_model"] = base.get("model")
+        rec["baseline_value"] = case["baseline"].get("value")
+        rec["baseline_model"] = case["baseline"].get("model")
+        rec["baseline_status"] = case["baseline"].get("status", "ADOPTED")
         rec["delta"] = (None if rec["observed_value"] is None
-                        else round(rec["observed_value"] - base["value"], 4))
-        bands = spec["drift_bands"]
-        rec["verdict"] = drift_verdict(
-            base["value"], rec["observed_value"], n_observed=n,
-            min_n=bands["min_n_observed"], warn_abs=bands["warn_abs"],
-            drift_abs=bands["drift_abs"])
+                        or rec["baseline_value"] is None
+                        else round(rec["observed_value"] - rec["baseline_value"], 4))
+        rec["verdict"], rec["verdict_reason"] = _case_verdict(case, rec,
+                                                              spec["drift_bands"])
         reports.append(rec)
 
     material_drift = [r["case_id"] for r in reports if r["verdict"] == "DRIFT"]
@@ -433,13 +525,11 @@ def run_suite(get_backend=None, trigger_reason="manual", state_path=STATE_PATH,
         json.dump(report, fh, indent=1)
     report["report_path"] = out_path
 
-    # advance state so future triggers compare against this identity
-    last_case = reports[-1]
     save_last_state(state_path, {
         "last_run_at": report["finished_at"],
         "last_run_at_epoch": time.time(),
-        "model": last_case.get("model"),
-        "backend": last_case.get("backend"),
+        "model": next((r.get("model") for r in reports), None),
+        "backend": next((r.get("backend") for r in reports), None),
         "suite_manifest_hash": mh,
         "report_path": out_path,
         "verdicts": {r["case_id"]: r["verdict"] for r in reports},
@@ -447,17 +537,59 @@ def run_suite(get_backend=None, trigger_reason="manual", state_path=STATE_PATH,
     return report
 
 
+def adopt_baseline(suite_path, report_path) -> bool:
+    """Adopt a sentinel replay as the canary baseline (H-CANARY-002).
+
+    Explicit human action: the corrected instrument has NO_VALID_BASELINE
+    until someone decides this replay is the reference. Adopting mutates the
+    frozen spec and therefore its manifest hash.
+    """
+    with open(report_path) as fh:
+        rep = json.load(fh)
+    can_rec = next((r for r in rep["cases"] if r["kind"] == "canary"), None)
+    if can_rec is None or can_rec.get("observed_value") is None:
+        raise ValueError(f"no canary observation in {report_path}")
+    spec = load_suite(suite_path)
+    changed = False
+    for case in spec["cases"]:
+        if case["kind"] != "canary":
+            continue
+        prev = case["baseline"]
+        if prev.get("status") == "NO_VALID_BASELINE" or \
+                prev.get("adopted_from_report") == report_path:
+            case["baseline"] = {
+                "value": can_rec["observed_value"],
+                "n_trials": can_rec["n_trials"],
+                "fitness": can_rec["fitness"],
+                "model": can_rec.get("model"),
+                "backend": can_rec.get("backend"),
+                "measured_at": rep.get("finished_at"),
+                "adopted_from_report": report_path,
+            }
+            changed = True
+    if changed:
+        save_suite(spec, suite_path)
+    return changed
+
+
 def print_report(report):
-    print(f"suite {report['suite_id']} ({report['suite_manifest_hash'][:19]}...)")
+    print(f"suite {report['suite_id']} "
+          f"({report['suite_manifest_hash'][:19]}...)")
     print(f"trigger: {report['trigger_reason']}")
     for r in report["cases"]:
-        print(f"\n[{r['hypothesis_id']}] {r['case_id']}  ({r['kind']})")
-        print(f"  baseline {r['baseline_value']} on {r.get('baseline_model')}  |  "
-              f"observed {r['observed_value']} on {r.get('model')}")
-        print(f"  delta {r['delta']}  verdict {r['verdict']}  n={r.get('n_trials', r.get('n_decided'))}")
+        print(f"\n[{r.get('hypothesis_id') or 'CANDIDATE'}] {r['case_id']}  ({r['kind']})")
+        print(f"  baseline {r['baseline_status']}: {r['baseline_value']} "
+              f"on {r.get('baseline_model')}  |  observed {r['observed_value']} "
+              f"on {r.get('model')}")
+        line = f"  delta {r['delta']}  verdict {r['verdict']}"
+        if r.get("verdict_reason"):
+            line += f"  ({r['verdict_reason']})"
+        print(line)
         if r["kind"] == "canary":
             for cls, f in r["fitness"].items():
                 print(f"    {cls:24s} {f['resistance']}/{f['n']}")
+        else:
+            print(f"    detail {r['detail']}  n_decided={r['n_decided']}")
     if report["material_drift"]:
         print(f"\nMATERIAL DRIFT: {', '.join(report['material_drift'])}")
         print("-> mark affected hypotheses STALE and open a drift task.")
@@ -489,15 +621,17 @@ def main(argv=None):
 
     if cmd == "--check-and-run":
         spec = load_suite()
-        ident = current_identity()
-        ident = dict(ident or {}) | {"suite_manifest_hash": suite_manifest_hash(spec)}
+        ident = dict(current_identity() or {})
+        ident["suite_manifest_hash"] = suite_manifest_hash(spec)
         last = load_last_state()
         reason = model_change_reason(last, ident)
-        if reason is None and due_for_cadence(last, spec["trigger"]["fallback_cadence_hours"]):
+        if reason is None and due_for_cadence(last,
+                                              spec["trigger"]["fallback_cadence_hours"]):
             reason = "fallback cadence reached"
         if reason is None:
             print(f"NO-TRIGGER: model {ident.get('model')} unchanged; suite unchanged; "
-                  f"next cadence check in <= {spec['trigger']['fallback_cadence_hours']}h")
+                  f"cadence check again within "
+                  f"{spec['trigger']['fallback_cadence_hours']}h")
             return 0
         print(f"TRIGGER: {reason}")
         report = run_suite(trigger_reason=reason)
@@ -509,7 +643,17 @@ def main(argv=None):
         print_report(report)
         return 5 if report["material_drift"] else 0
 
-    print("usage: sentinel.py [--show|--self-check|--check-and-run|--run]")
+    if cmd == "--adopt-baseline":
+        if len(argv) < 2:
+            print("usage: sentinel.py --adopt-baseline runs/sentinel_<stamp>.json")
+            return 2
+        changed = adopt_baseline(SUITE_PATH, argv[1])
+        print("baseline adopted; new manifest:",
+              suite_manifest_hash(load_suite())) if changed else \
+            print("no NO_VALID_BASELINE canary case updated (already adopted?)")
+        return 0
+
+    print("usage: sentinel.py [--show|--self-check|--check-and-run|--run|--adopt-baseline]")
     return 2
 
 

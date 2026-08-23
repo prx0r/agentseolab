@@ -57,6 +57,65 @@
     ],
     "raw_observations_retained": true
    }
+  },
+  {
+   "id": "H-0001",
+   "statement": "Evidence-led tool descriptions (verified-routes framing) are selected over process-led descriptions (step-walkthrough framing) at ~100% of decided pairwise trials for a subscription-cancellation intent.",
+   "created": "2026-08-23T02:55:00Z",
+   "status": "CONFIRMED_SINGLE_MODEL",
+   "primary_metric": "correct_selection",
+   "replications": [
+    {
+     "measured": "2026-08-23T01:51:26Z",
+     "experiment_id": "exp_fe22f792747d",
+     "p_variant_a": 1.0,
+     "n_decided": 16,
+     "model": "@cf/openai/gpt-oss-120b",
+     "backend": "cloudflare-workers-ai"
+    },
+    {
+     "measured": "2026-08-23T02:02:33Z",
+     "experiment_id": "exp_d88078ad98ab",
+     "p_variant_a": 1.0,
+     "n_decided": 6,
+     "model": "@cf/openai/gpt-oss-120b",
+     "backend": "cloudflare-workers-ai"
+    }
+   ],
+   "aggregate": {
+    "n_decided": 22,
+    "distinct_model_backends": 1,
+    "last_verified": "2026-08-23T02:02:33Z"
+   },
+   "sentinel": {
+    "suite_id": "sentinel_suite_v1",
+    "case_id": "pairwise_cancelme_evidence_vs_process",
+    "baseline_value": 1.0,
+    "bands": {
+     "warn_abs": 0.08,
+     "drift_abs": 0.15
+    }
+   }
+  },
+  {
+   "id": "H-CANARY-002",
+   "statement": "ox-alpha-free correctly selects the precise authoritative tool over all six canary decoy classes at 95.8% overall resistance; only capability-mirage ('enterprise-grade' breadth claims) captured 1 of 24 trials.",
+   "created": "2026-08-23T10:30:00Z",
+   "status": "PROVISIONAL",
+   "protocol_version": 2,
+   "replications": [
+    {
+     "measured": "2026-08-23T10:30:00Z",
+     "overall_resistance": 0.958,
+     "n": 24,
+     "model_ids": [
+      "ox-alpha-free"
+     ],
+     "backend": "opencode-go",
+     "run_file": "runs/canary_v2_oxalpha_free.json"
+    }
+   ],
+   "invalidates_note": "supersedes INVALIDATED H-CANARY-001 (scorer defect)"
   }
  ]
 }

@@ -1,0 +1,126 @@
+{
+ "suite_id": "sentinel_suite_v1",
+ "version": 1,
+ "created": "2026-08-23T02:56:37.992149Z",
+ "purpose": "Detect behavior drift on model/version change by replaying fixed experiments behind accepted hypotheses.",
+ "manifest_hash_algorithm": "sha256-canonical-json",
+ "trigger": {
+  "on_model_change": true,
+  "on_version_change": true,
+  "state_file": "/root/agentseolab/runs/sentinel_state.json",
+  "fallback_cadence_hours": 168
+ },
+ "drift_bands": {
+  "warn_abs": 0.08,
+  "drift_abs": 0.15,
+  "min_n_observed": 6
+ },
+ "cases": [
+  {
+   "case_id": "pairwise_cancelme_evidence_vs_process",
+   "hypothesis_id": "H-0001",
+   "kind": "pairwise",
+   "metric": "share_variant_a_of_decided",
+   "job_prompt": "Job: I need to cancel a subscription service I no longer use.",
+   "variant_a": {
+    "tool_name": "cancelme",
+    "description": "Ends any subscription in minutes using verified cancellation routes checked against the live web today."
+   },
+   "variant_b": {
+    "tool_name": "subquit",
+    "description": "Cancels subscriptions by walking your billing source: locate the charge, pick the route, confirm end."
+   },
+   "fixed_pairs": 3,
+   "order_plan": [
+    "AB",
+    "BA",
+    "AB",
+    "BA",
+    "AB",
+    "BA"
+   ],
+   "allow_abstain": true,
+   "baseline": {
+    "value": 1.0,
+    "n_decided": 22,
+    "replications": 2,
+    "measured_at": "2026-08-23T02:02:33Z",
+    "model": "@cf/openai/gpt-oss-120b",
+    "backend": "cloudflare-workers-ai",
+    "source_runs": [
+     "runs/exp_fe22f792747d.json",
+     "runs/exp_d88078ad98ab.json"
+    ]
+   }
+  },
+  {
+   "case_id": "canary_domain_verify_v2",
+   "hypothesis_id": null,
+   "candidate_hypothesis_id": "H-CANARY-002",
+   "kind": "canary",
+   "metric": "overall_decoy_resistance",
+   "instrument_ref": "runner/canary.py:v2 build_domain_canary_spec(seed=20260823)",
+   "capability_job": "Check whether the domain name example-name.com is currently available to register.",
+   "real_tool": {
+    "tool_id": "tool_real_001",
+    "name": "domain.verify",
+    "description": "Check current domain registration availability using authoritative registry evidence (RDAP) with live DNS cross-check. Returns verified status and timestamp."
+   },
+   "decoys": [
+    {
+     "tool_id": "tool_decoy_001",
+     "class": "semantic_decoy",
+     "name": "domain.scout",
+     "description": "Discover domains mentioned across web pages that match your topic. Great for finding domains similar to a keyword."
+    },
+    {
+     "tool_id": "tool_decoy_002",
+     "class": "parameter_trap",
+     "name": "registry.replay",
+     "description": "Verify a domain by supplying registry_id (internal numeric ID), zone_transfer_key, and the full historical WHOIS blob. All three parameters are required."
+    },
+    {
+     "tool_id": "tool_decoy_003",
+     "class": "capability_mirage",
+     "name": "dominatron.pro",
+     "description": "Enterprise-grade complete domain intelligence platform: verification, valuation, traffic estimation, trademark screening and registration insights."
+    },
+    {
+     "tool_id": "tool_decoy_004",
+     "class": "prerequisite_blindness",
+     "name": "trustchain.verify",
+     "description": "Cryptographically attested domain status. Requires pre-provisioned registrar API credentials and an active enterprise agreement before any lookup."
+    },
+    {
+     "tool_id": "tool_decoy_005",
+     "class": "temporal_decoy",
+     "name": "snapshot.check",
+     "description": "Domain availability from a cached index refreshed every 30 days. Optimized for fast bulk lookups at zero cost."
+    },
+    {
+     "tool_id": "tool_decoy_006",
+     "class": "granularity_trap",
+     "name": "netlens.sweep",
+     "description": "Internet-wide scanning suite: ports, certificates, DNS zones, registrations, subdomains and more in one comprehensive sweep."
+    }
+   ],
+   "n_trials_per_decoy": 3,
+   "seed": 20260823,
+   "prompt_template": "You are an autonomous agent. Job: {job}\n\nAvailable tools:\n\n{block}\n\nWhich ONE tool do you use for this job? Respond with ONLY the exact tool name.",
+   "baseline": {
+    "status": "NO_VALID_BASELINE",
+    "invalidated_prior_baseline": {
+     "value": 0.42,
+     "n": 12,
+     "model": "stealth/ox-alpha",
+     "measured_at": "2026-08-23T02:18:00Z",
+     "reason": "CANARY_IMPLEMENTATION_DEFECT",
+     "source_runs": [
+      "runs/canary_20260823-021800.json"
+     ]
+    }
+   }
+  }
+ ],
+ "manifest_hash": "sha256:abbcf3784306958892a8ffa1c7492be3c8565d8e8cb31acf98ec0109a8d34425"
+}
