@@ -124,3 +124,47 @@ preregistered /root/agentseolab/results/experiments/asl001_v2/PREREG_20260823-07
    t20: tool=dominatron_pro   pick=WRONG
    t21: tool=dominatron_pro   pick=WRONG
    t22: tool=dominatron_pro   pick=WRONG
+   t23: tool=dominatron_pro   pick=WRONG
+   t24: tool=dominatron_pro   pick=WRONG
+   t25: tool=dominatron_pro   pick=WRONG
+   t26: tool=domain_check     pick=OK
+   t27: tool=dominatron_pro   pick=WRONG
+   t28: tool=domain_check     pick=OK
+   t29: tool=dominatron_pro   pick=WRONG
+   t30: tool=dominatron_pro   pick=WRONG
+   => 4/29 picked working · task success 4/30
+
+[M8] nemotron-super-120b (nvidia/nemotron-3-super-120b-a12b:free)
+   t1: tool=dominatron_pro   pick=WRONG
+   t2: tool=domain_check     pick=OK
+   t3: tool=domain_check     pick=OK
+   t4: tool=domain_check     pick=OK
+   t5: tool=domain_check     pick=OK
+   t6: tool=dominatron_pro   pick=WRONG
+   t7: tool=domain_check     pick=OK
+   t8: tool=domain_check     pick=OK
+   t9: tool=dominatron_pro   pick=WRONG
+   t10: tool=dominatron_pro   pick=WRONG
+   t11: tool=domain_check     pick=OK
+   t12: tool=domain_check     pick=OK
+   t13: tool=domain_check     pick=OK
+   t14: tool=dominatron_pro   pick=WRONG
+   t15: tool=domain_check     pick=OK
+   t16: tool=dominatron_pro   pick=WRONG
+   t17: tool=domain_check     pick=OK
+   t18: tool=domain_check     pick=OK
+   t19: tool=domain_check     pick=OK
+   t20: tool=dominatron_pro   pick=WRONG
+   t21: tool=domain_check     pick=OK
+   t22: tool=dominatron_pro   pick=WRONG
+   t23: tool=dominatron_pro   pick=WRONG
+   t24: tool=domain_check     pick=OK
+   t25: tool=domain_check     pick=OK
+   t26: tool=domain_check     pick=OK
+   t27: tool=domain_check     pick=OK
+   t28: tool=domain_check     pick=OK
+   t29: tool=domain_check     pick=OK
+   t30: tool=domain_check     pick=OK
+   => 21/30 picked working · task success 21/30
+
+[M9] ox-alpha-free (ox-alpha-free)
