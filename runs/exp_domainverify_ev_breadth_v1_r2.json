@@ -1,0 +1,370 @@
+{
+ "spec_manifest_hash": "sha256:0553b6d633118b19429c7172d3f8bc91d983e1a3d3e7c2b62065a56115e1110f",
+ "experiment_id": "exp_domainverify_ev_breadth_v1_r2",
+ "summary": {
+  "a": 8,
+  "b": 8,
+  "abstain": 0,
+  "unparseable": 0,
+  "pct_a_of_decided": 50,
+  "position_bias_check": {
+   "picked_first_shown": 16,
+   "content_consistent_choices": 16,
+   "note": "if picked_first \u2248 n_trials \u21d2 letter-follows-position bias; content_consistent == n_decided \u21d2 clean"
+  }
+ },
+ "trials": [
+  {
+   "trial_no": 0,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_fa1a932c2b",
+   "latency_ms": 251,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_fa1a932c2b"
+   }
+  },
+  {
+   "trial_no": 1,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_e816d72154",
+   "latency_ms": 388,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_e816d72154"
+   }
+  },
+  {
+   "trial_no": 2,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_c09c320c38",
+   "latency_ms": 389,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_c09c320c38"
+   }
+  },
+  {
+   "trial_no": 3,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_9053799061",
+   "latency_ms": 371,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_9053799061"
+   }
+  },
+  {
+   "trial_no": 4,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_92a437df86",
+   "latency_ms": 228,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_92a437df86"
+   }
+  },
+  {
+   "trial_no": 5,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_4e1a81d820",
+   "latency_ms": 364,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_4e1a81d820"
+   }
+  },
+  {
+   "trial_no": 6,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_960709c332",
+   "latency_ms": 631,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_960709c332"
+   }
+  },
+  {
+   "trial_no": 7,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_774cf69da9",
+   "latency_ms": 226,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_774cf69da9"
+   }
+  },
+  {
+   "trial_no": 8,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_603639d495",
+   "latency_ms": 315,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_603639d495"
+   }
+  },
+  {
+   "trial_no": 9,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_ff32b477ab",
+   "latency_ms": 298,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_ff32b477ab"
+   }
+  },
+  {
+   "trial_no": 10,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_0d902dd510",
+   "latency_ms": 672,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_0d902dd510"
+   }
+  },
+  {
+   "trial_no": 11,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_ae8b2fea54",
+   "latency_ms": 283,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_ae8b2fea54"
+   }
+  },
+  {
+   "trial_no": 12,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_f2d7ef484f",
+   "latency_ms": 381,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_f2d7ef484f"
+   }
+  },
+  {
+   "trial_no": 13,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_c64b997a35",
+   "latency_ms": 218,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_c64b997a35"
+   }
+  },
+  {
+   "trial_no": 14,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_3512b94a3b",
+   "latency_ms": 267,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:d9e4c06a5c0efaf8",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "AB",
+    "session_id": "cf_3512b94a3b"
+   }
+  },
+  {
+   "trial_no": 15,
+   "ordering": "BA",
+   "choice_raw": "A",
+   "chosen_variant": "b",
+   "session_id": "cf_ce3f850a5d",
+   "latency_ms": 249,
+   "response_snippet": "A",
+   "provenance": {
+    "provider": "cloudflare-workers-ai",
+    "model_id": "@cf/meta/llama-3.2-3b-instruct",
+    "model_revision": null,
+    "temperature": 0,
+    "max_tokens": 300,
+    "api_surface": "openai-chat-completions",
+    "runner_version": "asl-runner/0.2.0",
+    "prompt_hash": "sha256:5f13dad818b4f90f",
+    "response_hash": "sha256:559aead08264d579",
+    "ordering": "BA",
+    "session_id": "cf_ce3f850a5d"
+   }
+  }
+ ]
+}
