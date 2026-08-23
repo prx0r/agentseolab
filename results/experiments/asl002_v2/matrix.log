@@ -1,3 +1,4 @@
   backend [cf] healthy (13155ms)
 preregistered /root/agentseolab/results/experiments/asl002_v2/PREREG_cf_20260823-075815.json
   manifest 9bf70df65e69a189…
+  t1[FB]: tool=domain_check     pick=OK
