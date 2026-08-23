@@ -35,8 +35,9 @@ def gen_results_md(lib):
         for r in h.get("runs", []):
             if isinstance(r, dict) and "p_working" in r:
                 star = "*" if r.get("sig") else " "
-                lines.append(f"- `{r['run_id']}` {r['model']:24s} n={r['n_decided']:<4}"
-                             f" p={r['p_working']:<6} CI95={r['ci95']} {star}")
+                lines.append(f"- `{r.get('run_id','?')}` {str(r.get('model', r.get('window','?'))):24s} "
+                             f"n={r.get('n_decided','?'):<4}"
+                             f" p={r.get('p_working','?'):<6} CI95={r.get('ci95','-')} {star}")
             elif isinstance(r, str):
                 lines.append(f"- {r}")
         lines.append("")

@@ -1,7 +1,7 @@
 <!-- GENERATED from results/ledger/evidence.json — do not hand-edit -->
 # RESULTS — evidence ledger snapshot (2026-08-23)
 
-**Status: 1 CONFIRMED · 1 FAILED_REPLICATION · 1 INVALIDATED · 1 PROVISIONAL**
+**Status: 2 CONFIRMED · 1 FAILED_REPLICATION · 1 INVALIDATED · 1 PROVISIONAL**
 
 ## H-ASL001a — FAILED_REPLICATION
 Agents prefer working tools over compelling-but-broken tools (universal claim)
@@ -30,6 +30,13 @@ ox-alpha-free resists all six canary decoy classes
 (original canary selection-rate claim)
 *Protocol v1 · Scorer defect: backend-as-job-prompt + substring collision between candidates. Record preserved permanently.*
 
+
+## H-SERVE01 — CONFIRMED
+Serverless LLM inference at temperature=0 is non-deterministic across time windows (same byte-identical prompt flips behaviour)
+*Protocol v2 · qwen3-30b @cf: 5/29 pro-working at 07:24 vs 11/11 at 08:50 on diff-verified identical prompts. Consequence: only within-run contrasts are admissible for fine distinctions; family classifications require multi-window replication.*
+
+- `asl001v2-qwen3` 07:24                    n=?    p=0.172  CI95=-  
+- `asl002-fb-qwen3` 08:32                    n=?    p=1.0    CI95=-  
 
 ## Open questions
 
