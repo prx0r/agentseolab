@@ -1,367 +1,248 @@
 # AgentSEOLab — Complete Documentation
+*Last updated: 2026-08-23 05:30 UTC*
 
-> **Experimental system discovering causal rules governing how autonomous agents discover, evaluate, select, invoke, trust and reuse machine-readable capabilities.**
+## What This Is
 
-Not an SEO product. An empirical science lab for agent discovery.
+An empirical science lab that discovers causal rules governing how autonomous agents discover, evaluate, select, invoke, trust, and reuse machine-readable capabilities.
 
----
+We run controlled experiments where AI models interact with simulated tools in a sandboxed environment. Every tool call is recorded, executed, and verified by a deterministic checker that never consults the model's self-report. Findings are gated through a fail-closed evidence lifecycle before they enter the knowledge base.
 
-## Table of Contents
-
-1. [What This Does](#what-this-does)
-2. [Repository Structure](#repository-structure)
-3. [Setup](#setup)
-4. [Core Concepts](#core-concepts)
-5. [Running Experiments](#running-experiments)
-6. [Evidence Library](#evidence-library)
-7. [Canary Factory](#canary-factory)
-8. [Field Trials](#field-trials)
-9. [Model Matrix](#model-matrix)
-10. [Audit Command](#audit-command)
-11. [Rust CLI Reference](#rust-cli-reference)
-12. [Model Policy](#model-policy)
-13. [Key Documents](#key-documents)
+**Current status: zero REPLICATED findings. The system has correctly invalidated its own first headline result and refused to promote unreplicated effects. This is the system working as designed.**
 
 ---
 
-## What This Does
-
-AgentSEOLab runs controlled experiments to answer questions like:
-
-- Does an evidence-backed tool description get selected more often than a vague one?
-- Do small models evaluate description content or just use positional heuristics?
-- Can models resist plausible-but-wrong decoy tools when the real tool competes alongside them?
-
-Every experiment produces:
-- A **preregistered spec** with manifest hash (tamper-evident)
-- **Raw trial traces** with per-trial runtime provenance
-- **Statistical analysis** using Wilson score intervals
-- An **evidence library entry** gated by fail-closed promotion rules
-
-The system invalidated its own first headline result when it discovered a scorer defect. That behavior — rejecting bad science — is the point.
-
----
-
-## Repository Structure
-
-```
-agentseolab/
-│
-├── AGENTS.md                    Model policy + experiment principles (READ FIRST)
-├── README.md                    This overview
-├── RESULTS.md                   Honest findings ledger (zero REPLICATED so far)
-├── abuse.md                     Strategy: observatory role, 5 boards, compute funnel
-├── reference.md                 Agent economy architecture thesis
-│
-├── runner/                      Python experiment pipeline
-│   ├── backends.py              Provider-neutral inference (CF/OpenCode/Hermes)
-│   │                            Backends auto-fallback if unhealthy.
-│   │                            Keys loaded from runner/.env (gitignored).
-│   ├── opencode_direct.py       Direct OpenCode Zen API client (ox-alpha-free)
-│   ├── canary.py                Adversarial decoy factory — 6 trap classes
-│   │                            Usage: python3 runner/canary.py --backend opencode --n 2
-│   ├── experiment.py            ExperimentSpec + pairwise tournament
-│   │                            AB/BA reversal, seeded ordering, fresh sessions
-│   ├── validator.py             Fail-closed experiment gate
-│   │                            Rejects substring collisions, missing IDs, etc.
-│   ├── provenance.py            Per-trial runtime identity (model_id, prompt_hash, etc.)
-│   ├── model_matrix.py          Same stimulus across all free model families
-│   ├── sentinel.py              Drift detection daemon (CONFIRMED/REPLICATED only)
-│   ├── field.py                 Field trial extraction from hermes session files
-│   ├── field_batch.py           Batch field trials across profiles
-│   ├── field_summary.py         Summary generation from field traces
-│   ├── freeze_intent_f001.py    Frozen SiteIntent F-001
-│   └── pilot_extract_ingest.py  Pilot trace extraction + ingestion
-│
-├── analysis/                    Statistics + evidence management
-│   ├── wilson.py                Wilson score CI (verified vs statsmodels)
-│   ├── bt_analysis.py           Effect reports from raw experiment files
-│   ├── evidence_library.py      Hypothesis ledger v3 w/ promotion gates
-│   │                            Status ladder: PROPOSED → ... → REPLICATED
-│   │                            INVALIDATED/STALE preserved forever
-│   └── audit.py                 Anti-theatre integrity check
-│                                Verifies: specs exist, hashes recompute,
-│                                no double-counting, no invalid baselines
-│
-├── tests/
-│   └── test_stats_and_validity.py   Wilson CI ground truth + validator gates
-│                                      + canonical_hash order independence
-│
-├── src/                         Rust CLI (immutable contracts + DB)
-│   ├── main.rs                  CLI commands: init-db, capture-intent, record-*
-│   ├── db.rs                    SQLite schema + insert functions
-│   ├── models.rs                Data models + canonical_hash (recursive key sort)
-│   └── registry.rs              Capability data structures
-│
-├── schemas/
-│   └── observation.schema.json  Observation event schema
-│
-├── results/                     Experimental outputs (organised by type)
-│   ├── experiments/             Pairwise tournament results (.json + .spec.json pairs)
-│   ├── canary/                  Canary fitness profiles per model
-│   └── field/                   Real agent traces from scout/curator/patala profiles
-│
-├── evidence_library.json        Hypothesis ledger (generated, regenerable)
-├── lab.db                       Ingested comparisons (SQLite)
-│
-├── docs/
-│   ├── DEV_PLAN_2026-08-23-EXPERIMENT-VALIDITY.md   P0 bug fixes + lifecycle design
-│   ├── DEV_PLAN_2026-08-23-VALIDITY-SPRINT.md       Phase A integrity sprint items
-│   ├── BUILD_ORDER.md                               Consolidated implementation plan
-│   └── archive/                                     Pre-pivot research notes
-│
-└── scripts/                     Utility scripts
-    └── refresh-model-sunset.mjs     Scrape GitHub changelog → update deprecation DB
-```
-
----
-
-## Setup
+## Quick Start
 
 ```bash
-# Prerequisites
-# - Node.js ≥22 (for MCP gateway)
-# - Rust/Cargo (for the immutable contracts CLI)
-# - Python 3.11+ with pip
-# - playwright (npm install playwright && npx playwright install chromium)
+# Prerequisites: Python 3.11+, Node.js ≥22, Rust/Cargo
 
-# 1. Clone and install Python deps
-cd agentseolab
-pip install -e . 2>/dev/null || pip install pytest --break-system-packages -q
-npm install @modelcontextprotocol/server @modelcontextprotocol/node zod playwright better-sqlite3
-
-# 2. Build the Rust CLI
+# Install
+pip install pytest --break-system-packages -q
+npm install playwright better-sqlite3 --save
 cargo build --release
 
-# 3. Initialize database
-node scripts/seed.js  # or: ./target/release/agentseolab init-db data/cancelme.db
-
-# 4. Configure inference keys
+# Configure keys (edit with your values)
 cp runner/.env.template runner/.env
-# Edit runner/.env with your keys:
-#   CF_ACCOUNT_ID=...
-#   CF_TOKEN=...              (Cloudflare Workers AI — free neurons)
-#   OPENROUTER_API_KEY=...    (optional, for stealth/ox-alpha)
-#   OPENCODE_GO_API_KEY=...   (opencode.ai zen/go — ox-alpha-free)
 
-# 5. Verify
+# Verify infrastructure
 python3 analysis/audit.py
+python3 -m pytest tests/test_stats_and_validity.py -q
+
+# Run first experiment
+python3 runner/execution_experiment.py cloudflare 5
 ```
 
 ---
 
-## Core Concepts
+## Repository Structure Explained
 
-### Evidence Lifecycle
+### `/root/agentseolab/` — Root
 
-Every finding moves through a strict status ladder. No manual upgrades.
+| File | Purpose | Status |
+|------|---------|--------|
+| `AGENTS.md` | **Model policy + experiment design rules. READ FIRST.** Defines which free models to use, forbidden models, rotation requirements, controls checklist, statistical standards, evidence lifecycle, measurement ontology, compute funnel discipline. | ✅ Active |
+| `experiments-rules.md` | Canonical experiment rules — standardised model batch (9 families from 7 orgs), controlled variables checklist, bias controls table, statistical test selection guide, sample size guidance. Also at `/root/experiments-rules.md`. | ✅ Active |
+| `RESULTS.md` | Honest findings ledger. Documents what we found, what we didn't, what was invalidated. Currently: zero REPLICATED findings (correct behavior). | ✅ Active |
+| `abuse.md` | Full strategy document: observatory role, 5 permanent boards, L0–L4 compute funnel, frontier research citations (AgentSearchBench, SAGEO Arena, canary tools, AgenticGEO), 10-item sprint plan. | ✅ Reference |
+| `reference.md` | Agent economy architecture thesis: discovery → decision → authorize → execute → receipt → learn stack. Maps all projects into one coherent architecture. | ✅ Reference |
+| `northstarclone.md` | Vendor clone strategy: JustDeleteMe + OpenTermsArchive + Stagehand + changedetection.io assembly plan. | ✅ Reference |
+| `.gitignore` | Excludes node_modules, *.db, *.db-shm/wal, .env, logs/, artifacts/, __pycache__/ | ✅ Active |
+
+### `runner/` — Python Experiment Pipeline
+
+All inference backends load API keys from `runner/.env` (gitignored). Template at `runner/.env.template`.
+
+| File | Lines | What It Does | Key Functions |
+|------|-------|--------------|---------------|
+| `backends.py` | 95 | Provider-neutral inference. Three adapters: CloudflareBackend (CF Workers AI), HermesBackend (hermes CLI), OpenCodeDirect (zen API direct). Health-probe fallback chain. Free CF models listed in FREE_CF_MODELS. | `get_backend(preferred)` → returns backend with auto-fallback |
+| `opencode_direct.py` | 33 | Direct HTTP client for opencode.ai zen/go API. Custom User-Agent required (urllib default gets 403). | `run(prompt)` → {ok, raw, session_id, latency_ms} |
+| `experiment.py` | ~200 | Pairwise tournament runner. ExperimentSpec with manifest hash. AB/BA order reversal, seed-driven shuffle. Fresh session per trial. Abstention allowed (UNPARSEABLE ≠ wrong). Position-bias check built in. Provenance wired via `_provenance()` helper. | `ExperimentSpec(...)`, `run_pairwise(spec)`, `parse_choice(raw)` |
+| `canary.py` | 101 | Adversarial decoy factory. Six trap classes: semantic_decoy, parameter_trap, capability_mirage, prerequisite_blindness, temporal_decoy, granularity_trap. Scoring by exact tool_id match (not substring). UNPARSEABLE distinct from incorrect. | `build_domain_canary_spec(seed, n_per)`, `run_canary(spec=..., backend_obj=..., backend_name=...)` |
+| `validator.py` | 49 | Fail-closed experiment gate. Rejects: duplicate names, substring collisions between candidates, missing tool_ids, missing seed/job, insufficient trials. | `validate_canary(spec)` → raises ValidationError or returns True |
+| `provenance.py` | 21 | Per-trial runtime identity: provider, model_id, temperature, max_tokens, prompt_hash, response_hash, ordering, runner_version. | `trial_provenance(backend, prompt, response, ordering, extra)` → dict |
+| `model_matrix.py` | 123 | Same stimulus across ALL free model families. Produces scale-dependence curve. Tests ~7 models × N trials each. Outputs summary table + JSON. | `run_matrix(n_per)` → list of per-model results |
+| `sentinel.py` | 612 | Drift detection daemon. Replays fixed trial suite against current models. Opens drift task when effect sizes change materially. Only CONFIRMED/REPLICATED hypotheses eligible as baselines. | `create_sentinel_suite()`, `check_drift(baseline_p, current_p, threshold)` |
+| `field.py` | 505 | Field trial extraction from hermes session files. Parses real agent traces for search queries, results, opens, citations, tool calls. Event ontology enforcement. | Used by builder agent during field experiments |
+| `field_batch.py` | 132 | Batch field trials across scout/curator/patala profiles. | Called by hermes kanban tasks |
+| `field_summary.py` | 139 | Summary generation from field trace data. | Produces aggregate statistics |
+| `execution_experiment.py` | ~140 | ASL-001 execution-grounded experiment. Two tools compete: compelling-but-broken vs plain-but-working. Model selects AND constructs params. Sandbox executes. Verifier checks outcome. Measures full funnel not just selection. | `run_trial(backend, variant_order, trial_no)`, CLI: `python3 runner/execution_experiment.py <backend> <n>` |
+
+### `analysis/` — Statistics + Evidence Management
+
+| File | Lines | What It Does | Key Functions |
+|------|-------|--------------|---------------|
+| `wilson.py` | 11 | Wilson score CI for binomial proportion. Canonical closed form. Verified against statsmodels `proportion_confint(method='wilson')`. Bounds always within [0,1]. | `wilson(k, n, z=1.96)` → {p, ci95, n, excludes_0.5} |
+| `evidence_library.py` | 242 | Hypothesis ledger v3. Fail-closed promotion gates. Reads nested provenance.model_id from trials. Groups by causal-question hash (NOT description text). Each replication = one experiment's immutable result (no cumulative snapshots). Same-direction enforcement across model families. Status ladder: PROVISIONAL→CONFIRMED→REPLICATED. INVALIDATED retained forever. STALE marking for drift. | `update_library()`, `invalidate(hid, reason)`, `print_library()`, `load()`, `save(lib)` |
+| `bt_analysis.py` | 42 | Effect reporting from raw run files. Uses Wilson CI (correctly). Skips non-pairwise files (canary etc.). | `collect_runs(dir)`, `report()` |
+| `audit.py` | 74 | Anti-theatre integrity check. Verifies: runs parseable, every run has spec, manifest hashes recompute, no INVALIDATED sentinel-active, library exists. Exit code 0 = clean. | `run_audit(runs_dir, lib_path)` → bool; CLI: `python3 analysis/audit.py` |
+
+### `sandbox/` — Execution Environment
+
+| File | Lines | What It Does |
+|------|-------|--------------|
+| `world.py` | 252 | Resettable execution world with 4 tools that actually execute: domain_check (real DNS lookup), domain_scout (semantic decoy — web mention search), domain_cached (temporal decoy — stale cache), domain_enterprise (capability mirage — requires auth). Hidden deterministic verifier (`verify_task`) checks ACTUAL state after episode. Never consults agent self-report. Records every action and state transition. |
+| `server.py` | ~50 | Lightweight MCP-compatible HTTP server exposing sandbox tools. Not yet integrated with main pipeline. |
+
+### `src/` — Rust CLI (Immutable Contracts)
+
+| File | Lines | What It Does |
+|------|-------|--------------|
+| `main.rs` | ~180 | CLI commands: init-db, capture-intent, record-field-trial, record-comparison, record-explanation, add-hypothesis, report |
+| `db.rs` | 344 | SQLite schema (14 tables) + insert functions. WAL mode. All observations append-only. Fixed: insert_explanation now persists, search_queries populated per-query. |
+| `models.rs` | ~250 | Data models: SiteIntent, FieldTrial, SearchQuery, PairwiseComparison, Explanation, Hypothesis. canonical_hash uses recursive key-sort (JCS-style). VALID_REASON_CODES constant. |
+| `registry.rs` | 18 | Capability data structures only (HydraDB integration deferred). |
+
+### `tests/`
+
+| File | Tests | Status |
+|------|-------|--------|
+| `test_stats_and_validity.py` | 7 | ✅ All passing. Wilson CI vs statsmodels ground truth. Validator rejection cases. Canonical hash order independence. Choice parser abstain/wrong/unparseable distinction. |
+| `test_sentinel.py` | 20 | ⏳ Builder's TDD specs — expected-fail until sentinel fully implemented |
+| `test_field_protocol.py` | ? | Builder's field protocol tests |
+
+---
+
+## Data Files
+
+| Path | Contents | Gitignored? |
+|------|----------|-------------|
+| `lab.db` | Ingested comparisons (SQLite, 36 rows) | Yes |
+| `evidence_library.json` | Hypothesis ledger (3 entries: 1 INVALIDATED, 1 CONFIRMED_SINGLE_MODEL, 1 PROVISIONAL) | No — tracked |
+| `results/experiments/*.json` | Raw experiment results + specs | No — tracked |
+| `results/canary/*.json` | Canary fitness profiles | No — tracked |
+| `results/field/*/trace_raw.json` | Real agent traces | No — tracked |
+| `results/sandbox/ASL001_*.json` | Execution-grounded results | No — tracked |
+| `data/services/seed.json` | CancelMe service seed data (10 services) | No — tracked |
+| `runner/.env` | API keys | Yes — gitignored |
+
+---
+
+## How Everything Connects
 
 ```
-PROPOSED → PREREGISTERED → RUNNING → PROVISIONAL → CONFIRMED → REPLICATED
-                                                                    ↓
-                                                              FAILED_REPLICATION
-PROPOSED → ... → INVALIDATED (machinery defect — retained forever)
-PROPOSED → ... → STALE (was valid, model changed — drift detected)
+RUNNER PIPELINE                    ANALYSIS                     EVIDENCE
+─────────────────                 ──────────                   ────────
+backends.py                       wilson.py
+  (inference)                       (statistics)
+      │                                ▲
+      ▼                                │
+experiment.py ──── runs/*.json ──► bt_analysis.py
+  (pairwise AB/BA)                  (effect reports)
+      │
+      ├── provenance.py             evidence_library.py
+      │   (per-trial identity) ◄── (hypothesis ledger)
+      │                                 ▲
+canary.py                               │
+  (decoy resistance) ──── results/ ────┤
+                                      │
+validator.py                          │
+  (pre-run gate)                      │
+                                      │
+execution_experiment.py               │
+  (ASL-001 execution) ────────────────┘
+      │
+sandbox/world.py
+  (resettable tools +
+   hidden verifier)
+
+SENTINEL
+  reads CONFIRMED/REPLICATED hypotheses
+  replays fixed suite on model change
+  opens drift task if effect size shifts
+
+AUDIT
+  verifies entire pipeline integrity
+  must pass before any finding published
 ```
-
-**CONFIRMED**: protocol_version ≥ 2 · n_decided ≥ 30 · Wilson CI excludes 0.5
-**REPLICATED**: CONFIRMED + independent rerun on different model family + same direction + own CI excludes 0.5
-**INVALIDATED**: machinery defect — record kept forever as research provenance
-
-### Measurement Ontology
-
-Nine event types that must NEVER be collapsed into one metric:
-
-| Event | Meaning |
-|-------|---------|
-| `SEARCH_RESULT_EXPOSED` | URL appeared in results |
-| `SEARCH_RESULT_OPENED` | Agent clicked/fetched it |
-| `SOURCE_READ` | Content extracted |
-| `SOURCE_USED` | Content influenced response |
-| `SOURCE_CITED` | URL in final output |
-| `CAPABILITY_SELECTED` | Tool chosen |
-| `CAPABILITY_INVOKED` | Actually called |
-| `EXECUTION_SUCCEEDED` | Call returned without error |
-| `TASK_VERIFIED` | Deterministic verifier confirms outcome |
-
-Citing a URL ≠ task success. These are separate stages of the funnel.
-
-### Compute Funnel
-
-| Level | Environment | Scale | Cost |
-|-------|------------|-------|------|
-| L0 | Synthetic pairwise | 100K+ trials | Free (CF neurons) |
-| L1 | Simulated MCP env | 10K+ trials | Free |
-| L2 | Controlled execution sandbox | 1000s | Free |
-| L3 | Real search/browser field run | 100s | Free |
-| L4 | Real deployed capability + outcome | Scarce | Free |
-
-Big compute at L0/L1. Verification at L2–L4. Never mix levels into one score.
 
 ---
 
 ## Running Experiments
 
-### Pairwise Tournament
-
-Tests whether one tool description is selected over another:
+### 1. Pairwise Tournament (L0 preference probe)
 
 ```bash
-# Quick run (uses primary free backend automatically)
-python3 runner/experiment.py "my-experiment-name"
+# Quick
+python3 runner/experiment.py "my-test-name"
 
-# With specific backend and trial count
-N_PAIRS=8 ASL_BACKEND=cloudflare python3 runner/experiment.py
+# With specific parameters
+N_PAIRS=8 python3 runner/experiment.py
+
+# What it does:
+# - Presents two tool descriptions to the model
+# - AB/BA order reversal (seed-shuffled)
+# - Fresh session per trial
+# - Records selection + position bias check
 ```
 
-Output saved to `runs/<experiment_id>.json` with:
-- Spec manifest hash (tamper-evident)
-- Per-trial provenance (provider, model_id, prompt_hash, response_hash)
-- Position-bias check (picked_first_shown vs content_consistent_choices)
-- Wilson CI on selection proportion
+⚠️ **This measures stated preference, NOT behavior.** Results go to a separate ledger from execution-grounded findings.
 
-### Programmatic API
-
-```python
-from runner.experiment import ExperimentSpec, run_pairwise
-
-spec = ExperimentSpec(
-    name="my-test",
-    intent_id="intent_46bc68daf5044d6c808697c9fad78049",
-    job_prompt="Job: I need to cancel a subscription.",
-    variant_a={"tool_name": "cancelme", "description": "..."},
-    variant_b={"tool_name": "subquit", "description": "..."},
-    n_pairs=5,
-    seed=42,
-)
-spec.save("runs/my_test.spec.json")
-result = run_pairwise(spec)  # returns dict with summary + trials
-```
-
-### Model Matrix
-
-Same stimulus across ALL free model families:
+### 2. Canary Factory (decoy resistance)
 
 ```bash
-python3 runner/model_matrix.py 3   # 3 trials per condition per model
+python3 runner/canary.py --backend cloudflare --n 3
+python3 runner/canary.py --backend opencode --n 2 --out custom_path.json
 ```
 
-Tests ~7 models × 10 trials = 70 calls. Produces the scale-dependence curve showing which models evaluate content vs use positional heuristics.
+Tests whether the model picks the REAL tool when competing against six types of adversarial decoys. Output includes fitness profile per trap class.
 
-### Canary Factory
-
-Tests whether a model resists adversarial decoys:
+### 3. Execution-Grounded ASL-001
 
 ```bash
-python3 runner/canary.py --backend opencode --n 3 --out runs/canary_custom.json
+# On llama-3.3-70b via Cloudflare
+python3 runner/execution_experiment.py cloudflare 10
+
+# On ox-alpha-free via OpenCode Zen
+ASL_BACKEND=opencode python3 runner/execution_experiment.py opencode 10
 ```
 
-Six trap classes tested per real tool:
-1. Semantic decoy — same vocabulary space, different job
-2. Parameter trap — right name, unsatisfiable parameter signature
-3. Capability mirage — enterprise-grade fluff, can't actually do the job
-4. Prerequisite blindness — requires credentials the agent doesn't have
-5. Temporal decoy — stale cached data
-6. Granularity trap — comprehensive suite instead of precise tool
+The model must SELECT a tool AND construct valid arguments. The sandbox EXECUTES the call. A deterministic verifier checks the output. TASK_VERIFIED requires the correct tool to have been invoked with valid parameters producing a verifiable result.
 
-Output: fitness profile with resistance rate per class.
+### 4. Model Matrix (scale-dependence curve)
+
+```bash
+python3 runner/model_matrix.py 3
+```
+
+Same stimulus across all available model families. Produces comparison table showing which models evaluate description content vs use positional heuristics.
+
+### 5. Cross-Family Replication
+
+```bash
+python3 runner/cross_family.py
+```
+
+Runs the same experiment on two genuinely different model families simultaneously. REPLICATION confirmed if both show same direction with own CI excluding 0.5.
 
 ---
 
-## Evidence Library
-
-### Viewing current hypotheses
+## Evidence Library Operations
 
 ```bash
+# Update hypothesis ledger from latest runs
+python3 analysis/evidence_library.py
+
+# Mark hypothesis as stale (drift detected)
+python3 -c "
+import sys; sys.path.insert(0, 'analysis')
+from evidence_library import mark_stale
+mark_stale('H-CANARY-002', 'effect size drifted below threshold')
+"
+
+# View current state
 python3 analysis/evidence_library.py
 ```
 
-### How it works
-
-1. `update_library()` scans `results/experiments/exp_*.json`
-2. Groups by hypothesis key = hash(experiment_name | intent_id | dimension | metric | protocol_version)
-3. Each experiment becomes one immutable `ReplicationBatch` (no cumulative snapshots)
-4. Promotion gates evaluated:
-   - PROVISIONAL: default for new/insufficient data
-   - CONFIRMED: pv≥2 · n≥30 · Wilson CI excludes 0.5
-   - REPLICATED: CONFIRMED + different model family agrees + own CI excludes 0.5
-5. INVALIDATED findings are never resurrected; raw observations retained forever
-
-### Recording an outcome
-
-```bash
-curl -X POST localhost:3939/v1/observations \
-  -H 'Content-Type: application/json' \
-  -d '{"route_id":"uberone_cancel","success":true,"time_seconds":120,"country":"US"}'
-```
-
 ---
 
-## Audit Command
+## Model Policy Summary
 
-Verifies experimental integrity before any finding can be trusted:
+| Backend | Models | Cost | Notes |
+|---------|--------|------|-------|
+| Cloudflare Workers AI | llama-3.3-70b-fast · mistral-small-24b · qwen3-30b · deepseek-v4-flash · gpt-oss-20b · llama-3.1-8b · gemma-4-26b · glm-5.2 | Free (daily neurons) | Primary workhorse. Rotate families for diversity. |
+| OpenCode Go | ox-alpha-free ONLY | Free (weekly quota) | Intermittent availability. Wait for reset when exhausted. |
+| OpenRouter :free | gemma-4-26b:free, glm-5.2:free, nemotron-ultra-550b:free | Free tier | Rate limited but usable for small batches |
 
-```bash
-python3 analysis/audit.py
-```
+**Forbidden:** gpt-oss-120b (expensive neurons), any paid API, balance-drawdown prompts.
 
-Checks:
-- All runs parseable JSON ✓
-- Every run has frozen spec ✓
-- Manifest hashes recompute ✓
-- No INVALIDATED finding is sentinel-active ✓
-- Evidence library exists ✓
-
-Exit code 0 = clean, 1 = issues found.
-
----
-
-## Rust CLI Reference
-
-The Rust binary provides immutable contract storage:
-
-```bash
-./target/release/agentseolab init-db <path>
-./target/release/agentseolab capture-intent <db> <intent.json>
-./target/release/agentseolab record-field-trial <db> <trial.json>
-./target/release/agentseolab record-comparison <db> <comparison.json>
-./target/release/agentseolab record-explanation <db> <explanation.json>
-./target/release/agentseolab add-hypothesis <db> <hypothesis.json>
-./target/release/agentseolab report <db>
-```
-
-The SQLite database is the canonical truth store. All observations are append-only.
-Python's evidence library reads from this but never mutates historical records.
-
----
-
-## Model Policy
-
-**Free tiers only. Owner is broke.**
-
-| Backend | Model | Cost |
-|---------|-------|------|
-| Cloudflare Workers AI | llama-3.3-70b-fast, mistral-small-24b, qwen3-30b, deepseek-v4-flash, gpt-oss-20b, llama-3.1-8b, gemma-4-26b, glm-5.2 | Free (daily neurons) |
-| OpenCode Go | ox-alpha-free ONLY | Free (weekly quota) |
-
-Forbidden: gpt-oss-120b (expensive), OpenRouter paid models, any balance-drawdown.
-
-Rotate across model families for scientific validity. A finding replicated across Meta + Mistral + Qwen + DeepSeek is far stronger than one replicated on two Llama variants.
-
-Minimum for REPLICATED status: ≥2 families from different organizations.
-
----
-
-## Key Documents
-
-| Document | Purpose |
-|----------|---------|
-| `AGENTS.md` | Model policy + experiment principles (read first) |
-| `abuse.md` | Full strategy: observatory role, 5 boards, compute funnel |
-| `reference.md` | Agent economy architecture thesis |
-| `RESULTS.md` | Honest findings ledger |
-| `docs/BUILD_ORDER.md` | Consolidated implementation plan |
-| `docs/DEV_PLAN_2026-08-23-EXPERIMENT-VALIDITY.md` | P0 fixes + lifecycle design |
-| `docs/DEV_PLAN_2026-08-23-VALIDITY-SPRINT.md` | Phase A sprint items |
-| `northstarclone.md` | Vendor clone strategy (JustDeleteMe, changedetection.io, Stagehand...) |
-| `docs/VENDOR_REVIEWS.md` | Deep dives on 7 cloned repos with integration blueprints |
+**Rotation requirement:** Minimum 2 different organisations for REPLICATED status. Rotate for diversity because different architectures produce different behavioral biases.
