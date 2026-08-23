@@ -9,4 +9,5 @@ python3 -u runner/asl002_swap.py cf @cf/openai/gpt-oss-20b $M $((S+3))
 python3 -u runner/asl002_swap.py cf @cf/google/gemma-4-26b-a4b-it $M $((S+4))
 python3 -u runner/asl002_swap.py or nvidia/nemotron-3-super-120b-a12b:free $M $((S+5))
 python3 -u runner/asl002_swap.py oc ox-alpha-free $M $((S+6))
+python3 -u runner/asl002_swap.py oc mimo-v2.5 $M $((S+7))
 echo "ASL002 MATRIX COMPLETE"

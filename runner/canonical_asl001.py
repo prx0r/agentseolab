@@ -29,6 +29,7 @@ MATRIX = [
     ("M6", "gemma-4-26b",          "cf", "@cf/google/gemma-4-26b-a4b-it"),  # OpenRouter 429; CF is live equivalent
     ("M8", "nemotron-super-120b",  "or", "nvidia/nemotron-3-super-120b-a12b:free"),
     ("M9", "ox-alpha-free",        "oc", "ox-alpha-free"),
+    ("M10", "mimo-v2.5",            "oc", "mimo-v2.5"),
 ]
 
 ENDPOINTS = {

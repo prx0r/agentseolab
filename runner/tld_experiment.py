@@ -93,6 +93,8 @@ if __name__ == "__main__":
         ("qwen3-30b", "cf", "@cf/qwen/qwen3-30b-a3b-fp8"),
         ("gpt-oss-20b", "cf", "@cf/openai/gpt-oss-20b"),
         ("nemotron-super-120b", "or", "nvidia/nemotron-3-super-120b-a12b:free"),
+        ("ox-alpha-free", "oc", "ox-alpha-free"),
+        ("mimo-v2.5", "oc", "mimo-v2.5"),
     ]
 
     stamp = datetime.datetime.utcnow().strftime("%Y%m%d-%H%M%S")

@@ -1,0 +1,22 @@
+{
+ "experiment": "QLEX",
+ "protocol_version": 2,
+ "seed_tasks": [
+  "domain_check",
+  "price_lookup",
+  "code_fix",
+  "fact_verify",
+  "file_convert",
+  "email_validate"
+ ],
+ "models": [
+  "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "@cf/mistralai/mistral-small-3.1-24b-instruct",
+  "@cf/openai/gpt-oss-20b",
+  "nvidia/nemotron-3-super-120b-a12b:free"
+ ],
+ "reps_per_cell": 3,
+ "temperature": "env QLEX_TEMP",
+ "manifest_hash": "bd23ee09deb5b99dbf82c19722d99b5461a8c824be57abeadd736148f3820a40",
+ "ts": "20260823-084352"
+}
