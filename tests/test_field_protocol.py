@@ -10,6 +10,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 
 sys.path.insert(0, "/root/agentseolab/runner")
 from field import (URL_RE, canonical_hash, extract_events, host_of,
@@ -132,6 +133,64 @@ sr = next((e for e in events if e["event_type"] == "search_results" and
            "results" in e["payload"]), None)
 check("results_ranked_in_order",
       sr and [r["rank"] for r in sr["payload"]["results"]] == [1, 2])
+
+# ---------- attribution guards (added after batch-2 mis-attribution) ----------
+# Subagent sessions must be refused by extract (rc=4), never extracted.
+import subprocess as _sp
+_r = _sp.run(["python3", "/root/agentseolab/runner/field.py", "extract",
+              "--profile", "scout", "--session", "20260823_025142_42f7d4",
+              "--intent-id", "intent_f001domainavail7c31",
+              "--intent-hash", rec["intent_hash"],
+              "--out", tempfile.mkdtemp()],
+             capture_output=True, text=True)
+check("extract_rejects_subagent_session",
+      _r.returncode == 4 and "not a top-level CLI session" in _r.stderr,
+      f"rc={_r.returncode}")
+# Foreign CLI sessions (wrong first-user prompt) must also be refused.
+_r2 = _sp.run(["python3", "/root/agentseolab/runner/field.py", "extract",
+               "--profile", "patala", "--session", "20260823_033250_1b2b27",
+               "--intent-id", "intent_f001domainavail7c31",
+               "--intent-hash", rec["intent_hash"],
+               "--out", tempfile.mkdtemp()],
+              capture_output=True, text=True)
+check("extract_rejects_prompt_mismatch",
+      _r2.returncode == 4 and "does not match" in _r2.stderr,
+      f"rc={_r2.returncode}")
+
+# Merged extraction: main session stream includes its direct subagents.
+from field import load_session_messages as _lsm
+_msgs = _lsm("/root/.hermes/profiles/curator/state.db",
+             "20260823_031512_c39d9b")
+_origins = {m["session_id"] for m in _msgs}
+_tss = [m["timestamp"] for m in _msgs]
+check("extraction_merges_direct_subagents",
+      {"20260823_031512_c39d9b", "20260823_031529_d9484f"} <= _origins)
+check("merged_stream_chronological",
+      _tss == sorted(_tss))
+
+# ---------- scale-up acceptance: N>=8 valid trials, per-subject coverage ----
+con = sqlite3.connect("file:/root/agentseolab/lab.db?mode=ro", uri=True)
+_n = con.execute("SELECT COUNT(*) FROM field_trials WHERE "
+                 "intent_id='intent_f001domainavail7c31'").fetchone()[0]
+check("batch_scaled_to_n_ge_8", _n >= 8, f"n={_n}")
+_empty = con.execute(
+    "SELECT COUNT(DISTINCT ft.session_id) FROM field_trials ft "
+    "WHERE ft.intent_id='intent_f001domainavail7c31' AND NOT EXISTS "
+    "(SELECT 1 FROM observations o WHERE o.session_id=ft.session_id)"
+).fetchone()[0]
+check("every_trial_has_observations", _empty == 0, f"empty={_empty}")
+con.close()
+from field_summary import subject_by_session as _sbs
+_smap = _sbs()
+_subs = Counter(_smap.get(s, "unknown") for s in [
+    "20260823_023900_f63b4b", "20260823_025132_960c77",
+    "20260823_025153_16eddc", "20260823_031053_16f604",
+    "20260823_031354_03c1ed", "20260823_031512_c39d9b",
+    "20260823_031537_984e33", "20260823_032021_5385fb",
+    "20260823_032341_89a70a"])
+check("per_subject_breakdown_available",
+      _subs["scout"] >= 2 and _subs["curator"] >= 2 and _subs["patala"] >= 2,
+      str(dict(_subs)))
 
 print(f"\n{len(PASS)} passed, {len(FAIL)} failed")
 sys.exit(1 if FAIL else 0)

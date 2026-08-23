@@ -176,23 +176,42 @@ lab.db.observations                          # M rows per trial (envelope)
 - Pilot trial `ft_0f76d3fca4e1` (session 20260823_023900_f63b4b, S1): ingested,
   31 events (2 search_results-context, 6 result_open, 14 citation, 8
   tool_invocation, 1 final_choice), task_success=1. Trace:
-  `runs/field/20260823T024100Z_scout_f001pilot/trace_raw.json`.
-- Replication trial `ft_a691f61b735b` (session 20260823_025142_42f7d4, S1):
-  ingested, 2 events (1 search_results-context, 1 final_choice),
-  task_success=0 — session ended ~2.6 s after navigating to Google SERP
-  (captcha interstitial environment, §2). Partial trace kept and labeled,
-  never dropped (§7). Trace: `runs/field/20260823T025150Z_scout_f001/trace_raw.json`.
-- Aggregate (counts only, `runner/field_summary.py`): n=2,
-  search_activation_rate=1.0, task_success_rate=0.5. Small-N: no cross-subject
-  or cross-intent claims permitted until replication scales (§7).
-- Acceptance criteria §9 verified 2026-08-23:
-  (1) 2/2 trials persisted with matching `trace_raw.json`;
-  (2) 33/33 field observation rows validate against
+  `results/field/20260823T024100Z_scout_f001pilot/trace_raw.json`.
+- **Scale-up batch (t_edd74d74, 2026-08-23): n=9** — S1 scout ×5
+  (`f63b4b`, `960c77`, `16eddc`, `16f604`, `03c1ed`), S2 curator ×2
+  (`c39d9b`, `984e33`), S3 patala ×2 (`5385fb`, `89a70a`).
+  Aggregate counts (`runner/field_summary.py --json`): n=9,
+  search_activation_rate=0.889, task_success_rate=0.667.
+  Per-subject: scout success 3/5 activation 5/5; curator success 1/2
+  activation 1/2; patala success 2/2 activation 2/2. Counts only; the §7
+  small-N caveat is narrowed but cross-intent claims still prohibited.
+- **Attribution correction applied during scale-up:** subject profiles run
+  subagent delegation (subagent sessions land in the same profile state.db,
+  first-user prompt rewritten by the delegator) and S3 patala shares its
+  state.db with a foreign eval workload. The original "latest session"
+  heuristic therefore mis-attributed 4 sessions as trials: scout subagent
+  `42f7d4` (was `ft_a691f61b735b` — superseding the earlier replication
+  entry above; the real trial-2 session is main `960c77`, now ingested as
+  `ft_1fb9bb8600c3`), curator subagents `d9484f`/`0bb531`, and one foreign
+  patala eval session `1b2b27`. All 4 rows were purged from lab.db and their
+  trace dirs quarantined unmodified under `results/field/superseded/`
+  (bytes preserved, provenance in dir name). Fix: extraction now requires
+  top-level CLI sessions (`parent_session_id IS NULL`, `source='cli'`)
+  whose first user message equals the frozen Appendix-A template, and merges
+  direct subagent streams into the trial trace with per-event
+  `origin_session` provenance (delegation is subject behavior; merge level
+  verified non-nested). Runner discovery uses the same deterministic rule;
+  regression tests added to `tests/test_field_protocol.py`.
+- Acceptance criteria §9 verified 2026-08-23 (scale-up pass):
+  (1) 9/9 trials persisted with matching `trace_raw.json` and observations;
+  (2) 379/379 field observation rows validate against
       `schemas/observation.schema.json` (jsonschema Draft 2020-12, 0 violations);
-  (3) F-001 `intent_hash` recomputed from payload == stored hash;
+  (3) F-001 `intent_hash` recomputed from payload == stored hash
+      (bb97d40a…);
   (4) 0 observation rows outside the §3 vocabulary (all sessions);
-  (5) batch summary emitted above — counts only, no judgments.
-- Self-tests: `tests/test_field_protocol.py` — 20 passed, 0 failed.
+  (5) batch summary emitted above with per-subject breakdowns —
+      counts only, no judgments.
+- Self-tests: `tests/test_field_protocol.py` — 27 passed, 0 failed.
 
 ---
 

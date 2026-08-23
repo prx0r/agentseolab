@@ -1,0 +1,99 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T04:04:35.875054+00:00",
+ "subject": {
+  "harness": "hermes --profile curator -z",
+  "profile": "curator",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_031512_c39d9b",
+  "subagent_session_ids": [
+   "20260823_031529_6d34d4",
+   "20260823_031529_a46eea",
+   "20260823_031529_d9484f"
+  ]
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787454912.7388988,
+  "last_ts": 1787454934.3979392
+ },
+ "event_counts": {
+  "tool_invocation": 1,
+  "final_choice": 1,
+  "citation": 4
+ },
+ "events": [
+  {
+   "seq": 0,
+   "ts": 1787454929.232178,
+   "source_message_id": 2,
+   "origin_session": "20260823_031512_c39d9b",
+   "call_id": "call_1aeeecbdeb304cfc97372f9d",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": false,
+    "tool": "delegate_task"
+   }
+  },
+  {
+   "seq": 1,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_031512_c39d9b",
+   "event_type": "final_choice",
+   "payload": {
+    "report_excerpt": "I've dispatched 3 subagents in parallel to search for domain availability APIs. They're currently researching and will report back shortly with their findings. Please wait a moment while they complete their searches.",
+    "named_urls": []
+   }
+  },
+  {
+   "seq": 2,
+   "ts": 1787454929.6360571,
+   "source_message_id": 3,
+   "origin_session": "20260823_031512_c39d9b",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 3,
+   "ts": 1787454929.6360571,
+   "source_message_id": 3,
+   "origin_session": "20260823_031512_c39d9b",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 4,
+   "ts": 1787454929.6360571,
+   "source_message_id": 3,
+   "origin_session": "20260823_031512_c39d9b",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com/domains/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 5,
+   "ts": 1787454929.6360571,
+   "source_message_id": 3,
+   "origin_session": "20260823_031512_c39d9b",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.domainsdb.info/",
+    "where": "tool_output"
+   }
+  }
+ ]
+}

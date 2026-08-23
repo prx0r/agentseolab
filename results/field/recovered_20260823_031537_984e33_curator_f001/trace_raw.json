@@ -1,0 +1,932 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T04:04:35.981067+00:00",
+ "subject": {
+  "harness": "hermes --profile curator -z",
+  "profile": "curator",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_031537_984e33",
+  "subagent_session_ids": [
+   "20260823_031551_0bb531"
+  ]
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787454937.785139,
+  "last_ts": 1787455216.1088016
+ },
+ "event_counts": {
+  "tool_invocation": 18,
+  "search_results": 8,
+  "result_open": 10,
+  "final_choice": 1,
+  "citation": 39
+ },
+ "events": [
+  {
+   "seq": 0,
+   "ts": 1787454951.2666543,
+   "source_message_id": 9,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_eb151b51df0e49d5a008c74e",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": false,
+    "tool": "delegate_task"
+   }
+  },
+  {
+   "seq": 1,
+   "ts": 1787454957.2746556,
+   "source_message_id": 12,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_1ed6f7a4d86c45ee95343ff8",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "process",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 2,
+   "ts": 1787454965.320515,
+   "source_message_id": 14,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_9e5dd2bff1124e63bb0dc115",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+check+if+domain+is+available+to+register",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 3,
+   "ts": 1787454967.015538,
+   "source_message_id": 15,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_e34795b8cc974ffaa05626a1",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "process",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 4,
+   "ts": 1787454972.931021,
+   "source_message_id": 18,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_8e7f9837d8cc4e06beffff63",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+check+if+domain+is+available",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 5,
+   "ts": 1787454981.7589993,
+   "source_message_id": 20,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_084fe3918bc944a79c69f7a4",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+service+check+register",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 6,
+   "ts": 1787454999.059053,
+   "source_message_id": 22,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_ed9761d3e2d64e99a6d8a35a",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 7,
+   "ts": 1787454999.8998742,
+   "source_message_id": 23,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_ebf6d60781d24640b119a856",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 8,
+   "ts": 1787455008.3994262,
+   "source_message_id": 26,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_80c13eb2ffe146659858a6c8",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+check+if+domain+available+register",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 9,
+   "ts": 1787455012.0042305,
+   "source_message_id": 28,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_dc73c532cce748049e551e29",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+check+if+domain+is+available",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 10,
+   "ts": 1787455027.0909803,
+   "source_message_id": 30,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_3711fbcc886f4ec69c08aea9",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 11,
+   "ts": 1787455030.3367608,
+   "source_message_id": 32,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_7c33b130128e44088a5eb672",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=whois+API+domain+availability+check+API",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 12,
+   "ts": 1787455030.3367608,
+   "source_message_id": 32,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_2d8bfc3e264e4b99bd0df247",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 13,
+   "ts": 1787455035.0269423,
+   "source_message_id": 35,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_9fe1b24d88b045939157e315",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.namecheap.com/domains/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 14,
+   "ts": 1787455056.6804197,
+   "source_message_id": 36,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_4b45562313264a8ca360ede1",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 15,
+   "ts": 1787455056.6804197,
+   "source_message_id": 36,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_b7ed45df46ed4a0382fa0669",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 16,
+   "ts": 1787455075.3795593,
+   "source_message_id": 40,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_bd614662cc3f4e17a742692a",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://developer.godaddy.com/doc/endpoint/domains",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 17,
+   "ts": 1787455075.3795593,
+   "source_message_id": 40,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_d7c0a8a077e04343bef193bd",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 18,
+   "ts": 1787455075.3795593,
+   "source_message_id": 40,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_d971677d381b40b1b957062d",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 19,
+   "ts": 1787455086.964293,
+   "source_message_id": 44,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_36481a915a5a49e3a8c62702",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://rdap.org/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 20,
+   "ts": 1787455093.411718,
+   "source_message_id": 46,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_95c2a20c48904abb8dbc6e64",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://api.domainsdb.info/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 21,
+   "ts": 1787455107.209092,
+   "source_message_id": 48,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_1e9cc244c3b7492eae79e0da",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 22,
+   "ts": 1787455107.209092,
+   "source_message_id": 48,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_e89cc369a3064b6b94764a40",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://rdap.org/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 23,
+   "ts": 1787455114.7173586,
+   "source_message_id": 51,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_cc6809be7fc34cdcba7ea1ae",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 24,
+   "ts": 1787455114.7173586,
+   "source_message_id": 51,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_eb98f0e5c8d946f2a349690c",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 25,
+   "ts": 1787455116.8848681,
+   "source_message_id": 54,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_9d70447e95934f13b990aa3b",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 26,
+   "ts": 1787455123.6756508,
+   "source_message_id": 56,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_a2f23d89e8c44e23adb5f26b",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 27,
+   "ts": 1787455123.6756508,
+   "source_message_id": 56,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_c799e7c0593c4e3298fc4d01",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 28,
+   "ts": 1787455131.263844,
+   "source_message_id": 59,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_761628478df84988840b3e01",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 29,
+   "ts": 1787455131.263844,
+   "source_message_id": 59,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_5a6e7e94d88d4760b4838d27",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 30,
+   "ts": 1787455133.713534,
+   "source_message_id": 62,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_7a01a5b1fe9645dba5e77a80",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.godaddy.com/help/domain-name-search-16716",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 31,
+   "ts": 1787455140.8385096,
+   "source_message_id": 63,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_109b44079fd946158d6d666a",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 32,
+   "ts": 1787455140.8385096,
+   "source_message_id": 63,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_f475afcc83384aefae23d139",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 33,
+   "ts": 1787455166.4949238,
+   "source_message_id": 67,
+   "origin_session": "20260823_031551_0bb531",
+   "call_id": "call_bc019e4c8bf94165a917c310",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "terminal",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 34,
+   "ts": 1787455176.4933736,
+   "source_message_id": 69,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_db571506eeea49b89fa8ed9e",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://developer.opendns.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 35,
+   "ts": 1787455199.81938,
+   "source_message_id": 72,
+   "origin_session": "20260823_031537_984e33",
+   "call_id": "call_c7de327839084250842d7a64",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.rapiwhois.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 36,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "final_choice",
+   "payload": {
+    "report_excerpt": "Based on my research, I've found a real domain availability API service:\n\n**WhoisXML API**\n- **URL:** https://www.whoisxmlapi.com/\n- **Description:** A comprehensive domain intelligence service that provides APIs for checking domain availability, WHOIS data, DNS records, and IP information. They offer domain availability checking through their Domain WHOIS API which can determine if a domain is registered or available for registration.\n\nThe service provides:\n- Domain WHOIS Intelligence\n- Passive DNS Intelligence\n- IP Geolocation Intelligence\n- Domain availability checking through their API endpoints\n\nThey have over 50,000 satisfied customers and track more than 7,596 TLDs and ccTLDs. The service is used by Fortune 1000 companies, law enforcement agencies, and security operations centers for domain research and monitoring.\n\nAnother option I found is:\n**RDAP (Registration Data Access Protocol)**\n- **URL:** https://rdap.org/\n- **Description:** The modern standard protocol (replacing WHOIS) for checking domain availability. It provides a standardized way to query domain registration status through RESTful API endpoints.\n\nBoth services provide real, working APIs for checking whether domain names are available to register.",
+    "named_urls": [
+     "https://www.whoisxmlapi.com/",
+     "https://rdap.org/"
+    ]
+   }
+  },
+  {
+   "seq": 37,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 38,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org/",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 39,
+   "ts": 1787454969.6722388,
+   "source_message_id": 17,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Ddomain%2Bavailability%2BAPI%2Bcheck%2Bif%2Bdomain%2Bis%2Bavailable%2Bto%2Bregister%26sei%3D92WKao2LDLCYkdUPufDTsAo&q=EhAqAQT4HBjvbAAAAAAAAAABGPfLqdQGIjDt_bKEO62Rtg1iy8TMM7DWovSgQTQYI53oksMFBOl0a13cjiReTXmUp08pvwzbOEcyAVJaAUM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 40,
+   "ts": 1787454969.6722388,
+   "source_message_id": 17,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+check+if+domain+is+available+to+register&sei=92WKao2LDLCYkdUPufDTsAo",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 41,
+   "ts": 1787454969.6722388,
+   "source_message_id": 17,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+check+if+domain+is+available+to+register&sei=92WKao2LDLCYkdUPufDTsAo\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 42,
+   "ts": 1787454975.864465,
+   "source_message_id": 19,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+check+if+domain+is+available",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 43,
+   "ts": 1787454985.7592301,
+   "source_message_id": 21,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Ddomain%2Bavailability%2BAPI%2Bservice%2Bcheck%2Bregister%26sei%3DB2aKataQHZ7y7M8PjtepmAo&q=EhAqAQT4HBjvbAAAAAAAAAABGIfMqdQGIjDzemdNvx1lsj8imilFLSmhsz3x5eq2N-RSGXIT6V0OqBLh9F0R1BFJZOf8Ulbbt9IyAVJaAUM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 44,
+   "ts": 1787454985.7592301,
+   "source_message_id": 21,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+service+check+register&sei=B2aKataQHZ7y7M8PjtepmAo",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 45,
+   "ts": 1787454985.7592301,
+   "source_message_id": 21,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+service+check+register&sei=B2aKataQHZ7y7M8PjtepmAo\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 46,
+   "ts": 1787455002.5668318,
+   "source_message_id": 24,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+service",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 47,
+   "ts": 1787455010.7345252,
+   "source_message_id": 27,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+check+if+domain+available+register",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 48,
+   "ts": 1787455014.837086,
+   "source_message_id": 29,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+check+if+domain+is+available",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 49,
+   "ts": 1787455029.6116948,
+   "source_message_id": 31,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+service",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 50,
+   "ts": 1787455033.0244918,
+   "source_message_id": 33,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=whois+API+domain+availability+check+API",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 51,
+   "ts": 1787455061.959418,
+   "source_message_id": 37,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 52,
+   "ts": 1787455062.7573743,
+   "source_message_id": 38,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com/domains/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 53,
+   "ts": 1787455078.5350885,
+   "source_message_id": 41,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://developer.godaddy.com/en/docs/references/rest/domains/v3",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 54,
+   "ts": 1787455089.5650613,
+   "source_message_id": 45,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://about.rdap.org/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 55,
+   "ts": 1787455089.5650613,
+   "source_message_id": 45,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 56,
+   "ts": 1787455089.5650613,
+   "source_message_id": 45,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org/domain/example.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 57,
+   "ts": 1787455089.5650613,
+   "source_message_id": 45,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org/domain/example.com\\\\\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 58,
+   "ts": 1787455089.5650613,
+   "source_message_id": 45,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.iana.org/domain/{TLD}\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 59,
+   "ts": 1787455096.122902,
+   "source_message_id": 47,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.domainsdb.info/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 60,
+   "ts": 1787455107.3259716,
+   "source_message_id": 49,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/example.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 61,
+   "ts": 1787455107.3259716,
+   "source_message_id": 49,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/example.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 62,
+   "ts": 1787455110.7984476,
+   "source_message_id": 50,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://about.rdap.org/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 63,
+   "ts": 1787455110.7984476,
+   "source_message_id": 50,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 64,
+   "ts": 1787455110.7984476,
+   "source_message_id": 50,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org/domain/example.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 65,
+   "ts": 1787455110.7984476,
+   "source_message_id": 50,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.org/domain/example.com\\\\\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 66,
+   "ts": 1787455110.7984476,
+   "source_message_id": 50,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.iana.org/domain/{TLD}\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 67,
+   "ts": 1787455121.6886072,
+   "source_message_id": 55,
+   "origin_session": "20260823_031537_984e33",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 68,
+   "ts": 1787455124.0673618,
+   "source_message_id": 57,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/google.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 69,
+   "ts": 1787455124.0673618,
+   "source_message_id": 57,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/google.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 70,
+   "ts": 1787455124.0673618,
+   "source_message_id": 57,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/google.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 71,
+   "ts": 1787455124.0673618,
+   "source_message_id": 57,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.markmonitor.com/rdap/domain/GOOGLE.COM\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 72,
+   "ts": 1787455141.099739,
+   "source_message_id": 64,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/xyznonexistent12345.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 73,
+   "ts": 1787455141.099739,
+   "source_message_id": 64,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/xyznonexistent12345.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 74,
+   "ts": 1787455141.099739,
+   "source_message_id": 64,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rdap.verisign.com/com/v1/domain/xyznonexistent12345.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 75,
+   "ts": 1787455141.099739,
+   "source_message_id": 64,
+   "origin_session": "20260823_031551_0bb531",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://opensrs.rdap.tucows.com/domain/XYZNONEXISTENT12345.COM\\",
+    "where": "tool_output"
+   }
+  }
+ ]
+}

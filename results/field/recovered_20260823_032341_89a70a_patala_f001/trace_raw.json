@@ -1,0 +1,1543 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T04:04:36.107316+00:00",
+ "subject": {
+  "harness": "hermes --profile patala -z",
+  "profile": "patala",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_032341_89a70a",
+  "subagent_session_ids": []
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787455422.0284438,
+  "last_ts": 1787455975.3938
+ },
+ "event_counts": {
+  "search_results": 10,
+  "tool_invocation": 25,
+  "result_open": 9,
+  "final_choice": 1,
+  "citation": 85
+ },
+ "events": [
+  {
+   "seq": 0,
+   "ts": 1787455438.6971064,
+   "source_message_id": 21269,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_761b3427507a451284853fe4",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+API+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 1,
+   "ts": 1787455460.5049584,
+   "source_message_id": 21271,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_8d9649c3c8864e6882d1ec75",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+check+API+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 2,
+   "ts": 1787455468.895706,
+   "source_message_id": 21274,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_d553c96ccf614b4485ab0fc5",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 3,
+   "ts": 1787455490.1107638,
+   "source_message_id": 21276,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_6e284a40d21a4321a283fc10",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+check+API+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 4,
+   "ts": 1787455505.489381,
+   "source_message_id": 21278,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_16807604639d46b592bdcb2f",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 5,
+   "ts": 1787455546.5137496,
+   "source_message_id": 21280,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_57bc1c7028a4493bb286d4b2",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 6,
+   "ts": 1787455552.378414,
+   "source_message_id": 21282,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_3a66354235eb4ef88cb2c87b",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+check+if+domain+is+free+programmatic",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 7,
+   "ts": 1787455573.4052432,
+   "source_message_id": 21285,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_433aa32c9bc4419e8af21e3c",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 8,
+   "ts": 1787455591.3525705,
+   "source_message_id": 21288,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_c1bc360fffc444168d8a4f8e",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 9,
+   "ts": 1787455595.2463691,
+   "source_message_id": 21291,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_bcad37382b9140778ddaa454",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=%22domain+availability%22+API+REST+endpoint+check+registration+status",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 10,
+   "ts": 1787455610.024079,
+   "source_message_id": 21295,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_da25789775d74ea4b505de1c",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=instantdomainsearch+API+domainr+RDAP+whois+api+domain+availability+check",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 11,
+   "ts": 1787455637.383276,
+   "source_message_id": 21299,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_72eb326148c1488a89e3bd16",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=site:instantdomainsearch.com+API",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 12,
+   "ts": 1787455664.265139,
+   "source_message_id": 21305,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_0489b4e319774078be1eae0f",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://instantdomainsearch.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 13,
+   "ts": 1787455703.6574595,
+   "source_message_id": 21311,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_ea7c8cf637ba47c9a2d497a9",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://instantdomainsearch.com/api",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 14,
+   "ts": 1787455707.5452695,
+   "source_message_id": 21313,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_0c865cec461e475ca9186b23",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://domainr.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 15,
+   "ts": 1787455715.1992776,
+   "source_message_id": 21315,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_063d561dc2794a38a96913d9",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=%22domain+availability+API%22+free+REST+endpoint",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 16,
+   "ts": 1787455724.0262961,
+   "source_message_id": 21319,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_11e80e54f82b41a18a1f33fd",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 17,
+   "ts": 1787455752.023258,
+   "source_message_id": 21324,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_c90a158f5f484cd8bbd43e76",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 18,
+   "ts": 1787455756.4647756,
+   "source_message_id": 21327,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_64488111ff344efcb8ce145e",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://developer.godaddy.com/doc/endpoint/domains",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 19,
+   "ts": 1787455761.7689688,
+   "source_message_id": 21329,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_865e93c60da8416daac17e97",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 20,
+   "ts": 1787455764.3512647,
+   "source_message_id": 21331,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_613c77d8fc484ad6b0b08c30",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 21,
+   "ts": 1787455768.4204788,
+   "source_message_id": 21335,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_0a936b70d94b4e3b9025ae1f",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 22,
+   "ts": 1787455771.9485152,
+   "source_message_id": 21338,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_6ef5044d153f4b51b67bb4d6",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 23,
+   "ts": 1787455775.8448865,
+   "source_message_id": 21340,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_8be0e002d4f5419896795880",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 24,
+   "ts": 1787455779.431574,
+   "source_message_id": 21343,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_cf9e744699b24075b2f9a81c",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 25,
+   "ts": 1787455783.7614336,
+   "source_message_id": 21346,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_77d613a615a2407ba43cbfd3",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.namecheap.com/domains/wholesale/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 26,
+   "ts": 1787455787.9365919,
+   "source_message_id": 21348,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_ce0d7d3c24784bc78b34b17b",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=namecheap+API+domain+availability+check+documentation",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 27,
+   "ts": 1787455792.1610277,
+   "source_message_id": 21350,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_bfba79ef1c6e4bdabbd474ef",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 28,
+   "ts": 1787455823.7523446,
+   "source_message_id": 21356,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_ce6e3c146b2240b081372508",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 29,
+   "ts": 1787455828.3871138,
+   "source_message_id": 21358,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_c1951afae16540d390cbdf60",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.namecheap.com/support/api/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 30,
+   "ts": 1787455836.7075977,
+   "source_message_id": 21361,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_19324e69256e49bcba5105df",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=whoisxmlapi+domain+availability+API+check",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 31,
+   "ts": 1787455843.0675564,
+   "source_message_id": 21364,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_21db2a66466d44cf959bef88",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 32,
+   "ts": 1787455876.543331,
+   "source_message_id": 21370,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_0ea6e7d68f9e4394ae81e2e7",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 33,
+   "ts": 1787455882.1297565,
+   "source_message_id": 21372,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_4b08f034078543ff91073335",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 34,
+   "ts": 1787455892.4814885,
+   "source_message_id": 21376,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_1d18737a42aa4f8aa127699e",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 35,
+   "ts": 1787455896.9302998,
+   "source_message_id": 21378,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_3a411f297c4b464c8ccb0d2c",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 36,
+   "ts": 1787455908.2681932,
+   "source_message_id": 21382,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_5bc0c8fba3a54ff6889f51e6",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 37,
+   "ts": 1787455913.812176,
+   "source_message_id": 21385,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_31a701e7c38f4065ac2c2da6",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 38,
+   "ts": 1787455920.8367324,
+   "source_message_id": 21388,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_54f71d1f88fb4235b23bf557",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/domain-check-api",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 39,
+   "ts": 1787455928.745729,
+   "source_message_id": 21390,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_e7ab9bd1f266446bb3e3c734",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 40,
+   "ts": 1787455932.7957816,
+   "source_message_id": 21393,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_df6cfeb86a9340788c429520",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 41,
+   "ts": 1787455942.650164,
+   "source_message_id": 21396,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_1bb65c77a7c949a59703fe06",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 42,
+   "ts": 1787455947.3151386,
+   "source_message_id": 21398,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_76434c209fcd4f409904d415",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 43,
+   "ts": 1787455954.027815,
+   "source_message_id": 21401,
+   "origin_session": "20260823_032341_89a70a",
+   "call_id": "call_d5c9cdbb60944297b7dda030",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/api/documentation/domain-availability-api",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 44,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "final_choice",
+   "payload": {
+    "report_excerpt": "Based on my research, I found a real domain availability API service. Let me report my findings.\n\nHere is a real domain availability API service I found:\n\n**GoDaddy Domains API v3**\n\nName: GoDaddy Domains API (Discovery/Availability Endpoint)\nURL: https://developer.godaddy.com/doc/endpoint/domains\n\nThe GoDaddy Domains v3 API is a REST API that provides domain availability checking. Key endpoints include:\n\n- GET /v3/domains/suggestions - Suggest available domains for a query\n- GET /v3/domains/availability - Check if specific domains are available\n\nThe API uses Bearer token authentication (Personal Access Token) and returns JSON responses indicating whether a domain is available, taken, or available for purchase.\n\nBase URL: https://api.godaddy.com/v3/domains\n\nAdditionally, WhoisXML API (https://www.whoisxmlapi.com/) is another service that offers a Domain Availability API as part of their broader domain intelligence platform, though their specific documentation pages were returning 404 errors during my investigation.",
+    "named_urls": [
+     "https://developer.godaddy.com/doc/endpoint/domains",
+     "https://api.godaddy.com/v3/domains",
+     "https://www.whoisxmlapi.com/"
+    ]
+   }
+  },
+  {
+   "seq": 45,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://developer.godaddy.com/doc/endpoint/domains",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 46,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 47,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 48,
+   "ts": 1787455441.1387198,
+   "source_message_id": 21270,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Ddomain%2Bavailability%2Bcheck%2BAPI%2Bservice%26sei%3Dz2eKauT7ItD_7M8PzJzymQo&q=EhAqAQT4HBjvbAAAAAAAAAABGM_PqdQGIjCI8_U51x9ilfvmS-zA-ik9RLIBtdBViBosGf6NfB0ifppWVGBtlK4sfOyaDNfz5AoyAVJaAUM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 49,
+   "ts": 1787455441.1387198,
+   "source_message_id": 21270,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+API+service&sei=z2eKauT7ItD_7M8PzJzymQo",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 50,
+   "ts": 1787455441.1387198,
+   "source_message_id": 21270,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+check+API+service&sei=z2eKauT7ItD_7M8PzJzymQo\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 51,
+   "ts": 1787455462.0388541,
+   "source_message_id": 21272,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+check+API+service",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 52,
+   "ts": 1787455491.223202,
+   "source_message_id": 21277,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+check+API+service",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 53,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 54,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 55,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 56,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 57,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 58,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.strato.de",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 59,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 60,
+   "ts": 1787455546.8467,
+   "source_message_id": 21281,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com.au\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 61,
+   "ts": 1787455553.3085372,
+   "source_message_id": 21283,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+check+if+domain+is+free+programmatic",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 62,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 63,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 64,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 65,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 66,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 67,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.strato.de",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 68,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 69,
+   "ts": 1787455591.632218,
+   "source_message_id": 21289,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com.au\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 70,
+   "ts": 1787455596.0989413,
+   "source_message_id": 21292,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=%22domain+availability%22+API+REST+endpoint+check+registration+status",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 71,
+   "ts": 1787455596.0989413,
+   "source_message_id": 21292,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 72,
+   "ts": 1787455596.0989413,
+   "source_message_id": 21292,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 73,
+   "ts": 1787455596.0989413,
+   "source_message_id": 21292,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 74,
+   "ts": 1787455628.3368738,
+   "source_message_id": 21298,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=instantdomainsearch+API+domainr+RDAP+whois+api+domain+availability+check",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 75,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=site:instantdomainsearch.com+API",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 76,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 77,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 78,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://en.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 79,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.weclapp.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 80,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.geeksforgeeks.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 81,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.redhat.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 82,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://latenode.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 83,
+   "ts": 1787455661.1187618,
+   "source_message_id": 21304,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://appmaster.io",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 84,
+   "ts": 1787455694.275518,
+   "source_message_id": 21309,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://instantdomainsearch.com/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 85,
+   "ts": 1787455704.4271839,
+   "source_message_id": 21312,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://instantdomainsearch.com/api",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 86,
+   "ts": 1787455709.9350684,
+   "source_message_id": 21314,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://domainr.com/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 87,
+   "ts": 1787455716.3070047,
+   "source_message_id": 21317,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=%22domain+availability+API%22+free+REST+endpoint",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 88,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 89,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 90,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 91,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 92,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 93,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.strato.de",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 94,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 95,
+   "ts": 1787455752.3469782,
+   "source_message_id": 21325,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com.au\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 96,
+   "ts": 1787455757.9119642,
+   "source_message_id": 21328,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://developer.godaddy.com/en/docs/references/rest/domains/v3",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 97,
+   "ts": 1787455764.7563925,
+   "source_message_id": 21333,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 98,
+   "ts": 1787455764.7563925,
+   "source_message_id": 21333,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 99,
+   "ts": 1787455772.3355627,
+   "source_message_id": 21339,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 100,
+   "ts": 1787455772.3355627,
+   "source_message_id": 21339,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 101,
+   "ts": 1787455779.8195539,
+   "source_message_id": 21344,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 102,
+   "ts": 1787455779.8195539,
+   "source_message_id": 21344,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://api.godaddy.com/v3/domains\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 103,
+   "ts": 1787455784.8073428,
+   "source_message_id": 21347,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com/domains/wholesale/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 104,
+   "ts": 1787455789.1341186,
+   "source_message_id": 21349,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=namecheap+API+domain+availability+check+documentation",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 105,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 106,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 107,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://en.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 108,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 109,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 110,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 111,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://privateemail.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 112,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://nc.me\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 113,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://admin.gsuite.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 114,
+   "ts": 1787455824.045614,
+   "source_message_id": 21357,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 115,
+   "ts": 1787455829.425617,
+   "source_message_id": 21359,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com/support/api/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 116,
+   "ts": 1787455837.7928464,
+   "source_message_id": 21362,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=whoisxmlapi+domain+availability+API+check",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 117,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://support.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 118,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://techcommunity.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 119,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://techcommunity.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 120,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://support.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 121,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://techcommunity.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 122,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://techcommunity.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 123,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://support.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 124,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://support.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 125,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://support.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 126,
+   "ts": 1787455876.8223758,
+   "source_message_id": 21371,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://support.microsoft.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 127,
+   "ts": 1787455885.7795377,
+   "source_message_id": 21374,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.whoisxmlapi.com/",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 128,
+   "ts": 1787455924.1099243,
+   "source_message_id": 21389,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://main.whoisxmlapi.com/404",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 129,
+   "ts": 1787455956.708156,
+   "source_message_id": 21402,
+   "origin_session": "20260823_032341_89a70a",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://main.whoisxmlapi.com/404",
+    "where": "tool_output"
+   }
+  }
+ ]
+}

@@ -3,7 +3,7 @@
 
 Deterministic extraction of search/open/citation events from a recorded Hermes
 session (profiles/<p>/state.db messages table) into:
-  runs/field/<trial_dir>/trace_raw.json   (immutable raw extraction, written first)
+  results/field/<trial_dir>/trace_raw.json   (immutable raw extraction, written first)
   lab.db field_trials + search_queries + observations  (transactional ingest)
 
 No judgments: every event comes from parsing recorded tool calls / outputs.
@@ -11,8 +11,8 @@ Unmappable actions become event_type='tool_invocation', payload.mapped=false.
 
 Usage:
   python3 runner/field.py extract --profile scout --session <sid> \
-      --intent-id intent_... --intent-hash <hash> --out runs/field/<dir>
-  python3 runner/field.py ingest --trace runs/field/<dir>/trace_raw.json \
+      --intent-id intent_... --intent-hash <hash> --out results/field/<dir>
+  python3 runner/field.py ingest --trace results/field/<dir>/trace_raw.json \
       --db lab.db
 """
 import argparse

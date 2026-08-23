@@ -1,0 +1,874 @@
+{
+ "protocol_version": "field-v1",
+ "extracted_at": "2026-08-23T04:04:35.758470+00:00",
+ "subject": {
+  "harness": "hermes --profile scout -z",
+  "profile": "scout",
+  "provider": "opencode-go",
+  "model": "mimo-v2.5",
+  "session_id": "20260823_025153_16eddc",
+  "subagent_session_ids": []
+ },
+ "intent": {
+  "intent_id": "intent_f001domainavail7c31",
+  "intent_hash": "bb97d40ad01a9f4a21af5326afc9fbc6b31066bb7d0b5afa213aac9d94f93b86"
+ },
+ "network_environment": "live-web-browser+curl; google blocked(captcha); ddg reachable",
+ "window": {
+  "first_ts": 1787453514.3383873,
+  "last_ts": 1787453770.5192337
+ },
+ "event_counts": {
+  "search_results": 5,
+  "tool_invocation": 24,
+  "result_open": 2,
+  "final_choice": 1,
+  "citation": 39
+ },
+ "events": [
+  {
+   "seq": 0,
+   "ts": 1787453518.9214613,
+   "source_message_id": 50,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_59e3d042a97b41ccad31f265",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+service+check+register",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 1,
+   "ts": 1787453525.8042164,
+   "source_message_id": 52,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_b5323fdb20d44c039398cbd9",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+check+register",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 2,
+   "ts": 1787453532.5473278,
+   "source_message_id": 54,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_2d994a3d73d84ec287b998cf",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 3,
+   "ts": 1787453536.8244727,
+   "source_message_id": 56,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_0cb69519d44e409cb8cd7454",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 4,
+   "ts": 1787453540.8788588,
+   "source_message_id": 58,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_9394fcb80fd340dabedff555",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 5,
+   "ts": 1787453545.7484567,
+   "source_message_id": 60,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_89529ad6370741fb8356b76a",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+service",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 6,
+   "ts": 1787453551.1989253,
+   "source_message_id": 62,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_22bc62fd2eed46c9b25e5e4b",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 7,
+   "ts": 1787453582.2368953,
+   "source_message_id": 64,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_5c221a1df9a04c70a1445ad7",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 8,
+   "ts": 1787453587.3286662,
+   "source_message_id": 66,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_28233c8e6dde4da49e814a24",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+REST+endpoint+programmatic+check",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 9,
+   "ts": 1787453593.3895288,
+   "source_message_id": 68,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_31256405dffb4eb5819b7439",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 10,
+   "ts": 1787453625.1786914,
+   "source_message_id": 70,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_44657706cda24650b3d4687a",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 11,
+   "ts": 1787453631.1534154,
+   "source_message_id": 72,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_784de77d8f2c4eb291f06d9e",
+   "event_type": "search_results",
+   "payload": {
+    "url": "https://www.bing.com/search?q=site%3Arapidapi.com+domain+availability+API",
+    "note": "navigation-to-search-engine (result parse deferred to tool output)",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 12,
+   "ts": 1787453637.569261,
+   "source_message_id": 74,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_16dc50f622274ff8b600b04b",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 13,
+   "ts": 1787453668.638579,
+   "source_message_id": 76,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_31aed723e35847c8a1e6ff50",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 14,
+   "ts": 1787453672.6916523,
+   "source_message_id": 78,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_b07fb5e46da94fa5a32f76ae",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://rapidapi.com/search/domain%20availability",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 15,
+   "ts": 1787453680.2951984,
+   "source_message_id": 80,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_03f6141c1d4645aea947198b",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 16,
+   "ts": 1787453683.689073,
+   "source_message_id": 82,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_9547a518c59c42f2941c32f4",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 17,
+   "ts": 1787453687.8160794,
+   "source_message_id": 84,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_2aa87e786f644918b07805ed",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 18,
+   "ts": 1787453692.0716436,
+   "source_message_id": 86,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_b41e482b83d34b2594911804",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 19,
+   "ts": 1787453697.108293,
+   "source_message_id": 88,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_9c02395100674ebf882e0ed8",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_click",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 20,
+   "ts": 1787453700.5239441,
+   "source_message_id": 90,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_ad13881538e54f9892721509",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 21,
+   "ts": 1787453704.4857447,
+   "source_message_id": 92,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_aea083d93a05436884000e23",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_type",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 22,
+   "ts": 1787453707.9042323,
+   "source_message_id": 94,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_5f3c87347968490ea70ac957",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_press",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 23,
+   "ts": 1787453711.7029586,
+   "source_message_id": 96,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_000a8b173f78408bbc79f20a",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 24,
+   "ts": 1787453716.188752,
+   "source_message_id": 98,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_414d55d252ca4a6ea6eb7530",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 25,
+   "ts": 1787453719.947895,
+   "source_message_id": 100,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_744c5e07eddb4b3a96d88053",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 26,
+   "ts": 1787453724.999447,
+   "source_message_id": 102,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_eb3f750995c64832a63f8e79",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_console",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 27,
+   "ts": 1787453732.0668287,
+   "source_message_id": 104,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_4545bf2f44c946f2bf308a76",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_console",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 28,
+   "ts": 1787453736.8263922,
+   "source_message_id": 106,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_dfe5bca20ed342c2b2c42fea",
+   "event_type": "result_open",
+   "payload": {
+    "url": "https://rapidapi.com/navii/api/domain-availability-checker",
+    "tool": "browser_navigate"
+   }
+  },
+  {
+   "seq": 29,
+   "ts": 1787453752.5402627,
+   "source_message_id": 108,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_f4699a5602c746b39f142fa5",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_scroll",
+    "class": "browser_action"
+   }
+  },
+  {
+   "seq": 30,
+   "ts": 1787453756.9530785,
+   "source_message_id": 110,
+   "origin_session": "20260823_025153_16eddc",
+   "call_id": "call_da84795a3a364d1db2f037a3",
+   "event_type": "tool_invocation",
+   "payload": {
+    "mapped": true,
+    "tool": "browser_snapshot",
+    "class": "support_tool"
+   }
+  },
+  {
+   "seq": 31,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "final_choice",
+   "payload": {
+    "report_excerpt": "I found a domain availability API. Here's the information:\n\n**Name:** Domain Availability Checker API\n\n**URL:** https://rapidapi.com/navii/api/domain-availability-checker\n\n**Base URL:** https://domainstatus.p.rapidapi.com/v1/domain/available\n\n**Pricing:**\n- BASIC: $0.00/month (free tier)\n- PRO: $5.00/month\n\n**Features:**\n- Checks domain name availability for registration\n- Supports bulk domain checking\n- Supports popular top-level domains (TLDs)\n- Real-time availability results\n- HTTP Method: POST\n- Authentication via RapidAPI key\n\n**Endpoints:**\n1. POST /v1/domain/available - Check a single domain\n2. POST /v1/domain/bulk - Bulk check multiple domains\n3. POST /v1/domain/name-and-tld - Check by name and TLD\n\nThis is a legitimate domain availability checking service hosted on RapidAPI marketplace.",
+    "named_urls": [
+     "https://rapidapi.com/navii/api/domain-availability-checker",
+     "https://domainstatus.p.rapidapi.com/v1/domain/available"
+    ]
+   }
+  },
+  {
+   "seq": 32,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rapidapi.com/navii/api/domain-availability-checker",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 33,
+   "ts": null,
+   "source_message_id": null,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://domainstatus.p.rapidapi.com/v1/domain/available",
+    "where": "final_report"
+   }
+  },
+  {
+   "seq": 34,
+   "ts": 1787453523.0611687,
+   "source_message_id": 51,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Ddomain%2Bavailability%2BAPI%2Bservice%2Bcheck%2Bregister%26sei%3DUGCKasm1J86Ri-gPpKOfsAM&q=EhAqAQT4HBjvbAAAAAAAAAABGNHAqdQGIjBwfbFcB-J8bGnCR65pT_omlb0Aqt1DD3SlK97zQatFgNA3Cim2IByksT9OqPBvydQyAVJaAUM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 35,
+   "ts": 1787453523.0611687,
+   "source_message_id": 51,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+service+check+register&sei=UGCKasm1J86Ri-gPpKOfsAM",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 36,
+   "ts": 1787453523.0611687,
+   "source_message_id": 51,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.google.com/search?q=domain+availability+API+service+check+register&sei=UGCKasm1J86Ri-gPpKOfsAM\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 37,
+   "ts": 1787453529.4020844,
+   "source_message_id": 53,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://duckduckgo.com/?q=domain+availability+API+check+register",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 38,
+   "ts": 1787453548.7152545,
+   "source_message_id": 61,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+service",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 39,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 40,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 41,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 42,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 43,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 44,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.strato.de",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 45,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 46,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com.au\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 47,
+   "ts": 1787453583.3301895,
+   "source_message_id": 65,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://en.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 48,
+   "ts": 1787453590.9671047,
+   "source_message_id": 67,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=domain+availability+API+REST+endpoint+programmatic+check",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 49,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 50,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 51,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 52,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 53,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 54,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.strato.de",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 55,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 56,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com.au\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 57,
+   "ts": 1787453626.2756672,
+   "source_message_id": 71,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://en.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 58,
+   "ts": 1787453633.8786612,
+   "source_message_id": 73,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.bing.com/search?q=site%3Arapidapi.com+domain+availability+API",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 59,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 60,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 61,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.united-domains.de\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 62,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://de.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 63,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.namecheap.com\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 64,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.strato.de",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 65,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.godaddy.com",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 66,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://www.domain.com.au\\",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 67,
+   "ts": 1787453669.678884,
+   "source_message_id": 77,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://en.wikipedia.org",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 68,
+   "ts": 1787453677.2754717,
+   "source_message_id": 79,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rapidapi.com/search/domain%20availability",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 69,
+   "ts": 1787453749.1962583,
+   "source_message_id": 107,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://rapidapi.com/navii/api/domain-availability-checker",
+    "where": "tool_output"
+   }
+  },
+  {
+   "seq": 70,
+   "ts": 1787453758.195759,
+   "source_message_id": 111,
+   "origin_session": "20260823_025153_16eddc",
+   "event_type": "citation",
+   "payload": {
+    "url": "https://domainstatus.p.rapidapi.com/v1/domain/available\\",
+    "where": "tool_output"
+   }
+  }
+ ]
+}
