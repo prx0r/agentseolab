@@ -47,3 +47,14 @@ picked_working proportion per arm per family, Wilson CI95.
 python3 runner/asl002_swap.py cloudflare "@cf/meta/llama-3.3-70b-instruct-fp8-fast" 24 20260823
 ./runner/asl002_matrix.sh   # full canonical matrix
 ```
+
+## Emerging result + discriminant follow-up (preregistered BEFORE seeing full data)
+Early within-run contrasts (llama/mistral/qwen/gpt-oss): moving fluff onto the working
+tool LOWERS correct picks (shifts −0.19…−0.60). Two competing explanations remain:
+  H-coherence: fluff hurts when INCOHERENT with plain tool name (domain_check +
+    "valuation scoring" reads false); helps/neutral when coherent (dominatron_pro).
+  H-plain-pref: agents simply prefer plainly-described options regardless of pairing.
+DISCRIMINATOR (ASL-002B): third arm `fluff_both` — fluff on BOTH tools.
+  If picks track competence like FB arm → H-coherence (style isn't the driver;
+  mismatch is). If picks randomise vs FB → H-plain-pref. Run after matrix completes,
+  same seed discipline, n=24/model.
