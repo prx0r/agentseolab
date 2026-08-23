@@ -9,7 +9,7 @@ class CloudflareBackend:
     """Cloudflare Workers AI — @cf/openai/gpt-oss-120b (or any CF model id)."""
     name = "cloudflare-workers-ai"
 
-    def __init__(self, account_id=None, token=None, model="@cf/openai/gpt-oss-120b"):
+    def __init__(self, account_id=None, token=None, model="@cf/meta/llama-3.2-3b-instruct"):
         self.account_id = account_id or os.environ.get("CF_ACCOUNT_ID", "954612afb5a97bb15dddcdc70176813d")
         self.token = token or os.environ.get("CF_TOKEN") or os.environ.get("CLOUDFLARE_API_TOKEN")
         if not self.account_id: self.account_id = os.environ.get("CF_ACCOUNT_ID", "")
@@ -36,32 +36,6 @@ class CloudflareBackend:
 
 
 
-class OpenRouterBackend:
-    """OpenRouter — stealth/ox-alpha (the real target model)."""
-    name = "openrouter-ox-alpha"
-    def __init__(self, key=None, model="stealth/ox-alpha"):
-        self.key = key or os.environ.get("OPENROUTER_API_KEY")
-        self._missing = not self.key
-        self.model = model
-    def run(self, prompt: str, timeout=90):
-        t0 = time.time()
-        body = json.dumps({"model": self.model,
-                           "messages": [{"role": "user", "content": prompt}],
-                           "max_tokens": 800}).encode()
-        req = urllib.request.Request("https://openrouter.ai/api/v1/chat/completions",
-            data=body, headers={"Authorization": f"Bearer {self.key}",
-                                "Content-Type": "application/json"})
-        try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                d = json.loads(r.read())
-            content = d.get("choices", [{}])[0].get("message", {}).get("content") or ""
-            return {"ok": bool(content.strip()), "raw": content.strip(),
-                    "session_id": "or_" + uuid.uuid4().hex[:10],
-                    "latency_ms": int((time.time()-t0)*1000)}
-        except Exception as e:
-            return {"ok": False, "raw": "", "error": str(e)[:120],
-                    "session_id": "or_" + uuid.uuid4().hex[:10],
-                    "latency_ms": int((time.time()-t0)*1000)}
 
 class HermesBackend:
     """Hermes CLI profile (opencode-go). Currently quota-blocked; auto-fallback target."""
@@ -84,12 +58,10 @@ class HermesBackend:
                     "latency_ms": int((time.time()-t0)*1000)}
 
 def get_backend(preferred="cloudflare"):
-    order = [preferred] + [b for b in ("openrouter", "cloudflare", "opencode-go") if b != preferred]
+    order = [preferred] + [b for b in ("cloudflare", "opencode-go") if b != preferred]
     for name in order:
         if name == "cloudflare":
             b = CloudflareBackend()
-        elif name == "openrouter":
-            b = OpenRouterBackend()
         else:
             b = HermesBackend()
         # health probe

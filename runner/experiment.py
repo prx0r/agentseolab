@@ -62,8 +62,12 @@ def run_session(prompt: str, timeout=90):
             "model": getattr(_BACKEND, "model", os.environ.get("MODEL_NAME", "ox-alpha-free"))}
 
 def parse_choice(raw: str):
-    """Extract A/B/abstain from response head+tail (models often add prose)."""
+    """Extract A/B/abstain/UNPARSEABLE. Abstain checked BEFORE letter scan —
+    otherwise 'ABSTAIN' parses as 'A' (head/tail scan bug caught by tests)."""
     s = raw.strip()
+    low = s.lower()
+    if "abstain" in low or ("neither" in low and "tool" not in low):
+        return "ABSTAIN"
     for ch in (s[:2], s[-2:]):
         for c in ch:
             if c in "AB":
@@ -76,6 +80,14 @@ def parse_choice(raw: str):
     return m[0] if len(set(m)) == 1 else "UNPARSEABLE"
 
 def run_pairwise(spec: ExperimentSpec, db_path="./lab.db"):
+    try:
+        from validator import validate_pairwise
+        validate_pairwise(spec.spec)
+        print("  validator: PASS")
+    except ImportError:
+        print("  [warn] validator unavailable — skipping pre-run gate")
+    except Exception as e:
+        raise SystemExit(f"validator: FAIL — {e}")
     job = spec.spec["job_prompt"]
     va, vb = spec.spec["variant_a"], spec.spec["variant_b"]
     desc_a = f"{va['tool_name']}: {va['description']}"
@@ -107,6 +119,7 @@ def run_pairwise(spec: ExperimentSpec, db_path="./lab.db"):
             "chosen_variant": chosen_variant,
             "session_id": r["session_id"], "latency_ms": r["latency_ms"],
             "response_snippet": r["raw"][:200],
+            **_provenance(r, prompt, r.get("raw", ""), order),
         })
         print(f"  pair{i+1}/{order}: {choice} → variant-{chosen_variant} ({r['latency_ms']}ms)")
 
@@ -122,6 +135,19 @@ def run_pairwise(spec: ExperimentSpec, db_path="./lab.db"):
     json.dump(record, open(f"/root/agentseolab/runs/{spec.spec['experiment_id']}.json","w"), indent=1)
     return record
 
+def _provenance(r, prompt, response_raw, ordering):
+    """Per-trial runtime provenance (P0 item 5). Best-effort: never blocks a trial."""
+    try:
+        from provenance import trial_provenance
+        return {"provenance": trial_provenance(
+            type("B", (), {"name": r.get("backend", "?"),
+                           "model": r.get("model", None),
+                           "max_tokens": 300})(),
+            prompt, response_raw, ordering,
+            extra={"session_id": r.get("session_id")})}
+    except Exception as e:
+        return {"provenance_error": str(e)[:120]}
+
 def _position_bias(trials):
     # Position bias = model tracks LETTER/POSITION instead of content.
     # Content-consistent choice: same variant wins under both orderings.
@@ -133,19 +159,32 @@ def _position_bias(trials):
             'note': 'if picked_first ≈ n_trials ⇒ letter-follows-position bias; content_consistent == n_decided ⇒ clean'}
 
 if __name__ == "__main__":
-    name = sys.argv[1] if len(sys.argv)>1 else "demo-pairwise"
+    # Env-driven spec (defaults preserve the original demo). ASL_SPEC=path/to/spec.json
+    # loads a preregistered spec file; otherwise env vars override the demo.
+    name = sys.argv[1] if len(sys.argv)>1 else os.environ.get("ASL_NAME", "demo-pairwise")
     os.makedirs("/root/agentseolab/runs", exist_ok=True)
-    spec = ExperimentSpec(
-        name=name,
-        intent_id="intent_46bc68daf5044d6c808697c9fad78049",
-        job_prompt="Job: I need to cancel a subscription service I no longer use.",
-        variant_a={"tool_name":"cancelme",
-                   "description":"Ends any subscription in minutes using verified cancellation routes checked against the live web today."},
-        variant_b={"tool_name":"subquit",
-                   "description":"Cancels subscriptions by walking your billing source: locate the charge, pick the route, confirm end."},
+    if os.environ.get("ASL_SPEC"):
+        loaded = json.load(open(os.environ["ASL_SPEC"]))
+        loaded.pop("manifest_hash", None)
+        eid = loaded.pop("experiment_id")
+        spec = ExperimentSpec.__new__(ExperimentSpec)
+        spec.spec = loaded
+        spec.spec["experiment_id"] = eid
+        spec.manifest_hash = canonical_hash(spec.spec)
+    else:
+        spec = ExperimentSpec(
+            name=name,
+            intent_id=os.environ.get("ASL_INTENT_ID", "intent_46bc68daf5044d6c808697c9fad78049"),
+            job_prompt=os.environ.get("ASL_JOB", "Job: I need to cancel a subscription service I no longer use."),
+            variant_a={"tool_name": os.environ.get("ASL_A_NAME", "cancelme"),
+                       "description": os.environ.get("ASL_A_DESC",
+                           "Ends any subscription in minutes using verified cancellation routes checked against the live web today.")},
+            variant_b={"tool_name": os.environ.get("ASL_B_NAME", "subquit"),
+                       "description": os.environ.get("ASL_B_DESC",
+                           "Cancels subscriptions by walking your billing source: locate the charge, pick the route, confirm end.")},
 
-        n_pairs=int(os.environ.get("N_PAIRS","2")),
-    )
+            n_pairs=int(os.environ.get("N_PAIRS","2")),
+        )
     spec.save(f"/root/agentseolab/runs/{spec.spec['experiment_id']}.spec.json")
     print("Experiment:", spec.spec["experiment_id"], "| manifest:", spec.manifest_hash[:20]+"…")
     rec = run_pairwise(spec)
