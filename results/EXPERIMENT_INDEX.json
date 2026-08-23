@@ -1,0 +1,203 @@
+[
+ {
+  "file": "exp_95e85f11197e.json",
+  "type": "pairwise",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "cancelme evidence-led vs subquit generic chat assistant",
+  "result": {
+   "wins_a": 6,
+   "wins_b": 0,
+   "note": "pre-fix stats; CI invalid"
+  },
+  "status": "PROVISIONAL"
+ },
+ {
+  "file": "exp_41494347759b.json",
+  "type": "pairwise",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "same variants, 4 pairs",
+  "result": {
+   "wins_a": 4,
+   "wins_b": 0,
+   "note": "n too small for Wilson significance"
+  },
+  "status": "PROVISIONAL"
+ },
+ {
+  "file": "exp_fe22f792747d.json",
+  "type": "pairwise",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "evidence-led vs process-led, n=16",
+  "result": {
+   "wins_a": 16,
+   "wins_b": 0,
+   "wilson_ci": [
+    0.806,
+    1.0
+   ],
+   "note": "only significant pre-pv2 result"
+  },
+  "status": "CONFIRMED_SINGLE_MODEL"
+ },
+ {
+  "file": "exp_d88078ad98ab.json",
+  "type": "pairwise",
+  "model": "ox-alpha-free",
+  "backend": "opencode-go",
+  "description": "replication attempt on ox-alpha-free",
+  "result": {
+   "wins_a": 6,
+   "wins_b": 0
+  },
+  "status": "PROVISIONAL"
+ },
+ {
+  "file": "exp_52036ad24ec8.json",
+  "type": "pairwise",
+  "model": "llama-3.2-3b-instruct",
+  "backend": "cloudflare",
+  "description": "cross-family test on tiny model",
+  "result": {
+   "wins_a": 6,
+   "wins_b": 0,
+   "note": "positional bias suspected"
+  },
+  "status": "PROVISIONAL"
+ },
+ {
+  "file": "exp_1eb1b19f8e41.json",
+  "type": "pairwise",
+  "model": "?",
+  "backend": "?",
+  "description": "early experiment \u2014 provenance missing",
+  "result": {
+   "note": "v1 protocol, no model_id recorded"
+  },
+  "status": "PROVISIONAL"
+ },
+ {
+  "file": "exp_348d4050dba1.json",
+  "type": "pairwise",
+  "model": "?",
+  "backend": "?",
+  "description": "early experiment \u2014 provenance missing",
+  "result": {
+   "note": "v1 protocol"
+  },
+  "status": "PROVISIONAL"
+ },
+ {
+  "file": "exp_domainverify_ev_breadth_v1.json",
+  "type": "pairwise_tournament",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "domainverify: evidence-led vs breadth-led (builder-initiated)",
+  "result": {
+   "wins_a": 16,
+   "wins_b": 0
+  },
+  "status": "SINGLE_MODEL_SWEEP"
+ },
+ {
+  "file": "exp_domainverify_ev_breadth_v1_r2.json",
+  "type": "pairwise_tournament_replication",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "replication attempt of above",
+  "result": {
+   "wins_a": 8,
+   "wins_b": 8,
+   "note": "FAILED_REPLICATION \u2014 tie"
+  },
+  "status": "FAILED_REPLICATION"
+ },
+ {
+  "file": "pristine_v2_controlled.json",
+  "type": "pairwise_controlled",
+  "model": "ox-alpha-free + llama-3.3-70b",
+  "backend": "opencode + cloudflare",
+  "description": "neutral names + name-description decoupling + seeded ordering",
+  "result": {
+   "ox-alpha-free": "evidence=3/3 process=0/3 ambiguous=7",
+   "llama-3.3-70b": "evidence=5/10 process=5/10",
+   "finding": "NO cross-family replication; ox-alpha has position bias; llama ties"
+  },
+  "status": "NO_REPLICATION"
+ },
+ {
+  "file": "canary_v2_oxalpha_free.json",
+  "type": "canary_v2",
+  "model": "ox-alpha-free",
+  "backend": "cloudflare",
+  "description": "decoy resistance across 6 trap classes (overall=0.958)",
+  "result": {
+   "resistance": 0.958,
+   "trials": 24
+  },
+  "status": "VALID"
+ },
+ {
+  "file": "canary_20260823-021008.json",
+  "type": "canary_v1_deprecated",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "old canary format (deprecated)",
+  "result": {},
+  "status": "INVALIDATED"
+ },
+ {
+  "file": "canary_20260823-021024.json",
+  "type": "canary_v1_deprecated",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "old canary format (deprecated)",
+  "result": {},
+  "status": "INVALIDATED"
+ },
+ {
+  "file": "canary_20260823-021800.json",
+  "type": "canary_v1_deprecated",
+  "model": "gpt-oss-120b",
+  "backend": "cloudflare",
+  "description": "old canary format (deprecated)",
+  "result": {},
+  "status": "INVALIDATED"
+ },
+ {
+  "file": "ASL001_cloudflare_20260823-044410.json",
+  "type": "execution_sandbox_ASL001",
+  "model": "llama-3.3-70b-instruct-fp8-fast (Meta)",
+  "backend": "cloudflare-workers-ai",
+  "description": "Selection != Execution: compelling-broken vs plain-working",
+  "result": {
+   "correct_selection": "8/10 (80%)",
+   "task_success": "8/10 (80%)",
+   "wilson_ci_selection": [
+    0.49,
+    0.943
+   ],
+   "finding": "enterprise-grade fluff fools model 20% of time"
+  },
+  "status": "CROSS_FAMILY_PART_1"
+ },
+ {
+  "file": "ASL001_cloudflare_20260823-044603.json",
+  "type": "execution_sandbox_ASL001",
+  "model": "mistral-small-3.1-24b-instruct (Mistral AI)",
+  "backend": "cloudflare-workers-ai",
+  "description": "Same experiment, different model family",
+  "result": {
+   "correct_selection": "10/10 (100%)",
+   "task_success": "10/10 (100%)",
+   "wilson_ci_selection": [
+    0.722,
+    1.0
+   ],
+   "finding": "Mistral perfectly discriminates working vs broken tool"
+  },
+  "status": "CROSS_FAMILY_PART_2"
+ }
+]

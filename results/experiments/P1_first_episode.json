@@ -1,0 +1,43 @@
+{
+ "experiment": "P1-executable-world-proof",
+ "model": "llama-3.3-70b-instruct-fp8-fast",
+ "backend": "cloudflare-workers-ai",
+ "domain": "example-name.com",
+ "turns_used": 5,
+ "verification": {
+  "TASK_VERIFIED": true,
+  "real_tool_invoked": true,
+  "correct_domain_used": true,
+  "output_has_registered_field": true,
+  "decoy_calls_made": 3
+ },
+ "behavior_pattern": "alternating_decoy_real_then_converge",
+ "tool_calls": [
+  {
+   "turn": 1,
+   "tool": "domain_cached",
+   "class": "temporal_decoy"
+  },
+  {
+   "turn": 2,
+   "tool": "domain_check",
+   "class": "real"
+  },
+  {
+   "turn": 3,
+   "tool": "domain_cached",
+   "class": "temporal_decoy"
+  },
+  {
+   "turn": 4,
+   "tool": "domain_check",
+   "class": "real"
+  },
+  {
+   "turn": 5,
+   "tool": "domain_cached",
+   "class": "temporal_decoy"
+  }
+ ],
+ "finding": "Model alternates between cached decoy and real tool. Eventually uses real tool for final answer but wastes 60% of calls on temporal decoy. Suggests model doesn't evaluate freshness signal from description text alone \u2014 needs result-level feedback to discriminate."
+}
