@@ -48,3 +48,21 @@ n=6/trial/day ⇒ noise ±40pp. Detects catastrophic flips only. Relabel output 
 | QLEX | PARTIALLY INVALID | relabel greedy corpus; add temp=0.7 pass; fix Moltbook endpoint |
 | TLD | WAS BROKEN | fixed (identical snippets); then launch |
 | VERIF | READY | launch after TLD |
+
+## ADDENDUM (08:55) — CRITICAL: provider-side nondeterminism discovered
+
+Byte-identical prompts (diff-verified), temp=0, same model/provider:
+qwen3-30b @cf picked working 5/29 (07:24 run) vs 11/11 (08:50 run).
+Position ruled out (overcame position in both directions in both runs).
+
+Implications:
+1. Serverless "temperature=0" is NOT deterministic (fp8 MoE expert-routing / replica variance).
+2. ALL cross-run comparisons on Cloudflare are unreliable for fine distinctions. Family
+   classifications from single passes (incl. parts of our own scoreboard) carry a
+   run-window hazard.
+3. WITHIN-RUN contrasts remain valid (arms interleaved in one time window). ASL-002's
+   swap design is exactly the right instrument — its FB-vs-FW deltas stand:
+     llama -0.20 · mistral -0.19 · qwen3 -0.60 (fluff-on-working collapses correct picks)
+4. Ledger action: register H-SERVE01 (nondeterministic serving) PROVISIONAL; mark qwen
+   family classification UNSTABLE until N replicate passes agree.
+5. Sentinel upgraded in importance: it is the instrument that detects this class of drift.
