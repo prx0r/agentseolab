@@ -142,3 +142,10 @@ Citing a URL ≠ task success. Opening a result ≠ reading it. These are separa
 
 Big compute at L0/L1. Verification at L2–L4. Never mix levels into one score.
 EOF
+## Operational Rules (process)
+
+### Never block on long sleeps
+- Max sleep/wait in any command: **30 seconds**. Never sleep for minutes.
+- While a long job runs (experiment batches, builds, crawls), do OTHER work in parallel:
+  docs, provider registry upkeep, code fixes, other experiments, commits.
+- Poll long jobs with short `tail` checks between other tasks, never idle-wait.

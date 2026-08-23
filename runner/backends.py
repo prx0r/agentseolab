@@ -36,7 +36,7 @@ class CloudflareBackend:
     def run(self, prompt: str, timeout=60):
         t0 = time.time()
         url = f"https://api.cloudflare.com/client/v4/accounts/{self.account_id}/ai/run/{self.model}"
-        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 1200}).encode()
+        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 1200, "temperature": 0}).encode()
         req = urllib.request.Request(url, data=body, headers={
             "Authorization": f"Bearer {self.token}", "Content-Type": "application/json"})
         try:
