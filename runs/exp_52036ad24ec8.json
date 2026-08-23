@@ -1,0 +1,72 @@
+{
+ "spec_manifest_hash": "sha256:742ebfd09fdd6d80f788440258e05aa98ba303868a662efbae3df1cf994c954a",
+ "experiment_id": "exp_52036ad24ec8",
+ "summary": {
+  "a": 6,
+  "b": 0,
+  "abstain": 0,
+  "unparseable": 0,
+  "pct_a_of_decided": 100,
+  "position_bias_check": {
+   "ab_position_a_wins": 3,
+   "ba_position_b_wins": 0,
+   "note": "large asymmetry \u21d2 position bias present"
+  }
+ },
+ "trials": [
+  {
+   "trial_no": 0,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_c4cb72cab8",
+   "latency_ms": 1731,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 1,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_349220e28a",
+   "latency_ms": 1219,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 2,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_4ffdd7f115",
+   "latency_ms": 905,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 3,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_cf01eee115",
+   "latency_ms": 1486,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 4,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_60190e0af1",
+   "latency_ms": 868,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 5,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_970b3e1624",
+   "latency_ms": 1284,
+   "response_snippet": "B"
+  }
+ ]
+}

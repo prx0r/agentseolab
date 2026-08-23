@@ -175,7 +175,7 @@ impl Database {
         let payload = serde_json::to_string(&record)?;
         
         self.conn.execute(
-            \"INSERT INTO site_intents (intent_id, intent_hash, created_at, purpose, primary_job, audiences, capabilities, language, constraints_json, prohibited_meanings, desired_tld, desired_length, desired_word_rules, payload_json) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)\",
+            "INSERT INTO site_intents (intent_id, intent_hash, created_at, purpose, primary_job, audiences, capabilities, language, constraints_json, prohibited_meanings, desired_tld, desired_length, desired_word_rules, payload_json) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
             params![
                 record.intent_id,
                 record.intent_hash,
@@ -203,7 +203,7 @@ impl Database {
         let task_success = trial.task_success.map(|b| b as i32);
         
         self.conn.execute(
-            \"INSERT INTO field_trials (trial_id, intent_id, agent_model, agent_version, provider, session_id, started_at, completed_at, search_queries_json, final_action, task_success) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)\",
+            "INSERT INTO field_trials (trial_id, intent_id, agent_model, agent_version, provider, session_id, started_at, completed_at, search_queries_json, final_action, task_success) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
             params![
                 trial.trial_id,
                 trial.intent_id,
@@ -218,13 +218,28 @@ impl Database {
                 task_success
             ],
         )?;
-        
+
+        for (i, q) in trial.search_queries.iter().enumerate() {
+            self.conn.execute(
+                "INSERT OR REPLACE INTO search_queries (query_id, trial_id, query_text, query_order, results_json, result_opened, reformulation) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+                params![
+                    if q.query_id.is_empty() { format!("q_{}_{}", &trial.trial_id[..12.min(trial.trial_id.len())], i) } else { q.query_id.clone() },
+                    trial.trial_id,
+                    q.query_text,
+                    q.query_order,
+                    serde_json::to_string(&q.results_returned)?,
+                    q.result_opened,
+                    q.reformulation,
+                ],
+            )?;
+        }
+
         Ok(trial.trial_id.clone())
     }
     
     pub fn insert_pairwise_comparison(&self, comp: &PairwiseComparison) -> Result<String> {
         self.conn.execute(
-            \"INSERT INTO pairwise_comparisons (comparison_id, experiment_id, candidate_a, candidate_b, ordering, chosen, abstained, agent_model, agent_version, provider, session_id, timestamp) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)\",
+            "INSERT INTO pairwise_comparisons (comparison_id, experiment_id, candidate_a, candidate_b, ordering, chosen, abstained, agent_model, agent_version, provider, session_id, timestamp) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
             params![
                 comp.comparison_id,
                 comp.experiment_id,
@@ -244,6 +259,23 @@ impl Database {
         Ok(comp.comparison_id.clone())
     }
     
+    pub fn insert_explanation(&self, exp: &Explanation) -> Result<String> {
+        self.conn.execute(
+            "INSERT INTO explanations (explanation_id, comparison_id, chosen, reason_codes, brief_rationale, runner_up, runner_up_weaknesses, challenger_suggestions) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+            params![
+                exp.explanation_id,
+                exp.comparison_id,
+                exp.chosen,
+                serde_json::to_string(&exp.reason_codes)?,
+                exp.brief_rationale,
+                exp.runner_up,
+                serde_json::to_string(&exp.runner_up_weaknesses)?,
+                serde_json::to_string(&exp.challenger_suggestions)?,
+            ],
+        )?;
+        Ok(exp.explanation_id.clone())
+    }
+
     pub fn insert_hypothesis(&self, hyp: &Hypothesis) -> Result<String> {
         let ci = serde_json::to_string(&hyp.confidence_interval)?;
         let families = serde_json::to_string(&hyp.model_families)?;
@@ -252,7 +284,7 @@ impl Database {
         let evidence = serde_json::to_string(&hyp.evidence_ids)?;
         
         self.conn.execute(
-            \"INSERT INTO hypotheses (hypothesis_id, statement, status, effect_estimate, confidence_interval_json, sample_size, model_families_json, intents_json, date_range_json, preregistered, evidence_ids_json) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)\",
+            "INSERT INTO hypotheses (hypothesis_id, statement, status, effect_estimate, confidence_interval_json, sample_size, model_families_json, intents_json, date_range_json, preregistered, evidence_ids_json) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
             params![
                 hyp.hypothesis_id,
                 hyp.statement,
@@ -278,32 +310,32 @@ impl Database {
             "hypotheses", "outcomes", "experiments", "observations"
         ];
         for table in &tables {
-            let count: i64 = self.conn.query_row(&format!(\"SELECT COUNT(*) FROM {}\", table), [], |row| row.get(0))?;
-            println!(\"  {}: {}\", table, count);
+            let count: i64 = self.conn.query_row(&format!("SELECT COUNT(*) FROM {}", table), [], |row| row.get(0))?;
+            println!("  {}: {}", table, count);
         }
         Ok(())
     }
     
     pub fn report_pairwise_stats(&self) -> Result<()> {
-        let total: i64 = self.conn.query_row(\"SELECT COUNT(*) FROM pairwise_comparisons\", [], |row| row.get(0))?;
-        let abstained: i64 = self.conn.query_row(\"SELECT COUNT(*) FROM pairwise_comparisons WHERE abstained = 1\", [], |row| row.get(0))?;
+        let total: i64 = self.conn.query_row("SELECT COUNT(*) FROM pairwise_comparisons", [], |row| row.get(0))?;
+        let abstained: i64 = self.conn.query_row("SELECT COUNT(*) FROM pairwise_comparisons WHERE abstained = 1", [], |row| row.get(0))?;
         
-        println!(\"\n📊 Pairwise Comparison Stats:\");
-        println!(\"  Total comparisons: {}\", total);
-        println!(\"  Abstained: {}\", abstained);
-        println!(\"  Valid responses: {}\", total - abstained);
+        println!("\n📊 Pairwise Comparison Stats:");
+        println!("  Total comparisons: {}", total);
+        println!("  Abstained: {}", abstained);
+        println!("  Valid responses: {}", total - abstained);
         
         if total > 0 {
-            println!(\"\n  By model:\");
+            println!("\n  By model:");
             let mut stmt = self.conn.prepare(
-                \"SELECT agent_model, COUNT(*) as cnt FROM pairwise_comparisons GROUP BY agent_model ORDER BY cnt DESC\"
+                "SELECT agent_model, COUNT(*) as cnt FROM pairwise_comparisons GROUP BY agent_model ORDER BY cnt DESC"
             )?;
             let rows = stmt.query_map([], |row| {
                 Ok((row.get::<_, String>(0)?, row.get::<_, i64>(1)?))
             })?;
             for row in rows {
                 let (model, count) = row?;
-                println!(\"    {}: {} comparisons\", model, count);
+                println!("    {}: {} comparisons", model, count);
             }
         }
         

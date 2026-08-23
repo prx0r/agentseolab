@@ -1,0 +1,54 @@
+{
+ "spec_manifest_hash": "sha256:67f8d15f222f02eac344da6f574467550e1e0365c508f409eb5f4547ec6c6c7c",
+ "experiment_id": "exp_41494347759b",
+ "summary": {
+  "a": 4,
+  "b": 0,
+  "abstain": 0,
+  "unparseable": 0,
+  "pct_a_of_decided": 100,
+  "position_bias_check": {
+   "picked_first_shown": 2,
+   "content_consistent_choices": 4,
+   "note": "if picked_first \u2248 n_trials \u21d2 letter-follows-position bias; content_consistent == n_decided \u21d2 clean"
+  }
+ },
+ "trials": [
+  {
+   "trial_no": 0,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_c1c2d084a7",
+   "latency_ms": 1384,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 1,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_fa5ea4da43",
+   "latency_ms": 1414,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 2,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_9b9f6ca54b",
+   "latency_ms": 1893,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 3,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_7872c3a89f",
+   "latency_ms": 1476,
+   "response_snippet": "B"
+  }
+ ]
+}

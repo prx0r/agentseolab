@@ -143,7 +143,7 @@ async fn main() -> Result<()> {
     match cli.command {
         Commands::InitDb { path } => {
             let _db = Database::connect(&path)?;
-            println!(\"✓ Database initialized: {}\", path);
+            println!("✓ Database initialized: {}", path);
         }
         
         Commands::CaptureIntent { db, json } => {
@@ -152,9 +152,9 @@ async fn main() -> Result<()> {
             let intent: SiteIntent = serde_json::from_value(data)?;
             let record = intent.to_record();
             let id = db.insert_intent(&intent)?;
-            println!(\"✓ SiteIntent captured: {}\", id);
-            println!(\"  Hash: {}\", record.intent_hash);
-            println!(\"  Purpose: {}\", intent.purpose);
+            println!("✓ SiteIntent captured: {}", id);
+            println!("  Hash: {}", record.intent_hash);
+            println!("  Purpose: {}", intent.purpose);
         }
         
         Commands::RecordFieldTrial { db, json } => {
@@ -162,9 +162,9 @@ async fn main() -> Result<()> {
             let data = load_json(&json)?;
             let trial: FieldTrial = serde_json::from_value(data)?;
             let id = db.insert_field_trial(&trial)?;
-            println!(\"✓ Field trial recorded: {}\", id);
-            println!(\"  Agent: {} ({})\", trial.agent_model, trial.provider);
-            println!(\"  Queries: {}\", trial.search_queries.len());
+            println!("✓ Field trial recorded: {}", id);
+            println!("  Agent: {} ({})", trial.agent_model, trial.provider);
+            println!("  Queries: {}", trial.search_queries.len());
         }
         
         Commands::RecordComparison { db, json } => {
@@ -172,18 +172,18 @@ async fn main() -> Result<()> {
             let data = load_json(&json)?;
             let comp: PairwiseComparison = serde_json::from_value(data)?;
             let id = db.insert_pairwise_comparison(&comp)?;
-            println!(\"✓ Pairwise comparison recorded: {}\", id);
-            println!(\"  {} vs {}\", comp.candidate_a, comp.candidate_b);
-            println!(\"  Chosen: {} (order: {})\", comp.chosen, comp.ordering);
+            println!("✓ Pairwise comparison recorded: {}", id);
+            println!("  {} vs {}", comp.candidate_a, comp.candidate_b);
+            println!("  Chosen: {} (order: {})", comp.chosen, comp.ordering);
         }
         
         Commands::RecordExplanation { db, json } => {
             let db = Database::connect(&db)?;
             let data = load_json(&json)?;
             let explanation: Explanation = serde_json::from_value(data)?;
-            // Store explanation
-            println!(\"✓ Explanation recorded: {}\", explanation.explanation_id);
-            println!(\"  Reason codes: {:?}\", explanation.reason_codes);
+            let id = db.insert_explanation(&explanation)?;
+            println!("✓ Explanation recorded: {}", id);
+            println!("  Reason codes: {:?}", explanation.reason_codes);
         }
         
         Commands::AddHypothesis { db, json } => {
@@ -191,16 +191,16 @@ async fn main() -> Result<()> {
             let data = load_json(&json)?;
             let hyp: Hypothesis = serde_json::from_value(data)?;
             let id = db.insert_hypothesis(&hyp)?;
-            println!(\"✓ Hypothesis added: {}\", id);
-            println!(\"  Statement: {}\", hyp.statement);
-            println!(\"  Status: {}\", hyp.status);
+            println!("✓ Hypothesis added: {}", id);
+            println!("  Statement: {}", hyp.statement);
+            println!("  Status: {}", hyp.status);
         }
         
         Commands::Report { db } => {
             let db = Database::connect(&db)?;
-            println!(\"\n📊 Scientific Report\n\");
+            println!("\n📊 Scientific Report\n");
             db.report()?;
-            println!(\"\");
+            println!("");
             db.report_pairwise_stats()?;
         }
         
@@ -209,41 +209,41 @@ async fn main() -> Result<()> {
             
             match command {
                 HydraCommands::Status => {
-                    println!(\"🔍 Checking HydraDB connection...\");
+                    println!("🔍 Checking HydraDB connection...");
                     if client.is_ready().await {
-                        println!(\"✓ HydraDB is ready\");
-                        println!(\"  URL: {}\", client.config.url);
-                        println!(\"  Namespace: {}\", client.config.namespace);
-                        println!(\"  Graph: {}\", client.config.graph_id);
+                        println!("✓ HydraDB is ready");
+                        println!("  URL: {}", client.config.url);
+                        println!("  Namespace: {}", client.config.namespace);
+                        println!("  Graph: {}", client.config.graph_id);
                     } else {
-                        println!(\"✗ HydraDB is not reachable\");
+                        println!("✗ HydraDB is not reachable");
                     }
                 }
                 
                 HydraCommands::CreateEntity { label, id, properties } => {
                     let props: serde_json::Value = serde_json::from_str(&properties)?;
                     client.create_entity(&label, &id, &props).await?;
-                    println!(\"✓ Entity created: {}:{}", label, id);
+                    println!("✓ Entity created: {}:{}", label, id);
                 }
                 
                 HydraCommands::CreateEdge { from_label, from_id, to_label, to_id, edge_type } => {
                     client.create_edge(&from_label, &from_id, &to_label, &to_id, &edge_type).await?;
-                    println!(\"✓ Edge created\");
+                    println!("✓ Edge created");
                 }
                 
                 HydraCommands::FindEntities { label } => {
                     let entities = client.find_entities(&label).await?;
-                    println!(\"\n📊 {} entities:\", entities.len());
+                    println!("\n📊 {} entities:", entities.len());
                     for e in &entities {
-                        println!(\"  {:?}\", e);
+                        println!("  {:?}", e);
                     }
                 }
                 
                 HydraCommands::Query { query } => {
                     let result = client.query(&query).await?;
-                    println!(\"\n📊 Result: {} rows\", result.rows.len());
+                    println!("\n📊 Result: {} rows", result.rows.len());
                     for row in &result.rows {
-                        println!(\"  {:?}\", row);
+                        println!("  {:?}", row);
                     }
                 }
             }
@@ -255,19 +255,19 @@ async fn main() -> Result<()> {
             match command {
                 AiCommands::ListModels => {
                     let models = ai.list_free_models().await;
-                    println!(\"\n📊 Free AI Models:\n\");
+                    println!("\n📊 Free AI Models:\n");
                     for model in &models {
-                        println!(\"  {} ({})\", model.name, model.provider);
-                        println!(\"    ID: {}\", model.id);
+                        println!("  {} ({})", model.name, model.provider);
+                        println!("    ID: {}", model.id);
                         println!();
                     }
                 }
                 
                 AiCommands::Infer { model, prompt } => {
-                    println!(\"🔍 Running inference...\");
+                    println!("🔍 Running inference...");
                     let response = ai.cloudflare_inference(&model, &prompt).await?;
-                    println!(\"\n📊 Response:\");
-                    println!(\"  {}\", response.content);
+                    println!("\n📊 Response:");
+                    println!("  {}", response.content);
                 }
             }
         }

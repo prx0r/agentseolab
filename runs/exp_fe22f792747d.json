@@ -1,0 +1,162 @@
+{
+ "spec_manifest_hash": "sha256:458936aed735237bf5373b58076b48deddc5588d2db95e410377a66731ab67be",
+ "experiment_id": "exp_fe22f792747d",
+ "summary": {
+  "a": 16,
+  "b": 0,
+  "abstain": 0,
+  "unparseable": 0,
+  "pct_a_of_decided": 100,
+  "position_bias_check": {
+   "ab_position_a_wins": 8,
+   "ba_position_b_wins": 0,
+   "note": "large asymmetry \u21d2 position bias present"
+  }
+ },
+ "trials": [
+  {
+   "trial_no": 0,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_1b04cffed2",
+   "latency_ms": 1440,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 1,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_1f75d13ea0",
+   "latency_ms": 2273,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 2,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_3a623382e9",
+   "latency_ms": 1142,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 3,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_fc0e75cd5d",
+   "latency_ms": 1948,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 4,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_ed563121b2",
+   "latency_ms": 1407,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 5,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_be3656aa33",
+   "latency_ms": 1630,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 6,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_b66f9ee1f2",
+   "latency_ms": 2430,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 7,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_c9582a92fa",
+   "latency_ms": 1472,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 8,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_90b52bb07b",
+   "latency_ms": 1450,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 9,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_f50b5a4304",
+   "latency_ms": 2064,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 10,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_2343bdcb17",
+   "latency_ms": 2987,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 11,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_25e07d05d5",
+   "latency_ms": 1674,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 12,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_dbf699bebb",
+   "latency_ms": 1948,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 13,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_b3c4550637",
+   "latency_ms": 1846,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 14,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_dba28a1a52",
+   "latency_ms": 1677,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 15,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_4e50e7ea7b",
+   "latency_ms": 2460,
+   "response_snippet": "B"
+  }
+ ]
+}

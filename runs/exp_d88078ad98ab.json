@@ -1,0 +1,72 @@
+{
+ "spec_manifest_hash": "sha256:5fb9e35263690093c1be204268f7202c0694042fc190c41a790487ac3cee1dcc",
+ "experiment_id": "exp_d88078ad98ab",
+ "summary": {
+  "a": 6,
+  "b": 0,
+  "abstain": 0,
+  "unparseable": 0,
+  "pct_a_of_decided": 100,
+  "position_bias_check": {
+   "picked_first_shown": 3,
+   "content_consistent_choices": 6,
+   "note": "if picked_first \u2248 n_trials \u21d2 letter-follows-position bias; content_consistent == n_decided \u21d2 clean"
+  }
+ },
+ "trials": [
+  {
+   "trial_no": 0,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_58533b3fe6",
+   "latency_ms": 1185,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 1,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_351fe10d5e",
+   "latency_ms": 2689,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 2,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_1fb70d34da",
+   "latency_ms": 1269,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 3,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_7690ab6c18",
+   "latency_ms": 2219,
+   "response_snippet": "B"
+  },
+  {
+   "trial_no": 4,
+   "ordering": "AB",
+   "choice_raw": "A",
+   "chosen_variant": "a",
+   "session_id": "cf_8b2239deef",
+   "latency_ms": 3036,
+   "response_snippet": "A"
+  },
+  {
+   "trial_no": 5,
+   "ordering": "BA",
+   "choice_raw": "B",
+   "chosen_variant": "a",
+   "session_id": "cf_2327b55a26",
+   "latency_ms": 3093,
+   "response_snippet": "B"
+  }
+ ]
+}

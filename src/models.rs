@@ -16,7 +16,25 @@ pub fn new_id(prefix: &str) -> String {
 }
 
 pub fn canonical_hash(obj: &serde_json::Value) -> String {
-    let json = serde_json::to_string(obj).unwrap_or_default();
+    // RFC 8785-style canonicalization: recursively sort object keys.
+    fn canon(v: &serde_json::Value) -> serde_json::Value {
+        match v {
+            serde_json::Value::Object(map) => {
+                let mut keys: Vec<&String> = map.keys().collect();
+                keys.sort();
+                let mut out = serde_json::Map::new();
+                for k in keys {
+                    out.insert(k.clone(), canon(&map[k]));
+                }
+                serde_json::Value::Object(out)
+            }
+            serde_json::Value::Array(arr) => {
+                serde_json::Value::Array(arr.iter().map(canon).collect())
+            }
+            other => other.clone(),
+        }
+    }
+    let json = serde_json::to_string(&canon(obj)).unwrap_or_default();
     let mut hasher = Sha256::new();
     hasher.update(json.as_bytes());
     format!("{:x}", hasher.finalize())
