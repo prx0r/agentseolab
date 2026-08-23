@@ -81,3 +81,30 @@ preregistered /root/agentseolab/results/experiments/asl002_v2/PREREG_cf_20260823
   t14[FB]: tool=domain_check     pick=OK
   t15[FW]: tool=dominatron_pro   pick=X
   t16[FW]: tool=domain_check     pick=OK
+  t17[FB]: tool=domain_check     pick=OK
+  t18[FB]: tool=domain_check     pick=OK
+  t19[FB]: tool=domain_check     pick=OK
+  t20[FW]: tool=dominatron_pro   pick=X
+  t21[FW]: tool=dominatron_pro   pick=X
+  t22[FB]: tool=domain_check     pick=OK
+  t23[FW]: tool=dominatron_pro   pick=X
+  t24[FB]: tool=domain_check     pick=OK
+
+============================================================
+fluff on WORKING tool: picked working 4/10  p=0.4 CI=[0.168, 0.687]
+fluff on BROKEN tool : picked working 11/11  p=1.0 CI=[0.741, 1.0] *SIG
+saved: /root/agentseolab/results/experiments/asl002_v2/RUN_cf_@cf_qwen_qwen3-30b-a3b-fp8_20260823-083242.json
+  backend [cf] healthy (12444ms)
+preregistered /root/agentseolab/results/experiments/asl002_v2/PREREG_cf_20260823-085053.json
+  manifest 1a065b354f5974fa…
+  t1[FW]: tool=dominatron_pro   pick=X
+  t2[FW]: tool=domain_check     pick=OK
+  t3[FW]: tool=dominatron_pro   pick=X
+  t4[FW]: tool=domain_check     pick=OK
+  t5[FW]: tool=domain_check     pick=OK
+  t6[FW]: tool=domain_check     pick=OK
+  t7[FB]: tool=domain_check     pick=OK
+  t8[FW]: tool=domain_check     pick=OK
+  t9[FB]: tool=domain_check     pick=OK
+  t10[FW]: tool=domain_check     pick=OK
+  t11[FB]: tool=domain_check     pick=OK

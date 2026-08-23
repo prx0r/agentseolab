@@ -1,0 +1,537 @@
+{
+ "generated": "20260823-084352",
+ "manifest_hash": "bd23ee09deb5b99dbf82c19722d99b5461a8c824be57abeadd736148f3820a40",
+ "elicited_queries": [
+  {
+   "task_family": "domain_check",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "check availability of domain name quietbrook-labs.com"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "availability of domain name quietbrook-labs.com"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "check availability of domain name quietbrook-labs.com"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "is quietbrook-labs.com available to register"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "quietbrook-labs.com domain availability"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "quietbrook-labs.com domain availability"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "gpt-oss-20b",
+   "query": "quietbrook-labs.com domain availability"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "gpt-oss-20b",
+   "query": "quietbrook-labs.com domain availability"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "gpt-oss-20b",
+   "query": "quietbrook-labs.com domain availability"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "quietbrook-labs.com domain availability check"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "quietbrook-labs.com domain availability"
+  },
+  {
+   "task_family": "domain_check",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "quietbrook-labs.com domain availability"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "cheapest managed postgres database tier pricing"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "cheapest managed postgres database tier pricing comparison"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "cheapest managed postgres database tier pricing"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "cheapest managed Postgres database tier current price"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "cheapest managed Postgres database tier pricing"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "cheapest managed Postgres database tier current price"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "gpt-oss-20b",
+   "query": "cheapest managed PostgreSQL tier price"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "gpt-oss-20b",
+   "query": "cheapest managed PostgreSQL database tier price"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "gpt-oss-20b",
+   "query": "cheapest managed PostgreSQL database tier price current cost managed Postgres tier pricing cheapest tier"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "current price cheapest managed PostgreSQL database tier 2024"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "cheapest managed PostgreSQL database tier price 2024 AWS RDS Google Cloud SQL Azure Database for PostgreSQL"
+  },
+  {
+   "task_family": "price_lookup",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "cheapest managed PostgreSQL database pricing 2024"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "python ModuleNotFoundError despite package installation"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "python ModuleNotFoundError for installed package solution"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "python ModuleNotFoundError for installed package solution"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "Python ModuleNotFoundError fix after installing package"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "ModuleNotFoundError: No module named 'package_name' after pip install"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "python script ModuleNotFoundError fix after installing package"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "gpt-oss-20b",
+   "query": "ModuleNotFoundError: No module named 'package' after pip install"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "gpt-oss-20b",
+   "query": "ModuleNotFoundError after pip install package still not found"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "gpt-oss-20b",
+   "query": "Python ModuleNotFoundError after pip install package"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "Python ModuleNotFoundError installed but not found"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "Python ModuleNotFoundError after installing package how to fix"
+  },
+  {
+   "task_family": "code_fix",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "Python ModuleNotFoundError after installing package how to fix"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "Eiffel Tower height vs Golden Gate Bridge height"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "Eiffel Tower height vs Golden Gate Bridge height comparison"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "Eiffel Tower height vs Golden Gate Bridge height comparison"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "height of Eiffel Tower vs height of Golden Gate Bridge"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "height of Eiffel Tower vs height of Golden Gate Bridge"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "height of Eiffel Tower vs height of Golden Gate Bridge"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "gpt-oss-20b",
+   "query": "Eiffel Tower height versus Golden Gate Bridge height comparison"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "gpt-oss-20b",
+   "query": "Eiffel Tower height vs Golden Gate Bridge height"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "gpt-oss-20b",
+   "query": "Eiffel Tower height vs Golden Gate Bridge height"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "Eiffel Tower height Golden Gate Bridge height"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "Eiffel Tower height compared to Golden Gate Bridge height"
+  },
+  {
+   "task_family": "fact_verify",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "Eiffel Tower height Golden Gate Bridge height"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "convert heic to png linux command line"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "convert heic to png command line linux"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "convert heic to png linux command line"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "convert HEIC to PNG on Linux server command line"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "convert heic to png linux command line"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "convert heic to png linux command line"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "gpt-oss-20b",
+   "query": "convert HEIC to PNG on Linux command line (no GUI)"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "gpt-oss-20b",
+   "query": "HEIC to PNG conversion Linux command line tool without GUI"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "gpt-oss-20b",
+   "query": "convert HEIC to PNG on Linux command line without GUI"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "convert HEIC to PNG Linux command line"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "convert HEIC to PNG Linux command line without GUI"
+  },
+  {
+   "task_family": "file_convert",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "convert HEIC to PNG command line Linux server without GUI"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "email address validator billing@example-corp.io"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "email address validator billing@example-corp.io"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "llama-3.3-70b-instruct-fp8-fast",
+   "query": "check if email address exists billing@example-corp.io"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "billing@example-corp.io MX record"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "site:mxtoolbox.com email billing@example-corp.io"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "mistral-small-3.1-24b-instruct",
+   "query": "billing@example-corp.io email verification or \"can receive mail"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "gpt-oss-20b",
+   "query": "billing@example-corp.io MX record"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "gpt-oss-20b",
+   "query": "example-corp.io MX record and mail server verification for billing@example-corp.io"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "billing@example-corp.io"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "billing@example-corp.io email address deliverability check"
+  },
+  {
+   "task_family": "email_validate",
+   "model": "nemotron-3-super-120b-a12b:free",
+   "query": "billing@example-corp.io\" email deliverability"
+  }
+ ],
+ "overall_freq_top60": {
+  "height": 24,
+  "cheapest": 13,
+  "managed": 13,
+  "tier": 13,
+  "quietbrook-labs.com": 12,
+  "database": 12,
+  "eiffel": 12,
+  "tower": 12,
+  "golden": 12,
+  "gate": 12,
+  "bridge": 12,
+  "heic": 12,
+  "png": 12,
+  "linux": 12,
+  "command": 12,
+  "line": 12,
+  "availability": 11,
+  "domain": 11,
+  "convert": 11,
+  "billing@example-corp.io": 11,
+  "modulenotfounderror": 10,
+  "package": 10,
+  "python": 9,
+  "after": 8,
+  "vs": 8,
+  "postgres": 7,
+  "price": 7,
+  "postgresql": 7,
+  "email": 7,
+  "pricing": 6,
+  "check": 5,
+  "gui": 5,
+  "comparison": 4,
+  "current": 4,
+  "fix": 4,
+  "installing": 4,
+  "pip": 4,
+  "install": 4,
+  "without": 4,
+  "address": 4,
+  "name": 3,
+  "2024": 3,
+  "installed": 3,
+  "no": 3,
+  "server": 3,
+  "mx": 3,
+  "record": 3,
+  "solution": 2,
+  "modulenotfounderror:": 2,
+  "module": 2,
+  "named": 2,
+  "not": 2,
+  "found": 2,
+  "validator": 2,
+  "verification": 2,
+  "mail": 2,
+  "deliverability": 2,
+  "available": 1,
+  "register": 1,
+  "cost": 1
+ },
+ "per_task_freq": {
+  "domain_check": {
+   "quietbrook-labs.com": 12,
+   "availability": 11,
+   "domain": 11,
+   "check": 3,
+   "name": 3,
+   "available": 1,
+   "register": 1
+  },
+  "price_lookup": {
+   "cheapest": 13,
+   "managed": 13,
+   "tier": 13,
+   "database": 12,
+   "postgres": 7,
+   "price": 7,
+   "postgresql": 7,
+   "pricing": 6,
+   "current": 4,
+   "2024": 3,
+   "comparison": 1,
+   "cost": 1,
+   "aws": 1,
+   "rds": 1,
+   "google": 1,
+   "cloud": 1,
+   "sql": 1,
+   "azure": 1
+  },
+  "code_fix": {
+   "modulenotfounderror": 10,
+   "package": 10,
+   "python": 9,
+   "after": 8,
+   "fix": 4,
+   "installing": 4,
+   "pip": 4,
+   "install": 4,
+   "installed": 3,
+   "solution": 2,
+   "modulenotfounderror:": 2,
+   "no": 2,
+   "module": 2,
+   "named": 2,
+   "not": 2,
+   "found": 2,
+   "despite": 1,
+   "installation": 1,
+   "package_name": 1,
+   "script": 1,
+   "still": 1,
+   "but": 1
+  },
+  "fact_verify": {
+   "height": 24,
+   "eiffel": 12,
+   "tower": 12,
+   "golden": 12,
+   "gate": 12,
+   "bridge": 12,
+   "vs": 8,
+   "comparison": 3,
+   "versus": 1,
+   "compared": 1
+  },
+  "file_convert": {
+   "heic": 12,
+   "png": 12,
+   "linux": 12,
+   "command": 12,
+   "line": 12,
+   "convert": 11,
+   "gui": 5,
+   "without": 4,
+   "server": 2,
+   "no": 1,
+   "conversion": 1,
+   "tool": 1
+  },
+  "email_validate": {
+   "billing@example-corp.io": 11,
+   "email": 7,
+   "address": 4,
+   "mx": 3,
+   "record": 3,
+   "validator": 2,
+   "check": 2,
+   "verification": 2,
+   "mail": 2,
+   "deliverability": 2,
+   "if": 1,
+   "exists": 1,
+   "site:mxtoolbox.com": 1,
+   "receive": 1,
+   "example-corp.io": 1,
+   "server": 1
+  }
+ },
+ "observatory_sample_n": 99,
+ "observatory_terms_of_interest": {
+  "api": 10,
+  "tool": 10,
+  "free": 4,
+  "verify": 0,
+  "verified": 2,
+  "check": 8,
+  "convert": 0,
+  "lookup": 0,
+  "agent-friendly": 0,
+  "mcp": 3,
+  "llms.txt": 0,
+  "x402": 0
+ }
+}

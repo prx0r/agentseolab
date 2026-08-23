@@ -36,3 +36,22 @@ agents actually search WITH, we are invisible regardless of quality.
 
 ## Status
 RUNNING 2026-08-23 · prereg: results/experiments/qlex/PREREG_*.json
+
+## Findings (2026-08-23, first pass)
+1. **Greedy (temp=0) convergence**: 70 queries → only 30 unique. Across 4 model families,
+   the FIRST query for a task is near-canonical: "availability of domain name X",
+   "cheapest managed postgres tier pricing", "convert heic to png linux command line".
+   → Agent query language is functional-noun style; zero marketing vocabulary.
+2. **Sampled (temp=0.7) diversity**: 71 → 49 unique. Distribution spreads but top terms
+   stay functional (cheapest/managed/tier/database). The mode IS the market.
+3. **Observatory spot-check** (99 Moltbook posts): "api"(10) and "tool"(10) dominate;
+   "verify/verified" nearly absent, "mcp"(3), "x402"(0), "llms.txt"(0).
+   → Agents TALK about tools/APIs constantly but verification language is not organic
+   agent vocabulary — it's vendor vocabulary. VERIF experiment tests whether vendors'
+   verification markers still move selection.
+4. Actionable: llms.txt/page copy should lead with the exact functional verb+noun pairs
+   above ("availability", "cheapest … pricing", "convert … command line").
+
+## Known limits
+First-query-only (no reformulation trajectories); Moltbook sample n=99 (scale-up pending);
+greedy vs sampled corpora must never be pooled.
