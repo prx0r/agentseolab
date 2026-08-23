@@ -117,8 +117,15 @@ def extract_events(messages):
     call_index = {}       # call_id -> emitted search_query index (for results join)
     seq = 0
     for msg in messages:
+        # tolerate raw rows where tool_calls is still a JSON string
+        raw_calls = msg.get("tool_calls")
+        if isinstance(raw_calls, str):
+            try:
+                raw_calls = json.loads(raw_calls)
+            except json.JSONDecodeError:
+                raw_calls = []
         # --- assistant tool calls ---
-        for tc in msg.get("tool_calls") or []:
+        for tc in raw_calls or []:
             if isinstance(tc, str):
                 try:
                     tc = json.loads(tc)

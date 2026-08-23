@@ -1,3 +1,7 @@
 /target
 ref/
 runner/.env
+
+# SQLite sidecar files regenerate on every connection
+/lab.db-shm
+/lab.db-wal
