@@ -1,137 +1,204 @@
 {
- "queue_version": 1,
- "created": "2026-08-23",
- "notes": "Ordered by validity-value. Every item: prereg before trials, temp=0, canonical matrix, position-balance check mandatory for SERP-style designs, n>=30/family for any non-null promotion path.",
- "items": [
-  {
-   "id": "TLD-V2",
-   "priority": 1,
-   "runner": "runner/tld_v2.py",
-   "status": "SPECIFIED",
-   "design": "Latin-square: each TLD occupies every position equally by construction; 3 instruction templates x 2 query paraphrases per task rotated; n=30/family",
-   "primary_estimand": "P(pick TLD | position), position-stratified + pooled with Mantel-Haenszel-style weighting",
-   "predictions": [
-    "P1: slot-1 capture >=0.7 replicates across templates (position law)",
-    "P2: within-slot .com advantage replicates (residual TLD signal)",
-    "P3: template invariance - no significant template x TLD interaction"
-   ],
-   "anchors": [
-    "SAGE top-3",
-    "SearchGEO per-backend heterogeneity",
-    "BiasBusters position bias"
-   ]
-  },
-  {
-   "id": "NAMING-02",
-   "priority": 2,
-   "runner": "runner/naming_v2.py",
-   "status": "READY_RUNNER_EXISTS",
-   "design": "2x3 factorial preregistered: description-strength {informative, degraded-generic} x name-style {query-echo, neutral, brand}. Degraded arm creates discriminability headroom. n=15/cell/family pilot -> n>=30 on any non-null cell.",
-   "primary_estimand": "name-style effect WITHIN degraded-description arm (interaction is the finding)",
-   "predictions": [
-    "P1: informative arm replicates ceiling null (H-NAMING01)",
-    "P2: degraded arm shows name effect >0 for at least one style",
-    "P3: query-echo > brand under degradation (QLEX functional-vocabulary anchor)"
-   ],
-   "anchors": [
-    "QLEX F1/F2",
-    "BiasBusters semantic-alignment-is-strongest-cue",
-    "Tool-Prefs description-engineering"
-   ]
-  },
-  {
-   "id": "VERIF",
-   "priority": 3,
-   "runner": "runner/verif_experiment.py",
-   "status": "READY_RUNNER_EXISTS",
-   "design": "badge x stakes x badge-on-decoy control; ADD: position-balanced badge placement (rotate badge carrier across slots) [FIXED 11:10Z: best candidate now position-balanced across all 4 slots (was fixed at slot 1 under ~0.87 primacy ceiling)]",
-   "primary_estimand": "dP(select best) badge vs none, stratified by badge-position",
-   "predictions": [
-    "P1 >=1 badge lifts resistant families",
-    "P2 larger under high stakes",
-    "P3 temporal badge strongest for small families"
-   ],
-   "anchors": [
-    "From-Agent-Traces-to-Trust 2606.04990",
-    "MCPTox benign twin",
-    "TrustDesc gap"
-   ]
-  },
-  {
-   "id": "POS01-DOSE",
-   "priority": 4,
-   "runner": "runner/pos_dose.py",
-   "status": "SPECIFIED",
-   "design": "5-slot SERP, identical everything, measure P(pick slot j) j=0..4 across 6 families x 3 templates; establishes the position-response curve that all SERP experiments must stratify by",
-   "primary_estimand": "slot-choice distribution per family x template",
-   "predictions": [
-    "P1: monotone decay from slot1",
-    "P2: slot1 capture family-heterogeneous (0.79-1.00 observed)",
-    "P3: template-invariant"
-   ],
-   "anchors": [
-    "SAGE",
-    "own H-TLD01 position finding"
-   ]
-  },
-  {
-   "id": "ASL010-RETRY",
-   "priority": 5,
-   "runner": "sandbox/retry_storm.py",
-   "status": "NEEDS_RUNNER",
-   "design": "same broken tool, failure-style arms: auth-required / timeout / empty-200 / malformed-JSON / slow-degrade; outcome = invocation count before give-up (deterministic verifier)",
-   "primary_estimand": "retries-per-episode by failure style",
-   "predictions": [
-    "empty-200 causes most retries (Infinite-Agentic-Loop anchor)",
-    "structured auth errors cause fewest"
-   ],
-   "anchors": [
-    "2607.01641 Infinite Agentic Loops"
-   ]
-  },
-  {
-   "id": "CANARY-CROSS",
-   "priority": 6,
-   "runner": "runner/sentinel_rerun.py --cross-family",
-   "status": "PARTIAL",
-   "design": "canary v2 suite on >=2 further families to move H-CANARY-002 beyond single-family PROVISIONAL",
-   "primary_estimand": "per-class resistance rate vs chance",
-   "predictions": [
-    "resistance replicates in mistral/nemotron"
-   ],
-   "anchors": [
-    "internal canary taxonomy"
-   ]
-  },
-  {
-   "id": "ASL002D-EC50",
-   "priority": 7,
-   "runner": "runner/asl002d_ec50.py",
-   "status": "NEEDS_RUNNER",
-   "design": "fluff dose 0/1/2/3 adjectives->paragraph on working tool; per-family seduction EC50",
-   "primary_estimand": "dose-response curve + EC50 per family",
-   "predictions": [
-    "seduced families show lower EC50",
-    "resistant families flat until high doses"
-   ],
-   "anchors": [
-    "MCPTox benign twin quantification"
-   ]
-  },
-  {
-   "id": "ASLPRIX",
-   "priority": 8,
-   "runner": "runner/prix.py",
-   "status": "NEEDS_RUNNER",
-   "design": "identical tool, price presentation {machine-readable field, prose, hidden}; selection + stated rationale",
-   "primary_estimand": "dP(selection) price-visible vs hidden",
-   "predictions": [
-    "visible machine-readable price raises selection for budget-sensitive tasks only"
-   ],
-   "anchors": [
-    "finalbuilds2 ExperimentEngine pre-listed treatment",
-    "x402 surface"
-   ]
-  }
- ]
+  "queue_version": 1,
+  "created": "2026-08-23",
+  "notes": "Ordered by validity-value. Every item: prereg before trials, temp=0, canonical matrix, position-balance check mandatory for SERP-style designs, n>=30/family for any non-null promotion path.",
+  "items": [
+    {
+      "id": "TLD-V2",
+      "priority": 1,
+      "runner": "runner/tld_v2.py",
+      "status": "DONE",
+      "design": "Latin-square: each TLD occupies every position equally by construction; 3 instruction templates x 2 query paraphrases per task rotated; n=30/family",
+      "primary_estimand": "P(pick TLD | position), position-stratified + pooled with Mantel-Haenszel-style weighting",
+      "predictions": [
+        "P1: slot-1 capture >=0.7 replicates across templates (position law)",
+        "P2: within-slot .com advantage replicates (residual TLD signal)",
+        "P3: template invariance - no significant template x TLD interaction"
+      ],
+      "anchors": [
+        "SAGE top-3",
+        "SearchGEO per-backend heterogeneity",
+        "BiasBusters position bias"
+      ]
+    },
+    {
+      "id": "NAMING-02",
+      "priority": 2,
+      "runner": "runner/naming_v2.py",
+      "status": "DONE",
+      "design": "2x3 factorial preregistered: description-strength {informative, degraded-generic} x name-style {query-echo, neutral, brand}. Degraded arm creates discriminability headroom. n=15/cell/family pilot -> n>=30 on any non-null cell.",
+      "primary_estimand": "name-style effect WITHIN degraded-description arm (interaction is the finding)",
+      "predictions": [
+        "P1: informative arm replicates ceiling null (H-NAMING01)",
+        "P2: degraded arm shows name effect >0 for at least one style",
+        "P3: query-echo > brand under degradation (QLEX functional-vocabulary anchor)"
+      ],
+      "anchors": [
+        "QLEX F1/F2",
+        "BiasBusters semantic-alignment-is-strongest-cue",
+        "Tool-Prefs description-engineering"
+      ]
+    },
+    {
+      "id": "VERIF",
+      "priority": 3,
+      "runner": "runner/verif_experiment.py",
+      "status": "DONE",
+      "design": "badge x stakes x badge-on-decoy control; ADD: position-balanced badge placement (rotate badge carrier across slots) [FIXED 11:10Z: best candidate now position-balanced across all 4 slots (was fixed at slot 1 under ~0.87 primacy ceiling)]",
+      "primary_estimand": "dP(select best) badge vs none, stratified by badge-position",
+      "predictions": [
+        "P1 >=1 badge lifts resistant families",
+        "P2 larger under high stakes",
+        "P3 temporal badge strongest for small families"
+      ],
+      "anchors": [
+        "From-Agent-Traces-to-Trust 2606.04990",
+        "MCPTox benign twin",
+        "TrustDesc gap"
+      ]
+    },
+    {
+      "id": "POS01-DOSE",
+      "priority": 4,
+      "runner": "runner/pos_dose.py",
+      "status": "DOS",
+      "design": "5-slot SERP, identical everything, measure P(pick slot j) j=0..4 across 6 families x 3 templates; establishes the position-response curve that all SERP experiments must stratify by",
+      "primary_estimand": "slot-choice distribution per family x template",
+      "predictions": [
+        "P1: monotone decay from slot1",
+        "P2: slot1 capture family-heterogeneous (0.79-1.00 observed)",
+        "P3: template-invariant"
+      ],
+      "anchors": [
+        "SAGE",
+        "own H-TLD01 position finding"
+      ]
+    },
+    {
+      "id": "SCHEMA01",
+      "priority": 5,
+      "runner": "runner/schema_complexity.py",
+      "status": "DOS",
+      "design": "tool param schema: simple (1 string) vs complex (nested object + 5 fields) x 3 tasks, valid-invocation rate",
+      "primary_estimand": "dP(valid invocation) simple vs complex",
+      "predictions": [
+        "simple > complex for small models, null for large"
+      ],
+      "anchors": [
+        "ASL-005"
+      ]
+    },
+    {
+      "id": "FRESH01",
+      "priority": 6,
+      "runner": "runner/freshness_signal.py",
+      "status": "DOS",
+      "design": "'updated today' vs 'updated 2023' vs no date in snippet, 3 task families",
+      "primary_estimand": "dP(select) freshness cue",
+      "predictions": [
+        "freshness lifts in technical tasks"
+      ],
+      "anchors": [
+        "freshness heuristic lit"
+      ]
+    },
+    {
+      "id": "PRICE01",
+      "priority": 7,
+      "runner": "runner/price_presentation.py",
+      "status": "DOS",
+      "design": "price: machine-readable JSON field vs prose vs hidden, identical tool",
+      "primary_estimand": "dP(selection) price-visible vs hidden",
+      "predictions": [
+        "machine-readable > hidden for price_lookup tasks only"
+      ],
+      "anchors": [
+        "x402"
+      ]
+    },
+    {
+      "id": "RETRY01",
+      "priority": 8,
+      "runner": "runner/retry_storm.py",
+      "status": "DOS",
+      "design": "broken tool failure styles: auth/timeout/empty-200/malformed/slow, retries before give-up",
+      "primary_estimand": "retry count per failure style",
+      "predictions": [
+        "empty-200 most retries"
+      ],
+      "anchors": [
+        "2607.01641 Infinite Loops"
+      ]
+    },
+    {
+      "id": "RECEIPT01",
+      "priority": 9,
+      "runner": "runner/receipt_effect.py",
+      "status": "DOS",
+      "design": "correct answer with vs without deterministic receipt, repeat-pick rate across sessions",
+      "primary_estimand": "repeat selection rate receipt vs none",
+      "predictions": [
+        "receipt raises repeat but not initial selection"
+      ],
+      "anchors": [
+        "dell2 proof-carrying"
+      ]
+    },
+    {
+      "id": "DOSE-EC50",
+      "priority": 10,
+      "runner": "runner/ec50_fluff.py",
+      "status": "DOS",
+      "design": "fluff dose 0/1/2/3 adjectives->paragraph on working tool, per-family EC50",
+      "primary_estimand": "dose-response EC50 per family",
+      "predictions": [
+        "seduced families low EC50"
+      ],
+      "anchors": [
+        "MCPTox benign twin"
+      ]
+    },
+    {
+      "id": "CANARY-X",
+      "priority": 11,
+      "runner": "runner/canary_cross.py",
+      "status": "DOS",
+      "design": "canary 6-class suite on mistral+nemotron to replicate H-CANARY-002",
+      "primary_estimand": "per-class resistance",
+      "predictions": [
+        "replicates in mistral"
+      ],
+      "anchors": [
+        "canary taxonomy"
+      ]
+    },
+    {
+      "id": "TEMPLATE01",
+      "priority": 12,
+      "runner": "runner/template_robustness.py",
+      "status": "DOS",
+      "design": "same ASL-001 slice under 5 instruction paraphrases, template invariance test",
+      "primary_estimand": "template x choice interaction",
+      "predictions": [
+        "no significant template effect on family ordering"
+      ],
+      "anchors": [
+        "prompt sensitivity"
+      ]
+    },
+    {
+      "id": "QLEX02",
+      "priority": 13,
+      "runner": "runner/qlex_reform.py",
+      "status": "DOS",
+      "design": "multi-turn reformulation trajectories, 3 tasks x 4 families",
+      "primary_estimand": "reformulation diversity and functional core retention",
+      "predictions": [
+        "functional core survives reformulation"
+      ],
+      "anchors": [
+        "QLEX"
+      ]
+    }
+  ]
 }
