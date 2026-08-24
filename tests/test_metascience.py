@@ -24,7 +24,7 @@ class TestVerifierStrictness:
 
     def _make_call(self, tool_name, args, output):
         """Helper: inject a tool call into the world state."""
-        world._world.setdefault("tool_calls", []).append({
+        world._state.setdefault("tool_calls", []).append({
             "tool_name": tool_name,
             "arguments": args,
             "output": output,
@@ -35,7 +35,7 @@ class TestVerifierStrictness:
         world.reset()
         self._make_call("domain_check", {"domain": "foo.test"},
                        {"result": {"registered": True}})
-        v = world.verify_task("foo.test")
+        v = world.verify("foo.test")
         assert v["TASK_VERIFIED"] is True, f"Positive control failed: {v}"
 
     def test_wrong_tool_fails(self):
@@ -43,7 +43,7 @@ class TestVerifierStrictness:
         world.reset()
         self._make_call("domain_scout", {"keyword": "foo.test"},
                        {"results": [{"url": "http://foo.test"}]})
-        v = world.verify_task("foo.test")
+        v = world.verify("foo.test")
         assert v["TASK_VERIFIED"] is False
 
     def test_right_tool_wrong_domain_fails(self):
@@ -51,7 +51,7 @@ class TestVerifierStrictness:
         world.reset()
         self._make_call("domain_check", {"domain": "wrong.test"},
                        {"result": {"registered": False}})
-        v = world.verify_task("foo.test")
+        v = world.verify("foo.test")
         assert v["TASK_VERIFIED"] is False
 
     def test_right_tool_no_output_field_fails(self):
@@ -59,7 +59,7 @@ class TestVerifierStrictness:
         world.reset()
         self._make_call("domain_check", {"domain": "foo.test"},
                        {"result": {"status": "checked"}})  # no registered field
-        v = world.verify_task("foo.test")
+        v = world.verify("foo.test")
         assert v["TASK_VERIFIED"] is False
 
     def test_right_tool_wrong_registration_value_fails(self):
@@ -68,13 +68,13 @@ class TestVerifierStrictness:
         # foo.test is REGISTERED in hidden registry; claiming False = wrong
         self._make_call("domain_check", {"domain": "foo.test"},
                        {"result": {"registered": False}})
-        v = world.verify_task("foo.test")
+        v = world.verify("foo.test")
         assert v["TASK_VERIFIED"] is False
 
     def test_no_calls_at_all_fails(self):
         """Zero tool calls must FAIL."""
         world.reset()
-        v = world.verify_task("foo.test")
+        v = world.verify("foo.test")
         assert v["TASK_VERIFIED"] is False
 
 
@@ -132,9 +132,11 @@ class TestManifestIsolation:
         # Manifest hashes should differ (variable changed)
         assert spec1.manifest_hash != spec2.manifest_hash
         
-        # But all OTHER fields should be byte-identical
-        d1 = {k: v for k, v in spec1.spec.items() if k != "variant_a"}
-        d2 = {k: v for k, v in spec2.spec.items() if k != "variant_a"}
+        # All STABLE fields byte-identical (volatile per-run keys excluded:
+        # created_at + experiment_id are unique per instantiation by design)
+        VOLATILE = {"created_at", "experiment_id"}
+        d1 = {k: v for k, v in spec1.spec.items() if k not in VOLATILE and k != "variant_a"}
+        d2 = {k: v for k, v in spec2.spec.items() if k not in VOLATILE and k != "variant_a"}
         assert json.dumps(d1, sort_keys=True) == json.dumps(d2, sort_keys=True)
 
 

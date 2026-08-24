@@ -1,0 +1,63 @@
+{
+  "uploaded": "2026-08-24T15:52:26Z",
+  "objects": [
+    {
+      "local": "results/domainarena_live_fixture.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/domainarena_live_fixture.json",
+      "sha256": "905621a4586f252c31b634341e7f559963e19b82cf34f23e5ff438ed6be01da6",
+      "bytes": 1075
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T070915Z_0a5d8f8b.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T070915Z_0a5d8f8b.json",
+      "sha256": "ab2020479af4e1002659fa3f65fb1bc80dde81805b1d5ac4d04981cc3db9f536",
+      "bytes": 1288
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T072528Z_8181178c.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T072528Z_8181178c.json",
+      "sha256": "85b4f99bce4e52493605e79f6207d173c6783073446e40e1ad083af4759b8ae3",
+      "bytes": 1288
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T152447Z_321d2155.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T152447Z_321d2155.json",
+      "sha256": "e59d58c581b7f4e8bd6f6ce3d82dc8c22dbaaf81b08cccb6d0208b73928b8bcf",
+      "bytes": 1288
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T152454Z_fc4854d3.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T152454Z_fc4854d3.json",
+      "sha256": "9a1472cd2b6bd8f18e4443b4e408320ddbe0e187460f7a35ba0b5f3082dda7dc",
+      "bytes": 1288
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T152507Z_ad0484f9.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T152507Z_ad0484f9.json",
+      "sha256": "33cbce715fde5b19ad284db6b20933c345723e7562f40c339eb30ffb414b506c",
+      "bytes": 1288
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T153745Z_c2b19b92.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T153745Z_c2b19b92.json",
+      "sha256": "61a317f87b53024ab9374f1efb2f300b3eb9705d241cb5b33d3bff9ee53020a7",
+      "bytes": 1288
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T154501Z_cd0cde4f.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T154501Z_cd0cde4f.json",
+      "sha256": "0caf3300f1e5e0ff1c667ecf47e3e3c99c28e4f2ebbb2f0906a9cfcf15744d02",
+      "bytes": 1306
+    },
+    {
+      "local": "results/ledger/domainarena/da_20260824T154525Z_1dded425.json",
+      "remote": "r2:qdw/evidence/domainarena/20260824/results/ledger/domainarena/da_20260824T154525Z_1dded425.json",
+      "sha256": "41ae2a8b72a36e8940fc8e1c1b225758da48e4ebe2f36a2b9d22a4ecaa42647f",
+      "bytes": 1306
+    }
+  ],
+  "remote_verify": {
+    "probe": "domainarena_live_fixture.json",
+    "pass": true
+  }
+}

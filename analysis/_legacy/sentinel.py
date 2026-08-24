@@ -26,11 +26,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "..", "analysis"))
 
-SUITE_PATH = os.path.join(HERE, "sentinel_suite_v1.spec.json")
+SUITE_PATH = os.path.join(HERE, "..", "..", "runner", "field", "sentinel_suite_v1.spec.json")
 STATE_PATH = os.environ.get("ASL_SENTINEL_STATE",
                             "/root/agentseolab/runs/sentinel_state.json")
 OUT_DIR = "/root/agentseolab/runs"
-LIB_PATH = os.path.join(HERE, "..", "evidence_library.json")
+LIB_PATH = os.path.join(HERE, "..", "..", "evidence_library.json")
 
 # Validity-sprint A7: statuses eligible to serve as drift baselines. The full
 # status enum lives in analysis/evidence_library.py; anything not listed here

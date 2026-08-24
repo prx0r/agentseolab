@@ -1,0 +1,11 @@
+INFO:     Started server process [1443293]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8801 (Press CTRL+C to quit)
+INFO:     127.0.0.1:33134 - "POST /v1/recommend HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:43188 - "POST /v1/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33042 - "POST /v1/recommend HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1443293]

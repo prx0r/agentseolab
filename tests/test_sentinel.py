@@ -8,6 +8,7 @@ baseline is NO_VALID_BASELINE until explicitly adopted.
 """
 import json, os, sys, tempfile, unittest
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "analysis", "_legacy"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "runner"))
 import sentinel  # noqa: E402
 

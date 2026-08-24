@@ -1,0 +1,10 @@
+services:
+  api:
+    build: .
+    ports: ["8801:8801"]
+    env_file: .env
+  ui:
+    build: .
+    command: python -m domainarena.web.app
+    ports: ["8777:8777"]
+    env_file: .env
