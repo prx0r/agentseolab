@@ -1,0 +1,299 @@
+DevNetwork [API + Cloud + AI] Hackathon 2026: Join the nation's largest challenge-driven API + Cloud + AI hackathon @ API World 2026! - Devpost
+We've detected that you are using an unsupported browser.  Please
+upgrade your browser
+to Internet Explorer 10 or higher.
+Log in
+Sign up
+Join a hackathon
+Devpost
+Participate in our public hackathons
+Hackathons
+Projects
+Devpost for Teams
+Access your company's private hackathons
+Login
+Host a hackathon
+Devpost
+Grow your developer ecosystem and promote your platform
+Host a public hackathon
+Devpost for Teams
+Drive innovation, collaboration, and retention within your organization
+Host an internal hackathon
+By use case
+AI hackathons
+Customer hackathons
+Employee hackathons
+Public hackathons
+Resources
+Blog
+Insights into hackathon planning and participation
+Customer stories
+Inspiration from peers and other industry leaders
+Planning guides
+Best practices for planning online and in-person hackathons
+Webinars & events
+Upcoming events and on-demand recordings
+Help desk
+Common questions and support documentation
+Join a hackathon
+Devpost
+Participate in our public hackathons
+Hackathons
+Projects
+Devpost for Teams
+Access your company's private hackathons
+Login
+Host a hackathon
+Devpost
+Grow your developer ecosystem and promote your platform
+Host a public hackathon
+Devpost for Teams
+Drive innovation, collaboration, and retention within your organization
+Host an internal hackathon
+By use case
+AI hackathons
+Customer hackathons
+Employee hackathons
+Public hackathons
+Resources
+Blog
+Insights into hackathon planning and participation
+Customer stories
+Inspiration from peers and other industry leaders
+Planning guides
+Best practices for planning online and in-person hackathons
+Webinars & events
+Upcoming events and on-demand recordings
+Help desk
+Common questions and support documentation
+Log in
+Sign up
+DevNetwork [API + Cloud + AI] Hackathon 2026
+Deadline: Sep  3, 2026 @ 10:00am PDT
+Join hackathon
+Descend
+Overview
+My projects
+Participants (975)
+Rules
+Project gallery
+Updates
+Discussions
+Sponsors & Prizes
+DevNetwork [API + Cloud + AI] Hackathon 2026 Overall Winner
+$12,500 in cash value
+1st Place Prize:
+- Amazon Echos (Up to 5)
+- DevNetwork Premium All-Access Passes to all 2027 conferences
+- Announcement in our email to 60,000 subscribers listing your team and project
+ 
+ 
+ 
+Perfect Corp: Building the Next Generation of AI-Driven Consumer Experiences
+$2,500 in cash
+1st Place: $1,500
+2nd Place: $1,000
+Contact:
+valerie_torres@perfectcorp.com
+ 
+APIWORLD -
+https://yce.perfectcorp.com/api-console/en/redeem-code/
+• Design and build an immersive web or mobile experience using Perfect Corp’s AI- and AR-powered technology suite to solve real-world consumer needs.
+• Participants are encouraged to explore creative, innovative, and unexpected ways to leverage Perfect Corp’s APIs — from virtual try-on and AI skin analysis to personalized product recommendations, gen AI text-to-image creation, and fashion visualization — to create engaging, interactive experiences or shopping journeys.
+• Participants are encouraged to explore creative and unexpected use cases for Perfect’s suite of APIs
+• Must integrate at least 1 Perfect Corp API and demonstrate clear consumer or retail value
+• Project page with short write-up & screenshots
+• Demo video (1-3 minutes) showing the experience end-to-end
+• Must participate in an exit interview if chosen as winner
+To be included in a blog article
+• One questionnaire to fill out once chosen as winner
+ 
+ 
+ 
+ 
+Nutrient - Turn Documents Into Something People Actually Trust: Nutrient DWS Challenge
+$1,500 in cash + cash value
+1st Place: $750 Visa Cash Giftcard
+DWS Credits based on the winners preference ($250 Cash Value)
+2nd Place: $250 Visa Cash Giftcard
+DWS Credits based on the winners preference ($250 Cash Value)
+Contact: douglas@nutrient.io
+ 
+api.nutrient.io/campaigns/api-world-cloudx-ai-hackathon-2026/
+"
+username: api-world-cloudx-2026
+password: 5746c8e69078fde0126109ce5f8c301f
+ 
+Every business runs on documents — contracts, invoices, forms, IDs, claims, reports — and when they're regulated, "almost right" isn't good enough. Nutrient DWS is the deterministic document platform for agents and humans: REST APIs and SDKs to parse, extract, convert, redact, digitally sign, and archive documents, plus the embeddable DWS Viewer for human review — all with replayable output and full audit trails the AI-alone approach can't guarantee. The best document work isn't one magic call — it's a pipeline: pull the data out, judge how confident you are, bring a human in exactly where it matters, and keep a record of every step.
+And the timing isn't academic — a wave of new mandates is hitting regulated document work right now. Your mission: turn messy documents into something useful — and trustworthy enough to run on real, regulated work.
+Free DWS access for the whole event. Create a DWS account and you're building in minutes — every account starts with free credits, and if you need more, just ask and we'll top you up.
+The one rule: your project must use Nutrient DWS — the API, an SDK, or the Viewer — for at least one core document operation, meaningfully (not a single throwaway call). Everything else is yours to invent. Bonus respect for pipelines that lean on what makes DWS different: deterministic, auditable output, with a human in the loop where a guess isn't acceptable.
+Need a spark? (ideas, not requirements)
+Each shares the same shape — let AI do the heavy lifting, pull a human in for the tricky calls, keep an audit trail — and each is anchored to a real regulation landing right now.
+Onboard a customer the regulators will accept. Read someone's ID and supporting docs, auto-approve the clear cases, send the doubtful ones to a human — with a trail a regulator can follow. (EU digital-identity + anti-money-laundering rules, 2026–2027.) → DWS: Data Extraction API to parse the ID and supporting docs into key fields with confidence scores; DWS Viewer for the cases a human must judge.
+Turn a PDF invoice into a compliant e-invoice. Read a messy invoice, convert it to the EU's required structured format, let a human fix what the model wasn't sure about, keep a dated record of what was sent. (France mandate Sept 1 — mid-event.) → DWS: Data Extraction API for line items and totals; digitally sign the result so its authenticity is provable.
+Catch the costly mismatch in a bundle of trade documents. Cross-check an invoice, a shipping doc, and a certificate, surface the discrepancy that would cost a customs penalty, and let a human make the final call. (New electronic-transferable-records laws.) → DWS: Data Extraction API to parse each document into comparable fields; DWS Viewer for the human decision.
+Beat the mortgage-appraisal cutover. US home appraisals switch to a new required format at the end of 2026 — miss it and the report gets bounced. Read an appraisal, fill the new format, flag anything uncertain, keep a full audit trail. → DWS: Data Extraction API to lift fields (confidence scores flag the uncertain ones); DWS Viewer to review before the report goes out.
+Redact, then release. Black out personal info, have a human sign off on the redactions, export a clean copy plus proof of what was removed. (New EU AI-transparency rules, live Aug 2026.) → DWS: AI redaction; DWS Viewer for human approval; digitally sign the cleared copy so it's tamper-evident and dated.
+What to submit
+Project name + one-line pitch
+Public repo (or shared link) with setup instructions
+2–4 min demo video showing it working end-to-end
+One line on where DWS does the heavy lifting and why
+ 
+ 
+ 
+Doctavian — Generate It Right. Sign It Tight.
+$1,000 in cash + cash value
+1st Place: $500 cash + $150 Doctavian subscription
+2nd Place: $200 cash + $150 Doctavian subscription
+Contact:
+hello@doctavian.com
+Doctavian is an intelligent document operations platform for generating and digitally signing documents — built for structured data with real complexity, not just flat fields swapped into a form letter.
+Most document APIs are glorified mail-merge — swap a name, swap a number, ship it. Doctavian's templates are smarter than that. Built on expressions and elements that branch, loop, and calculate on the fly, one template carries the logic to handle whatever data shows up — and shapes the result correctly, every time.
+Once a document is right, it doesn't have to stop there. Doctavian carries it forward too — to signed, sealed, and provable, if that's where your solution needs to go.
+Your challenge: bring us your messiest, most real-world data problem, and build an AI agent that turns it into a document that gets it right — repeatedly. Take it all the way to signed if your idea calls for it.
+Your agent needs to actually call Doctavian's generation API to shape a real document — not just talk about one.
+Reach out when you register and we'll get your team set up with API credentials fast.
+What to submit:
+Project name + one-line pitch
+Public repo (or shared link) with setup instructions
+Demo video (2–4 min) showing it working end to end
+One line on where Doctavian did the real work, and why
+ 
+ 
+name.com — Domain API Challenge
+$
+2,000
+in cash
+2 winners
+$2,000 in cash value
+1st Place: $1500 Amazon gift card
+2nd Place: $500 Amazon gift card
+Contact:
+daisy.edwards@identity.digital
+Build a product powered by the name.com API. This challenge asks developers to integrate the name.com API into a working product, using it for domain search, availability checks, registration, or DNS management as a core part of the build.
+The format is open. Participants can build something new or extend an existing project, as long as the name.com API is functionally central to what they ship. Judges want to see the API doing something the product actually depends on.
+Judging criteria
+API integration depth: How central is the name.com API to the product. Judges favor integrations that combine multiple endpoints (search plus registration plus DNS, for example) over a single surface-level call.
+Creativity and originality: Is the use case distinct. Judges favor unexpected applications over incremental tweaks on existing domain search tools.
+Technical execution: Code quality, architecture decisions, and how well the team handled edge cases.
+Real-world viability: Could this plausibly become a product or feature people would use. Judges weigh market relevance and clarity of the value proposition.
+Presentation and demo: Clarity of the final walkthrough. Judges want to see the integration in action, not just slides.
+ 
+SerpApi – Best AI Use Case
+$3,000 in cash + cash value
+1st Place: $1,000 cash + $1,000 in SerpApi credits (total value: $2,000)
+2nd Place:$500 cash + $500 in SerpApi credits (total value: $1,000)
+Contact:
+alaa@serpapi.com
+Build an innovative AI application using one or more SerpApi APIs to access reliable, structured, real-time web data. Projects should solve a meaningful real-world problem and demonstrate how live search data improves the AI experience. Judging will consider originality, technical execution, SerpApi integration, usability, and potential impact.
+ 
+Xano: Rebuild a SaaS Tool You Hate
+$2,500 in cash + cash value
+1st Place: $1,000 Cash + $500 Xano Credit
+2nd Place: $500 Cash + $500 Xano Credit
+Contact: 
+cameron.b@xano.com
+Every business relies on software—but much of it is outdated, slow, expensive, or frustrating to use.
+Your challenge is simple:
+Pick a business application you use today and build a better version with AI.
+Reimagine how AI can transform the software people use every day. Whether you're replacing a CRM, support desk, HR system, procurement portal, project management tool, or something entirely different, show us what business software should look like in the AI era.
+Need inspiration? (Ideas—not requirements)
+A CRM that summarizes customer interactions, suggests next steps, and automates follow-up.
+A help desk that routes tickets, drafts responses, and surfaces relevant customer history.
+A project management tool that creates tasks, tracks progress, and identifies risks automatically.
+An HR platform that streamlines onboarding, policies, and employee requests.
+A procurement system that automates approvals and vendor workflows.
+A customer portal that unifies data across multiple systems and personalizes every interaction.
+An operations dashboard that helps teams monitor systems and act on issues in real time.
+A knowledge management platform that helps employees find answers instantly.
+The only requirement
+Your project must use Xano as the backend in a meaningful way.
+Show us how you're using Xano to power your application's business logic, APIs, workflows, authentication, integrations, or data model.
+Everything else is up to you.
+What to Submit
+Project name + one-line pitch
+Public repository (or shared project)
+2–4 minute demo showing the application end-to-end
+Build story
+What software did you replace?
+Why did you choose it?
+Which AI tools did you use? (Claude Code, Cursor, etc.)
+Approximately how long did it take to build?
+What would have taken significantly longer without AI + Xano?
+Xano Hackathon — Getting Started
+1. Sign up for your free Essential Instance
+Click this signup link to get one free month on our Essential plan: [
+https://go.xano.co/devpost-challenge
+] After completing the checkout flow with the coupon code [M_Xano_PER_100_2608_1_DevpostHackathon], follow the prompts to update your instance and enter your workspace.
+https://youtu.be/J8x5YDlglsk
+2. Set up your workspace to allow pushes from the CLI directly
+In you workspace, access the settings (top-right corner), turn on the ability for the CLI to push to your workspace directly for this hackathon. See:
+https://docs.xano.com/xano-features/workspace-settings#cli
+3. Install the Xano developer tools (CLI & MCP)
+We recommend building with our Xano development tools (CLI & MCP) for the most efficient experience. Copy the prompt below into your local coding agent — Claude Code, Codex, Copilot, OpenCode, whatever you use. It will walk you through installing the tools and authenticating into Xano.
+[I'm participating in the DevPost Challenge Hackathon. Please access Xano's getting-started prompt at
+https://go.xano.co/start-xano-skill
+and walk me through installing the Xano developer tools (CLI & MCP) and authenticating with Xano's development workflow.
+Goals:
+Build a backend on Xano.
+Build a frontend locally and host it on Xano via static hosting.
+I've enabled direct workspace pushing, so we can skip the sandbox for speed — there's no risk since this is a hackathon. That said, always confirm changes with me via the git diff before pushing to the workspace.
+After we push to the workspace any functionality, I'll want you to test against the live backend thoroughly.
+Start by asking me what I want to build. Let's get started!]
+4. After your agent confirms you have the tools installed and are authenticated, prompt the agent to plan & build
+Build your backend & frontend with your local coding agent, then host it on Xano through static hosting. The prompt and skill above include instructions for this.
+5. Good luck!
+You should have a working frontend and backend up and running quickly with Xano. We can't wait to see what you build.
+Additional resources
+Getting started with AI:
+https://docs.xano.com/getting-started-ai
+Static hosting:
+https://docs.xano.com/xano-cli/static-hosting
+Developer MCP — get started:
+https://docs.xano.com/developer-mcp/get-started
+Foxit Software - Your Agent Shouldn't Sign That
+$
+1,000
+in cash
+2 winners
+$1,000 in cash value
+1st Place: $700
+2nd Place: $300
+Contact:
+theodore_castro@foxitsoftware.come
+Build an agent that starts from a plain prompt and ends with a signed document.
+Our open-source MCP server wraps the Foxit PDF Services API. Register it and your agent gets 40 tools for the reversible work: document generation, conversion, merging, compression, OCR, extraction. We left signing out of the catalog on purpose. To send anything for signature, your agent has to call the Foxit eSign API directly, with its own credentials, and a person has to sign it. That handoff is the interesting part of this challenge, and we want to see how you design it.
+The workflow itself is up to you.
+You can also argue with us. If you think signing belongs in the agent's toolset, or the boundary sits somewhere else entirely, build it your way and defend the choice.
+ 
+ 
+ 
+ 
+ 
+Devpost
+About
+Careers
+Contact
+Help
+Hackathons
+Browse hackathons
+Explore projects
+Host a hackathon
+Hackathon guides
+Portfolio
+Your projects
+Your hackathons
+Settings
+Connect
+Twitter
+Discord
+Facebook
+LinkedIn
+© 2026 Devpost, Inc. All rights reserved.
+Community guidelines
+Security
+CA notice
+Privacy policy
+Terms of service
