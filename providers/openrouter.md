@@ -22,3 +22,14 @@ Old model IDs from earlier sessions (llama-3.3-70b:free etc.) now 404 — catalo
 ## Quirks
 - 429 = per-key daily cap on that model, not per-minute. Waiting seconds doesn't help; wait a day or switch model.
 - Some models prepend chain-of-thought to content — strip before JSON parsing.
+
+## 2026-08-24 — key added to runner/.env (OPENROUTER_API_KEY)
+
+Model: stealth/ox-alpha (AGENTS.md-approved Go model)
+Endpoints: POST https://openrouter.ai/api/v1/chat/completions (OpenAI-compatible),
+           /api/v1/responses, /api/v1/messages (Anthropic-format)
+Reasoning: "reasoning" param; response includes reasoning_details.
+
+Probed 2026-08-24: first chat/completions call → 502 Provider returned error
+(provider_name=Stealth). Retry with backoff; treat 502 as transient serving
+failure (consistent with H-SERVE01 discipline — never count as a selection).

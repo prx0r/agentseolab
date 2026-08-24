@@ -48,3 +48,20 @@ curl -s https://api.groq.com/openai/v1/chat/completions \
  -d '{"model":"openai/gpt-oss-120b","messages":[{"role":"user","content":"Say OK"}],"max_tokens":300}' \
  | python3 -c "import json,sys; print(json.load(sys.stdin)['choices'][0]['message']['content'])"
 ```
+
+## 2026-08-24 — key added to runner/.env (GROQ_API_KEY), live-probed
+
+Endpoint: https://api.groq.com/openai/v1/chat/completions (OpenAI-compatible)
+
+Current free models (from /models, probed 2026-08-24):
+- qwen/qwen3.6-27b          — REASONING: emits <think>...</think> before content
+- openai/gpt-oss-120b       — available here (forbidden by cost rule on @cf; Groq free tier OK per AGENTS.md? treat as expensive, avoid)
+- openai/gpt-oss-20b        — mid-scale comparison point
+- groq/compound, groq/compound-mini — agentic compound systems
+- meta-llama/llama-prompt-guard-2-* — safety classifiers
+- whisper-large-v3(-turbo)  — audio
+- allam-2-7b                — small
+
+Gotchas:
+- qwen3.6 wraps output in <think> tags; strip before JSON parsing.
+- No llama-3.3-70b on this account currently.
