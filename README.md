@@ -1,5 +1,7 @@
 # AgentSEOLab → **DomainArena**
 
+> ⚠️ OPS HANDOVER: master handover lives at `/root/telegraph-lab/factjudge/HANDOVER-2026-08-24-LATE.md` (covers DomainArena CP-B completion + queue). Read before working here.
+
 > **DomainArena is not a naming generator. It is an empirical decision engine over name.com's live domain inventory.**
 >
 > It measures whether a candidate domain causes the intended human or AI agent to correctly understand, select and successfully use the product — then recommends the best purchasable option under hard budget constraints.
