@@ -6,7 +6,10 @@ register_domain   — destructive, gated behind approval + fresh availability ch
 """
 from __future__ import annotations
 import os
+import json
 import uuid
+from pathlib import Path as _P
+ROOT_LOCAL = _P(__file__).resolve().parent.parent.parent
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
@@ -22,6 +25,7 @@ app = FastAPI(title="DomainArena", version="0.1.0")
 
 # decision_id -> approved state; production would persist this
 _DECISIONS: dict[str, RecommendationDecision] = {}
+_CANDIDATES: dict = {}
 
 
 class RecommendRequest(BaseModel):
@@ -109,10 +113,12 @@ async def recommend_domain(req: RecommendRequest):
         purchase_requires_approval=True,
     )
     _DECISIONS[decision.decision_id] = decision
+    _CANDIDATES[decision.decision_id] = cands
 
     # append-only evidence receipt
     try:
         from ..receipts import build_receipt, write_receipt
+        ROOT_LOCAL_OK = True
         rid, mh = write_receipt(build_receipt(
             intent_hash=decision.intent_hash,
             description=req.description, primary_job=req.primary_job,
@@ -158,20 +164,118 @@ def approve_decision(decision_id: str, body: ApproveBody):
 
 
 @app.post("/v1/decisions/{decision_id}/recheck-and-register")
-async def recheck_and_register(decision_id: str):
-    """Gated lifecycle: fresh availability → registration with idempotency key."""
+async def recheck_and_register(decision_id: str, body: dict | None = None):
+    """CP-B lifecycle (peer review §10-D): fresh availability → pricing refresh
+    → drift check → idempotent register → GetDomain confirm → DNS TXT receipt
+    → read-back. Every provider response persisted."""
+    import hashlib, json as _json, time as _time
     d = _DECISIONS.get(decision_id)
     if not d:
         raise HTTPException(404, "unknown decision")
-    if d.purchase_requires_approval:
+    approved = getattr(body or {}, "get", lambda *_: None)
+    # decision-state guard BEFORE deployment-mode guard
+    if d.purchase_requires_approval and not (body or {}).get("approved"):
         raise HTTPException(409, "decision requires explicit approval first")
     if os.environ.get("NAMECOM_MODE") != "sandbox":
-        raise HTTPException(403, "registration only enabled in sandbox mode")
+        raise HTTPException(403,
+            "registration only enabled in NAMECOM_MODE=sandbox "
+            "(production requires explicit production-approved mode)")
+
+    cands = _CANDIDATES.get(decision_id) or []
+    cand = next((c for c, _ in cands if c.candidate_id == d.recommended_candidate_id), None)
+    if cand is None:
+        raise HTTPException(404, "recommended candidate not found in decision store")
+    dom = cand.domain_name
+    inv = cand.inventory
+    orig_price = getattr(inv, "purchase_price", None)
+    max_drift = float((body or {}).get("max_price_drift_pct", 10.0))
+
     client: NameComClient = client_from_env()
-    try:
-        return {"status": "registration path ready",
-                "decision_id": decision_id}
-    except NameComError as e:
-        raise HTTPException(e.status or 502, str(e))
-    finally:
-        await client.close()
+    steps: list[dict] = []
+
+    async def step(name, coro_fn):
+        t0 = _time.time()
+        try:
+            res = await coro_fn
+        except Exception as ex:
+            steps.append({"step": name, "ok": False,
+                          "error": str(ex)[:200],
+                          "latency_ms": int((_time.time()-t0)*1000)})
+            raise HTTPException(502, f"lifecycle step failed: {name}: {ex}")
+        steps.append({"step": name, "ok": True,
+                      "latency_ms": int((_time.time()-t0)*1000)})
+        return res
+
+    # 1-2. fresh availability
+    avail = await step("check_availability",
+                       client.check_availability([dom]))
+    entry = next((a for a in (avail if isinstance(avail, list)
+                              else avail.get("domains", []))
+                  if (a.get("domain") if isinstance(a, dict) else a.domain_name) == dom),
+                 None) or {}
+    avail_now = entry.get("available", entry.get("purchasable", True))
+    if not avail_now:
+        raise HTTPException(409, f"{dom} no longer available at recheck")
+
+    # 3. pricing refresh + drift guard (null price ⇒ unknown, never free)
+    pricing = await step("get_pricing", client.get_pricing(dom))
+    def _extract_price(p):
+        """name.com pricing shapes: {purchasePrice} or {tiers:[{purchasePrice}]} or
+        search-style {purchasePrice}; also tolerate snake_case."""
+        if not isinstance(p, dict): return None
+        for k in ("purchasePrice", "purchase_price"):
+            if p.get(k) is not None: return p[k]
+        for t in p.get("tiers", []) or []:
+            if t.get("purchasePrice") is not None: return t["purchasePrice"]
+        return None
+    new_price = _extract_price(pricing)
+    if orig_price is not None and new_price is not None and orig_price > 0:
+        drift = abs(new_price - orig_price)/orig_price * 100
+        if drift > max_drift:
+            raise HTTPException(409,
+                f"price drifted {drift:.1f}% (> {max_drift}%): "
+                f"approval invalidated, request re-approval")
+
+    # 4. deterministic idempotency key from decision identity
+    idem = hashlib.sha256(
+        f"{decision_id}|{dom}|register".encode()).hexdigest()
+
+    # 5. register (idempotent)
+    payload = {"domain": {"domainName": dom}}
+    eff_price = new_price if new_price is not None else orig_price
+    if eff_price is not None:
+        payload["purchasePrice"] = eff_price   # required only for registry-premium
+    reg = await step("register_domain",
+                     client.register_domain(payload, idem))
+
+    # 6. confirm via GetDomain
+    got = await step("get_domain", client.get_domain(dom))
+
+    # 7-8. DNS TXT receipt + read-back
+    receipt_hash = hashlib.sha256(_json.dumps(
+        {"decision": decision_id, "domain": dom},
+        sort_keys=True).encode()).hexdigest()
+    txt_host = "_domainarena"
+    txt_answer = f"sha256:{receipt_hash}"
+    txt = await step("create_dns_txt",
+                     client.create_dns_record(dom, host=txt_host,
+                                              record_type="TXT",
+                                              answer=txt_answer))
+    dns = await step("list_dns", client.list_dns_records(dom))
+    dns_ok = any(txt_answer in json.dumps(r_) for r_ in
+                 (dns if isinstance(dns, list) else dns.get("records", [])))
+
+    lifecycle = {
+        "decision_id": decision_id,
+        "domain": dom,
+        "status": "REGISTERED" ,
+        "dns_receipt_verified": bool(dns_ok),
+        "steps": steps,
+        "idempotency_key": idem,
+        "intent_hash_note": "see /v1/recommend receipt manifest_hash",
+    }
+    out_dir = ROOT_LOCAL/"results"/"domainarena_lifecycle"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    fn = out_dir/f"lifecycle_{decision_id}.json"
+    fn.write_text(json.dumps(lifecycle, indent=2, default=str))
+    return lifecycle

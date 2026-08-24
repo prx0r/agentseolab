@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-24T16:34:14.097483+00:00",
+  "intent_hash": "sha256:pending",
+  "intent": {
+    "description": "Repairs malformed JSON for AI agents",
+    "primary_job": "repair malformed JSON files",
+    "audience": "developer",
+    "constraints": {
+      "max_purchase_price": null,
+      "max_renewal_price": null,
+      "premium_allowed": false,
+      "allowed_tlds": [
+        "com",
+        "dev",
+        "io"
+      ],
+      "purchase_types": [
+        "registration"
+      ],
+      "max_length": null,
+      "hyphens_allowed": false,
+      "digits_allowed": false
+    }
+  },
+  "feasible_domains": [
+    "jsonrepair.dev",
+    "factprobe.dev",
+    "velora.com"
+  ],
+  "rejected": {},
+  "recommendation": {
+    "domain": "factprobe.dev",
+    "score": 0.498,
+    "on_pareto_front": true,
+    "explanation": [
+      "audience preset 'developer' weights semantic_transmission, task_success, model_stability most heavily",
+      "robust across families (mean 0.65, worst family 0.40)",
+      "first-year $12.99, renewal $14.99 within hard budget"
+    ]
+  },
+  "source": "demo-fixture",
+  "policy_version": "audience-presets-v1",
+  "receipt_id": "da_20260824T163414Z_08bf52c0",
+  "manifest_hash": "sha256:08bf52c0b1283856431a7f2ed15fe8420f8c413f24b08ea6551b84f433fa0656"
+}

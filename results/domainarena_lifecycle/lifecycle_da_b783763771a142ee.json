@@ -1,0 +1,40 @@
+{
+  "decision_id": "da_b783763771a142ee",
+  "domain": "aaamalformed.com",
+  "status": "REGISTERED",
+  "dns_receipt_verified": true,
+  "steps": [
+    {
+      "step": "check_availability",
+      "ok": true,
+      "latency_ms": 904
+    },
+    {
+      "step": "get_pricing",
+      "ok": true,
+      "latency_ms": 236
+    },
+    {
+      "step": "register_domain",
+      "ok": true,
+      "latency_ms": 2549
+    },
+    {
+      "step": "get_domain",
+      "ok": true,
+      "latency_ms": 407
+    },
+    {
+      "step": "create_dns_txt",
+      "ok": true,
+      "latency_ms": 394
+    },
+    {
+      "step": "list_dns",
+      "ok": true,
+      "latency_ms": 296
+    }
+  ],
+  "idempotency_key": "41927ce2f0c0f8530e419479fa7df3b19d0127bc30cf2034ac5b7664bd6b2281",
+  "intent_hash_note": "see /v1/recommend receipt manifest_hash"
+}

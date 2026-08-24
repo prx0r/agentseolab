@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-24T16:35:38.499483+00:00",
+  "intent_hash": "sha256:pending",
+  "intent": {
+    "description": "Repairs malformed JSON for AI agents",
+    "primary_job": "repair malformed JSON files",
+    "audience": "developer",
+    "constraints": {
+      "max_purchase_price": null,
+      "max_renewal_price": null,
+      "premium_allowed": false,
+      "allowed_tlds": [
+        "com",
+        "dev",
+        "io"
+      ],
+      "purchase_types": [
+        "registration"
+      ],
+      "max_length": null,
+      "hyphens_allowed": false,
+      "digits_allowed": false
+    }
+  },
+  "feasible_domains": [
+    "repairs.com",
+    "allrepairs.dev",
+    "allrepairs.io",
+    "repairsinc.dev",
+    "repairsinc.io",
+    "newrepairs.dev",
+    "newrepairs.io",
+    "malformed.com",
+    "malformeds.com",
+    "mymalformed.com",
+    "newmalformed.com",
+    "allmalformed.com",
+    "onemalformed.com",
+    "funmalformed.com",
+    "webmalformed.com",
+    "bigmalformed.com",
+    "aaamalformed.com",
+    "malformedinc.com",
+    "j-son.io",
+    "jheir.io",
+    "jchild.io",
+    "j-sons.dev",
+    "j-sons.io",
+    "agentsonline.io",
+    "agents-online.io",
+    "mydeputy.io",
+    "myofficer.io",
+    "newdeputy.io",
+    "alldeputy.io",
+    "onedeputy.io",
+    "fundeputy.io",
+    "webdeputy.io",
+    "bigdeputy.io"
+  ],
+  "rejected": {},
+  "recommendation": {
+    "domain": "repairs.com",
+    "score": 0.1772,
+    "on_pareto_front": true,
+    "explanation": [
+      "audience preset 'developer' weights model_stability, semantic_transmission, task_success most heavily",
+      "first-year $17.99, renewal $19.99 within hard budget"
+    ]
+  },
+  "source": "name.com-live",
+  "policy_version": "audience-presets-v1",
+  "receipt_id": "da_20260824T163538Z_5af27a8a",
+  "manifest_hash": "sha256:5af27a8a9cfe2aa0ed60fe13ab7baecf20d35588ea48bb7ff5b6fc58b626f0eb"
+}

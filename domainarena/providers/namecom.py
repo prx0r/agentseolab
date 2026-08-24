@@ -126,9 +126,21 @@ class NameComClient:
     async def get_domain(self, domain: str) -> dict:
         return await self._request("GET", f"/core/v1/domains/{domain}")
 
+    # ---- centralized mutation guard (peer review §11) ----
+    WRITE_MODES = {"sandbox", "production-approved"}
+
+    def _require_write_mode(self):
+        """Every mutating endpoint MUST pass through here.
+        Default 'production-readonly' blocks all writes."""
+        if self.mode not in self.WRITE_MODES:
+            raise NameComError(
+                403, f"write blocked in current mode: {self.mode!r} "
+                     f"(allowed: {sorted(self.WRITE_MODES)})")
+
     async def update_domain(self, domain: str, *, autorenew: bool | None = None,
                             privacy: bool | None = None,
                             locked: bool | None = None) -> dict:
+        self._require_write_mode()
         body = {}
         if autorenew is not None:
             body["autorenewEnabled"] = autorenew
@@ -141,6 +153,7 @@ class NameComClient:
     async def create_dns_record(self, domain: str, *, host: str,
                                 record_type: str, answer: str,
                                 ttl: int = 300) -> dict:
+        self._require_write_mode()
         return await self._request(
             "POST", f"/core/v1/domains/{domain}/records",
             json={"host": host, "type": record_type, "answer": answer,
@@ -154,10 +167,7 @@ class NameComClient:
     async def register_domain(self, payload: dict, idempotency_key: str) -> dict:
         """DESTRUCTIVE. Requires fresh availability check + explicit approval upstream.
         Blocked unless mode == 'sandbox' (production-readonly guard)."""
-        if self.mode != "sandbox":
-            raise NameComError(403,
-                               "register_domain blocked: not in sandbox mode "
-                               f"(mode={self.mode})")
+        self._require_write_mode()
         return await self._request("POST", "/core/v1/domains", json=payload,
                                    headers={"X-Idempotency-Key": idempotency_key})
 
