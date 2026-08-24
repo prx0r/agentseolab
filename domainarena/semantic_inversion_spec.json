@@ -1,0 +1,24 @@
+{
+  "experiment": "semantic_inversion_v1",
+  "independent_variable": "hostname",
+  "context_visible_to_evaluator": [
+    "hostname_only"
+  ],
+  "forbidden_context": [
+    "product_description",
+    "generator_identity",
+    "prior_scores"
+  ],
+  "primary_metric": "intended_category_selection_rate",
+  "controls": [
+    "fresh_session",
+    "seeded_distractor_order",
+    "model_provenance",
+    "unparseable_excluded"
+  ],
+  "report_by": [
+    "model_family",
+    "intent",
+    "candidate"
+  ]
+}
