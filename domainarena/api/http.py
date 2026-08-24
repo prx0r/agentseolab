@@ -5,6 +5,7 @@ approve_decision  — explicit state transition
 register_domain   — destructive, gated behind approval + fresh availability check
 """
 from __future__ import annotations
+import hashlib
 import os
 import json
 import uuid
@@ -96,16 +97,35 @@ async def _live_candidates(req: RecommendRequest) -> list[tuple[Candidate, Evide
 
 @app.post("/v1/recommend")
 async def recommend_domain(req: RecommendRequest):
+    """CP-A truth semantics: DOMAINARENA_MODE=live surfaces provider failures;
+    fixture mode labels everything FIXTURE. Never silent-fallback."""
+    mode = os.environ.get("DOMAINARENA_MODE", "fixture")
+    if mode not in ("live", "fixture"):
+        raise HTTPException(500, f"unknown DOMAINARENA_MODE {mode!r}")
+    if mode == "live" and not os.environ.get("NAMECOM_USERNAME"):
+        raise HTTPException(503,
+            "live mode requires NAMECOM credentials; "
+            "set DOMAINARENA_MODE=fixture for demo data")
     cands = await _live_candidates(req)
     live = cands is not None
+    if mode == "live" and not live:
+        raise HTTPException(503,
+            "live inventory unavailable (provider error) — "
+            "refusing to serve fixture data in live mode")
     cands = cands or _demo_candidates(req)
     if not cands:
         raise HTTPException(404, "no feasible candidates under constraints")
+    execution_mode = ("LIVE_NAMECOM_INVENTORY" if live else "FIXTURE")
+    if not live:
+        execution_mode += "_NOT_EXPERIMENTAL_EVIDENCE"
     rec = policy_recommend(cands, req.audience)
     winner_ev = next(ev for c, ev in cands if c.candidate_id == rec.candidate_id)
+    intent_hash = "sha256:" + hashlib.sha256(json.dumps(
+        {"description": req.description, "primary_job": req.primary_job},
+        sort_keys=True).encode()).hexdigest()
     decision = RecommendationDecision(
         decision_id=f"da_{uuid.uuid4().hex[:16]}",
-        intent_hash="sha256:pending",
+        intent_hash=intent_hash,
         recommended_candidate_id=rec.candidate_id,
         pareto_candidate_ids=[c.candidate_id for c, _ in cands],
         policy_version="audience-presets-v1",
@@ -116,6 +136,12 @@ async def recommend_domain(req: RecommendRequest):
     _CANDIDATES[decision.decision_id] = cands
 
     # append-only evidence receipt
+    resp_extra = {
+        "execution_mode": execution_mode,
+        "recommendation_status": getattr(rec, "recommendation_status", "PROVISIONAL"),
+        "evidence_coverage": getattr(rec, "evidence_coverage", 0.0),
+        "intent_hash": intent_hash,
+    }
     try:
         from ..receipts import build_receipt, write_receipt
         ROOT_LOCAL_OK = True
@@ -146,7 +172,8 @@ async def recommend_domain(req: RecommendRequest):
             "score": round(rec.score, 4),
             "on_pareto_front": rec.on_pareto,
             "explanation": rec.explanation,
-        },
+        
+        **resp_extra,},
     }
 
 

@@ -12,7 +12,7 @@ from .constraints import feasible
 from .generators import generate_candidates, intersect_inventory
 from .intent import freeze_intent, keywords_from_intent
 from .models import (
-    Audience, Candidate, ConstraintSet, DomainIntent, EvidenceVector,
+    Audience, Candidate, ConstraintSet, DomainIntent, EvidenceVector, EvidenceValue,
     InventorySnapshot,
 )
 from .optimizer import Recommendation, recommend
@@ -51,16 +51,32 @@ def _evidence_from_inventory(cands: list[Candidate],
     ev = {}
     for c in cands:
         sld = c.inventory.sld
-        # cheap structural proxies until DA-T4/T6 runs fill these with real trials
+        # PROXY: structural fluency heuristic — labeled as such, never as
+        # model stability (peer review §3.1). Real dims arrive from DA-T3/T6.
         pronounceable = sum(1 for ch in sld.lower() if ch in "aeiou") / max(len(sld), 1)
         length_fit = 1.0 if len(sld) <= 12 else max(0.0, 1.0 - (len(sld) - 12) / 20)
-        struct = 0.5 * pronounceable + 0.5 * length_fit
+        struct = round(0.5 * pronounceable + 0.5 * length_fit, 3)
+
+        sem = sem_scores.get(c.domain_name)
+        sem_status = ("MEASURED" if isinstance(sem, (int, float)) and sem is not None
+                      else "NOT_MEASURED")
+
+        def _ev(status, value=None, note=None):
+            return {"value": value, "status": status,
+                    "protocol": None, "n": None, "note": note}
+
         ev[c.domain_name] = EvidenceVector(
-            semantic_transmission=round(sem_scores.get(c.domain_name, 0.0), 3),
-            pairwise_strength=None,      # requires DA-T3 arena run
-            model_stability=struct,      # placeholder: structural robustness proxy
-            worst_family=None,
-            task_success=None,           # requires DA-T6 execution run
+            semantic_transmission=EvidenceValue(
+                **_ev(sem_status, float(sem) if sem is not None else None)),
+            pairwise_strength=EvidenceValue(
+                **_ev("NOT_MEASURED", None, "requires DA-T3 arena run")),
+            structural_fluency_proxy=EvidenceValue(
+                **_ev("PROXY", struct,
+                      "vowel-ratio x length-fit heuristic; NOT model stability")),
+            worst_family=EvidenceValue(
+                **_ev("NOT_MEASURED", None, "requires multi-family arena")),
+            task_success=EvidenceValue(
+                **_ev("NOT_MEASURED", None, "requires DA-T6 execution run")),
         )
     return ev
 

@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-24T20:23:51.992575+00:00",
+  "intent_hash": "sha256:c9d9f5b2d1afdd54edb75f4bab8ce84127eea7d3fd3b8fce9a5ba83cb04dd9c2",
+  "intent": {
+    "description": "Repairs malformed JSON for AI agents",
+    "primary_job": "repair malformed JSON files",
+    "audience": "developer",
+    "constraints": {
+      "max_purchase_price": null,
+      "max_renewal_price": null,
+      "premium_allowed": false,
+      "allowed_tlds": [
+        "com",
+        "dev",
+        "io"
+      ],
+      "purchase_types": [
+        "registration"
+      ],
+      "max_length": null,
+      "hyphens_allowed": false,
+      "digits_allowed": false
+    }
+  },
+  "feasible_domains": [
+    "allrepairs.dev",
+    "allrepairs.io",
+    "repairsinc.dev",
+    "repairsinc.io",
+    "newrepairs.dev",
+    "newrepairs.io",
+    "malformed.com",
+    "malformeds.com",
+    "mymalformed.com",
+    "newmalformed.com",
+    "allmalformed.com",
+    "onemalformed.com",
+    "funmalformed.com",
+    "webmalformed.com",
+    "bigmalformed.com",
+    "malformedinc.com",
+    "j-son.dev",
+    "j-son.io",
+    "jheir.dev",
+    "jheir.io",
+    "jboy.dev",
+    "jchild.dev",
+    "jchild.io",
+    "jguy.dev",
+    "j-sons.dev",
+    "j-sons.io",
+    "agentsonline.io",
+    "agents-online.io",
+    "mydeputy.io",
+    "myofficer.io",
+    "newdeputy.io",
+    "alldeputy.io",
+    "onedeputy.io",
+    "fundeputy.io",
+    "webdeputy.io",
+    "bigdeputy.io"
+  ],
+  "rejected": {},
+  "recommendation": {
+    "domain": "onedeputy.io",
+    "score": 0.361,
+    "on_pareto_front": true,
+    "explanation": [
+      "audience preset 'developer' weights semantic_transmission, task_success, pairwise_strength most heavily",
+      "structural fluency PROXY included at half weight (not model stability; DA-T4/T6 trials pending)",
+      "first-year $53.99, renewal $73.99 within hard budget",
+      "INSUFFICIENT_EVIDENCE: coverage 7% \u2014 provisional recommendation only"
+    ]
+  },
+  "source": "name.com-live",
+  "policy_version": "audience-presets-v1",
+  "receipt_id": "da_20260824T202351Z_8c7bfd39",
+  "manifest_hash": "sha256:8c7bfd39089d6cf9fafe19bce121b230fccf8a208ab0523cc1a1cc21fe3ef875"
+}
