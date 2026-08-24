@@ -37,7 +37,7 @@ def health():
 
 
 def _demo_candidates(req: RecommendRequest) -> list[tuple[Candidate, EvidenceVector]]:
-    """Offline candidate set until the full generation pipeline is wired.
+    """Offline candidate set used when name.com is unreachable.
 
     In production these come from generators ∩ name.com live inventory;
     the shape of evidence and selection is identical either way.
@@ -72,9 +72,29 @@ def _demo_candidates(req: RecommendRequest) -> list[tuple[Candidate, EvidenceVec
     return out
 
 
+async def _live_candidates(req: RecommendRequest) -> list[tuple[Candidate, EvidenceVector]] | None:
+    """Real inventory path: generators ∩ name.com search → feasibility → proxy evidence."""
+    import os
+    if not os.environ.get("NAMECOM_USERNAME"):
+        return None
+    from ..pipeline import recommend_live
+    try:
+        res = await recommend_live(
+            description=req.description,
+            primary_job=req.primary_job,
+            audiences=[req.audience],
+            constraints=req.constraints,
+        )
+    except Exception:
+        return None
+    return [(c, res.evidence[c.domain_name]) for c in res.feasible]
+
+
 @app.post("/v1/recommend")
-def recommend_domain(req: RecommendRequest):
-    cands = _demo_candidates(req)
+async def recommend_domain(req: RecommendRequest):
+    cands = await _live_candidates(req)
+    live = cands is not None
+    cands = cands or _demo_candidates(req)
     if not cands:
         raise HTTPException(404, "no feasible candidates under constraints")
     rec = policy_recommend(cands, req.audience)
@@ -89,7 +109,31 @@ def recommend_domain(req: RecommendRequest):
         purchase_requires_approval=True,
     )
     _DECISIONS[decision.decision_id] = decision
+
+    # append-only evidence receipt
+    try:
+        from ..receipts import build_receipt, write_receipt
+        rid, mh = write_receipt(build_receipt(
+            intent_hash=decision.intent_hash,
+            description=req.description, primary_job=req.primary_job,
+            audience=req.audience,
+            constraints_dict=req.constraints.model_dump(),
+            feasible_domains=[c.domain_name for c, _ in cands],
+            rejected={},
+            recommendation={"domain": rec.domain_name,
+                            "score": round(rec.score, 4),
+                            "on_pareto_front": rec.on_pareto,
+                            "explanation": rec.explanation},
+            source="name.com-live" if live else "demo-fixture",
+            policy_version=decision.policy_version,
+        ))
+    except Exception:
+        rid = mh = None
+
     return {
+        "source": "name.com-live" if live else "demo-fixture",
+        "receipt_id": rid,
+        "manifest_hash": mh,
         "decision": decision.model_dump(),
         "recommendation": {
             "domain": rec.domain_name,
