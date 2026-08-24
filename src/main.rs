@@ -123,6 +123,7 @@ async fn main() -> Result<()> {
             let explanation: Explanation = serde_json::from_value(data)?;
             let id = db.insert_explanation(&explanation)?;
             println!("✓ Explanation recorded: {}", id);
+            println!("✓ Explanation recorded: {}", explanation.explanation_id);
             println!("  Reason codes: {:?}", explanation.reason_codes);
         }
         
@@ -141,9 +142,9 @@ async fn main() -> Result<()> {
             println!("\n📊 Scientific Report\n");
             db.report()?;
             println!("");
-            db.report_pairwise_stats()?
+            db.report_pairwise_stats()?;
         }
     }
-    
+
     Ok(())
 }

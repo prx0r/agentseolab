@@ -132,7 +132,7 @@ This means tool-description optimization is useless for small-model agents. That
 | Service | Token | Status |
 |---------|-------|--------|
 | GitHub PAT | ghp_8ctHL...VwJC | ⚠️ Rotate immediately |
-| Cloudflare Workers AI | cfat_Amk3QY...a41c97 | Working, use for experiments |
+| Cloudflare Workers AI | REDACTED_ROTATE_ME...a41c97 | Working, use for experiments |
 | OpenRouter | sk-or-v1-a570d...788f5f2 | Working, free models available |
 | OpenCode Go (new) | sk-fv9GAkxq...44g8ZU | Working, mimo-v2.5 + ox-alpha-free confirmed |
 EOF
