@@ -22,12 +22,15 @@ class NameComError(RuntimeError):
 
 
 def client_from_env() -> "NameComClient":
+    """Reads NAMECOM_* from env. mode=production-readonly permits only
+    search/checkAvailability/getPricing — registration requires sandbox mode."""
     return NameComClient(
         username=os.environ.get("NAMECOM_USERNAME", ""),
         token=os.environ.get("NAMECOM_TOKEN", ""),
         base_url=os.environ.get(
             "NAMECOM_BASE_URL", "https://api.dev.name.com"
         ),
+        mode=os.environ.get("NAMECOM_MODE", "sandbox"),
     )
 
 
@@ -35,9 +38,12 @@ class NameComClient:
     SEARCH = "/core/v1/domains:search"
     CHECK = "/core/v1/domains:checkAvailability"
 
+    READONLY_METHODS = {"GET", "POST"}  # POST only for search/check endpoints
+
     def __init__(self, username: str, token: str,
                  base_url: str = "https://api.dev.name.com",
-                 timeout: float = 15.0, max_retries: int = 2):
+                 timeout: float = 15.0, max_retries: int = 2,
+                 mode: str = "sandbox"):
         raw = f"{username}:{token}".encode()
         auth = base64.b64encode(raw).decode()
         self._client = httpx.AsyncClient(
@@ -46,6 +52,7 @@ class NameComClient:
                      "Content-Type": "application/json"},
         )
         self.max_retries = max_retries
+        self.mode = mode
 
     async def close(self):
         await self._client.aclose()
@@ -145,7 +152,12 @@ class NameComClient:
         return res.get("records", res if isinstance(res, list) else [])
 
     async def register_domain(self, payload: dict, idempotency_key: str) -> dict:
-        """DESTRUCTIVE. Requires fresh availability check + explicit approval upstream."""
+        """DESTRUCTIVE. Requires fresh availability check + explicit approval upstream.
+        Blocked unless mode == 'sandbox' (production-readonly guard)."""
+        if self.mode != "sandbox":
+            raise NameComError(403,
+                               "register_domain blocked: not in sandbox mode "
+                               f"(mode={self.mode})")
         return await self._request("POST", "/core/v1/domains", json=payload,
                                    headers={"X-Idempotency-Key": idempotency_key})
 
