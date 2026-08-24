@@ -1,0 +1,118 @@
+{
+  "semantic_inversion": {
+    "intent": "Repairs malformed JSON for AI agents",
+    "timestamp": "2026-08-24T21:30:44.786238+00:00",
+    "families": {
+      "llama-3.3-70b-instru": {
+        "scores": {
+          "jsonrepair.dev": 0.6,
+          "jsonmedic.com": 0.2,
+          "fixmyjson.io": 0.2,
+          "j-son-repair.dev": 0.2,
+          "jsonrepairs.dev": 0.2,
+          "repairjson.dev": 0.2
+        },
+        "parse_ok": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "inferred_jobs": [
+          "The domain jsonrepair.dev likely belongs to a tool or service that repairs or fi",
+          "The domain jsonmedic.com likely belongs to a product or service that provides to",
+          "The domain fixmyjson.io likely belongs to a tool or service that helps users val",
+          "The domain j-son-repair.dev likely belongs to a service that offers repair or de",
+          "The domain jsonrepairs.dev likely belongs to a tool or service that helps repair",
+          "The domain repairjson.dev likely belongs to a tool or service that helps fix or "
+        ]
+      },
+      "mistral-small-3.1-24": {
+        "scores": {
+          "jsonrepair.dev": 0.6,
+          "jsonmedic.com": 0.2,
+          "fixmyjson.io": 0.2,
+          "j-son-repair.dev": 0.2,
+          "jsonrepairs.dev": 0.2,
+          "repairjson.dev": 0.2
+        },
+        "parse_ok": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "inferred_jobs": [
+          "The domain jsonrepair.dev likely belongs to a tool or service that repairs or fi",
+          "The domain jsonmedic.com likely belongs to a product or service that provides to",
+          "The domain fixmyjson.io likely belongs to a tool or service that helps users val",
+          "The domain j-son-repair.dev likely belongs to a service that offers repair or de",
+          "The domain jsonrepairs.dev likely belongs to a tool or service that helps repair",
+          "The domain repairjson.dev likely belongs to a tool or service that helps fix or "
+        ]
+      }
+    },
+    "finding": "cross-family semantic transmission scores per domain"
+  },
+  "discovery_llama-3.3-70b-instru": {
+    "picks": {
+      "jsonrepair.dev": 4,
+      "jsonrepairs.dev": 1,
+      "fixmyjson.io": 2,
+      "jsonmedic.com": 3
+    },
+    "abstentions": 0,
+    "position_0_selected": 6,
+    "off_position_selected": 4,
+    "total": 10
+  },
+  "discovery_mistral-small-3.1-24": {
+    "picks": {
+      "jsonrepair.dev": 8,
+      "jsonrepairs.dev": 3,
+      "fixmyjson.io": 2,
+      "jsonmedic.com": 7
+    },
+    "abstentions": 0,
+    "position_0_selected": 13,
+    "off_position_selected": 7,
+    "total": 20
+  },
+  "execution_trials": [
+    {
+      "task": "Fix this broken JSON: '{\"key\": value}'",
+      "expected_capability": "json_repair",
+      "selected": "fixmyjson.io",
+      "invoked": true,
+      "valid_params": true,
+      "task_verified": true,
+      "family": "llama-3.3-70b-instru"
+    },
+    {
+      "task": "Convert 3pm EST to PST",
+      "expected_capability": "timezone_convert",
+      "selected": null,
+      "invoked": false,
+      "valid_params": false,
+      "task_verified": false,
+      "family": "llama-3.3-70b-instru"
+    },
+    {
+      "task": "What's the hostname in https://example.com/path?q=",
+      "expected_capability": "extract_url_hostname",
+      "selected": "fixmyjson.io",
+      "invoked": true,
+      "valid_params": true,
+      "task_verified": true,
+      "family": "llama-3.3-70b-instru"
+    }
+  ],
+  "_meta": {
+    "timestamp": "2026-08-24T21:30:24Z",
+    "runtime_s": 48.7
+  }
+}

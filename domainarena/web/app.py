@@ -76,6 +76,23 @@ async def _do_run(form) -> str:
 
     d = res.to_dict()
     rec = d["recommendation"]
+
+    # AI inference cards: what does each model family see in this domain?
+    inference_cards = ""
+    try:
+        from domainarena.arena.semantic_inversion import run_semantic_inversion
+        inv_res = run_semantic_inversion(res.feasible, form.get("description", [""])[0])
+        for r in inv_res:
+            job = _esc(getattr(r, 'inferred_job', '')[:120] or '(no inference)')
+            score = getattr(r, 'score', None)
+            score_str = f"{score:.2f}" if score is not None else '?'
+            inference_cards += (
+                f'<div class="card"><b>{_esc(r.domain_name)}</b>'
+                f' <span class="ok">semantic score: {score_str}</span>'
+                f'<br>AI infers: {job}</div>')
+    except Exception as e:
+        inference_cards = f'<div class="card muted">inference unavailable: {_esc(e)}</div>'
+
     rows_feasible = "".join(
         f"<tr><td>{_esc(c.domain_name)}</td>"
         f"<td>${c.inventory.purchase_price}</td><td>${c.inventory.renewal_price}</td></tr>"
@@ -92,6 +109,7 @@ async def _do_run(form) -> str:
  {('' if not rec else '<ul>' + ''.join(f'<li>{_esc(x)}</li>' for x in rec['explanation']) + '</ul>'
    + f"<p>Pareto-optimal: {'<span class=ok>yes</span>' if rec['on_pareto_front'] else 'no'} · score {_esc(rec['score'])}</p>")}
 </div>
+{inference_cards}
 <div class="card"><h3>Feasible candidates (live inventory)</h3>
 <table><tr><th>domain</th><th>first year</th><th>renewal</th></tr>{rows_feasible}</table></div>
 <div class="card"><h3>Eliminated by hard constraints</h3>
@@ -113,7 +131,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if urlparse(self.path).path == "/health":
             return self._send("ok")
-        self._send(PAGE.format(body=FORM))
+        self._send(PAGE.replace("{body}", FORM))
 
     def do_POST(self):
         n = int(self.headers.get("Content-Length", 0))
@@ -122,7 +140,7 @@ class Handler(BaseHTTPRequestHandler):
             body = asyncio.run(_do_run(form))
         except Exception as e:  # noqa: BLE001
             body = f'<div class="card rej">error: {_esc(e)}</div>' + FORM
-        self._send(PAGE.format(body=body))
+        self._send(PAGE.replace('{body}', body))
 
     def log_message(self, *a):  # quiet
         pass

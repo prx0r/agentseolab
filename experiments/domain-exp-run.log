@@ -1,0 +1,25 @@
+DomainArena experiment suite @ 2026-08-24T21:26:44.734555+00:00
+Intent: Repairs malformed JSON for AI agents
+Candidates: ['jsonrepair.dev', 'jsonmedic.com', 'fixmyjson.io', 'j-son-repair.dev', 'jsonrepairs.dev', 'repairjson.dev']
+Families: ['llama-3.3-70b-instruct-fp8-fast', 'mistral-small-3.1-24b-instruct']
+
+
+[EXP-1] Semantic Inversion — blind inference across model families
+  llama-3.3-70b-instru: {'jsonrepair.dev': 0.6, 'jsonmedic.com': 0.2, 'fixmyjson.io': 0.2, 'j-son-repair.dev': 0.2, 'jsonrepairs.dev': 0.2, 'repairjson.dev': 0.2}
+  mistral-small-3.1-24: {'jsonrepair.dev': 0.6, 'jsonmedic.com': 0.2, 'fixmyjson.io': 0.2, 'j-son-repair.dev': 0.2, 'jsonrepairs.dev': 0.2, 'repairjson.dev': 0.2}
+
+[EXP-2] DA-T4 Discovery — which hostname do agents pick?
+  llama-3.3-70b-instru: picks={'jsonrepair.dev': 4, 'jsonrepairs.dev': 1, 'fixmyjson.io': 2, 'jsonmedic.com': 3} abstain=0/10
+  mistral-small-3.1-24: picks={'jsonrepair.dev': 8, 'jsonrepairs.dev': 3, 'fixmyjson.io': 2, 'jsonmedic.com': 7} abstain=0/10
+
+[EXP-3] CP5 Execution — hidden verifier funnel
+Traceback (most recent call last):
+  File "/root/agentseolab/scripts/run_domain_experiments.py", line 167, in <module>
+    run_execution()
+    ~~~~~~~~~~~~~^^
+  File "/root/agentseolab/scripts/run_domain_experiments.py", line 125, in run_execution
+    CANDIDATES[0]: SandboxService(domain=CANDIDATES[0],
+                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+        capability="json_repair"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: SandboxService.__init__() got an unexpected keyword argument 'capability'
