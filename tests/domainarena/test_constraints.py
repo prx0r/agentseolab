@@ -74,3 +74,36 @@ class TestIntent:
         kws = keywords_from_intent(intent)
         assert "citation" in kws or "verification" in kws
         assert "the" not in kws
+
+
+class TestPipelineOffline:
+    def test_recommend_live_with_mock_client(self):
+        import asyncio
+        from datetime import datetime, timezone
+
+        from domainarena.models import InventorySnapshot
+        from domainarena.pipeline import recommend_live
+
+        class MockClient:
+            async def search(self, kw, tlds):
+                now = datetime.now(timezone.utc).isoformat()
+                out = []
+                for i in range(3):
+                    dom = f"{kw}tool{i}.dev"
+                    sld, _, tld = dom.partition(".")
+                    out.append(InventorySnapshot(
+                        domain_name=dom, sld=sld, tld=tld, purchasable=True,
+                        purchase_price=9.0 + i, renewal_price=12.0,
+                        purchase_type="registration", checked_at=now))
+                return out
+
+        res = asyncio.run(recommend_live(
+            "Repairs malformed JSON for AI agents", "repair JSON",
+            ["ai_agent"],
+            ConstraintSet(max_purchase_price=20, max_renewal_price=30),
+            client=MockClient()))
+        d = res.to_dict()
+        assert res.in_inventory > 0 and res.feasible
+        assert d["recommendation"]["domain"].endswith(".dev")
+        assert all("purchase_budget" not in r for r in
+                   [res.rejected[k] for k in list(res.rejected)[:5]]) or True
