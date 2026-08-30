@@ -2,6 +2,25 @@
 
 **MCP-native infrastructure for measuring whether AI agents understand domain names.**
 
+Built on 16 experiments across 7+ model families studying how AI agents discover, evaluate, and select tools.
+
+## Research foundation
+
+Before building DomainArena, we ran a comprehensive research program answering: **do AI agents actually understand the tools and domains they encounter?**
+
+Key findings:
+
+| Finding | Status | Implication |
+|---------|--------|-------------|
+| Description seduction is family-clustered | ✅ CONFIRMED | Some models pick broken tools if the description sounds enterprise-y |
+| Selection is contrast-driven, not content-driven | 📋 PROVISIONAL | Agents detect relative quality, not absolute quality |
+| Serverless LLM inference is non-deterministic | ✅ CONFIRMED | Same prompt flips behavior across time windows |
+| Position primacy dominates SERP choice | 📋 PROVISIONAL | 87% pick slot 0; TLD matters only within-slot |
+| Tool name style has zero effect | 📋 PROVISIONAL | When descriptions are clear, name is noise |
+| Decoy resistance varies by model | 📋 PROVISIONAL | ox-alpha-free resists 95.8% of adversarial descriptions |
+
+**→ See [RESEARCH.md](RESEARCH.md) for the full research program.**
+
 ## The problem
 
 Before an agent can use a service, it has to decide which service a domain represents. Nobody has measured whether agents actually understand domain names — until now. The domain name market sits at the intersection of linguistics, psychology, and commerce, but until recently relied on human intuition and small-sample heuristics ([DN.org, Jan 2026](https://dn.org/using-llms-to-score-brandability-at-scale/)). LLMs can now operationalize brand intuition, turning what was once artisanal judgment into a measurable, repeatable signal.

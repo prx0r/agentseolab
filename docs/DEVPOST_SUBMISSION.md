@@ -4,7 +4,7 @@
 DomainArena — MCP-native infrastructure for measuring domain name comprehension in AI agents
 
 ## One-line pitch
-Not another AI name generator: DomainArena is the measurement layer that tests whether a domain actually causes agents to select your product, with approval-gated registration on name.com.
+Not another AI name generator: DomainArena is the measurement layer that tests whether a domain actually causes agents to select your product, built on 16 experiments across 7+ model families.
 
 ## The problem
 Every builder — human or agent — picks domains by vibes. Existing tools generate hundreds of names and score them with arbitrary 0–10 "brandability" heuristics. Nobody measures whether a domain *works*: does an autonomous agent given a task pick your service? The domain name market sits at the intersection of linguistics, psychology, and commerce, but until recently relied on human intuition ([DN.org, Jan 2026](https://dn.org/using-llms-to-score-brandability-at-scale/)).
@@ -26,6 +26,21 @@ Every operation goes through MCP tools — no shortcuts:
 | `configure_dns` | DNS TXT evidence receipt (write + read-back verification) |
 
 Plus MCP resources: `domainarena://decisions` (decision history) and `domainarena://config` (service configuration).
+
+### The research foundation (what makes this frontier-worthy)
+
+DomainArena is built on 16 experiments across 7+ model families studying agent tool-selection behavior:
+
+| Finding | Status | Why it matters |
+|---------|--------|----------------|
+| Description seduction is family-clustered | ✅ CONFIRMED | Some models pick broken tools if the description sounds enterprise-y |
+| Selection is contrast-driven, not content-driven | 📋 PROVISIONAL | Agents detect relative quality, not absolute quality |
+| Serverless LLM inference is non-deterministic | ✅ CONFIRMED | Same prompt flips behavior across time windows |
+| Position primacy dominates SERP choice | 📋 PROVISIONAL | 87% pick slot 0; TLD matters only within-slot |
+| Tool name style has zero effect | 📋 PROVISIONAL | When descriptions are clear, name is noise |
+| Decoy resistance varies by model | 📋 PROVISIONAL | ox-alpha-free resists 95.8% of adversarial descriptions |
+
+**These are published findings with Wilson score intervals, cross-family replication, and preregistered protocols.** See [RESEARCH.md](../RESEARCH.md) for the full research program.
 
 ### The evidence model
 
@@ -72,6 +87,7 @@ A recommendation can be `VALIDATED` only when measured coverage ≥ 70%. Proxies
 | Pairwise AB/BA experiment (Wilson CI) | ✅ Built | `MEASURED` (when run) |
 | Cross-family replication (3 families) | ✅ Built | `MEASURED` (when run) |
 | 148 tests passing | ✅ Verified | — |
+| Full lifecycle verified end-to-end | ✅ Verified | yourfixing.com registered + DNS receipt |
 
 ## Research grounding
 
@@ -121,6 +137,8 @@ python -m experiments.pairwise_selection \
 - Cloudflare Workers AI (semantic inversion across Llama 3.3, Mistral Small, Qwen3)
 - MCP protocol (9 tools + 2 resources for AI agent integration)
 - GitHub Actions CI (Python 3.11 + 3.12)
+- Statistical analysis: Wilson score intervals, Bradley-Terry, Benjamini-Hochberg correction
+- Evidence lifecycle: PROPOSED → PREREGISTERED → RUNNING → PROVISIONAL → CONFIRMED → REPLICATED
 
 ## What we'd do next
 - Deploy as a hosted service (Docker ready)
