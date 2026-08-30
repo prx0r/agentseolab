@@ -171,18 +171,20 @@ async def _handle_recommend(args: dict) -> dict:
             max_purchase_price=args.get("max_purchase_price"),
             max_renewal_price=args.get("max_renewal_price"),
         )
-        ds, cands = svc.recommend(
+        mode = "live" if os.environ.get("NAMECOM_USERNAME") else "fixture"
+        ds, cands = await svc.recommend_async(
             description=args["description"],
             primary_job=args["primary_job"],
             audience=args.get("audience", "ai_agent"),
             constraints=constraints,
+            mode=mode,
         )
         return {"content": [{"type": "text", "text": json.dumps({
             "decision_id": ds.decision_id,
             "domain": ds.recommended_domain,
             "status": ds.status.value,
+            "source": "name.com-live" if mode == "live" else "fixture",
             "next_step": "call prepare_registration with this decision_id",
-            "source": "name.com-live" if os.environ.get("NAMECOM_USERNAME") else "fixture",
         }, indent=2)}]}
     except Exception as e:
         return {"content": [{"type": "text", "text": f"recommendation failed: {e}"}]}
@@ -191,7 +193,7 @@ async def _handle_recommend(args: dict) -> dict:
 async def _handle_prepare(args: dict) -> dict:
     svc = get_service()
     try:
-        result = svc.prepare_registration(
+        result = await svc.prepare_registration_async(
             args["decision_id"],
             args.get("max_price_drift_pct", 10.0),
         )
@@ -216,7 +218,7 @@ async def _handle_register(args: dict) -> dict:
     """Register with approval token. Rejects if not prepared/approved."""
     svc = get_service()
     try:
-        result = svc.register(
+        result = await svc.register_async(
             args["decision_id"],
             args["approval_token"],
         )
@@ -233,7 +235,7 @@ async def _handle_register(args: dict) -> dict:
 async def _handle_dns(args: dict) -> dict:
     svc = get_service()
     try:
-        result = svc.configure_dns(args["decision_id"])
+        result = await svc.configure_dns_async(args["decision_id"])
         return {"content": [{"type": "text", "text": json.dumps(result, indent=2)}]}
     except (KeyError, ValueError) as e:
         return {"content": [{"type": "text", "text": f"dns configuration failed: {e}"}]}

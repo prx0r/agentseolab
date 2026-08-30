@@ -1,0 +1,32 @@
+{
+  "decision_id": "da_4f358b510f5248f3",
+  "intent_hash": "sha256:f78b2623e24320cbc773feb37af1ceed60e3f4a7328c1f826bf97d0051beeb73",
+  "recommended_domain": "jsonrepair.dev",
+  "recommended_candidate_id": "seed_0",
+  "pareto_candidate_ids": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "policy_version": "audience-presets-v1",
+  "status": "DNS_CONFIGURED",
+  "approval_token": "18ee6df365374a04ccab93dcc49a1197",
+  "preparation": {
+    "approval_valid": true,
+    "purchasable": true,
+    "status": "PREPARED",
+    "domain": "jsonrepair.dev"
+  },
+  "registration": {
+    "decision_id": "da_4f358b510f5248f3",
+    "domain": "jsonrepair.dev"
+  },
+  "dns_receipt": {
+    "receipt_hash": "8aa7a04565b631eb7008de4cd4f6d700b2c4e8f85517c0f437c652db7770f33b",
+    "dns_receipt_verified": true
+  },
+  "verification": null,
+  "api_trace": [],
+  "created_at": "2026-08-30T21:49:46.720293+00:00",
+  "updated_at": "2026-08-30T21:49:46.733224+00:00"
+}

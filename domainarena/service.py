@@ -59,6 +59,7 @@ class DecisionState:
     api_trace: list[dict] = field(default_factory=list)
     created_at: str = ""
     updated_at: str = ""
+    decision_basis: dict[str, Any] | None = None  # P0-6: immutable context
 
     def __post_init__(self):
         now = datetime.now(timezone.utc).isoformat()
@@ -162,6 +163,7 @@ class DomainService:
             api_trace=data.get("api_trace", []),
             created_at=data.get("created_at", ""),
             updated_at=data.get("updated_at", ""),
+            decision_basis=data.get("decision_basis"),
         )
         self._decisions[decision_id] = ds
         return ds
@@ -184,28 +186,174 @@ class DomainService:
         primary_job: str,
         audience: Audience = "ai_agent",
         constraints: ConstraintSet | None = None,
-        live_candidates: list[tuple[Candidate, EvidenceVector]] | None = None,
     ) -> tuple[DecisionState, list[tuple[Candidate, EvidenceVector]]]:
-        """Run recommendation pipeline. Returns decision + candidates."""
+        """Fixture-mode recommendation. No live API calls."""
+        if constraints is None:
+            constraints = ConstraintSet()
+        cands = self._fixture_candidates(constraints)
+        if not cands:
+            raise ValueError("No feasible candidates under constraints")
+        return self._build_decision(description, primary_job, audience, constraints, cands)
+
+    async def recommend_async(
+        self,
+        description: str,
+        primary_job: str,
+        audience: Audience = "ai_agent",
+        constraints: ConstraintSet | None = None,
+        mode: str = "fixture",
+    ) -> tuple[DecisionState, list[tuple[Candidate, EvidenceVector]]]:
+        """Live or fixture recommendation. Mode must be 'live' or 'fixture'.
+
+        In live mode: searches Name.com inventory, runs feasibility + evidence.
+        In fixture mode: uses seed candidates.
+        """
         if constraints is None:
             constraints = ConstraintSet()
 
-        # Use live candidates if provided, otherwise fixtures
-        if live_candidates is not None:
-            cands = live_candidates
-        else:
+        if mode == "live":
+            cands = await self._live_discovery(
+                description, primary_job, audience, constraints)
+        elif mode == "fixture":
             cands = self._fixture_candidates(constraints)
+        else:
+            raise ValueError(f"Invalid mode {mode!r} (must be 'live' or 'fixture')")
 
         if not cands:
             raise ValueError("No feasible candidates under constraints")
+        return self._build_decision(description, primary_job, audience, constraints, cands)
 
-        # Run optimizer
+    async def _live_discovery(
+        self,
+        description: str,
+        primary_job: str,
+        audience: Audience,
+        constraints: ConstraintSet,
+    ) -> list[tuple[Candidate, EvidenceVector]]:
+        """Search Name.com → feasibility → evidence → candidates."""
+        from .arena.semantic_inversion import run_semantic_inversion, aggregate
+        from .constraints import feasible
+        from .generators import generate_candidates, intersect_inventory
+
+        client = client_from_env()
+        try:
+            # Generate keyword candidates
+            from .intent import freeze_intent, keywords_from_intent
+            intent, _ = freeze_intent(description, primary_job, [audience], constraints)
+            kws = keywords_from_intent(intent)[:4] or [primary_job.split()[0].lower()]
+
+            # Search Name.com live inventory
+            snaps = []
+            seen = set()
+            tasks = [client.search(kw, constraints.allowed_tlds[:8]) for kw in kws]
+            for batch in await asyncio.gather(*tasks, return_exceptions=True):
+                if isinstance(batch, Exception):
+                    continue
+                for s in batch:
+                    if s.domain_name not in seen:
+                        seen.add(s.domain_name)
+                        snaps.append(s)
+
+            # Intersect with generated candidates
+            raw = generate_candidates(intent)
+            matched = intersect_inventory(raw + [
+                Candidate(candidate_id=f"inv_{i}", domain_name=s.domain_name,
+                          generator="namecom_search", inventory=s)
+                for i, s in enumerate(snaps)], snaps)
+
+            # Feasibility filter
+            keep = []
+            rejected = {}
+            for c in matched:
+                ok, reasons = feasible(c.inventory, constraints)
+                if ok:
+                    keep.append(c)
+                else:
+                    rejected[c.domain_name] = reasons
+
+            if not keep:
+                raise ValueError(
+                    f"No feasible candidates from live search. "
+                    f"Rejected: {rejected}")
+
+            # Semantic evidence (heuristic — PROXY, not MEASURED)
+            inv_results = run_semantic_inversion(keep[:20], f"{description} {primary_job}")
+            sem_scores = aggregate(inv_results)
+
+            evidence = {}
+            for c in keep:
+                sem = sem_scores.get(c.domain_name)
+                ev = EvidenceVector(
+                    semantic_transmission=EvidenceValue(
+                        value=float(sem) if sem is not None else None,
+                        status=EvStatus.PROXY if sem is not None else EvStatus.NOT_MEASURED,
+                        note="semantic inversion (blind name-only)"),
+                    structural_fluency_proxy=EvidenceValue(
+                        value=self._structural_score(c.domain_name),
+                        status=EvStatus.PROXY,
+                        note="vowel-ratio x length-fit heuristic"),
+                    task_success=EvidenceValue(
+                        status=EvStatus.NOT_MEASURED,
+                        note="no DA-T6 execution trial"),
+                )
+                evidence[c.domain_name] = ev
+
+            pairs = [(c, evidence[c.domain_name]) for c in keep]
+            return pairs
+        finally:
+            await client.close()
+
+    @staticmethod
+    def _structural_score(domain: str) -> float:
+        sld = domain.split(".")[0]
+        pronounceable = sum(1 for ch in sld.lower() if ch in "aeiou") / max(len(sld), 1)
+        length_fit = 1.0 if len(sld) <= 12 else max(0.0, 1.0 - (len(sld) - 12) / 20)
+        return round(0.5 * pronounceable + 0.5 * length_fit, 3)
+
+    def _build_decision(
+        self,
+        description: str,
+        primary_job: str,
+        audience: Audience,
+        constraints: ConstraintSet,
+        cands: list[tuple[Candidate, EvidenceVector]],
+    ) -> tuple[DecisionState, list[tuple[Candidate, EvidenceVector]]]:
+        """Run optimizer and build DecisionState. Persists immutable decision basis."""
         rec = policy_recommend(cands, audience)
-
-        # Build decision
         intent_hash = "sha256:" + hashlib.sha256(json.dumps(
-            {"description": description, "primary_job": primary_job},
+            {"description": description, "primary_job": primary_job,
+             "audience": audience},
             sort_keys=True).encode()).hexdigest()
+
+        # Capture immutable decision basis (P0-6)
+        decision_basis = {
+            "description": description,
+            "primary_job": primary_job,
+            "audience": audience,
+            "constraints": {
+                "max_purchase_price": constraints.max_purchase_price,
+                "max_renewal_price": constraints.max_renewal_price,
+            },
+            "inventory_snapshot": [
+                {
+                    "domain": c.domain_name,
+                    "purchase_price": c.inventory.purchase_price,
+                    "renewal_price": c.inventory.renewal_price,
+                    "purchasable": c.inventory.purchasable,
+                    "premium": c.inventory.premium,
+                }
+                for c, _ in cands
+            ],
+            "selected_quote": {
+                "domain": rec.domain_name,
+                "purchase_price": next(
+                    c.inventory.purchase_price for c, _ in cands
+                    if c.domain_name == rec.domain_name),
+                "renewal_price": next(
+                    c.inventory.renewal_price for c, _ in cands
+                    if c.domain_name == rec.domain_name),
+            },
+        }
 
         ds = DecisionState(
             decision_id=f"da_{uuid.uuid4().hex[:16]}",
@@ -216,6 +364,7 @@ class DomainService:
             policy_version="audience-presets-v1",
             evidence=next(ev for c, ev in cands if c.candidate_id == rec.candidate_id),
         )
+        ds.decision_basis = decision_basis
 
         self._decisions[ds.decision_id] = ds
         self._candidates[ds.decision_id] = cands
@@ -432,6 +581,21 @@ class DomainService:
             if current_price is None:
                 raise ValueError("Cannot verify current price")
 
+            # Price drift guard: reject if price moved beyond threshold
+            if ds.preparation:
+                prepared_price = ds.preparation.get("purchase_price")
+                if prepared_price is not None and current_price != prepared_price:
+                    drift_pct = abs(current_price - prepared_price) / prepared_price * 100
+                    if drift_pct > max_price_drift_pct:
+                        ds.transition(DecisionStatus.PROVIDER_ERROR)
+                        self._persist(ds)
+                        return {
+                            "status": "DRIFTED", "domain": dom,
+                            "error": f"Price drifted {drift_pct:.1f}% "
+                                     f"(${prepared_price:.2f} → ${current_price:.2f}), "
+                                     f"threshold {max_price_drift_pct}%",
+                        }
+
             # 3. Register (idempotent)
             idem = hashlib.sha256(
                 f"{decision_id}|{dom}|register".encode()).hexdigest()
@@ -553,7 +717,7 @@ class DomainService:
     def _fixture_candidates(
         self, constraints: ConstraintSet
     ) -> list[tuple[Candidate, EvidenceVector]]:
-        """Offline fixture candidates."""
+        """Offline fixture candidates with explicit NOT_MEASURED evidence."""
         now = datetime.now(timezone.utc).isoformat()
         seeds = [
             ("jsonrepair.dev", 9.99, 11.99),
@@ -573,9 +737,22 @@ class DomainService:
                     purchase_type="registration", checked_at=now),
             )
             ev = EvidenceVector(
-                semantic_transmission=0.6,
-                task_success=0.0,  # NOT_MEASURED — no execution trial
-                pairwise_strength=0.4,
+                semantic_transmission=EvidenceValue(
+                    value=None, status=EvStatus.NOT_MEASURED,
+                    note="fixture — no semantic inversion run"),
+                structural_fluency_proxy=EvidenceValue(
+                    value=self._structural_score(dom),
+                    status=EvStatus.PROXY,
+                    note="vowel-ratio x length-fit heuristic"),
+                task_success=EvidenceValue(
+                    value=None, status=EvStatus.NOT_MEASURED,
+                    note="no DA-T6 execution trial"),
+                pairwise_strength=EvidenceValue(
+                    value=None, status=EvStatus.NOT_MEASURED,
+                    note="requires DA-T3 arena run"),
+                worst_family=EvidenceValue(
+                    value=None, status=EvStatus.NOT_MEASURED,
+                    note="requires multi-family arena"),
             )
             out.append((cand, ev))
         return out

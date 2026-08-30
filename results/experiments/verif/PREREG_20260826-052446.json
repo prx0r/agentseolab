@@ -1,0 +1,24 @@
+{
+ "experiment": "VERIF",
+ "protocol_version": 2,
+ "seed": 20260823,
+ "n_per_cell": 12,
+ "badges": [
+  "none",
+  "verified_today",
+  "receipt",
+  "audited",
+  "community"
+ ],
+ "models": [
+  "cf",
+  "cf",
+  "cf",
+  "cf",
+  "or",
+  "oc",
+  "oc"
+ ],
+ "temperature": 0,
+ "manifest_hash": "b46e35d896c2f95a8b3d93c6b703aa7178122fbd2761ea0b803e0d6ac1de8f64"
+}

@@ -1,0 +1,21 @@
+{
+  "decision_id": "da_cfc2757da8cb450c",
+  "intent_hash": "sha256:46b3882ed9589800eaae5c34b019a16a00af9f3354207208fc8fdb09d0383a2a",
+  "recommended_domain": "velora.com",
+  "recommended_candidate_id": "seed_2",
+  "pareto_candidate_ids": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "policy_version": "audience-presets-v1",
+  "status": "RECOMMENDED",
+  "approval_token": null,
+  "preparation": null,
+  "registration": null,
+  "dns_receipt": null,
+  "verification": null,
+  "api_trace": [],
+  "created_at": "2026-08-30T22:15:33.317189+00:00",
+  "updated_at": "2026-08-30T22:15:33.317189+00:00"
+}

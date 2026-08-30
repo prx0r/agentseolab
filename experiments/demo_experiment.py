@@ -9,7 +9,7 @@ Runs a controlled candidate experiment for a single product intent:
 Usage:
     python -m experiments.demo_experiment --intent "A JSON repair tool" --job "fix malformed JSON"
 
-Requires: NAMECOM_USERNAME, NAMECOM_TOKEN, CF_ACCOUNT_ID, CF_TOKEN env vars.
+Requires: NAMECOM_USERNAME, NAMECOM_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN env vars.
 """
 from __future__ import annotations
 import argparse
@@ -24,9 +24,9 @@ from pathlib import Path
 # ── Config ──────────────────────────────────────────────────────────
 
 MODELS = [
-    ("meta-llama-3.3-70b", "cloudflare"),
-    ("mistral-small-24b", "cloudflare"),
-    ("qwen3-30b", "cloudflare"),
+    ("@cf/meta/llama-3.3-70b-instruct-fp8-fast", "cloudflare"),
+    ("@cf/mistralai/mistral-small-3.1-24b-instruct", "cloudflare"),
+    ("@cf/qwen/qwen3-30b-a3b-fp8", "cloudflare"),
 ]
 
 N_TRIALS_PER_MODEL = 10
@@ -48,8 +48,10 @@ def semantic_inversion_prompt(domain: str) -> str:
 def call_cloudflare(model_id: str, prompt: str) -> dict:
     """Call Cloudflare Workers AI."""
     import urllib.request
-    account_id = os.environ.get("CF_ACCOUNT_ID", "")
-    api_token = os.environ.get("CF_TOKEN", "")
+    account_id = (os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
+                  or os.environ.get("CF_ACCOUNT_ID", ""))
+    api_token = (os.environ.get("CLOUDFLARE_API_TOKEN", "")
+                 or os.environ.get("CF_TOKEN", ""))
     url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model_id}"
     body = {"messages": [{"role": "user", "content": prompt}], "max_tokens": 200}
     headers = {"Authorization": f"Bearer {api_token}", "Content-Type": "application/json"}

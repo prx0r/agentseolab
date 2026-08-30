@@ -1,0 +1,44 @@
+{
+  "decision_id": "da_826eb5912aaa4cfc",
+  "intent_hash": "sha256:e053f4bcd133b6abb0d1e5cc6905ae66b550275f3f99418e900c4865d03ffdc1",
+  "recommended_domain": "jsonrepair.dev",
+  "recommended_candidate_id": "seed_0",
+  "pareto_candidate_ids": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "policy_version": "audience-presets-v1",
+  "status": "PRICE_DRIFTED",
+  "approval_token": null,
+  "preparation": {
+    "domain": "jsonrepair.dev",
+    "purchasable": true,
+    "purchase_price": 12.99,
+    "renewal_price": 14.99,
+    "original_price": 9.99,
+    "price_drift_pct": 30.03,
+    "approval_valid": false
+  },
+  "registration": null,
+  "dns_receipt": null,
+  "verification": null,
+  "api_trace": [
+    {
+      "time": "21:33:49",
+      "method": "POST",
+      "endpoint": "checkAvailability",
+      "status": 200,
+      "latency_ms": 1
+    },
+    {
+      "time": "21:33:49",
+      "method": "GET",
+      "endpoint": "domains/jsonrepair.dev:getPricing",
+      "status": 200,
+      "latency_ms": 0
+    }
+  ],
+  "created_at": "2026-08-30T21:33:49.490552+00:00",
+  "updated_at": "2026-08-30T21:33:49.494096+00:00"
+}

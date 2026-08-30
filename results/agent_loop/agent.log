@@ -1,0 +1,140 @@
+2026-08-30T20:45:47.964846Z decision: wait - llm error: The read operation timed out
+2026-08-30T20:46:53.745917Z decision: write - runner missing for POS01-DOSE
+2026-08-30T20:46:53.746162Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' >> runner_commands.txt
+2026-08-30T20:47:56.976841Z decision: run - Pipeline is dead and there are READY items in the queue
+2026-08-30T20:47:56.976922Z RUN: python3 runner.py run_experiment.py POS01-DOSE
+2026-08-30T20:49:05.823001Z decision: write - runner missing for POS01-DOSE
+2026-08-30T20:49:05.823167Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' >> runner_commands.txt
+2026-08-30T20:49:49.180002Z agent_loop daemon pid=2464942 interval=60s
+2026-08-30T20:49:57.764458Z decision: write - runner missing for POS01-DOSE
+2026-08-30T20:49:57.764791Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' >> runner_commands.txt
+2026-08-30T20:51:06.997921Z decision: write - Runner missing for DOSE-EC50
+2026-08-30T20:51:06.998171Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py DOSE-EC50' >> runner_commands.txt
+2026-08-30T20:52:10.029650Z decision: run - Pipeline is dead and there are READY items in the queue
+2026-08-30T20:52:10.029743Z RUN: python3 runner.py run_experiment.py TLD-V2
+2026-08-30T20:53:17.324443Z decision: run - Pipeline dead, running highest priority READY item
+2026-08-30T20:53:17.324517Z RUN: python3 runner.py run_runner.py POS01-DOSE
+2026-08-30T20:54:23.642429Z decision: run - Pipeline dead, run highest priority READY item
+2026-08-30T20:54:23.642509Z RUN: python3 runner.py run_runner.py POS01-DOSE
+2026-08-30T20:55:33.652033Z decision: run - highest priority READY item
+2026-08-30T20:55:33.652094Z RUN: python3 runner.py run_runner.py POS01-DOSE
+2026-08-30T20:56:43.011937Z decision: write - runners missing for POS01-DOSE, PRICE01, RETRY01, SCHEMA01
+2026-08-30T20:56:43.012202Z WROTE /root/agentseolab/python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T20:57:49.325526Z decision: run - Pipeline is dead and POS01-DOSE is READY
+2026-08-30T20:57:49.325593Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T20:58:51.058423Z decision: wait - pipeline is alive
+2026-08-30T20:59:53.049533Z decision: wait - pipeline is alive
+2026-08-30T21:00:54.595011Z decision: wait - pipeline is alive
+2026-08-30T21:01:57.554644Z decision: wait - pipeline is alive
+2026-08-30T21:02:59.747028Z decision: wait - pipeline is alive
+2026-08-30T21:04:08.566970Z decision: wait - pipeline is alive, waiting for it to finish its current run
+2026-08-30T21:05:14.359310Z decision: wait - pipeline is alive
+2026-08-30T21:06:16.677593Z decision: wait - pipeline is alive
+2026-08-30T21:07:24.378227Z decision: write - Missing runner for POS01-DOSE
+2026-08-30T21:07:24.378490Z WROTE /root/agentseolab/python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:08:34.997586Z decision: write - Missing runner files for specified items
+2026-08-30T21:08:34.997951Z WROTE /root/agentseolab/python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:09:41.219634Z decision: run - highest priority READY item
+2026-08-30T21:09:41.219697Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T21:10:52.410936Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T21:10:56.226571Z decision: write - missing runner for DOSE-EC50
+2026-08-30T21:10:56.226729Z tick error: [Errno 2] No such file or directory: '/root/agentseolab/echo "python3 runner.py create_runner.py DOSE-EC50" >> experiments/todo.txt'
+2026-08-30T21:12:03.642014Z decision: wait - pipeline alive
+2026-08-30T21:13:05.138596Z decision: wait - pipeline is alive
+2026-08-30T21:14:10.783935Z decision: wait - pipeline alive, no READY items in queue
+2026-08-30T21:15:19.467578Z decision: wait - pipeline alive
+2026-08-30T21:16:22.506617Z decision: wait - pipeline is alive
+2026-08-30T21:17:25.377562Z decision: wait - pipeline is alive
+2026-08-30T21:18:32.609384Z decision: write - missing runner for POS01-DOSE
+2026-08-30T21:18:32.609577Z WROTE /root/agentseolab/python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:19:39.152292Z decision: write - runner missing for POS01-DOSE
+2026-08-30T21:19:39.152406Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' > runner.py
+2026-08-30T21:20:46.663811Z decision: run - highest priority item in queue
+2026-08-30T21:20:46.663954Z RUN: python3 runner.py run_experiment.py POS01-DOSE
+2026-08-30T21:21:54.291233Z decision: write - runner missing for POS01-DOSE
+2026-08-30T21:21:54.291409Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' > runner.py
+2026-08-30T21:23:01.174294Z decision: write - No runner for POS01-DOSE, create one
+2026-08-30T21:23:01.174463Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' > runner.py
+2026-08-30T21:24:04.537734Z decision: run - pipeline is dead and there are READY items in the queue
+2026-08-30T21:24:04.537856Z RUN: python3 runner.py run_experiment.py POS01-DOSE
+2026-08-30T21:25:10.237611Z decision: run - highest priority READY item
+2026-08-30T21:25:10.237686Z RUN: python3 runner.py run_experiment.py POS01-DOSE
+2026-08-30T21:26:16.661700Z decision: write - Runner missing for POS01-DOSE
+2026-08-30T21:26:16.661848Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' > runner.py
+2026-08-30T21:27:22.973496Z decision: run - highest priority item in queue
+2026-08-30T21:27:22.973567Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T21:28:24.511725Z decision: wait - pipeline is alive
+2026-08-30T21:29:26.262662Z decision: wait - pipeline is alive
+2026-08-30T21:30:32.552258Z decision: wait - pipeline is alive
+2026-08-30T21:31:36.155416Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T21:31:39.861071Z decision: write - missing runner for PRICE01
+2026-08-30T21:31:39.861170Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'python3 -u runner/verif_experiment.py 13' > runner/PRICE01.py"
+2026-08-30T21:32:42.202318Z decision: wait - pipeline is alive
+2026-08-30T21:33:50.109265Z decision: write - runner missing for POS01-DOSE
+2026-08-30T21:33:50.109473Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' > runner.py
+2026-08-30T21:34:53.416020Z decision: wait - pipeline is alive
+2026-08-30T21:35:59.573764Z decision: write - runner missing for POS01-DOSE
+2026-08-30T21:35:59.573923Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py POS01-DOSE' > runner.py
+2026-08-30T21:37:06.274564Z decision: run - Pipeline is dead and POS01-DOSE is the highest priority READY item
+2026-08-30T21:37:06.274677Z RUN: python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:38:13.648696Z decision: run - Pipeline is dead and POS01-DOSE is the highest priority READY item
+2026-08-30T21:38:13.648865Z RUN: python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:39:19.804030Z decision: run - Pipeline is dead and POS01-DOSE is READY
+2026-08-30T21:39:19.804099Z RUN: python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:40:28.143398Z decision: run - Pipeline dead, run highest priority READY item
+2026-08-30T21:40:28.143460Z RUN: python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:41:33.800512Z decision: run - highest priority READY item
+2026-08-30T21:41:33.800601Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T21:42:53.581889Z decision: write - runners missing for specified item
+2026-08-30T21:42:53.582230Z WROTE /root/agentseolab/python3 runner.py create_runner.py POS01-DOSE
+2026-08-30T21:43:55.229595Z decision: wait - pipeline is alive
+2026-08-30T21:44:59.885158Z decision: wait - pipeline is alive
+2026-08-30T21:46:10.857734Z decision: write - missing runner for DOSE-EC50
+2026-08-30T21:46:10.857860Z WROTE /root/agentseolab/echo 'python3 runner.py create_runner.py DOSE-EC50' > runner.py
+2026-08-30T21:47:14.438420Z decision: wait - pipeline is alive
+2026-08-30T21:48:20.412742Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T21:48:25.809555Z decision: write - Add missing runner for PRICE01
+2026-08-30T21:48:25.809638Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'python3 -u runner/verif_experiment.py 13' >> runner/runner.sh"
+2026-08-30T21:49:31.456359Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T21:49:35.727237Z decision: write - Add missing runner for SCHEMA01
+2026-08-30T21:49:35.727312Z tick error: [Errno 2] No such file or directory: '/root/agentseolab/echo "python3 -u runner/schema_experiment.py 12" >> runner/SCHEMA01.sh'
+2026-08-30T21:50:43.582029Z decision: write - Runner missing for POS01-DOSE
+2026-08-30T21:50:43.582135Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'runner/runner.py' > runner/POS01-DOSE.py"
+2026-08-30T21:51:50.976477Z decision: run - Pipeline is dead, run highest priority READY item
+2026-08-30T21:51:50.976539Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T21:52:52.642991Z decision: wait - Pipeline is alive
+2026-08-30T21:54:03.090416Z decision: write - missing runners for DOSE-EC50 and CANARY-X
+2026-08-30T21:54:03.090506Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'runner:runner-ec50' >> results/runner/DOSE-EC50.json"
+2026-08-30T21:55:05.002333Z decision: wait - pipeline is alive
+2026-08-30T21:56:06.946466Z decision: wait - pipeline is alive
+2026-08-30T21:57:08.670433Z decision: wait - pipeline is alive
+2026-08-30T21:58:10.362365Z decision: wait - pipeline is alive
+2026-08-30T21:59:18.273611Z decision: write - Create runner for SCHEMA01
+2026-08-30T21:59:18.273766Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'runner/runner.py' > runner/SCHEMA01.py"
+2026-08-30T22:00:25.896071Z decision: write - runners missing for POS01-DOSE
+2026-08-30T22:00:25.896232Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'python3 -u runner/pos01_dose.py' > runner/pos01_dose.py"
+2026-08-30T22:01:29.250808Z decision: run - Pipeline is dead and there are READY items in the queue
+2026-08-30T22:01:29.250902Z RUN: python3 -u runner/runner.py POS01-DOSE
+2026-08-30T22:02:36.324226Z decision: run - highest priority item in queue is ready
+2026-08-30T22:02:36.324289Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T22:03:38.164733Z decision: wait - pipeline is alive
+2026-08-30T22:04:48.037836Z decision: write - Runner missing for DOSE-EC50
+2026-08-30T22:04:48.038041Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'runner: python3 -u runner/verif_experiment.py 13' >> runner/DOSE-EC50"
+2026-08-30T22:05:49.635349Z decision: wait - pipeline is alive
+2026-08-30T22:06:51.666657Z decision: wait - pipeline is alive
+2026-08-30T22:07:53.854744Z decision: wait - pipeline is alive
+2026-08-30T22:08:56.399664Z decision: wait - pipeline is alive
+2026-08-30T22:09:57.771974Z decision: wait - pipeline is alive
+2026-08-30T22:11:01.603605Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T22:11:04.780040Z decision: write - Create a new runner for the missing experiment
+2026-08-30T22:11:04.780142Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'python3 -u runner/verif_experiment.py 13' >> runner/runner_13.py"
+2026-08-30T22:12:11.823755Z decision: run - Pipeline is dead and POS01-DOSE is the highest priority READY item
+2026-08-30T22:12:11.823821Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T22:13:15.682054Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T22:13:19.571080Z decision: write - Create a new runner for the PRICE01 experiment
+2026-08-30T22:13:19.571164Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'python3 -u runner/verif_experiment.py 13' >> runner/PRICE01.py"
+2026-08-30T22:14:27.119804Z decision: write - Runner missing for POS01-DOSE
+2026-08-30T22:14:27.119882Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'python3 -u runner/verif_experiment.py 13' > runner/pos01-dose.py"
+2026-08-30T22:15:31.239576Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T22:15:35.301788Z decision: write - missing runner for QLEX02
+2026-08-30T22:15:35.301865Z tick error: [Errno 2] No such file or directory: '/root/agentseolab/echo "python3 -u runner/verif_experiment.py 12" > results/agent_loop/qlex02_runner.py'

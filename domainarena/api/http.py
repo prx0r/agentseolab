@@ -31,32 +31,26 @@ async def recommend_domain(req: RecommendRequest):
     """Recommend a domain. Returns decision + candidates."""
     svc = get_service()
     mode = os.environ.get("DOMAINARENA_MODE", "fixture")
-    live = None
 
-    if mode == "live" and os.environ.get("NAMECOM_USERNAME"):
-        try:
-            from ..pipeline import recommend_live
-            res = await recommend_live(
-                description=req.description,
-                primary_job=req.primary_job,
-                audiences=[req.audience],
-                constraints=req.constraints,
-            )
-            live = [(c, res.evidence[c.domain_name]) for c in res.feasible]
-        except Exception:
-            if mode == "live":
-                raise HTTPException(503, "Live provider failed")
+    if mode not in ("live", "fixture"):
+        raise HTTPException(400, f"Invalid DOMAINARENA_MODE={mode!r} (must be 'live' or 'fixture')")
 
-    ds, cands = svc.recommend(
-        description=req.description,
-        primary_job=req.primary_job,
-        audience=req.audience,
-        constraints=req.constraints,
-        live_candidates=live,
-    )
+    if mode == "live" and not os.environ.get("NAMECOM_USERNAME"):
+        raise HTTPException(503, "live mode requires Name.com credentials (NAMECOM_USERNAME)")
+
+    try:
+        ds, cands = await svc.recommend_async(
+            description=req.description,
+            primary_job=req.primary_job,
+            audience=req.audience,
+            constraints=req.constraints,
+            mode=mode,
+        )
+    except ValueError as e:
+        raise HTTPException(503 if mode == "live" else 400, str(e))
 
     return {
-        "source": "name.com-live" if live else "demo-fixture",
+        "source": "name.com-live" if mode == "live" else "demo-fixture",
         "decision": {
             "decision_id": ds.decision_id,
             "intent_hash": ds.intent_hash,

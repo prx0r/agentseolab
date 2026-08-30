@@ -78,8 +78,9 @@ def _semantic_inversion(domain: str) -> dict:
 
 
 def _semantic_score(inference: str, intent: str) -> dict:
-    """Hidden scorer: compare inference against frozen intent."""
-    model_id = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+    """Hidden scorer: compare inference against frozen intent.
+    Uses a DIFFERENT model than the tested model (generator/judge separation)."""
+    model_id = "@cf/mistralai/mistral-small-3.1-24b-instruct"
     prompt = (
         f"You are a semantic evaluator. Rate how well the inference matches the intent.\n\n"
         f"FROZEN INTENT: {intent}\n"
@@ -387,13 +388,18 @@ class Handler(BaseHTTPRequestHandler):
             max_renewal_price=float(maxr) if maxr else None,
         )
 
+        # Determine mode: live if credentials present, else fixture
+        mode = "live" if os.environ.get("NAMECOM_USERNAME") else "fixture"
+
         try:
-            ds, cands = svc.recommend(
+            import asyncio
+            ds, cands = asyncio.run(svc.recommend_async(
                 description=desc,
                 primary_job=desc,
                 audience="ai_agent",
                 constraints=constraints,
-            )
+                mode=mode,
+            ))
         except ValueError as e:
             self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
             return
@@ -405,7 +411,7 @@ class Handler(BaseHTTPRequestHandler):
             for c, _ in cands
         ]
 
-        # Run semantic inversion on top candidates
+        # Run semantic inversion on top candidates (different model for scorer)
         inferences = []
         for c in cands[:3]:
             inv = _semantic_inversion(c.domain_name)
@@ -421,6 +427,7 @@ class Handler(BaseHTTPRequestHandler):
 
         _STATE["decision_id"] = ds.decision_id
         _STATE["inferences"] = inferences
+        _STATE["source"] = "name.com-live" if mode == "live" else "demo-fixture"
 
         # Build page
         body_html = ""

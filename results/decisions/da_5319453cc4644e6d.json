@@ -1,0 +1,32 @@
+{
+  "decision_id": "da_5319453cc4644e6d",
+  "intent_hash": "sha256:459a80e7673244a27dd1f600669f9e4c8426bf17a02efecbba167fffd6064dbd",
+  "recommended_domain": "velora.com",
+  "recommended_candidate_id": "seed_2",
+  "pareto_candidate_ids": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "policy_version": "audience-presets-v1",
+  "status": "DNS_CONFIGURED",
+  "approval_token": "9b3f39a6cad1905fcbbcd36ced385441",
+  "preparation": {
+    "approval_valid": true,
+    "purchasable": true,
+    "status": "PREPARED",
+    "domain": "velora.com"
+  },
+  "registration": {
+    "decision_id": "da_5319453cc4644e6d",
+    "domain": "velora.com"
+  },
+  "dns_receipt": {
+    "receipt_hash": "76c2d8e28fb9a3feeaf1587a26b3a23d921ce940ba25f28171aa5c5680a5f299",
+    "dns_receipt_verified": true
+  },
+  "verification": null,
+  "api_trace": [],
+  "created_at": "2026-08-30T22:15:33.368866+00:00",
+  "updated_at": "2026-08-30T22:15:33.375929+00:00"
+}

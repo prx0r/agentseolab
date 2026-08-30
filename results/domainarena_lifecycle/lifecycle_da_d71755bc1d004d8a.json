@@ -1,0 +1,40 @@
+{
+  "decision_id": "da_d71755bc1d004d8a",
+  "domain": "factprobe.dev",
+  "status": "REGISTERED",
+  "dns_receipt_verified": false,
+  "steps": [
+    {
+      "step": "check_availability",
+      "ok": true,
+      "latency_ms": 0
+    },
+    {
+      "step": "get_pricing",
+      "ok": true,
+      "latency_ms": 0
+    },
+    {
+      "step": "register_domain",
+      "ok": true,
+      "latency_ms": 0
+    },
+    {
+      "step": "get_domain",
+      "ok": true,
+      "latency_ms": 0
+    },
+    {
+      "step": "create_dns_txt",
+      "ok": true,
+      "latency_ms": 0
+    },
+    {
+      "step": "list_dns",
+      "ok": true,
+      "latency_ms": 0
+    }
+  ],
+  "idempotency_key": "a787ecb1b56d21cb4d0f280d11b1cdca60c17036881ee064b97ac1a7bc051efb",
+  "intent_hash_note": "see /v1/recommend receipt manifest_hash"
+}

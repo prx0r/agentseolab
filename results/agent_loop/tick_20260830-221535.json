@@ -1,0 +1,85 @@
+{
+  "snapshot": {
+    "queue": [
+      [
+        "TLD-V2",
+        "DONE",
+        true
+      ],
+      [
+        "NAMING-02",
+        "DONE",
+        true
+      ],
+      [
+        "VERIF",
+        "DONE",
+        true
+      ],
+      [
+        "POS01-DOSE",
+        "DOS",
+        false
+      ],
+      [
+        "SCHEMA01",
+        "DOS",
+        false
+      ],
+      [
+        "FRESH01",
+        "DOS",
+        false
+      ],
+      [
+        "PRICE01",
+        "DOS",
+        false
+      ],
+      [
+        "RETRY01",
+        "DOS",
+        false
+      ],
+      [
+        "RECEIPT01",
+        "DOS",
+        false
+      ],
+      [
+        "DOSE-EC50",
+        "DOS",
+        false
+      ],
+      [
+        "CANARY-X",
+        "DOS",
+        false
+      ],
+      [
+        "TEMPLATE01",
+        "DOS",
+        false
+      ],
+      [
+        "QLEX02",
+        "DOS",
+        false
+      ]
+    ],
+    "git_status": " M domainarena/api/http.py\n M domainarena/api/mcp.py\n M domainarena/optimizer.py\n M domainarena/service.py\n M domainarena/web/demo.py\n M domainarena/world.py\n M experiments/demo_experiment.py\n M logs/builder-activity.log\n M providers/usage.csv\n M pyproject.toml\n M results/pipeline/watchdog.log\n?? P0_REVIEW.md\n?? domainarena/cli.py\n?? results/agent_loop/\n?? results/decisions/\n?? results/demo_experiment/\n?? results/domainarena_lifecycle/lifecycle_da_1592ae4f14df4b6c.json\n?? results/domainarena_lifecycle/lifecycle_da_d71755bc1d004d8a.json\n?? results/domainarena_lifecycle/lifecycle_da_e2ceae2574064433.json\n?? results/experiments/\n?? results/ledger/domainarena/da_20260830T205027Z_7913105b.json\n?? results/ledger/domainarena/da_20260830T205045Z_e700ebc7.json\n?? results/ledger/domainarena/da_20260",
+    "journal_tail": "ited': '1.00', 'low:community': None, 'high:none': '1.00', 'high:verified_today': '1.00', 'high:receipt': '1.00', 'high:audited': '1.00', 'high:community': None}\\n[mimo-v2.5]\\n   {'decided': 20, 'low:none': '1.00', 'low:verified_today': '1.00', 'low:receipt': '1.00', 'low:audited': '1.00', 'low:community': None, 'high:none': '1.00', 'high:verified_today': '1.00', 'high:receipt': '1.00', 'high:audited': '1.00', 'high:community': None}\\nsaved /root/agentseolab/results/experiments/verif/RUN_20260823-120932.json\\n\"}\n{\"ts\": \"2026-08-23T12:21:17.487219Z\", \"event\": \"docs_regenerated\", \"id\": \"VERIF\"}\n",
+    "recent_runs": [
+      "RUN_20260830-214133.json: ['meta-llama-3.3-70b', 'mistral-small-24b', 'qwen3-30b']",
+      "RUN_20260830-215151.json: ['meta-llama-3.3-70b', 'mistral-small-24b', 'qwen3-30b']",
+      "RUN_20260830-220236.json: ['meta-llama-3.3-70b', 'mistral-small-24b', 'qwen3-30b']"
+    ],
+    "pipeline_alive": true
+  },
+  "decision": {
+    "action": "write",
+    "reason": "missing runner for QLEX02",
+    "command": "echo \"python3 -u runner/verif_experiment.py 12\" > results/agent_loop/qlex02_runner.py",
+    "details": "create a new runner file for QLEX02"
+  }
+}

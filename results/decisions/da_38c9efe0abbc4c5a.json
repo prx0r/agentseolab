@@ -1,0 +1,26 @@
+{
+  "decision_id": "da_38c9efe0abbc4c5a",
+  "intent_hash": "sha256:e053f4bcd133b6abb0d1e5cc6905ae66b550275f3f99418e900c4865d03ffdc1",
+  "recommended_domain": "jsonrepair.dev",
+  "recommended_candidate_id": "seed_0",
+  "pareto_candidate_ids": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "policy_version": "audience-presets-v1",
+  "status": "APPROVED",
+  "approval_token": null,
+  "preparation": {
+    "approval_valid": true,
+    "purchasable": true,
+    "status": "PREPARED",
+    "domain": "jsonrepair.dev"
+  },
+  "registration": null,
+  "dns_receipt": null,
+  "verification": null,
+  "api_trace": [],
+  "created_at": "2026-08-30T21:37:35.635389+00:00",
+  "updated_at": "2026-08-30T21:37:35.639359+00:00"
+}

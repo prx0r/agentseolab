@@ -214,9 +214,9 @@ class DomainArenaWorld:
         return DAState(case=case, seed=seed, model_family=model_family)
 
     def observe(self, state: DAState) -> dict:
+        """Public observation — NO intent leakage. Intent is oracle-only."""
         return {
             "domain_name": state.case.domain_name,
-            "intent": state.case.intent_description[:200],
             "model_family": state.model_family,
         }
 
@@ -230,6 +230,11 @@ class DomainArenaWorld:
     def apply(self, state: DAState, action: ActionSpec,
               result: ActionResult) -> DAState:
         import hashlib
+
+        # Reject error results before processing
+        if result.status != "ok":
+            raise ValueError(f"ActionResult status is {result.status!r}, expected 'ok'")
+
         if action.kind == "INFERENCE":
             if state.inference_result is not None:
                 raise ValueError("INFERENCE already applied; cannot apply twice")
@@ -255,13 +260,21 @@ class DomainArenaWorld:
                 raise ValueError("SCORE_SEMANTIC requires INFERENCE first")
             if state.evaluation is not None:
                 raise ValueError("SCORE_SEMANTIC already applied; cannot apply twice")
+            # Validate semantic score range
+            raw_score = result.payload.get("semantic_score", 0)
+            score = float(raw_score)
+            if not 0.0 <= score <= 1.0:
+                raise ValueError(f"semantic_score must be in [0,1], got {score}")
+            match_label = result.payload.get("match_label", "none")
+            if match_label not in ("exact", "partial", "none"):
+                raise ValueError(f"match_label must be exact|partial|none, got {match_label!r}")
             # Hidden scorer produces the evaluation
             evaluation = SemanticEvaluation(
                 intent_hash=hashlib.sha256(
                     state.case.intent_description.encode()).hexdigest(),
                 inference_hash=state.inference_result.response_hash,
-                semantic_score=float(result.payload.get("semantic_score", 0)),
-                match_label=result.payload.get("match_label", "none"),
+                semantic_score=score,
+                match_label=match_label,
                 scorer_version=result.payload.get("scorer_version", "v1"),
                 scorer_model=result.payload.get("scorer_model", ""),
             )
@@ -371,6 +384,7 @@ class HiddenScorerExecutor:
     
     This is a SEPARATE model from the one being tested.
     The tested model NEVER evaluates its own semantic success.
+    Enforced: scorer_model_id != inference_model_id.
     """
     
     SCORER_PROMPT = (
@@ -387,7 +401,12 @@ class HiddenScorerExecutor:
     )
     
     def __init__(self, model_id: str, provider: str, api_key: str,
-                 account_id: str = "", base_url: str = ""):
+                 account_id: str = "", base_url: str = "",
+                 inference_model_id: str = ""):
+        if inference_model_id and model_id == inference_model_id:
+            raise ValueError(
+                f"Scorer model must differ from inference model. "
+                f"Both are {model_id}")
         self.model_id = model_id
         self.provider = provider
         self.api_key = api_key

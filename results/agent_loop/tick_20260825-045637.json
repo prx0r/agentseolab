@@ -1,0 +1,85 @@
+{
+  "snapshot": {
+    "queue": [
+      [
+        "TLD-V2",
+        "DONE",
+        true
+      ],
+      [
+        "NAMING-02",
+        "DONE",
+        true
+      ],
+      [
+        "VERIF",
+        "DONE",
+        true
+      ],
+      [
+        "POS01-DOSE",
+        "DOS",
+        false
+      ],
+      [
+        "SCHEMA01",
+        "DOS",
+        false
+      ],
+      [
+        "FRESH01",
+        "DOS",
+        false
+      ],
+      [
+        "PRICE01",
+        "DOS",
+        false
+      ],
+      [
+        "RETRY01",
+        "DOS",
+        false
+      ],
+      [
+        "RECEIPT01",
+        "DOS",
+        false
+      ],
+      [
+        "DOSE-EC50",
+        "DOS",
+        false
+      ],
+      [
+        "CANARY-X",
+        "DOS",
+        false
+      ],
+      [
+        "TEMPLATE01",
+        "DOS",
+        false
+      ],
+      [
+        "QLEX02",
+        "DOS",
+        false
+      ]
+    ],
+    "git_status": " M logs/builder-activity.log\n M providers/usage.csv\n M results/agent_loop/agent.log\n M results/pipeline/watchdog.log\n?? \"python3 runner.py create_runner.py DOSE-EC50\"\n?? \"python3 runner.py create_runner.py POS01-DOSE\"\n?? \"python3 runner.py create_runner.py SCHEMA01\"\n?? results/agent_loop/tick_20260824-060513.json\n?? results/agent_loop/tick_20260824-060621.json\n?? results/agent_loop/tick_20260824-060728.json\n?? results/agent_loop/tick_20260824-060830.json\n?? results/agent_loop/tick_20260824-060933.json\n?? results/agent_loop/tick_20260824-061036.json\n?? results/agent_loop/tick_20260824-061144.json\n?? results/agent_loop/tick_20260824-061252.json\n?? results/agent_loop/tick_20260824-061353.json\n?? results/agent_loop/tick_20260824-061501.json\n?? results/agent_loop/tick_20260824-061602.json\n?? re",
+    "journal_tail": "ited': '1.00', 'low:community': None, 'high:none': '1.00', 'high:verified_today': '1.00', 'high:receipt': '1.00', 'high:audited': '1.00', 'high:community': None}\\n[mimo-v2.5]\\n   {'decided': 20, 'low:none': '1.00', 'low:verified_today': '1.00', 'low:receipt': '1.00', 'low:audited': '1.00', 'low:community': None, 'high:none': '1.00', 'high:verified_today': '1.00', 'high:receipt': '1.00', 'high:audited': '1.00', 'high:community': None}\\nsaved /root/agentseolab/results/experiments/verif/RUN_20260823-120932.json\\n\"}\n{\"ts\": \"2026-08-23T12:21:17.487219Z\", \"event\": \"docs_regenerated\", \"id\": \"VERIF\"}\n",
+    "recent_runs": [
+      "RUN_20260825-035051.json: ['meta-llama-3.3-70b', 'mistral-small-24b', 'qwen3-30b']",
+      "RUN_20260825-040905.json: ['meta-llama-3.3-70b', 'mistral-small-24b', 'qwen3-30b']",
+      "RUN_20260825-043106.json: ['meta-llama-3.3-70b', 'mistral-small-24b', 'qwen3-30b']"
+    ],
+    "pipeline_alive": false
+  },
+  "decision": {
+    "action": "run",
+    "reason": "Pipeline is dead and there are READY items in the queue",
+    "command": "python3 runner.py run_runner.py POS01-DOSE",
+    "details": "Run POS01-DOSE experiment"
+  }
+}

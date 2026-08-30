@@ -1,0 +1,1827 @@
+{
+ "spec": {
+  "experiment": "VERIF",
+  "protocol_version": 2,
+  "seed": 20260823,
+  "n_per_cell": 12,
+  "badges": [
+   "none",
+   "verified_today",
+   "receipt",
+   "audited",
+   "community"
+  ],
+  "models": [
+   "cf",
+   "cf",
+   "cf",
+   "cf",
+   "or",
+   "oc",
+   "oc"
+  ],
+  "temperature": 0,
+  "manifest_hash": "b46e35d896c2f95a8b3d93c6b703aa7178122fbd2761ea0b803e0d6ac1de8f64"
+ },
+ "results": {
+  "meta-llama-3.3-70b": {
+   "summary": {
+    "decided": 24,
+    "low:none": 1.0,
+    "low:verified_today": 1.0,
+    "low:receipt": 1.0,
+    "low:audited": 1.0,
+    "low:community": null,
+    "high:none": 1.0,
+    "high:verified_today": 1.0,
+    "high:receipt": 1.0,
+    "high:audited": 1.0,
+    "high:community": null
+   },
+   "trials": [
+    {
+     "trial_no": 1,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 2,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 3,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 4,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 5,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 6,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 7,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 8,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 9,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 10,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 11,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 12,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 13,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 14,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 15,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 16,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"https://result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 17,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 18,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 19,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 20,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 21,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 22,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 23,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 24,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"https://result-4.example.org/high4\"}"
+    }
+   ]
+  },
+  "mistral-small-24b": {
+   "summary": {
+    "decided": 24,
+    "low:none": 1.0,
+    "low:verified_today": 1.0,
+    "low:receipt": 1.0,
+    "low:audited": 1.0,
+    "low:community": null,
+    "high:none": 1.0,
+    "high:verified_today": 1.0,
+    "high:receipt": 1.0,
+    "high:audited": 1.0,
+    "high:community": null
+   },
+   "trials": [
+    {
+     "trial_no": 1,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 1, \"url\": \"http://result-1.example.org/low1\"}\n```"
+    },
+    {
+     "trial_no": 2,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 2, \"url\": \"https://result-2.example.org/low2\"}\n```"
+    },
+    {
+     "trial_no": 3,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 3, \"url\": \"result-3.example.org/low3\"}\n```"
+    },
+    {
+     "trial_no": 4,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 4, \"url\": \"https://result-4.example.org/low4\"}\n```"
+    },
+    {
+     "trial_no": 5,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 1, \"url\": \"http://result-1.example.org/low1\"}\n```"
+    },
+    {
+     "trial_no": 6,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 2, \"url\": \"https://result-2.example.org/low2\"}\n```"
+    },
+    {
+     "trial_no": 7,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 3, \"url\": \"https://result-3.example.org/low3\"}\n```"
+    },
+    {
+     "trial_no": 8,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 4, \"url\": \"https://result-4.example.org/low4\"}\n```"
+    },
+    {
+     "trial_no": 9,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 1, \"url\": \"http://result-1.example.org/low1\"}\n```"
+    },
+    {
+     "trial_no": 10,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 2, \"url\": \"result-2.example.org/low2\"}\n```"
+    },
+    {
+     "trial_no": 11,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 3, \"url\": \"https://result-3.example.org/low3\"}\n```"
+    },
+    {
+     "trial_no": 12,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 4, \"url\": \"https://result-4.example.org/low4\"}\n```"
+    },
+    {
+     "trial_no": 13,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 1, \"url\": \"http://result-1.example.org/high1\"}\n```"
+    },
+    {
+     "trial_no": 14,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 2, \"url\": \"https://result-2.example.org/high2\"}\n```"
+    },
+    {
+     "trial_no": 15,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 3, \"url\": \"http://result-3.example.org/high3\"}\n```"
+    },
+    {
+     "trial_no": 16,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 4, \"url\": \"https://result-4.example.org/high4\"}\n```"
+    },
+    {
+     "trial_no": 17,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 1, \"url\": \"http://result-1.example.org/high1\"}\n```"
+    },
+    {
+     "trial_no": 18,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 2, \"url\": \"http://result-2.example.org/high2\"}\n```"
+    },
+    {
+     "trial_no": 19,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 3, \"url\": \"http://result-3.example.org/high3\"}\n```"
+    },
+    {
+     "trial_no": 20,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 4, \"url\": \"http://result-4.example.org/high4\"}\n```"
+    },
+    {
+     "trial_no": 21,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 1, \"url\": \"http://result-1.example.org/high1\"}\n```"
+    },
+    {
+     "trial_no": 22,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 2, \"url\": \"http://result-2.example.org/high2\"}\n```"
+    },
+    {
+     "trial_no": 23,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 3, \"url\": \"result-3.example.org/high3\"}\n```"
+    },
+    {
+     "trial_no": 24,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 4, \"url\": \"https://result-4.example.org/high4\"}\n```"
+    }
+   ]
+  },
+  "qwen3-30b": {
+   "summary": {
+    "decided": 24,
+    "low:none": 1.0,
+    "low:verified_today": 1.0,
+    "low:receipt": 1.0,
+    "low:audited": 1.0,
+    "low:community": null,
+    "high:none": 1.0,
+    "high:verified_today": 1.0,
+    "high:receipt": 1.0,
+    "high:audited": 1.0,
+    "high:community": null
+   },
+   "trials": [
+    {
+     "trial_no": 1,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"http://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 2,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 3,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 4,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 5,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"http://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 6,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 7,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 8,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 9,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 10,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 11,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 12,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"https://result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 13,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 14,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 15,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 16,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"https://result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 17,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"http://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 18,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 19,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 20,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"http://result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 21,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 22,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 23,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 24,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    }
+   ]
+  },
+  "gpt-oss-20b": {
+   "summary": {
+    "decided": 24,
+    "low:none": 1.0,
+    "low:verified_today": 1.0,
+    "low:receipt": 1.0,
+    "low:audited": 1.0,
+    "low:community": null,
+    "high:none": 1.0,
+    "high:verified_today": 1.0,
+    "high:receipt": 1.0,
+    "high:audited": 1.0,
+    "high:community": null
+   },
+   "trials": [
+    {
+     "trial_no": 1,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 2,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 3,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 4,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 5,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 6,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 7,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 8,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 9,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 10,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 11,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 12,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 13,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"http://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 14,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 15,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 16,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 17,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 18,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 19,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 20,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 21,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 22,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"https://result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 23,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 24,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    }
+   ]
+  },
+  "nemotron-super-120b": {
+   "summary": {
+    "decided": 24,
+    "low:none": 1.0,
+    "low:verified_today": 1.0,
+    "low:receipt": 1.0,
+    "low:audited": 1.0,
+    "low:community": null,
+    "high:none": 1.0,
+    "high:verified_today": 1.0,
+    "high:receipt": 1.0,
+    "high:audited": 1.0,
+    "high:community": null
+   },
+   "trials": [
+    {
+     "trial_no": 1,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 2,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 3,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 4,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 5,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 6,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 7,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 8,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 9,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 10,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 11,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 12,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 13,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 14,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 15,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 16,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 17,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 18,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 19,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 20,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"https://result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 21,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 22,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 23,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 24,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    }
+   ]
+  },
+  "ox-alpha-free": {
+   "summary": {
+    "decided": 18,
+    "low:none": 1.0,
+    "low:verified_today": 1.0,
+    "low:receipt": 1.0,
+    "low:audited": 1.0,
+    "low:community": null,
+    "high:none": 1.0,
+    "high:verified_today": 1.0,
+    "high:receipt": 1.0,
+    "high:audited": null,
+    "high:community": null
+   },
+   "trials": [
+    {
+     "trial_no": 1,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 2,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 3,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 4,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 5,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"https://result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 6,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 7,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 8,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"https://result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 9,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 10,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": null,
+     "picked_best": false,
+     "snippet": ""
+    },
+    {
+     "trial_no": 11,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 12,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 13,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 14,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": null,
+     "picked_best": false,
+     "snippet": ""
+    },
+    {
+     "trial_no": 15,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 16,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": null,
+     "picked_best": false,
+     "snippet": ""
+    },
+    {
+     "trial_no": 17,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 18,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": null,
+     "picked_best": false,
+     "snippet": ""
+    },
+    {
+     "trial_no": 19,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"https://result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 20,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": null,
+     "picked_best": false,
+     "snippet": ""
+    },
+    {
+     "trial_no": 21,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": null,
+     "picked_best": false,
+     "snippet": ""
+    },
+    {
+     "trial_no": 22,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 23,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 24,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    }
+   ]
+  },
+  "mimo-v2.5": {
+   "summary": {
+    "decided": 24,
+    "low:none": 1.0,
+    "low:verified_today": 1.0,
+    "low:receipt": 1.0,
+    "low:audited": 1.0,
+    "low:community": null,
+    "high:none": 1.0,
+    "high:verified_today": 1.0,
+    "high:receipt": 1.0,
+    "high:audited": 1.0,
+    "high:community": null
+   },
+   "trials": [
+    {
+     "trial_no": 1,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\n  \"open\": 1,\n  \"url\": \"https://result-1.example.org/low1\"\n}"
+    },
+    {
+     "trial_no": 2,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 3,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 4,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\n  \"open\": 4,\n  \"url\": \"result-4.example.org/low4\"\n}"
+    },
+    {
+     "trial_no": 5,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 6,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/low2\"}"
+    },
+    {
+     "trial_no": 7,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 8,
+     "stakes": "low",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 9,
+     "stakes": "low",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/low1\"}"
+    },
+    {
+     "trial_no": 10,
+     "stakes": "low",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\n  \"open\": 2,\n  \"url\": \"result-2.example.org/low2\"\n}\n```"
+    },
+    {
+     "trial_no": 11,
+     "stakes": "low",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/low3\"}"
+    },
+    {
+     "trial_no": 12,
+     "stakes": "low",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/low4\"}"
+    },
+    {
+     "trial_no": 13,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 14,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 15,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 16,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 4, \"url\": \"result-4.example.org/high4\"}\n```"
+    },
+    {
+     "trial_no": 17,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 18,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "```json\n{\"open\": 2, \"url\": \"result-2.example.org/high2\"}\n```"
+    },
+    {
+     "trial_no": 19,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 20,
+     "stakes": "high",
+     "badge": "receipt",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    },
+    {
+     "trial_no": 21,
+     "stakes": "high",
+     "badge": "audited",
+     "badge_on_decoy": false,
+     "best_pos": 0,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 1, \"url\": \"result-1.example.org/high1\"}"
+    },
+    {
+     "trial_no": 22,
+     "stakes": "high",
+     "badge": "community",
+     "badge_on_decoy": true,
+     "best_pos": 1,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 2, \"url\": \"result-2.example.org/high2\"}"
+    },
+    {
+     "trial_no": 23,
+     "stakes": "high",
+     "badge": "none",
+     "badge_on_decoy": false,
+     "best_pos": 2,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 3, \"url\": \"result-3.example.org/high3\"}"
+    },
+    {
+     "trial_no": 24,
+     "stakes": "high",
+     "badge": "verified_today",
+     "badge_on_decoy": false,
+     "best_pos": 3,
+     "picked_slot": "best",
+     "picked_best": true,
+     "snippet": "{\"open\": 4, \"url\": \"result-4.example.org/high4\"}"
+    }
+   ]
+  }
+ }
+}
