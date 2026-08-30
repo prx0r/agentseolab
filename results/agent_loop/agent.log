@@ -138,3 +138,54 @@
 2026-08-30T22:15:31.239576Z pipeline busy — asking LLM for parallel work instead
 2026-08-30T22:15:35.301788Z decision: write - missing runner for QLEX02
 2026-08-30T22:15:35.301865Z tick error: [Errno 2] No such file or directory: '/root/agentseolab/echo "python3 -u runner/verif_experiment.py 12" > results/agent_loop/qlex02_runner.py'
+2026-08-30T22:16:37.080568Z decision: wait - pipeline is alive
+2026-08-30T22:17:39.163235Z decision: wait - pipeline is alive
+2026-08-30T22:18:41.168856Z decision: wait - pipeline is alive
+2026-08-30T22:19:46.407941Z pipeline busy — asking LLM for parallel work instead
+2026-08-30T22:19:50.183106Z decision: write - Add analysis for POS01-DOSE
+2026-08-30T22:19:50.183251Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'python3 -u runner/analysis.py POS01-DOSE' >> runner/runner.sh"
+2026-08-30T22:20:52.977476Z decision: wait - pipeline is alive
+2026-08-30T22:22:03.793751Z decision: write - runners missing for DOSE-EC50
+2026-08-30T22:22:03.793890Z tick error: [Errno 2] No such file or directory: "/root/agentseolab/echo 'runner:runner-ec50-1:runner-ec50-1' >> results/experiments/DOSE-EC50/runners.json"
+2026-08-30T22:23:07.379941Z decision: run - Pipeline is dead and there are READY items in the queue
+2026-08-30T22:23:07.380045Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T22:24:11.282259Z decision: wait - pipeline is alive
+2026-08-30T22:25:22.816868Z decision: write - Runner missing for SPECIFIED item CANARY-X
+2026-08-30T22:25:22.816975Z WROTE /root/agentseolab/echo 'runner CANARY-X' >> runners.txt
+2026-08-30T22:26:35.418785Z decision: write - runner missing for POS01-DOSE
+2026-08-30T22:26:35.419060Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:27:38.515907Z decision: wait - pipeline is alive
+2026-08-30T22:28:40.526774Z decision: wait - pipeline is alive
+2026-08-30T22:29:47.829036Z decision: wait - pipeline is alive
+2026-08-30T22:30:49.622491Z decision: wait - pipeline is alive
+2026-08-30T22:31:51.679589Z decision: wait - pipeline is alive
+2026-08-30T22:32:57.978842Z decision: write - runners missing for SPECIFIED items
+2026-08-30T22:32:57.979035Z WROTE /root/agentseolab/echo 'runner CANARY-X' >> runners.txt
+2026-08-30T22:34:05.743232Z decision: write - No runner specified for POS01-DOSE, writing runner file
+2026-08-30T22:34:05.743484Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:35:10.995960Z decision: write - runners missing for POS01-DOSE
+2026-08-30T22:35:10.996181Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:36:20.923006Z decision: write - missing runners for POS01-DOSE and CANARY-X
+2026-08-30T22:36:20.923235Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:37:30.339822Z decision: write - runner missing for POS01-DOSE
+2026-08-30T22:37:30.340133Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:38:37.492139Z decision: write - runners missing for POS01-DOSE
+2026-08-30T22:38:37.492307Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:39:43.139317Z decision: write - missing runners for SPECIFIED items
+2026-08-30T22:39:43.139714Z WROTE /root/agentseolab/echo 'runner CANARY-X' >> runners.txt
+2026-08-30T22:40:49.253270Z decision: write - runner missing for specified item POS01-DOSE
+2026-08-30T22:40:49.253579Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:41:56.144758Z decision: write - runners missing for POS01-DOSE
+2026-08-30T22:41:56.144962Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:43:03.995226Z decision: write - No runner specified for POS01-DOSE
+2026-08-30T22:43:03.995513Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:44:12.394071Z decision: write - No runner specified for POS01-DOSE, writing runner file
+2026-08-30T22:44:12.394296Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:45:20.257260Z decision: write - missing runner for POS01-DOSE
+2026-08-30T22:45:20.257470Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:46:28.252947Z decision: write - runner missing for POS01-DOSE
+2026-08-30T22:46:28.253145Z WROTE /root/agentseolab/echo 'runner POS01-DOSE' >> runners.txt
+2026-08-30T22:47:31.974814Z decision: run - pipeline is dead and there are READY items in the queue
+2026-08-30T22:47:31.974883Z RUN: python3 -u runner/verif_experiment.py 12
+2026-08-30T22:48:33.950055Z decision: wait - pipeline is alive
+2026-08-30T22:49:35.973116Z decision: wait - pipeline is alive

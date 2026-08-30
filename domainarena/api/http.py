@@ -1,17 +1,26 @@
 """DomainArena HTTP API (FastAPI).
 
 All lifecycle operations go through DomainService.
+API key auth: set DOMAINARENA_API_KEY env var to require key on mutating endpoints.
 """
 from __future__ import annotations
 import os
+from typing import Annotated
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends, Header
 from pydantic import BaseModel, Field
 
 from ..models import Audience, ConstraintSet
 from ..service import get_service, DecisionStatus
 
 app = FastAPI(title="DomainArena", version="0.2.0")
+
+
+def _verify_api_key(x_api_key: Annotated[str | None, Header()] = None) -> None:
+    """Verify API key if DOMAINARENA_API_KEY is set. No-op if unset (local dev)."""
+    required = os.environ.get("DOMAINARENA_API_KEY")
+    if required and x_api_key != required:
+        raise HTTPException(401, "Invalid or missing X-Api-Key header")
 
 
 class RecommendRequest(BaseModel):
@@ -26,7 +35,7 @@ def health():
     return {"ok": True, "mode": os.environ.get("NAMECOM_MODE", "sandbox")}
 
 
-@app.post("/v1/recommend")
+@app.post("/v1/recommend", dependencies=[Depends(_verify_api_key)])
 async def recommend_domain(req: RecommendRequest):
     """Recommend a domain. Returns decision + candidates."""
     svc = get_service()
@@ -95,7 +104,7 @@ class ApproveBody(BaseModel):
     approve: bool
 
 
-@app.post("/v1/decisions/{decision_id}/approve")
+@app.post("/v1/decisions/{decision_id}/approve", dependencies=[Depends(_verify_api_key)])
 def approve_decision(decision_id: str, body: ApproveBody):
     """Approve or reject a decision."""
     svc = get_service()
@@ -132,7 +141,7 @@ class RegisterBody(BaseModel):
     max_price_drift_pct: float = 10.0
 
 
-@app.post("/v1/decisions/{decision_id}/register")
+@app.post("/v1/decisions/{decision_id}/register", dependencies=[Depends(_verify_api_key)])
 async def register_domain(decision_id: str, body: RegisterBody):
     """Register domain after approval. Idempotent."""
     svc = get_service()
@@ -150,7 +159,7 @@ async def register_domain(decision_id: str, body: RegisterBody):
         raise HTTPException(409, str(e))
 
 
-@app.post("/v1/decisions/{decision_id}/configure-dns")
+@app.post("/v1/decisions/{decision_id}/configure-dns", dependencies=[Depends(_verify_api_key)])
 async def configure_dns(decision_id: str):
     """Create DNS TXT receipt and verify."""
     svc = get_service()

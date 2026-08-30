@@ -210,3 +210,75 @@ async def test_unknown_decision_404(mock_service):
     async with await _get_client() as ac:
         resp = await ac.get("/v1/decisions/nonexistent")
         assert resp.status_code == 404
+
+
+# ── Persistence roundtrip ──
+
+def test_persist_roundtrip_preserves_decision_basis():
+    """_persist() must save decision_basis and _load() must restore it."""
+    import tempfile, json
+    from domainarena.service import DomainService, DecisionStatus
+    from domainarena.models import EvidenceVector, EvidenceValue, EvStatus
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        svc = DomainService()
+        svc._store_dir = __import__("pathlib").Path(tmpdir)
+
+        # Create a decision with known decision_basis
+        ds, _ = svc.recommend(
+            description="test desc", primary_job="test job",
+            audience="ai_agent")
+        basis = {"description": "test desc", "primary_job": "test job",
+                 "audience": "ai_agent", "custom_key": "custom_value"}
+        ds.decision_basis = basis
+        svc._persist(ds)
+
+        # Clear in-memory cache and reload from disk
+        did = ds.decision_id
+        del svc._decisions[did]
+        loaded = svc._load(did)
+
+        assert loaded is not None
+        assert loaded.decision_basis == basis
+        assert loaded.decision_basis["custom_key"] == "custom_value"
+
+
+def test_persist_roundtrip_preserves_evidence():
+    """_persist() must save evidence and _load() must restore it."""
+    import tempfile
+    from domainarena.service import DomainService
+    from domainarena.models import EvStatus
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        svc = DomainService()
+        svc._store_dir = __import__("pathlib").Path(tmpdir)
+
+        ds, _ = svc.recommend(
+            description="test", primary_job="test",
+            audience="ai_agent")
+        # The evidence should have structural_fluency_proxy set (from _fixture_candidates)
+        orig_ev = ds.evidence
+        assert orig_ev.structural_fluency_proxy.value is not None
+        orig_val = orig_ev.structural_fluency_proxy.value
+
+        svc._persist(ds)
+        did = ds.decision_id
+        del svc._decisions[did]
+        loaded = svc._load(did)
+
+        assert loaded is not None
+        assert loaded.evidence.structural_fluency_proxy.value == orig_val
+        assert loaded.evidence.structural_fluency_proxy.status == EvStatus.PROXY
+
+
+def test_reject_transitions_to_rejected():
+    """reject() must transition RECOMMENDED → REJECTED."""
+    from domainarena.service import get_service
+    svc = get_service()
+    ds, _ = svc.recommend(
+        description="test", primary_job="test",
+        audience="ai_agent")
+    result = svc.reject(ds.decision_id)
+    assert result["status"] == "REJECTED"
+    ds2 = svc.get_decision(ds.decision_id)
+    assert ds2.status == DecisionStatus.REJECTED

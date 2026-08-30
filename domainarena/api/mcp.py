@@ -10,6 +10,7 @@ import os
 import sys
 
 from ..service import get_service, DecisionStatus
+from ..models import ConstraintSet
 from ..providers.namecom import client_from_env, NameComError
 
 TOOLS = [
@@ -167,7 +168,7 @@ async def _handle_pricing(args: dict) -> dict:
 async def _handle_recommend(args: dict) -> dict:
     svc = get_service()
     try:
-        constraints = __import__("domainarena.models", fromlist=["ConstraintSet"]).ConstraintSet(
+        constraints = ConstraintSet(
             max_purchase_price=args.get("max_purchase_price"),
             max_renewal_price=args.get("max_renewal_price"),
         )

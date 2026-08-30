@@ -1,6 +1,4 @@
-# Devpost Submission Draft — DomainArena
-
-> Paste into the Devpost project page. Fill [brackets] before submitting.
+# Devpost Submission — DomainArena
 
 ## Project name
 DomainArena — evidence-based domain selection for humans and agents
@@ -58,23 +56,50 @@ purchase. Every successful recommendation converts directly into a name.com
 registration. Railway already drives 1,700+ registrations/month through embedded
 name.com purchasing — the decision layer is what's missing.
 
-## Demo video script (2–4 min)
-1. [0:00] Problem: "AI scores 94/100" vs evidence.
-2. [0:30] Live: intent form → name.com search → budget elimination moment
-   ("$20 means impossible, not penalized").
-3. [1:30] Evidence: semantic inversion table; model-family disagreement;
-   worst-family honesty.
-4. [2:15] Execution-grounded trial: agent selects jsonrepair.dev over velora.com,
-   invokes it, hidden verifier confirms.
-5. [3:00] Recommendation → approval gate → register → DNS receipt read-back.
-6. [3:30] Architecture recap + lineage disclosure.
+## How to run
 
-## Screenshots needed
-- [ ] Intent form UI
-- [ ] Feasible/eliminated table with real name.com prices
-- [ ] Recommendation card with explanation
-- [ ] Execution funnel stats
-- [ ] DNS receipt record
+### Quickstart (fixture mode, no API keys needed)
+```bash
+pip install -e ".[dev]"
+python -m domainarena         # starts HTTP API on :8777
+pytest tests/domainarena/ -v  # 138 tests
+```
+
+### Live mode (requires name.com + Cloudflare credentials)
+```bash
+cp .env.example .env
+# Fill in NAMECOM_USERNAME, NAMECOM_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN
+export DOMAINARENA_MODE=live
+python -m domainarena
+```
+
+### MCP server
+```bash
+python -m domainarena.api.mcp   # stdio JSON-RPC
+```
+
+## Tech stack
+- Python 3.11+, FastAPI, httpx, Pydantic v2
+- name.com API (search, checkAvailability, getPricing, register, DNS)
+- Cloudflare Workers AI (semantic inversion across model families)
+- MCP protocol (9 tools for AI agent integration)
+- GitHub Actions CI
+
+## Architecture
+
+```
+Intent → Name.com Search → Feasibility Filter → Semantic Evidence
+    → Audience-Conditioned Pareto → Recommendation → Approval Gate
+    → Fresh Recheck → Registration → DNS Receipt
+```
+
+Single source of truth: `DomainService` — HTTP API, MCP, and demo all call it.
+
+## What we'd do next
+- Deploy as a hosted service (Docker ready)
+- Add real execution-grounded agent trials (DA-T6)
+- Bradley-Terry pairwise arena with position-bias correction
+- Integration with Lovable/Railway for embedded domain purchase
 
 ## Repos & lineage
 Public repo: https://github.com/prx0r/agentseolab (history preserved from

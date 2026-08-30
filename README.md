@@ -135,19 +135,16 @@ python3 -m domainarena.web.demo   # hackathon demo on http://127.0.0.1:8777
 ## Tests
 
 ```bash
-pytest tests/domainarena/ -v    # 82 tests passing
+pytest tests/domainarena/ -v    # 138 tests passing
 ```
 
 ### Test coverage
 
 - `test_world.py` — DomainArenaWorld state transitions, terminal conditions, scoring
-- `test_lifecycle_e2e.py` — Full recommend → approve → prepare → register → DNS flow
+- `test_lifecycle_e2e.py` — Full recommend → approve → prepare → register → DNS flow + persistence roundtrip
 - `test_namecom.py` — name.com client (mock + integration)
-- `test_constraints.py` — Constraint feasibility + intent hashing
-- `test_arena.py` — Semantic inversion, pairwise arena, Bradley-Terry, Wilson CI
 - `test_policy_api.py` — Optimizer policy, Pareto front, HTTP API
 - `test_additional.py` — Demo smoke, MCP approval bypass, business audience, provenance
-- `test_t4_receipts.py` — Receipt writing/verification
 
 ## Limitations
 

@@ -31,6 +31,7 @@ class DecisionStatus(str, Enum):
     RECOMMENDED = "RECOMMENDED"
     PREPARED = "PREPARED"
     APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
     REGISTERED = "REGISTERED"
     DNS_CONFIGURED = "DNS_CONFIGURED"
     VERIFIED = "VERIFIED"
@@ -72,12 +73,14 @@ class DecisionState:
         """Validate and execute state transition."""
         VALID_TRANSITIONS = {
             DecisionStatus.RECOMMENDED: {
-                DecisionStatus.PREPARED, DecisionStatus.UNAVAILABLE,
-                DecisionStatus.PRICE_DRIFTED, DecisionStatus.PROVIDER_ERROR,
+                DecisionStatus.PREPARED, DecisionStatus.REJECTED,
+                DecisionStatus.UNAVAILABLE, DecisionStatus.PRICE_DRIFTED,
+                DecisionStatus.PROVIDER_ERROR,
             },
             DecisionStatus.PREPARED: {
-                DecisionStatus.APPROVED, DecisionStatus.UNAVAILABLE,
-                DecisionStatus.PRICE_DRIFTED, DecisionStatus.ERROR,
+                DecisionStatus.APPROVED, DecisionStatus.REJECTED,
+                DecisionStatus.UNAVAILABLE, DecisionStatus.PRICE_DRIFTED,
+                DecisionStatus.ERROR,
             },
             DecisionStatus.APPROVED: {
                 DecisionStatus.REGISTERED, DecisionStatus.UNAVAILABLE,
@@ -119,6 +122,20 @@ class DomainService:
     def _persist(self, decision: DecisionState) -> None:
         """Persist decision to disk."""
         fn = self._store_dir / f"{decision.decision_id}.json"
+
+        # Serialize evidence vector
+        ev_data = {}
+        for attr in ("semantic_transmission", "task_success", "pairwise_strength",
+                      "structural_fluency_proxy", "brand_elasticity",
+                      "human_recall", "worst_family"):
+            ev = getattr(decision.evidence, attr, None)
+            if ev is not None:
+                ev_data[attr] = {
+                    "value": ev.value,
+                    "status": ev.status.value if hasattr(ev.status, "value") else ev.status,
+                    "note": ev.note,
+                }
+
         data = {
             "decision_id": decision.decision_id,
             "intent_hash": decision.intent_hash,
@@ -135,6 +152,8 @@ class DomainService:
             "api_trace": decision.api_trace[-20:],
             "created_at": decision.created_at,
             "updated_at": decision.updated_at,
+            "decision_basis": decision.decision_basis,
+            "evidence": ev_data,
         }
         fn.write_text(json.dumps(data, indent=2, default=str))
 
@@ -146,6 +165,21 @@ class DomainService:
         if not fn.exists():
             return None
         data = json.loads(fn.read_text())
+
+        # Deserialize evidence vector
+        ev_data = data.get("evidence", {})
+        evidence = EvidenceVector()
+        for attr in ("semantic_transmission", "task_success", "pairwise_strength",
+                      "structural_fluency_proxy", "brand_elasticity",
+                      "human_recall", "worst_family"):
+            if attr in ev_data:
+                ed = ev_data[attr]
+                setattr(evidence, attr, EvidenceValue(
+                    value=ed.get("value"),
+                    status=EvStatus(ed["status"]) if ed.get("status") else EvStatus.NOT_MEASURED,
+                    note=ed.get("note", ""),
+                ))
+
         ds = DecisionState(
             decision_id=data["decision_id"],
             intent_hash=data["intent_hash"],
@@ -153,7 +187,7 @@ class DomainService:
             recommended_candidate_id=data["recommended_candidate_id"],
             pareto_candidate_ids=data["pareto_candidate_ids"],
             policy_version=data["policy_version"],
-            evidence=EvidenceVector(),  # simplified for load
+            evidence=evidence,
             status=DecisionStatus(data["status"]),
             approval_token=data.get("approval_token"),
             preparation=data.get("preparation"),
@@ -504,11 +538,14 @@ class DomainService:
         }
 
     def reject(self, decision_id: str) -> dict:
-        """Reject decision. Clears approval token."""
+        """Reject decision. Transitions to REJECTED, clears approval token."""
         ds = self.get_decision(decision_id)
         ds.approval_token = None
+        # Only transition if still in a rejectable state
+        if ds.status in (DecisionStatus.RECOMMENDED, DecisionStatus.PREPARED):
+            ds.transition(DecisionStatus.REJECTED)
         self._persist(ds)
-        return {"decision_id": decision_id, "approved": False}
+        return {"decision_id": decision_id, "approved": False, "status": ds.status.value}
 
     def register(
         self,
