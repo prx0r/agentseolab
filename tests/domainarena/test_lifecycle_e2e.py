@@ -44,7 +44,9 @@ def mock_service():
         if not ds.approval_token:
             raise ValueError("No approval token")
         import hmac
-        if not hmac.compare_digest(ds.approval_token, approval_token):
+        import hashlib
+        supplied_hash = hashlib.sha256(approval_token.encode()).hexdigest()
+        if not hmac.compare_digest(ds.approval_token, supplied_hash):
             raise PermissionError("Invalid approval token")
         ds.registration = {"decision_id": decision_id, "domain": ds.recommended_domain}
         ds.transition(DecisionStatus.REGISTERED)

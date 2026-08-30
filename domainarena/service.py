@@ -518,23 +518,25 @@ class DomainService:
 
     def approve(self, decision_id: str) -> dict:
         """Approve decision for registration. Returns approval token.
-        Decision must be in PREPARED status (prepare_registration called first)."""
+        Decision must be in PREPARED status (prepare_registration called first).
+        Token is returned ONCE; only the hash is persisted."""
         ds = self.get_decision(decision_id)
         if ds.status != DecisionStatus.PREPARED:
             raise ValueError(f"Cannot approve in status {ds.status.value} (must be PREPARED)")
 
-        token = hashlib.sha256(
+        raw_token = hashlib.sha256(
             f"{decision_id}|{ds.recommended_domain}|approve|{uuid.uuid4().hex}".encode()
         ).hexdigest()[:32]
 
-        ds.approval_token = token
+        # Store hash, not raw token
+        ds.approval_token = hashlib.sha256(raw_token.encode()).hexdigest()
         ds.transition(DecisionStatus.APPROVED)
         self._persist(ds)
 
         return {
             "decision_id": decision_id,
             "approved": True,
-            "approval_token": token,
+            "approval_token": raw_token,
         }
 
     def reject(self, decision_id: str) -> dict:
@@ -580,7 +582,7 @@ class DomainService:
             raise ValueError(f"Cannot register in status {ds.status.value}")
         if not ds.approval_token:
             raise ValueError("No approval token")
-        if not hmac.compare_digest(ds.approval_token, approval_token):
+        if not hmac.compare_digest(ds.approval_token, hashlib.sha256(approval_token.encode()).hexdigest()):
             raise PermissionError("Invalid approval token")
 
         # Must have fresh preparation
@@ -618,6 +620,11 @@ class DomainService:
             if current_price is None:
                 raise ValueError("Cannot verify current price")
 
+            # Extract renewal price from pricing response
+            current_renewal = None
+            if isinstance(pricing, dict):
+                current_renewal = pricing.get("renewalPrice") or pricing.get("renewal_price")
+
             # Price drift guard: reject if price moved beyond threshold
             if ds.preparation:
                 prepared_price = ds.preparation.get("purchase_price")
@@ -632,6 +639,30 @@ class DomainService:
                                      f"(${prepared_price:.2f} → ${current_price:.2f}), "
                                      f"threshold {max_price_drift_pct}%",
                         }
+
+            # Hard budget checks from decision_basis constraints
+            basis = ds.decision_basis or {}
+            constraints = basis.get("constraints", {})
+            max_purchase = constraints.get("max_purchase_price")
+            max_renewal = constraints.get("max_renewal_price")
+
+            if max_purchase is not None and current_price is not None:
+                if current_price > max_purchase:
+                    ds.transition(DecisionStatus.PRICE_DRIFTED)
+                    self._persist(ds)
+                    return {
+                        "status": "PRICE_DRIFTED", "domain": dom,
+                        "error": f"Price ${current_price:.2f} exceeds hard budget ${max_purchase:.2f}",
+                    }
+
+            if max_renewal is not None and current_renewal is not None:
+                if current_renewal > max_renewal:
+                    ds.transition(DecisionStatus.PRICE_DRIFTED)
+                    self._persist(ds)
+                    return {
+                        "status": "PRICE_DRIFTED", "domain": dom,
+                        "error": f"Renewal ${current_renewal:.2f} exceeds hard budget ${max_renewal:.2f}",
+                    }
 
             # 3. Register (idempotent)
             idem = hashlib.sha256(

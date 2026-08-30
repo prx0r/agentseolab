@@ -46,16 +46,18 @@ PRESETS = {
 
 PROXY_DISCOUNT = 0.5   # proxies contribute half-weight value (peer review §3.1)
 
-def _vec(ev: EvidenceVector) -> tuple[dict[str, float | None], float]:
-    """Returns (values-with-None-for-unmeasured, coverage).
-    Coverage = measured weight / requested weight (review §3.2)."""
+def _vec(ev: EvidenceVector, audience: str = "ai_agent") -> tuple[dict[str, float | None], float]:
+    """Returns (values-with-None-for-unmeasured, measured_coverage).
+    Coverage = measured weight / requested weight (review §3.2).
+    Uses audience-specific preset weights."""
+    preset_name = _preset_for(audience)
     vals: dict[str, float | None] = {}
     measured_w = 0.0
     proxy_w = 0.0
     total_w = 0.0
-    for k in PRESETS["agent_api"]:
+    for k in PRESETS[preset_name]:
         evd = getattr(ev, k, None)
-        w = PRESETS["agent_api"][k]
+        w = PRESETS[preset_name][k]
         total_w += w
         v = getattr(evd, "value", evd) if not isinstance(evd, (int, float)) else evd
         st = getattr(evd, "status", None)
@@ -89,7 +91,7 @@ def weighted_score(ev: EvidenceVector, audience: str) -> tuple[float, float]:
     Coverage uses the actual audience preset, not agent_api."""
     preset_name = _preset_for(audience)
     weights = PRESETS[preset_name]
-    v, measured_cov, proxy_cov, total_cov = _vec(ev)
+    v, measured_cov, proxy_cov, total_cov = _vec(ev, audience)
     num = den = 0.0
     for k, w in weights.items():
         if v.get(k) is None:
@@ -106,8 +108,9 @@ def weighted_score(ev: EvidenceVector, audience: str) -> tuple[float, float]:
 
 def _dims(cand: Candidate, ev: EvidenceVector,
           max_purchase: float | None = None,
-          max_renewal: float | None = None) -> dict[str, float]:
-    v, _mc, _pc, _tc = _vec(ev)
+          max_renewal: float | None = None,
+          audience: str = "ai_agent") -> dict[str, float]:
+    v, _mc, _pc, _tc = _vec(ev, audience)
     # peer review §3.4: null price = unknown, never free.
     # Penalize with the worst allowed price (constraint ceiling) when set;
     # otherwise a large sentinel so unknown never wins economics.
@@ -120,10 +123,11 @@ def _dims(cand: Candidate, ev: EvidenceVector,
     return v
 
 
-def pareto_front(candidates: list[tuple[Candidate, EvidenceVector]]) -> list[str]:
+def pareto_front(candidates: list[tuple[Candidate, EvidenceVector]],
+                 audience: str = "ai_agent") -> list[str]:
     """Pareto over evidence dims + economics (price = minimize).
     Missing evidence (None) is excluded from comparison — not treated as 0."""
-    ds = {c.candidate_id: _dims(c, ev) for c, ev in candidates}
+    ds = {c.candidate_id: _dims(c, ev, audience=audience) for c, ev in candidates}
     front: list[str] = []
     for cand, _ in candidates:
         a = ds[cand.candidate_id]
@@ -163,7 +167,7 @@ def recommend(
     """Peer review §3.3: hard feasibility -> evidence sufficiency ->
     Pareto-front restriction -> policy tie-breaker. Selection restricted to
     the Pareto front; measured_coverage <0.70 flagged INSUFFICIENT_EVIDENCE."""
-    front = set(pareto_front(candidates))
+    front = set(pareto_front(candidates, audience))
     pool = [(c, ev) for c, ev in candidates if c.candidate_id in front] or candidates
     best: tuple[float, Candidate, EvidenceVector, float] | None = None
     for cand, ev in pool:
@@ -173,7 +177,7 @@ def recommend(
     assert best is not None, "no candidates"
     s, cand, ev, cov = best
     weights = PRESETS[_preset_for(audience)]
-    v, _mc, _pc, _tc = _vec(ev)
+    v, _mc, _pc, _tc = _vec(ev, audience)
     top_dims = sorted(weights, key=lambda k: -weights[k])[:3]
     explanation = [
         f"audience preset '{audience}' weights {top_dims[0]}, {top_dims[1]}, {top_dims[2]} most heavily",

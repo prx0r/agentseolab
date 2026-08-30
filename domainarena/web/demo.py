@@ -172,17 +172,25 @@ STEP_INTENT = """
 </div>"""
 
 
-def _step_discovery(candidates: list) -> str:
+def _step_discovery(candidates: list, source: str = "fixture") -> str:
     rows = "".join(
         f"<tr><td>{_esc(c['domain'])}</td><td>${c.get('price', '?')}</td>"
         f"<td>{'<span class=ok>✓</span>' if c.get('available') else '<span class=rej>✗</span>'}</td></tr>"
         for c in candidates
     )
+    if source == "live":
+        title = "LIVE DOMAIN DISCOVERY"
+        sub = f"name.com Search API — {len(candidates)} candidates found"
+        tag = '<span class="tag tag-green">LIVE</span>'
+    else:
+        title = "DOMAIN DISCOVERY (DEMO)"
+        sub = f"Fixture candidates — {len(candidates)} seed domains"
+        tag = '<span class="tag tag-yellow">FIXTURE</span>'
     return f"""
 <div class="step">
 <span class="step-num">2</span>
-<div class="step-title">LIVE DOMAIN DISCOVERY</div>
-<div class="step-sub">name.com Search API — {len(candidates)} candidates found</div>
+<div class="step-title">{title} {tag}</div>
+<div class="step-sub">{sub}</div>
 <table><tr><th>domain</th><th>first year</th><th>available</th></tr>{rows}</table>
 </div>"""
 
@@ -432,7 +440,7 @@ class Handler(BaseHTTPRequestHandler):
         # Build page
         body_html = ""
         body_html += STEP_INTENT.format(desc=desc, maxp=maxp, maxr=maxr)
-        body_html += _step_discovery(cand_display)
+        body_html += _step_discovery(cand_display, source=mode)
         body_html += _step_comprehension(inferences)
         body_html += _step_recommendation({
             "domain": ds.recommended_domain,

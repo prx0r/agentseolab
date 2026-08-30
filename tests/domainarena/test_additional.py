@@ -103,7 +103,7 @@ async def test_mcp_register_rejects_wrong_token():
     ds.preparation = {"approval_valid": True, "purchasable": True}
     ds.transition(DecisionStatus.PREPARED)
     # Set a fake approval token and transition to APPROVED
-    ds.approval_token = hashlib.sha256(b"correct-token").hexdigest()[:32]
+    ds.approval_token = hashlib.sha256(hashlib.sha256(b"correct-token").hexdigest().encode()).hexdigest()
     ds.transition(DecisionStatus.APPROVED)
     svc._persist(ds)
     # Now try with wrong token — should raise PermissionError
