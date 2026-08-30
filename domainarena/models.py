@@ -92,21 +92,6 @@ class EvidenceVector(BaseModel):
     brand_elasticity: EvidenceValue = EvidenceValue()
     evaluator_coverage: str | None = None
 
-    def coverage(self) -> float:
-        dims = [self.semantic_transmission, self.pairwise_strength,
-                self.worst_family, self.task_success]
-        w = {"semantic_transmission": 1.0, "pairwise_strength": 1.0,
-             "worst_family": 1.0, "task_success": 2.0}
-        num = den = 0.0
-        for name, weight in w.items():
-            ev: EvidenceValue = getattr(self, name)
-            den += weight
-            if ev.status == EvStatus.MEASURED and ev.value is not None:
-                num += weight * ev.value
-            elif ev.status == EvStatus.PROXY and ev.value is not None:
-                num += weight * 0.5 * ev.value   # proxies count half
-        return round(num / den, 4) if den else 0.0
-
 class RecommendationDecision(BaseModel):
     decision_id: str
     intent_hash: str

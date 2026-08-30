@@ -233,16 +233,17 @@ async def recheck_and_register(decision_id: str, body: dict | None = None):
                       "latency_ms": int((_time.time()-t0)*1000)})
         return res
 
-    # 1-2. fresh availability
-    avail = await step("check_availability",
-                       client.check_availability([dom]))
-    entry = next((a for a in (avail if isinstance(avail, list)
-                              else avail.get("domains", []))
-                  if (a.get("domain") if isinstance(a, dict) else a.domain_name) == dom),
-                 None) or {}
-    avail_now = entry.get("available", entry.get("purchasable", True))
-    if not avail_now:
-        raise HTTPException(409, f"{dom} no longer available at recheck")
+    # 1-2. fresh availability (fail-closed)
+    try:
+        entry = await step("check_availability",
+                           client.check_availability_fail_closed(dom))
+    except Exception as ex:
+        raise HTTPException(502, f"availability check failed: {ex}")
+    
+    # Fail-closed: purchasable must be explicitly True
+    avail_now = entry.get("purchasable")
+    if avail_now is not True:
+        raise HTTPException(409, f"{dom} not available (purchasable={avail_now})")
 
     # 3. pricing refresh + drift guard (null price ⇒ unknown, never free)
     pricing = await step("get_pricing", client.get_pricing(dom))

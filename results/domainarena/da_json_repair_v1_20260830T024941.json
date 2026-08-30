@@ -1,0 +1,138 @@
+{
+  "experiment_id": "da-json-repair-v1",
+  "frozen_at": "2026-08-30T02:40:00Z",
+  "intent": "Repairs malformed JSON for AI agents",
+  "candidates": [
+    "jsonrepair.dev",
+    "jsonmedic.com",
+    "fixmyjson.io",
+    "velora.com",
+    "datahelper.dev"
+  ],
+  "timestamp": "2026-08-30T02:48:33.322292+00:00",
+  "scorer_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "semantic_inversion": {
+    "llama": {
+      "jsonrepair.dev": {
+        "inference": "I think the domain jsonrepair.dev likely hosts a tool or service that repairs, validates, or formats JSON (JavaScript Object Notation) data, possibly offering features like error correction, formattin",
+        "score": 0.9,
+        "label": "partial",
+        "latency_ms": 1021
+      },
+      "jsonmedic.com": {
+        "inference": "I think jsonmedic.com likely provides a tool or service for validating, formatting, and debugging JSON (JavaScript Object Notation) data, possibly offering features like JSON linting, parsing, and vis",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 1034
+      },
+      "fixmyjson.io": {
+        "inference": "I think fixmyjson.io is a tool or service that helps users validate, format, and correct errors in JSON (JavaScript Object Notation) data, likely providing an online editor or parser for JSON files.",
+        "score": 0.9,
+        "label": "partial",
+        "latency_ms": 912
+      },
+      "velora.com": {
+        "inference": "Based on the domain name \"velora.com\", I think it could be a website for a technology or software company, possibly offering virtual reality (VR) or augmented reality (AR) related products or services",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 1001
+      },
+      "datahelper.dev": {
+        "inference": "I think datahelper.dev is likely a website or platform that offers tools, resources, or services to assist with data-related tasks, such as data analysis, visualization, or management, possibly target",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 1102
+      }
+    },
+    "mistral": {
+      "jsonrepair.dev": {
+        "inference": "The domain \"jsonrepair.dev\" likely hosts a service or tool for validating, fixing, or repairing JSON data.",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 642
+      },
+      "jsonmedic.com": {
+        "inference": "The domain \"jsonmedic.com\" likely runs a service or tool related to managing, validating, or repairing JSON data.",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 619
+      },
+      "fixmyjson.io": {
+        "inference": "The domain \"fixmyjson.io\" likely runs a service that helps users validate, format, or repair JSON (JavaScript Object Notation) data.",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 732
+      },
+      "velora.com": {
+        "inference": "Without additional context, it's challenging to determine exactly, but \"velora.com\" could potentially be associated with a technology or software service, a creative agency, or a lifestyle brand.",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 1688
+      },
+      "datahelper.dev": {
+        "inference": "The domain \"datahelper.dev\" likely hosts a service or platform that assists users with data management, analysis, or processing.",
+        "score": 0.4,
+        "label": "weak",
+        "latency_ms": 645
+      }
+    },
+    "gemma": {
+      "jsonrepair.dev": {
+        "error": "empty response",
+        "score": 0.0
+      },
+      "jsonmedic.com": {
+        "error": "empty response",
+        "score": 0.0
+      },
+      "fixmyjson.io": {
+        "error": "empty response",
+        "score": 0.0
+      },
+      "velora.com": {
+        "error": "empty response",
+        "score": 0.0
+      },
+      "datahelper.dev": {
+        "error": "empty response",
+        "score": 0.0
+      }
+    }
+  },
+  "selection": {
+    "llama": {
+      "picks": {
+        "jsonrepair.dev": 2,
+        "jsonmedic.com": 14,
+        "fixmyjson.io": 4,
+        "velora.com": 0,
+        "datahelper.dev": 0
+      },
+      "abstentions": 0,
+      "total": 20
+    },
+    "mistral": {
+      "picks": {
+        "jsonrepair.dev": 4,
+        "jsonmedic.com": 9,
+        "fixmyjson.io": 7,
+        "velora.com": 0,
+        "datahelper.dev": 0
+      },
+      "abstentions": 0,
+      "total": 20
+    },
+    "gemma": {
+      "picks": {
+        "jsonrepair.dev": 0,
+        "jsonmedic.com": 0,
+        "fixmyjson.io": 0,
+        "velora.com": 0,
+        "datahelper.dev": 0
+      },
+      "abstentions": 20,
+      "total": 20
+    }
+  },
+  "receipt_hash": "sha256:e61360375001e9f73056923d18b8a47f11535c08f9ebc0e8ada44b7ac80cb796"
+}

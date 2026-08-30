@@ -36,7 +36,7 @@ class TestPolicy:
         assert "b.dev" not in front
 
     def test_weights_sum_normalized(self):
-        s = weighted_score(EvidenceVector(semantic_transmission=1.0), "agent_api")
+        s, cov = weighted_score(EvidenceVector(semantic_transmission=1.0), "agent_api")
         assert 0 < s <= 1
 
 

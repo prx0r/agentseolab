@@ -1,0 +1,148 @@
+{
+  "experiment_id": "da-json-repair-v1",
+  "frozen_at": "2026-08-30T02:40:00Z",
+  "intent": "Repairs malformed JSON for AI agents",
+  "candidates": [
+    "jsonrepair.dev",
+    "jsonmedic.com",
+    "fixmyjson.io",
+    "velora.com",
+    "datahelper.dev"
+  ],
+  "timestamp": "2026-08-30T03:07:11.868368+00:00",
+  "scorer_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "semantic_inversion": {
+    "llama": {
+      "jsonrepair.dev": {
+        "inference": "I think the domain jsonrepair.dev likely hosts a tool or service that helps users repair, validate, or format JSON (JavaScript Object Notation) data, possibly through an online editor or validator.",
+        "score": 0.9,
+        "label": "partial",
+        "latency_ms": 1170
+      },
+      "jsonmedic.com": {
+        "inference": "I think jsonmedic.com is likely a tool or service that helps validate, format, or debug JSON (JavaScript Object Notation) data, possibly offering features like JSON linting, formatting, or error check",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 874
+      },
+      "fixmyjson.io": {
+        "inference": "I think the domain fixmyjson.io likely hosts a tool or service that helps users validate, format, and correct errors in JSON (JavaScript Object Notation) data, similar to online code editors or debugg",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 971
+      },
+      "velora.com": {
+        "inference": "Based on the domain name velora.com, I think it could be a website for a technology or software company, possibly offering innovative solutions or products, given the unique and futuristic-sounding na",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 2595
+      },
+      "datahelper.dev": {
+        "inference": "I think the domain datahelper.dev likely hosts a website or application that provides data-related tools, services, or assistance, such as data analysis, visualization, or management, possibly targeti",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 1104
+      }
+    },
+    "mistral": {
+      "jsonrepair.dev": {
+        "inference": "The domain \"jsonrepair.dev\" likely hosts a tool or service for validating, fixing, or repairing JSON data.",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 631
+      },
+      "jsonmedic.com": {
+        "inference": "The domain \"jsonmedic.com\" likely runs a service or tool related to managing, validating, or repairing JSON data.",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 585
+      },
+      "fixmyjson.io": {
+        "inference": "The domain \"fixmyjson.io\" likely runs a service that helps users validate, format, or repair JSON (JavaScript Object Notation) data.",
+        "score": 0.8,
+        "label": "partial",
+        "latency_ms": 3662
+      },
+      "velora.com": {
+        "inference": "Based on the domain name \"velora.com,\" it could be associated with a luxury or high-end product or service, possibly in the realms of fashion, real estate, or travel.",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 970
+      },
+      "datahelper.dev": {
+        "inference": "The domain \"datahelper.dev\" likely hosts a service or platform that assists with data management, analysis, or processing.",
+        "score": 0.4,
+        "label": "weak",
+        "latency_ms": 1067
+      }
+    },
+    "qwen": {
+      "jsonrepair.dev": {
+        "inference": "<think>\nHere's a thinking process:\n\n1.  **Analyze the Input:**\n   - Domain: `jsonrepair.dev`\n   - Components: \"json\" + \"repair\" + \".dev\" TLD\n   - Context: None provided, just the domain name.\n\n2.  **D",
+        "score": 1.0,
+        "label": "exact",
+        "latency_ms": 734
+      },
+      "jsonmedic.com": {
+        "inference": "<think>\nHere's a thinking process:\n\n1.  **Analyze the Input:**\n   - Domain: `jsonmedic.com`\n   - No other context provided.\n   - Task: Predict the product/service behind this domain.\n   - Constraint: ",
+        "score": 1.0,
+        "label": "exact",
+        "latency_ms": 758
+      },
+      "fixmyjson.io": {
+        "inference": "<think>\nHere's a thinking process:\n\n1.  **Analyze the Input:**\n   - Domain: `fixmyjson.io`\n   - Key components: \"fix\", \"my\", \"json\", \".io\" TLD\n   - Context: None provided\n\n2.  **Identify Key Concepts:",
+        "score": 0.9,
+        "label": "partial",
+        "latency_ms": 813
+      },
+      "velora.com": {
+        "inference": "<think>\nHere's a thinking process:\n\n1.  **Analyze the Input:**\n   - Domain: velora.com\n   - Constraint: Reply in one sentence.\n   - Task: Guess what product/service runs behind this domain with no oth",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 1219
+      },
+      "datahelper.dev": {
+        "inference": "<think>\nHere's a thinking process:\n\n1.  **Analyze User Input:**\n   - Domain: `datahelper.dev`\n   - Task: Identify the likely product or service behind this domain\n   - Constraint: Reply in exactly one",
+        "score": 0.0,
+        "label": "none",
+        "latency_ms": 752
+      }
+    }
+  },
+  "selection": {
+    "llama": {
+      "picks": {
+        "jsonrepair.dev": 2,
+        "jsonmedic.com": 13,
+        "fixmyjson.io": 5,
+        "velora.com": 0,
+        "datahelper.dev": 0
+      },
+      "abstentions": 0,
+      "total": 20
+    },
+    "mistral": {
+      "picks": {
+        "jsonrepair.dev": 4,
+        "jsonmedic.com": 9,
+        "fixmyjson.io": 7,
+        "velora.com": 0,
+        "datahelper.dev": 0
+      },
+      "abstentions": 0,
+      "total": 20
+    },
+    "qwen": {
+      "picks": {
+        "jsonrepair.dev": 0,
+        "jsonmedic.com": 0,
+        "fixmyjson.io": 0,
+        "velora.com": 0,
+        "datahelper.dev": 0
+      },
+      "abstentions": 20,
+      "total": 20
+    }
+  },
+  "receipt_hash": "sha256:1d4b87850797998e2f5565479ad6ff0e79acb09422737fa54fa35fc0220824b6"
+}

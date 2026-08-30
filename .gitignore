@@ -10,3 +10,9 @@ runner/.env
 logs/
 node_modules/
 artifacts/
+data/external_repos/
+data/swe_chat/
+data/hf_datasets/*.parquet
+data/external_repos/
+data/
+data/*

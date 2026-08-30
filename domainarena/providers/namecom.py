@@ -115,8 +115,44 @@ class NameComClient:
         if not 1 <= len(domains) <= 50:
             raise ValueError("CheckAvailability supports 1..50 domains per call")
         res = await self._request("POST", self.CHECK,
-                                  json={"domainNames": domains})
+                                  json={"domainNames": domains,
+                                        "purchaseType": "registration"})
         return res.get("results", res if isinstance(res, list) else [])
+
+    async def check_availability_fail_closed(self, domain: str) -> dict:
+        """Fail-closed availability check. Returns validated availability dict or raises.
+        
+        Response must contain:
+          - domainName matching the requested domain
+          - purchasable field (not None)
+          - purchaseType == "registration"
+        
+        Missing/malformed response -> raises NameComError.
+        """
+        results = await self.check_availability([domain])
+        if not results:
+            raise NameComError(404, f"no availability response for {domain}")
+        
+        entry = None
+        for r in results:
+            name = r.get("domainName") or r.get("domain") or ""
+            if name.lower() == domain.lower():
+                entry = r
+                break
+        
+        if entry is None:
+            raise NameComError(404, f"domainName mismatch: requested {domain}, got {[r.get('domainName') for r in results]}")
+        
+        # Fail-closed: purchasable must be explicitly present
+        if "purchasable" not in entry:
+            raise NameComError(400, f"missing 'purchasable' field for {domain}")
+        
+        # Fail-closed: purchaseType must be registration
+        pt = entry.get("purchaseType", "")
+        if pt and pt != "registration":
+            raise NameComError(400, f"unexpected purchaseType '{pt}' for {domain} (expected 'registration')")
+        
+        return entry
 
     async def get_pricing(self, domain: str) -> dict:
         return await self._request("GET", f"/core/v1/domains/{domain}:getPricing")

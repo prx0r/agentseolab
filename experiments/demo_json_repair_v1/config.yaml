@@ -1,0 +1,55 @@
+experiment_id: da-json-repair-v1
+frozen_at: "2026-08-30T02:40:00Z"
+hypothesis: "Holding service constant, hostname choice affects agent comprehension and selection"
+primary_metric: task_success
+secondary_metrics:
+  - comprehension
+  - pairwise_preference
+  - first_choice
+
+intent:
+  description: "Repairs malformed JSON for AI agents"
+  primary_job: "repair JSON"
+  category: "developer-tool"
+
+candidates:
+  - domain: jsonrepair.dev
+    tld: dev
+    category: "lexical-descriptive"
+  - domain: jsonmedic.com
+    tld: com
+    category: "lexical-metaphor"
+  - domain: fixmyjson.io
+    tld: io
+    category: "lexical-action"
+  - domain: velora.com
+    tld: com
+    category: "opaque-brand"
+  - domain: datahelper.dev
+    tld: dev
+    category: "lexical-generic"
+
+models:
+  - id: "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+    family: llama
+    org: meta
+  - id: "@cf/mistralai/mistral-small-3.1-24b-instruct"
+    family: mistral
+    org: mistralai
+  - id: "@cf/qwen/qwen3-30b-a3b-fp8"
+    family: qwen
+    org: qwen
+
+randomization:
+  seed: 42
+  ab_ba: true
+  position_randomized: true
+
+trials_per_condition: 20
+total_conditions: 5  # candidates
+total_models: 3
+
+exclusion_rules:
+  - "unparseable responses excluded from selection count"
+  - "timeouts counted as errors, not selections"
+  - "abstentions allowed and counted"

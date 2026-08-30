@@ -54,7 +54,7 @@ def _vec(ev: EvidenceVector) -> tuple[dict[str, float | None], float]:
             vals[k] = None
         elif st == "PROXY":
             vals[k] = float(v) * PROXY_DISCOUNT
-            num += w * vals[k]; den if False else None
+            num += w * vals[k]; den += w
         else:
             vals[k] = float(v); num += w * vals[k]
     measured_w = sum(
@@ -70,19 +70,19 @@ def _preset_for(audience: str) -> str:
     return "agent_api" if audience == "ai_agent" else audience
 
 
-def weighted_score(ev: EvidenceVector, audience: str,
-                   ) -> tuple[float, float]:
+def weighted_score(ev: EvidenceVector, audience: str) -> tuple[float, float]:
     """(score, coverage). Score renormalized over MEASURED dimensions —
     missing evidence never masquerades as failure (peer review §3.2)."""
     weights = PRESETS[_preset_for(audience)]
     v, coverage = _vec(ev)
     num = den = 0.0
     for k, w in weights.items():
-        if v.get(k) is None: continue
-        num += v[k] * w; den += w
+        if v.get(k) is None:
+            continue
+        num += v[k] * w
+        den += w
     score = num / den if den > 0 else 0.0
-    weighted_score.last_coverage = coverage
-    return score
+    return score, coverage
 
 
 def _dims(cand: Candidate, ev: EvidenceVector,
@@ -144,8 +144,7 @@ def recommend(
     pool = [(c, ev) for c, ev in candidates if c.candidate_id in front] or candidates
     best: tuple[float, Candidate, EvidenceVector, float] | None = None
     for cand, ev in pool:
-        s = weighted_score(ev, audience)
-        cov = getattr(weighted_score, 'last_coverage', 0.0)
+        s, cov = weighted_score(ev, audience)
         if best is None or s > best[0]:
             best = (s, cand, ev, cov)
     assert best is not None, "no candidates"
@@ -166,22 +165,17 @@ def recommend(
                            f"renewal ${cand.inventory.renewal_price or 0:.2f} within hard budget")
 
     # evidence-sufficiency gate (peer review §3.2)
-    measured_w = sum(PRESETS[_preset_for(audience)][k]
-                     for k in PRESETS[_preset_for(audience)]
-                     if _vec(ev)[0].get(k) is not None)
-    total_w = sum(PRESETS[_preset_for(audience)].values())
-    coverage = round(measured_w / total_w, 4)
-    rec_status = "VALIDATED" if coverage >= 0.70 else "INSUFFICIENT_EVIDENCE"
-    if coverage < 0.70:
+    rec_status = "VALIDATED" if cov >= 0.70 else "INSUFFICIENT_EVIDENCE"
+    if cov < 0.70:
         explanation.append(
-            f"INSUFFICIENT_EVIDENCE: coverage {coverage:.0%} — provisional recommendation only")
+            f"INSUFFICIENT_EVIDENCE: coverage {cov:.0%} — provisional recommendation only")
     return Recommendation(
         candidate_id=cand.candidate_id,
         domain_name=cand.domain_name,
         audience=audience,
         score=s,
         recommendation_status=rec_status,
-        evidence_coverage=coverage,
+        evidence_coverage=cov,
         on_pareto=cand.candidate_id in front,
         explanation=explanation,
     )
