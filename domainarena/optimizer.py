@@ -32,6 +32,15 @@ PRESETS = {
         "human_recall": 0.30,
         "worst_family": 0.10,
     },
+    "business": {
+        "semantic_transmission": 0.20,
+        "task_success": 0.20,
+        "pairwise_strength": 0.15,
+        "structural_fluency_proxy": 0.07,
+        "brand_elasticity": 0.15,
+        "human_recall": 0.13,
+        "worst_family": 0.10,
+    },
 }
 
 
@@ -67,7 +76,11 @@ def _vec(ev: EvidenceVector) -> tuple[dict[str, float | None], float]:
 
 
 def _preset_for(audience: str) -> str:
-    return "agent_api" if audience == "ai_agent" else audience
+    if audience == "ai_agent":
+        return "agent_api"
+    if audience in PRESETS:
+        return audience
+    return "agent_api"
 
 
 def weighted_score(ev: EvidenceVector, audience: str) -> tuple[float, float]:

@@ -1,4 +1,4 @@
-"""DomainArena Hackathon Demo — single-page vertical execution trace.
+"""DomainArena Hackathon Demo — calls DomainService directly.
 
 Flow:
 1. YOUR INTENT (prompt entry)
@@ -25,37 +25,28 @@ from urllib.parse import parse_qs, urlparse
 
 sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[2]))
 
-from domainarena.models import ConstraintSet, Candidate, InventorySnapshot, EvidenceVector  # noqa: E402
-from domainarena.providers.namecom import client_from_env, NameComError  # noqa: E402
-from domainarena.optimizer import recommend, weighted_score  # noqa: E402
+from domainarena.models import ConstraintSet  # noqa: E402
+from domainarena.service import get_service, DecisionStatus  # noqa: E402
 
 PORT = int(os.environ.get("DOMAINARENA_PORT", "8777"))
 
-# In-memory state for demo
+# In-memory state for demo flow
 _STATE: dict = {}
-_API_TRACE: list = []
 
 
 def _esc(s):
     return html.escape(str(s), quote=False)
 
 
-def _log_api(method: str, endpoint: str, status: int, latency_ms: int, detail: str = ""):
-    _API_TRACE.append({
-        "time": time.strftime("%H:%M:%S"),
-        "method": method,
-        "endpoint": endpoint,
-        "status": status,
-        "latency_ms": latency_ms,
-        "detail": detail[:100],
-    })
-
-
 def _cf_infer(model_id: str, prompt: str, max_tokens: int = 200) -> dict:
     """Call Cloudflare Workers AI."""
     import urllib.request
-    cf_account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "954612afb5a97bb15dddcdc70176813d")
-    cf_token = os.environ.get("CLOUDFLARE_API_TOKEN", "")
+    cf_account = (os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
+                  or os.environ.get("CF_ACCOUNT_ID", ""))
+    cf_token = (os.environ.get("CLOUDFLARE_API_TOKEN", "")
+                or os.environ.get("CF_TOKEN", ""))
+    if not cf_account or not cf_token:
+        return {"ok": False, "text": "", "error": "no credentials", "latency_ms": 0}
     url = f"https://api.cloudflare.com/client/v4/accounts/{cf_account}/ai/run/{model_id}"
     body = json.dumps({
         "messages": [{"role": "user", "content": prompt}],
@@ -74,8 +65,9 @@ def _cf_infer(model_id: str, prompt: str, max_tokens: int = 200) -> dict:
         return {"ok": False, "text": "", "error": str(e)[:200], "latency_ms": int((time.time() - t0) * 1000)}
 
 
-def _semantic_inversion(domain: str, model_id: str = "@cf/meta/llama-3.3-70b-instruct-fp8-fast") -> dict:
+def _semantic_inversion(domain: str) -> dict:
     """Ask model what it thinks runs behind this domain."""
+    model_id = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
     prompt = (
         f"You are shown a domain name with no other context.\n"
         f"Domain: {domain}\n\n"
@@ -87,6 +79,7 @@ def _semantic_inversion(domain: str, model_id: str = "@cf/meta/llama-3.3-70b-ins
 
 def _semantic_score(inference: str, intent: str) -> dict:
     """Hidden scorer: compare inference against frozen intent."""
+    model_id = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
     prompt = (
         f"You are a semantic evaluator. Rate how well the inference matches the intent.\n\n"
         f"FROZEN INTENT: {intent}\n"
@@ -94,16 +87,20 @@ def _semantic_score(inference: str, intent: str) -> dict:
         f"Score 0.0-1.0: 1.0=exact match, 0.7-0.9=partial, 0.3-0.6=weak, 0.0-0.2=none.\n"
         f'Reply in JSON: {{"score": <float>, "label": "<exact|partial|none>"}}'
     )
-    res = _cf_infer(prompt)
+    res = _cf_infer(model_id, prompt)
     if not res["ok"]:
-        return {"score": 0.0, "label": "error"}
+        return {"score": 0.0, "label": "error", "evidence_status": "NOT_MEASURED"}
     try:
         parsed = json.loads(res["text"])
-        return {"score": float(parsed.get("score", 0)), "label": parsed.get("label", "none")}
-    except:
+        return {"score": float(parsed.get("score", 0)),
+                "label": parsed.get("label", "none"),
+                "evidence_status": "MEASURED"}
+    except Exception:
         import re
         m = re.search(r'"?score"?\s*[:=]\s*([0-9.]+)', res["text"])
-        return {"score": float(m.group(1)) if m else 0.0, "label": "none"}
+        return {"score": float(m.group(1)) if m else 0.0,
+                "label": "none",
+                "evidence_status": "MEASURED"}
 
 
 PAGE = """<!doctype html>
@@ -144,8 +141,16 @@ th{color:#8b949e;font-weight:500}
 .trace-status{min-width:30px}
 .trace-latency{color:#8b949e;min-width:60px;text-align:right}
 .receipt{background:#0d1117;border:1px solid #238636;border-radius:6px;padding:16px;font-family:monospace;font-size:13px}
+.status-badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600}
+.status-RECOMMENDED{background:#1f6feb33;color:#58a6ff}
+.status-PREPARED{background:#d2992233;color:#d29922}
+.status-APPROVED{background:#23863633;color:#3fb950}
+.status-REGISTERED{background:#23863633;color:#3fb950}
+.status-VERIFIED{background:#23863633;color:#3fb950}
+.status-UNAVAILABLE{background:#da363333;color:#f85149}
+.status-ERROR{background:#da363333;color:#f85149}
 </style></head><body>
-<h1>⚔️ DomainArena</h1>
+<h1>DomainArena</h1>
 <p class="subtitle">A/B testing for domain names in the agentic web — powered by name.com</p>
 {body}
 </body></html>"""
@@ -166,18 +171,18 @@ STEP_INTENT = """
 </div>"""
 
 
-def _step_discovery(candidates: list, api_trace: list) -> str:
+def _step_discovery(candidates: list) -> str:
     rows = "".join(
-        f"<tr><td>{_esc(c['domain'])}</td><td>${c['price']}</td><td>${c['renewal']}</td>"
-        f"<td>{'<span class=ok>✓</span>' if c['purchasable'] else '<span class=rej>✗</span>'}</td></tr>"
+        f"<tr><td>{_esc(c['domain'])}</td><td>${c.get('price', '?')}</td>"
+        f"<td>{'<span class=ok>✓</span>' if c.get('available') else '<span class=rej>✗</span>'}</td></tr>"
         for c in candidates
     )
     return f"""
 <div class="step">
 <span class="step-num">2</span>
 <div class="step-title">LIVE DOMAIN DISCOVERY</div>
-<div class="step-sub">Powered by name.com Search API</div>
-<table><tr><th>domain</th><th>first year</th><th>renewal</th><th>available</th></tr>{rows}</table>
+<div class="step-sub">name.com Search API — {len(candidates)} candidates found</div>
+<table><tr><th>domain</th><th>first year</th><th>available</th></tr>{rows}</table>
 </div>"""
 
 
@@ -186,10 +191,12 @@ def _step_comprehension(inferences: list) -> str:
     for inf in inferences:
         score = inf.get("score", 0)
         label = inf.get("label", "none")
+        status = inf.get("evidence_status", "NOT_MEASURED")
         tag_class = "tag-green" if score >= 0.7 else "tag-yellow" if score >= 0.3 else "tag-red"
+        status_tag = f'<span class="tag tag-green">{status}</span>' if status == "MEASURED" else f'<span class="tag tag-red">{status}</span>'
         cards += f"""
 <div class="card" style="margin:8px 0">
-<b>{_esc(inf['domain'])}</b> <span class="tag {tag_class}">{label} {score:.1f}</span>
+<b>{_esc(inf['domain'])}</b> <span class="tag {tag_class}">{label} {score:.1f}</span> {status_tag}
 <br><span class="muted">AI infers:</span> {_esc(inf['inference'][:150])}
 </div>"""
     return f"""
@@ -201,29 +208,29 @@ def _step_comprehension(inferences: list) -> str:
 </div>"""
 
 
-def _step_recommendation(rec: dict, evidence: dict) -> str:
+def _step_recommendation(rec: dict) -> str:
     if not rec:
-        return '<div class="step"><span class="step-num">4</span><div class="step-title">NO RECOMMENDATION</div><div class="muted">No feasible candidates under budget</div></div>'
-    explanation = "".join(f"<li>{_esc(x)}</li>" for x in rec.get("explanation", []))
+        return '<div class="step"><span class="step-num">4</span><div class="step-title">NO RECOMMENDATION</div></div>'
+    status_class = f"status-{rec.get('status', 'RECOMMENDED')}"
     return f"""
 <div class="step">
 <span class="step-num">4</span>
 <div class="step-title">DOMAIN ARENA</div>
 <div class="step-sub">Evidence-based recommendation</div>
 <div class="big">{_esc(rec['domain'])}</div>
-<ul>{explanation}</ul>
-<p class="muted">score: {rec.get('score', 0):.4f} · coverage: {rec.get('evidence_coverage', 0):.0%} · status: {rec.get('recommendation_status', '?')}</p>
+<p>Status: <span class="status-badge {status_class}">{rec.get('status', '?')}</span></p>
+<p class="muted">decision_id: {_esc(rec.get('decision_id', '')[:20])}...</p>
 <form method="post" action="/prepare" style="margin-top:12px">
-<input type="hidden" name="domain" value="{_esc(rec['domain'])}">
 <input type="hidden" name="decision_id" value="{_esc(rec.get('decision_id', ''))}">
 <button type="submit">Prepare Registration →</button>
 </form>
 </div>"""
 
 
-def _step_checkout(domain: str, avail: dict) -> str:
-    if not avail:
+def _step_checkout(domain: str, prep: dict) -> str:
+    if not prep:
         return ""
+    status_class = f"status-{prep.get('status', 'PREPARED')}"
     return f"""
 <div class="step">
 <span class="step-num">5</span>
@@ -231,16 +238,15 @@ def _step_checkout(domain: str, avail: dict) -> str:
 <div class="step-sub">Fresh availability + pricing check (fail-closed)</div>
 <table>
 <tr><td>Domain</td><td><b>{_esc(domain)}</b></td></tr>
-<tr><td>Available</td><td class="ok">{'✓ Yes' if avail.get('available') else '✗ No'}</td></tr>
-<tr><td>Price</td><td>${avail.get('price', '?')}</td></tr>
-<tr><td>Renewal</td><td>${avail.get('renewal', '?')}</td></tr>
-<tr><td>Premium</td><td>{'Yes' if avail.get('premium') else 'No'}</td></tr>
+<tr><td>Available</td><td class="ok">{'✓ Yes' if prep.get('purchasable') else '✗ No'}</td></tr>
+<tr><td>Price</td><td>${prep.get('purchase_price', '?')}</td></tr>
+<tr><td>Renewal</td><td>${prep.get('renewal_price', '?')}</td></tr>
+<tr><td>Status</td><td><span class="status-badge {status_class}">{prep.get('status', '?')}</span></td></tr>
 </table>
-<form method="post" action="/register" style="margin-top:12px">
-<input type="hidden" name="domain" value="{_esc(domain)}">
-<input type="hidden" name="decision_id" value="{_esc(avail.get('decision_id', ''))}">
+<form method="post" action="/approve" style="margin-top:12px">
+<input type="hidden" name="decision_id" value="{_esc(prep.get('decision_id', ''))}">
 <button type="submit">Approve & Register →</button>
-<button type="submit" formaction="/cancel" class="reject" style="margin-left:8px">Reject</button>
+<button type="submit" formaction="/reject" class="reject" style="margin-left:8px">Reject</button>
 </form>
 </div>"""
 
@@ -252,14 +258,14 @@ def _step_registered(domain: str, reg: dict) -> str:
 <div class="step">
 <span class="step-num">6</span>
 <div class="step-title">NAME.COM REGISTRATION</div>
-<div class="step-sub">CreateDomain API call</div>
+<div class="step-sub">CreateDomain API — idempotent</div>
 <table>
 <tr><td>Status</td><td class="ok">REGISTERED</td></tr>
 <tr><td>Domain</td><td>{_esc(domain)}</td></tr>
 <tr><td>Idempotency Key</td><td class="muted" style="font-size:11px">{_esc(reg.get('idempotency_key', '?')[:32])}...</td></tr>
 </table>
 <form method="post" action="/configure-dns" style="margin-top:12px">
-<input type="hidden" name="domain" value="{_esc(domain)}">
+<input type="hidden" name="decision_id" value="{_esc(reg.get('decision_id', ''))}">
 <button type="submit">Configure DNS →</button>
 </form>
 </div>"""
@@ -268,40 +274,39 @@ def _step_registered(domain: str, reg: dict) -> str:
 def _step_dns(domain: str, dns: dict) -> str:
     if not dns:
         return ""
-    records = dns.get("records", [])
-    rows = "".join(
-        f"<tr><td>{_esc(r.get('host', ''))}</td><td>{_esc(r.get('type', ''))}</td><td>{_esc(r.get('answer', ''))}</td></tr>"
-        for r in records
-    )
+    status_class = f"status-{dns.get('status', 'DNS_CONFIGURED')}"
+    verified = dns.get("dns_receipt_verified", False)
     return f"""
 <div class="step">
 <span class="step-num">7</span>
 <div class="step-title">DNS CONFIGURATION</div>
 <div class="step-sub">CreateRecord + ListRecords verification</div>
-<table><tr><th>host</th><th>type</th><th>answer</th></tr>{rows}</table>
+<table>
+<tr><td>Receipt Hash</td><td class="muted" style="font-size:11px">{_esc(dns.get('receipt_hash', '?')[:40])}...</td></tr>
+<tr><td>Verified</td><td>{'✓ Yes' if verified else '✗ Pending'}</td></tr>
+<tr><td>Status</td><td><span class="status-badge {status_class}">{dns.get('status', '?')}</span></td></tr>
+</table>
 </div>"""
 
 
-def _step_verified(domain: str, receipt: dict) -> str:
-    if not receipt:
+def _step_verified(domain: str, verif: dict) -> str:
+    if not verif:
         return ""
     return f"""
 <div class="step">
 <span class="step-num">8</span>
 <div class="step-title">VERIFIED</div>
-<div class="step-sub">Evidence receipt — reproducible and auditable</div>
+<div class="step-sub">Evidence receipt — content-addressed, auditable</div>
 <div class="receipt">
-<b>Receipt Hash:</b> {_esc(receipt.get('hash', '?'))}<br>
+<b>Receipt Hash:</b> {_esc(verif.get('receipt_hash', '?'))}<br>
 <b>Domain:</b> {_esc(domain)}<br>
-<b>Intent:</b> {_esc(receipt.get('intent', '?'))}<br>
-<b>Timestamp:</b> {_esc(receipt.get('timestamp', '?'))}<br>
-<b>API Calls:</b> {receipt.get('api_calls', 0)}
+<b>Status:</b> <span class="ok">VERIFIED</span>
 </div>
 </div>"""
 
 
-def _api_trace_panel() -> str:
-    if not _API_TRACE:
+def _api_trace_panel(trace: list) -> str:
+    if not trace:
         return ""
     rows = "".join(
         f"""<div class="trace-row">
@@ -311,7 +316,7 @@ def _api_trace_panel() -> str:
 <span class="trace-status {'ok' if t['status'] < 400 else 'rej'}">{t['status']}</span>
 <span class="trace-latency">{t['latency_ms']}ms</span>
 </div>"""
-        for t in _API_TRACE[-20:]  # last 20 calls
+        for t in trace[-20:]
     )
     return f"""
 <div class="card">
@@ -339,288 +344,242 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/health":
             self.wfile.write(b"ok")
             return
-        if path == "/trace":
-            # Return API trace as JSON
-            data = json.dumps(_API_TRACE[-50:], indent=2).encode()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Content-Length", str(len(data)))
-            self.end_headers()
-            self.wfile.write(data)
+        if path == "/":
+            body = STEP_INTENT.format(
+                desc=_STATE.get("description", "A JSON repair tool for fixing malformed JSON"),
+                maxp=_STATE.get("maxp", "25"),
+                maxr=_STATE.get("maxr", "35"),
+            )
+            self._send(body)
             return
-        # Default: show form
-        body = STEP_INTENT.format(desc="Repairs malformed JSON for AI agents", maxp=25, maxr=35)
-        body += _api_trace_panel()
-        self._send(body)
+        self._send("Not found", 404)
 
     def do_POST(self):
-        n = int(self.headers.get("Content-Length", 0))
-        form = parse_qs(self.rfile.read(n).decode())
         path = urlparse(self.path).path
+        length = int(self.headers.get("Content-Length", 0))
+        body = parse_qs(self.rfile.read(length).decode())
+
+        if path == "/run":
+            self._handle_run(body)
+        elif path == "/prepare":
+            self._handle_prepare(body)
+        elif path == "/approve":
+            self._handle_approve(body)
+        elif path == "/reject":
+            self._handle_reject(body)
+        elif path == "/configure-dns":
+            self._handle_configure_dns(body)
+        else:
+            self._send("Not found", 404)
+
+    def _handle_run(self, body: dict):
+        """Run the full recommendation pipeline via DomainService."""
+        desc = body.get("description", [""])[0]
+        maxp = body.get("maxp", ["25"])[0]
+        maxr = body.get("maxr", ["35"])[0]
+        _STATE["description"] = desc
+        _STATE["maxp"] = maxp
+        _STATE["maxr"] = maxr
+
+        svc = get_service()
+        constraints = ConstraintSet(
+            max_purchase_price=float(maxp) if maxp else None,
+            max_renewal_price=float(maxr) if maxr else None,
+        )
 
         try:
-            if path == "/run":
-                body = asyncio.run(self._handle_run(form))
-            elif path == "/prepare":
-                body = asyncio.run(self._handle_prepare(form))
-            elif path == "/register":
-                body = asyncio.run(self._handle_register(form))
-            elif path == "/configure-dns":
-                body = asyncio.run(self._handle_dns(form))
-            elif path == "/cancel":
-                body = self._handle_cancel(form)
-            else:
-                body = f'<div class="card rej">Unknown path: {_esc(path)}</div>'
-                body += STEP_INTENT.format(desc="Repairs malformed JSON for AI agents", maxp=25, maxr=35)
-        except Exception as e:
-            body = f'<div class="card rej">Error: {_esc(e)}</div>'
-            body += STEP_INTENT.format(desc="Repairs malformed JSON for AI agents", maxp=25, maxr=35)
+            ds, cands = svc.recommend(
+                description=desc,
+                primary_job=desc,
+                audience="ai_agent",
+                constraints=constraints,
+            )
+        except ValueError as e:
+            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
+            return
 
-        self._send(body)
+        # Build candidate list for display
+        cand_display = [
+            {"domain": c.domain_name, "price": c.inventory.purchase_price,
+             "available": c.inventory.purchasable}
+            for c, _ in cands
+        ]
 
-    async def _handle_run(self, form) -> str:
-        """Step 2: Search → Inference → Recommend."""
-        description = form.get("description", [""])[0]
-        maxp = float(form.get("maxp", ["25"])[0] or 25)
-        maxr = float(form.get("maxr", ["35"])[0] or 35)
-
-        # Step 1: Intent
-        body = STEP_INTENT.format(desc=_esc(description), maxp=int(maxp), maxr=int(maxr))
-
-        # Step 2: Live name.com search
-        client = client_from_env()
-        t0 = time.time()
-        try:
-            search_results = await client.search(description.split()[0], ["dev", "com", "io"])
-            _log_api("POST", "/domains:search", 200, int((time.time()-t0)*1000),
-                     f"keyword={description.split()[0]}")
-        except Exception as e:
-            _log_api("POST", "/domains:search", 500, int((time.time()-t0)*1000), str(e)[:80])
-            search_results = []
-
-        # Filter by budget
-        feasible = []
-        for r in search_results:
-            if r.purchasable and r.purchase_price and r.purchase_price <= maxp:
-                if r.renewal_price and r.renewal_price <= maxr:
-                    feasible.append({
-                        "domain": r.domain_name,
-                        "price": r.purchase_price,
-                        "renewal": r.renewal_price,
-                        "purchasable": True,
-                    })
-        await client.close()
-
-        if not feasible:
-            body += '<div class="card rej">No domains found under budget. Try higher budget.</div>'
-            body += _api_trace_panel()
-            return body
-
-        body += _step_discovery(feasible, _API_TRACE)
-
-        # Step 3: Semantic inversion (what does AI think each domain does?)
+        # Run semantic inversion on top candidates
         inferences = []
-        for cand in feasible[:5]:  # top 5
-            inv = _semantic_inversion(cand["domain"])
-            sc = _semantic_score(inv.get("text", ""), description)
+        for c in cands[:3]:
+            inv = _semantic_inversion(c.domain_name)
+            score_result = _semantic_score(inv.get("text", ""), desc)
             inferences.append({
-                "domain": cand["domain"],
+                "domain": c.domain_name,
                 "inference": inv.get("text", ""),
-                "score": sc["score"],
-                "label": sc["label"],
+                "score": score_result["score"],
+                "label": score_result["label"],
+                "evidence_status": score_result["evidence_status"],
                 "latency_ms": inv.get("latency_ms", 0),
             })
-            _log_api("POST", f"CF AI ({'infer'}", 200, inv.get("latency_ms", 0), cand["domain"])
 
-        body += _step_comprehension(inferences)
+        _STATE["decision_id"] = ds.decision_id
+        _STATE["inferences"] = inferences
 
-        # Step 4: Recommendation
-        candidates_with_ev = []
-        for cand in feasible[:5]:
-            inf = next((i for i in inferences if i["domain"] == cand["domain"]), {})
-            ev = EvidenceVector(
-                semantic_transmission=inf.get("score", 0.0),
-                task_success=inf.get("score", 0.0) * 0.9,
-            )
-            sld, _, tld = cand["domain"].partition(".")
-            candidates_with_ev.append((
-                Candidate(
-                    candidate_id=cand["domain"],
-                    domain_name=cand["domain"],
-                    generator="name.com-search",
-                    inventory=InventorySnapshot(
-                        domain_name=cand["domain"], sld=sld, tld=tld,
-                        purchasable=True, purchase_price=cand["price"],
-                        renewal_price=cand["renewal"],
-                        checked_at=time.strftime("%Y-%m-%dT%H:%M:%SZ")),
-                ),
-                ev,
-            ))
+        # Build page
+        body_html = ""
+        body_html += STEP_INTENT.format(desc=desc, maxp=maxp, maxr=maxr)
+        body_html += _step_discovery(cand_display)
+        body_html += _step_comprehension(inferences)
+        body_html += _step_recommendation({
+            "domain": ds.recommended_domain,
+            "decision_id": ds.decision_id,
+            "status": ds.status.value,
+        })
 
-        rec = recommend(candidates_with_ev, "ai_agent")
-        rec_dict = {
-            "domain": rec.domain_name,
-            "score": rec.score,
-            "evidence_coverage": rec.evidence_coverage,
-            "recommendation_status": rec.recommendation_status,
-            "explanation": rec.explanation,
-            "on_pareto_front": rec.on_pareto,
-        }
-        # Store for later steps
-        _STATE["recommendation"] = rec_dict
-        _STATE["intent"] = description
-        _STATE["feasible"] = feasible
+        self._send(body_html)
 
-        body += _step_recommendation(rec_dict, {})
-        body += _api_trace_panel()
-        return body
+    def _handle_prepare(self, body: dict):
+        """Prepare registration via DomainService."""
+        decision_id = body.get("decision_id", [""])[0]
+        svc = get_service()
 
-    async def _handle_prepare(self, form) -> str:
-        """Step 5: Fresh availability check."""
-        domain = form.get("domain", [""])[0]
-        decision_id = form.get("decision_id", [""])[0]
-
-        body = STEP_INTENT.format(desc=_esc(_STATE.get("intent", "")), maxp=25, maxr=35)
-
-        client = client_from_env()
-        t0 = time.time()
         try:
-            entry = await client.check_availability_fail_closed(domain)
-            _log_api("POST", "/domains:checkAvailability", 200, int((time.time()-t0)*1000), domain)
-            pricing = await client.get_pricing(domain)
-            _log_api("GET", f"/domains/{domain}:getPricing", 200, int((time.time()-t0)*1000), domain)
-        except Exception as e:
-            _log_api("POST", "/domains:checkAvailability", 500, int((time.time()-t0)*1000), str(e)[:80])
-            body += f'<div class="card rej">Availability check failed: {_esc(e)}</div>'
-            body += _api_trace_panel()
-            return body
-        finally:
-            await client.close()
+            prep = svc.prepare_registration(decision_id)
+        except (KeyError, ValueError) as e:
+            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
+            return
 
-        def _extract_price(p):
-            if not isinstance(p, dict): return None
-            for k in ("purchasePrice", "purchase_price"):
-                if p.get(k) is not None: return p[k]
-            for t in p.get("tiers", []) or []:
-                if t.get("purchasePrice") is not None: return t["purchasePrice"]
-            return None
+        _STATE["preparation"] = prep
+        _STATE["decision_id"] = decision_id
 
-        avail = {
-            "available": entry.get("purchasable", False),
-            "price": _extract_price(pricing) or entry.get("purchasePrice"),
-            "renewal": pricing.get("renewalPrice") if isinstance(pricing, dict) else None,
-            "premium": entry.get("premium", False),
+        ds = svc.get_decision(decision_id)
+
+        body_html = STEP_INTENT.format(
+            desc=_STATE.get("description", ""),
+            maxp=_STATE.get("maxp", "25"),
+            maxr=_STATE.get("maxr", "35"),
+        )
+        body_html += _step_recommendation({
+            "domain": ds.recommended_domain,
+            "decision_id": ds.decision_id,
+            "status": ds.status.value,
+        })
+        body_html += _step_checkout(ds.recommended_domain, {
+            **prep, "decision_id": decision_id,
+        })
+        body_html += _api_trace_panel(ds.api_trace)
+
+        self._send(body_html)
+
+    def _handle_approve(self, body: dict):
+        """Approve and register via DomainService."""
+        decision_id = body.get("decision_id", [""])[0]
+        svc = get_service()
+
+        # Approve
+        try:
+            approval = svc.approve(decision_id)
+        except (KeyError, ValueError) as e:
+            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
+            return
+
+        # Register
+        try:
+            reg = svc.register(decision_id, approval["approval_token"])
+        except (KeyError, ValueError, PermissionError) as e:
+            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
+            return
+
+        # Configure DNS
+        try:
+            dns = svc.configure_dns(decision_id)
+        except (KeyError, ValueError) as e:
+            dns = {"error": str(e)}
+
+        ds = svc.get_decision(decision_id)
+        _STATE["registration"] = reg
+        _STATE["dns"] = dns
+
+        body_html = STEP_INTENT.format(
+            desc=_STATE.get("description", ""),
+            maxp=_STATE.get("maxp", "25"),
+            maxr=_STATE.get("maxr", "35"),
+        )
+        body_html += _step_recommendation({
+            "domain": ds.recommended_domain,
+            "decision_id": ds.decision_id,
+            "status": ds.status.value,
+        })
+        body_html += _step_checkout(ds.recommended_domain, {
+            **(_STATE.get("preparation") or {}),
             "decision_id": decision_id,
-        }
-        _STATE["checkout"] = avail
+            "status": "APPROVED",
+        })
+        body_html += _step_registered(ds.recommended_domain, {
+            **reg, "decision_id": decision_id,
+        })
+        body_html += _step_dns(ds.recommended_domain, dns)
+        if dns.get("dns_receipt_verified"):
+            body_html += _step_verified(ds.recommended_domain, {
+                "receipt_hash": dns.get("receipt_hash", ""),
+            })
+        body_html += _api_trace_panel(ds.api_trace)
 
-        rec = _STATE.get("recommendation", {})
-        body += _step_recommendation(rec, {})
-        body += _step_checkout(domain, avail)
-        body += _api_trace_panel()
-        return body
+        self._send(body_html)
 
-    async def _handle_register(self, form) -> str:
-        """Step 6: Register domain."""
-        domain = form.get("domain", [""])[0]
-        decision_id = form.get("decision_id", [""])[0]
+    def _handle_reject(self, body: dict):
+        """Reject the recommendation."""
+        decision_id = body.get("decision_id", [""])[0]
+        svc = get_service()
+        svc.reject(decision_id)
 
-        body = STEP_INTENT.format(desc=_esc(_STATE.get("intent", "")), maxp=25, maxr=35)
+        body_html = STEP_INTENT.format(
+            desc=_STATE.get("description", ""),
+            maxp=_STATE.get("maxp", "25"),
+            maxr=_STATE.get("maxr", "35"),
+        )
+        body_html += '<div class="step"><span class="step-num">-</span><div class="step-title">REJECTED</div><div class="step-sub">Domain not approved for registration</div></div>'
+        self._send(body_html)
 
-        client = client_from_env()
-        t0 = time.time()
+    def _handle_configure_dns(self, body: dict):
+        """Configure DNS via DomainService."""
+        decision_id = body.get("decision_id", [""])[0]
+        svc = get_service()
+
         try:
-            import hashlib
-            idem = hashlib.sha256(f"{decision_id}|{domain}|register".encode()).hexdigest()
-            payload = {"domain": {"domainName": domain}}
-            reg = await client.register_domain(payload, idem)
-            _log_api("POST", "/domains", 200, int((time.time()-t0)*1000), domain)
-            got = await client.get_domain(domain)
-            _log_api("GET", f"/domains/{domain}", 200, int((time.time()-t0)*1000), domain)
-        except Exception as e:
-            _log_api("POST", "/domains", 500, int((time.time()-t0)*1000), str(e)[:80])
-            body += f'<div class="card rej">Registration failed: {_esc(e)}</div>'
-            body += _api_trace_panel()
-            return body
-        finally:
-            await client.close()
+            dns = svc.configure_dns(decision_id)
+        except (KeyError, ValueError) as e:
+            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
+            return
 
-        reg_info = {"idempotency_key": idem, "status": "REGISTERED"}
-        _STATE["registration"] = reg_info
+        ds = svc.get_decision(decision_id)
+        _STATE["dns"] = dns
 
-        rec = _STATE.get("recommendation", {})
-        checkout = _STATE.get("checkout", {})
-        body += _step_recommendation(rec, {})
-        body += _step_checkout(domain, checkout)
-        body += _step_registered(domain, reg_info)
-        body += _api_trace_panel()
-        return body
+        body_html = STEP_INTENT.format(
+            desc=_STATE.get("description", ""),
+            maxp=_STATE.get("maxp", "25"),
+            maxr=_STATE.get("maxr", "35"),
+        )
+        body_html += _step_recommendation({
+            "domain": ds.recommended_domain,
+            "decision_id": ds.decision_id,
+            "status": ds.status.value,
+        })
+        body_html += _step_registered(ds.recommended_domain, {
+            **(_STATE.get("registration") or {}),
+            "decision_id": decision_id,
+        })
+        body_html += _step_dns(ds.recommended_domain, dns)
+        if dns.get("dns_receipt_verified"):
+            body_html += _step_verified(ds.recommended_domain, {
+                "receipt_hash": dns.get("receipt_hash", ""),
+            })
+        body_html += _api_trace_panel(ds.api_trace)
 
-    async def _handle_dns(self, form) -> str:
-        """Step 7: Configure DNS."""
-        domain = form.get("domain", [""])[0]
+        self._send(body_html)
 
-        body = STEP_INTENT.format(desc=_esc(_STATE.get("intent", "")), maxp=25, maxr=35)
-
-        client = client_from_env()
-        t0 = time.time()
-        try:
-            import hashlib, json as _json
-            receipt_hash = hashlib.sha256(_json.dumps({
-                "domain": domain, "intent": _STATE.get("intent", "")},
-                sort_keys=True).encode()).hexdigest()
-            txt_answer = f"sha256:{receipt_hash}"
-
-            await client.create_dns_record(domain, host="_domainarena",
-                                           record_type="TXT", answer=txt_answer)
-            _log_api("POST", f"/domains/{domain}/records", 200, int((time.time()-t0)*1000), "TXT")
-
-            records = await client.list_dns_records(domain)
-            _log_api("GET", f"/domains/{domain}/records", 200, int((time.time()-t0)*1000), "")
-        except Exception as e:
-            _log_api("POST", f"/domains/{domain}/records", 500, int((time.time()-t0)*1000), str(e)[:80])
-            records = []
-        finally:
-            await client.close()
-
-        dns_info = {"records": records if isinstance(records, list) else []}
-        _STATE["dns"] = dns_info
-
-        # Build receipt
-        import hashlib, json as _json
-        receipt_hash = hashlib.sha256(_json.dumps({
-            "domain": domain,
-            "intent": _STATE.get("intent", ""),
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
-        }, sort_keys=True).encode()).hexdigest()
-        receipt = {
-            "hash": f"sha256:{receipt_hash}",
-            "intent": _STATE.get("intent", ""),
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "api_calls": len(_API_TRACE),
-        }
-
-        rec = _STATE.get("recommendation", {})
-        checkout = _STATE.get("checkout", {})
-        reg = _STATE.get("registration", {})
-        body += _step_recommendation(rec, {})
-        body += _step_checkout(domain, checkout)
-        body += _step_registered(domain, reg)
-        body += _step_dns(domain, dns_info)
-        body += _step_verified(domain, receipt)
-        body += _api_trace_panel()
-        return body
-
-    def _handle_cancel(self, form) -> str:
-        body = STEP_INTENT.format(desc=_esc(_STATE.get("intent", "")), maxp=25, maxr=35)
-        body += '<div class="card warn">Registration cancelled by user.</div>'
-        body += _api_trace_panel()
-        return body
-
-    def log_message(self, *a):
-        pass
+    def log_message(self, format, *args):
+        pass  # Suppress default logging
 
 
 if __name__ == "__main__":
-    print(f"DomainArena Hackathon Demo on http://127.0.0.1:{PORT}")
-    ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
+    print(f"DomainArena demo: http://127.0.0.1:{PORT}")
+    server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)
+    server.serve_forever()

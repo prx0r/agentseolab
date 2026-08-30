@@ -2,53 +2,6 @@
 
 **A/B testing for domain names in the agentic web.**
 
-DomainArena measures which domain names AI agents actually understand and select, then safely registers the winner through name.com.
-
-```
-                  ┌─────────────────────┐
-                  │   PRODUCT INTENT    │
-                  └──────────┬──────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │ name.com SEARCH API │
-                  │  live inventory     │
-                  └──────────┬──────────┘
-                             │
-                    hard constraints
-                             │
-                             ▼
-              ┌─────────────────────────────┐
-              │        DOMAIN ARENA         │
-              │  semantic comprehension     │
-              │  randomized pairwise choice │
-              │  task success               │
-              │  cross-model robustness     │
-              └─────────────┬───────────────┘
-                            │
-                            ▼
-                    RECOMMENDATION
-                            │
-                            ▼
-                   CheckAvailability
-                            │
-                       GetPricing
-                            │
-                            ▼
-                     HUMAN APPROVAL
-                            │
-                            ▼
-                      CreateDomain
-                            │
-                            ▼
-                  Create DNS record
-                            │
-                     List/read-back
-                            │
-                            ▼
-                  VERIFIED RECEIPT
-```
-
 ## The problem
 
 Before an agent can use a service, it has to decide which service a domain represents. Nobody has measured whether agents actually understand domain names — until now.
@@ -57,14 +10,17 @@ Before an agent can use a service, it has to decide which service a domain repre
 
 > Given a task description, which domain names do AI agents infer are relevant, which do they select, and does the hostname itself affect their choice?
 
-Four independent papers (ToolTweak, Tool Preferences Unreliable, ToolDNS, PA-Tool) identified that naming drives agent behavior. None built the measurement tool. We did.
+## 30-second demo
 
-## Quick start
-
-```bash
-pip install -e .
-cp .env.example .env       # add name.com + Cloudflare credentials
-python -m domainarena.web.demo   # hackathon demo on http://127.0.0.1:8777
+```
+1. YOU: "I'm building a JSON repair tool"
+2. SEARCH: name.com finds 3 available domains
+3. COMPREHENSION: AI infers what each domain does (blind)
+4. ARENA: Evidence-based recommendation
+5. CHECKOUT: Fresh availability + pricing
+6. APPROVAL: You approve the winner
+7. REGISTER: name.com registers it
+8. DNS: Evidence receipt recorded
 ```
 
 ## How name.com is central
@@ -80,47 +36,49 @@ DomainArena uses **6 name.com API endpoints** in one workflow:
 | `POST /domains/{domain}/records` | DNS evidence receipt |
 | `GET /domains/{domain}/records` | Verify configuration |
 
-## Hackathon demo
-
-The demo shows the full flow:
-
-1. **YOUR INTENT** — describe what you're building
-2. **LIVE DISCOVERY** — name.com search returns real inventory
-3. **AGENT COMPREHENSION** — AI models infer what each domain does (blind)
-4. **DOMAIN ARENA** — evidence-based recommendation
-5. **LIVE CHECKOUT** — fresh availability + pricing (fail-closed)
-6. **REGISTRATION** — idempotent CreateDomain
-7. **DNS** — evidence receipt via TXT record
-8. **VERIFIED** — content-addressed receipt hash
-
-## Safety
-
-- **Fail-closed**: missing/malformed availability → abort
-- **Approval required**: registration needs explicit human approval
-- **Price drift guard**: price changes beyond threshold invalidate approval
-- **Idempotent**: duplicate registration attempts can't double-charge
-- **purchaseType=registration**: enforced on every availability check
-
 ## Architecture
 
 ```
-domainarena/
-├── api/
-│   ├── http.py          # FastAPI: recommend/approve/register
-│   └── mcp.py           # MCP server: 8 agent-callable tools
-├── arena/
-│   ├── semantic_inversion.py  # blind inference scoring
-│   ├── discovery.py           # selection trials
-│   ├── execution.py           # task verification
-│   └── pairwise.py            # AB/BA randomization
-├── models.py            # EvidenceVector, Candidate, etc.
-├── optimizer.py         # Pareto selection + weighted scoring
-├── providers/
-│   └── namecom.py       # name.com client (fail-closed)
-├── web/
-│   └── demo.py          # hackathon demo UI
-└── world.py             # cogym worldpack
+         PRODUCT INTENT
+               |
+               v
+      name.com SEARCH API
+         live inventory
+               |
+          hard constraints
+               |
+               v
+        DOMAIN ARENA
+  semantic comprehension
+  randomized pairwise choice
+  cross-model robustness
+               |
+               v
+         RECOMMENDATION
+               |
+          CheckAvailability
+               |
+             GetPricing
+               |
+               v
+         HUMAN APPROVAL
+               |
+            CreateDomain
+               |
+        Create DNS record
+          List/read-back
+               |
+               v
+        VERIFIED RECEIPT
 ```
+
+## Safety and purchase approval
+
+- **Fail-closed**: Missing/malformed availability → abort
+- **Approval required**: Registration needs explicit human approval
+- **Price drift guard**: Price changes beyond threshold invalidate approval
+- **Idempotent**: Duplicate registration attempts can't double-charge
+- **purchaseType=registration**: Enforced on every availability check
 
 ## MCP tools
 
@@ -129,19 +87,74 @@ search_domain         — search name.com inventory
 check_availability    — check purchasable status
 get_pricing           — get purchase/renewal prices
 recommend_domain      — full pipeline recommendation
-compare_domains       — pairwise evidence comparison
+compare_domains       — pairwise availability + pricing + semantic fit
 prepare_registration  — fresh check before purchase
-register_domain       — register (sandbox only)
-get_dns               — list DNS records
+approve_domain        — approve for registration (returns token)
+register_domain       — register (requires approval token)
+configure_dns         — create DNS evidence receipt
 ```
 
-## Evidence
+## API
 
-Every experiment produces:
-- Content-addressed receipt (sha256 of config + results)
-- Timestamped trial data
-- Model family attribution
-- AB/BA position balance verification
+```bash
+# Recommend
+curl -X POST http://localhost:8801/v1/recommend \
+  -H "Content-Type: application/json" \
+  -d '{"description": "A JSON repair tool", "primary_job": "fix malformed JSON"}'
+
+# Get decision state
+curl http://localhost:8801/v1/decisions/{id}
+
+# Prepare registration (fresh availability + pricing check)
+curl -X POST http://localhost:8801/v1/decisions/{id}/prepare-registration
+
+# Approve (returns approval_token)
+curl -X POST http://localhost:8801/v1/decisions/{id}/approve \
+  -H "Content-Type: application/json" \
+  -d '{"approve": true}'
+
+# Register (requires approval_token)
+curl -X POST http://localhost:8801/v1/decisions/{id}/register \
+  -H "Content-Type: application/json" \
+  -d '{"approval_token": "..."}'
+
+# Configure DNS evidence receipt
+curl -X POST http://localhost:8801/v1/decisions/{id}/configure-dns
+```
+
+## Quickstart
+
+```bash
+git clone https://github.com/prx0r/agentseolab.git
+cd agentseolab
+pip install -e .
+cp .env.example .env       # add name.com + Cloudflare credentials
+python3 -m domainarena.web.demo   # hackathon demo on http://127.0.0.1:8777
+```
+
+## Tests
+
+```bash
+pytest tests/domainarena/ -v    # 82 tests passing
+```
+
+### Test coverage
+
+- `test_world.py` — DomainArenaWorld state transitions, terminal conditions, scoring
+- `test_lifecycle_e2e.py` — Full recommend → approve → prepare → register → DNS flow
+- `test_namecom.py` — name.com client (mock + integration)
+- `test_constraints.py` — Constraint feasibility + intent hashing
+- `test_arena.py` — Semantic inversion, pairwise arena, Bradley-Terry, Wilson CI
+- `test_policy_api.py` — Optimizer policy, Pareto front, HTTP API
+- `test_additional.py` — Demo smoke, MCP approval bypass, business audience, provenance
+- `test_t4_receipts.py` — Receipt writing/verification
+
+## Limitations
+
+- Requires name.com API credentials for live inventory
+- Requires Cloudflare Workers AI for semantic comprehension
+- Registration only in sandbox mode (production requires explicit approval)
+- Single-model semantic scoring (cross-model replication pending)
 
 ## License
 

@@ -58,7 +58,7 @@ def _evidence_from_inventory(cands: list[Candidate],
         struct = round(0.5 * pronounceable + 0.5 * length_fit, 3)
 
         sem = sem_scores.get(c.domain_name)
-        sem_status = ("MEASURED" if isinstance(sem, (int, float)) and sem is not None
+        sem_status = ("PROXY" if isinstance(sem, (int, float)) and sem is not None
                       else "NOT_MEASURED")
 
         def _ev(status, value=None, note=None):

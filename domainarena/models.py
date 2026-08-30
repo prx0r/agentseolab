@@ -100,3 +100,4 @@ class RecommendationDecision(BaseModel):
     policy_version: str
     evidence: EvidenceVector
     purchase_requires_approval: bool = True
+    approval_token: str | None = None  # set on approval, required for registration

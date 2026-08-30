@@ -1,44 +1,26 @@
-"""DomainArena MCP server (stdio JSON-RPC).
+"""DomainArena MCP server — calls DomainService for all operations.
 
-Tools:
-- search_domain(keyword, tlds) — search name.com inventory
-- check_availability(domains) — check if domains are purchasable
-- get_pricing(domain) — get purchase/renewal pricing
-- recommend_domain(intent, audience, constraints) — live pipeline recommendation
-- compare_domains(a, b) — pairwise evidence summary
-- prepare_registration(domain, decision_id) — fresh check before purchase
-- register_domain(domain, decision_id) — DESTRUCTIVE, gated behind approval
-- get_dns(domain) — list DNS records
-
-Registration is intentionally gated; the agent must call prepare_registration first.
+Registration is approval-gated: must call prepare_registration first,
+then approve, then register with the approval token.
 """
 from __future__ import annotations
 import asyncio
-import hashlib
 import json
 import os
 import sys
-from datetime import datetime, timezone
 
-from ..api.http import RecommendRequest, _demo_candidates, _live_candidates
-from ..models import (
-    Candidate, ConstraintSet, EvidenceVector, InventorySnapshot, Audience,
-)
-from ..optimizer import recommend, weighted_score
-from ..providers.namecom import client_from_env, NameComClient, NameComError
+from ..service import get_service, DecisionStatus
+from ..providers.namecom import client_from_env, NameComError
 
 TOOLS = [
     {
         "name": "search_domain",
-        "description": ("Search name.com inventory for available domains matching a keyword. "
-                        "Returns list of available domains with prices."),
+        "description": "Search name.com inventory for available domains.",
         "inputSchema": {
             "type": "object",
             "properties": {
-                "keyword": {"type": "string",
-                            "description": "Search term (e.g. 'jsonrepair', 'fastapi')"},
+                "keyword": {"type": "string"},
                 "tlds": {"type": "array", "items": {"type": "string"},
-                         "description": "TLD filter (e.g. ['com', 'dev', 'io'])",
                          "default": ["com", "dev", "io"]},
             },
             "required": ["keyword"],
@@ -46,7 +28,7 @@ TOOLS = [
     },
     {
         "name": "check_availability",
-        "description": "Check if specific domains are available for registration.",
+        "description": "Check if domains are available for registration.",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -61,17 +43,13 @@ TOOLS = [
         "description": "Get purchase and renewal pricing for a domain.",
         "inputSchema": {
             "type": "object",
-            "properties": {
-                "domain": {"type": "string"},
-            },
+            "properties": {"domain": {"type": "string"}},
             "required": ["domain"],
         },
     },
     {
         "name": "recommend_domain",
-        "description": ("Given a product intent, target audience and hard budget "
-                        "constraints, search live name.com inventory and return "
-                        "the best purchasable domain with evidence."),
+        "description": "Search live inventory and recommend the best domain with evidence.",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -86,287 +64,248 @@ TOOLS = [
         },
     },
     {
-        "name": "compare_domains",
-        "description": "Compare two candidate domains on audience-weighted evidence.",
-        "inputSchema": {
-            "type": "object",
-            "properties": {
-                "domains": {"type": "array", "items": {"type": "string"}, "minItems": 2},
-                "audience": {"type": "string",
-                             "enum": ["consumer", "business", "developer", "ai_agent"]},
-            },
-            "required": ["domains"],
-        },
-    },
-    {
         "name": "prepare_registration",
-        "description": ("Fresh availability + pricing check before registration. "
-                        "Returns current availability, price, renewal, and whether "
-                        "approval is required. Call this before register_domain."),
+        "description": "Fresh availability + pricing check. Returns decision_id for approval.",
         "inputSchema": {
             "type": "object",
             "properties": {
-                "domain": {"type": "string"},
                 "decision_id": {"type": "string"},
                 "max_price_drift_pct": {"type": "number", "default": 10.0},
             },
-            "required": ["domain", "decision_id"],
+            "required": ["decision_id"],
+        },
+    },
+    {
+        "name": "approve_domain",
+        "description": "Approve a domain for registration. Returns approval_token needed for register_domain.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"decision_id": {"type": "string"}},
+            "required": ["decision_id"],
         },
     },
     {
         "name": "register_domain",
-        "description": ("DESTRUCTIVE: Register a domain after approval. "
-                        "Only works in sandbox mode. Requires prepare_registration first."),
+        "description": "DESTRUCTIVE: Register a domain. Requires approval_token from approve_domain.",
         "inputSchema": {
             "type": "object",
             "properties": {
-                "domain": {"type": "string"},
                 "decision_id": {"type": "string"},
+                "approval_token": {"type": "string"},
             },
-            "required": ["domain", "decision_id"],
+            "required": ["decision_id", "approval_token"],
         },
     },
     {
-        "name": "get_dns",
-        "description": "List DNS records for a registered domain.",
+        "name": "configure_dns",
+        "description": "Create DNS TXT receipt for registered domain.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"decision_id": {"type": "string"}},
+            "required": ["decision_id"],
+        },
+    },
+    {
+        "name": "compare_domains",
+        "description": "Pairwise comparison of two domains: availability, pricing, and semantic fit against an intent.",
         "inputSchema": {
             "type": "object",
             "properties": {
-                "domain": {"type": "string"},
+                "domain_a": {"type": "string", "description": "First domain (e.g. jsonrepair.dev)"},
+                "domain_b": {"type": "string", "description": "Second domain (e.g. fixjson.com)"},
+                "description": {"type": "string", "description": "Product/service intent description"},
             },
-            "required": ["domain"],
+            "required": ["domain_a", "domain_b", "description"],
         },
     },
 ]
 
 
-# ── Live pipeline adapter ──────────────────────────────────────────
-
-async def _live_recommend(req: RecommendRequest) -> tuple[
-        list[tuple[Candidate, EvidenceVector]], bool]:
-    """Try live name.com pipeline; fall back to demo fixtures."""
-    live = await _live_candidates(req)
-    if live is not None:
-        return live, True
-    return _demo_candidates(req), False
-
-
-# ── Tool handlers ──────────────────────────────────────────────────
-
 async def _handle_search(args: dict) -> dict:
-    keyword = args["keyword"]
-    tlds = args.get("tlds", ["com", "dev", "io"])
     client = client_from_env()
     try:
-        results = await client.search(keyword, tlds)
+        results = await client.search(
+            args["keyword"], args.get("tlds", ["com", "dev", "io"]))
+        domains = [{"domain": r.domain_name, "purchasable": r.purchasable,
+                     "price": r.purchase_price, "renewal": r.renewal_price}
+                    for r in results]
+        return {"content": [{"type": "text", "text": json.dumps({
+            "query": args["keyword"], "results": domains,
+            "count": len(domains), "source": "name.com-live"}, indent=2)}]}
     except Exception as e:
         return {"content": [{"type": "text", "text": f"search failed: {e}"}]}
     finally:
         await client.close()
-    domains = []
-    for r in results:
-        domains.append({
-            "domain": r.domain_name,
-            "purchasable": r.purchasable,
-            "premium": r.premium,
-            "purchase_price": r.purchase_price,
-            "renewal_price": r.renewal_price,
-        })
-    return {"content": [{"type": "text", "text": json.dumps({
-        "query": keyword, "tlds": tlds, "results": domains,
-        "count": len(domains), "source": "name.com-live"}, indent=2)}]}
 
 
 async def _handle_check(args: dict) -> dict:
-    domains = args["domains"]
     client = client_from_env()
     try:
-        results = await client.check_availability(domains)
+        results = await client.check_availability(args["domains"])
+        return {"content": [{"type": "text", "text": json.dumps({
+            "results": results, "count": len(results),
+            "source": "name.com-live"}, indent=2)}]}
     except Exception as e:
         return {"content": [{"type": "text", "text": f"check failed: {e}"}]}
     finally:
         await client.close()
-    return {"content": [{"type": "text", "text": json.dumps({
-        "results": results, "count": len(results),
-        "source": "name.com-live"}, indent=2)}]}
 
 
 async def _handle_pricing(args: dict) -> dict:
-    domain = args["domain"]
     client = client_from_env()
     try:
-        pricing = await client.get_pricing(domain)
+        pricing = await client.get_pricing(args["domain"])
+        return {"content": [{"type": "text", "text": json.dumps({
+            "domain": args["domain"], "pricing": pricing,
+            "source": "name.com-live"}, indent=2)}]}
     except Exception as e:
         return {"content": [{"type": "text", "text": f"pricing failed: {e}"}]}
     finally:
         await client.close()
-    return {"content": [{"type": "text", "text": json.dumps({
-        "domain": domain, "pricing": pricing,
-        "source": "name.com-live"}, indent=2)}]}
 
 
 async def _handle_recommend(args: dict) -> dict:
-    """Live pipeline: search name.com → filter → score → recommend."""
-    req = RecommendRequest(
-        description=args["description"],
-        primary_job=args["primary_job"],
-        audience=args.get("audience", "ai_agent"),
-        constraints=ConstraintSet(
+    svc = get_service()
+    try:
+        constraints = __import__("domainarena.models", fromlist=["ConstraintSet"]).ConstraintSet(
             max_purchase_price=args.get("max_purchase_price"),
             max_renewal_price=args.get("max_renewal_price"),
-        ),
-    )
-    cands, is_live = await _live_recommend(req)
-    if not cands:
-        return {"content": [{"type": "text",
-                             "text": "No feasible candidates under constraints."}]}
-    rec = recommend(cands, req.audience)
-    source = "name.com-live" if is_live else "demo-fixture"
-    return {"content": [{"type": "text", "text": json.dumps({
-        "domain": rec.domain_name,
-        "score": round(rec.score, 4),
-        "on_pareto_front": rec.on_pareto,
-        "evidence_coverage": round(rec.evidence_coverage, 4),
-        "recommendation_status": rec.recommendation_status,
-        "explanation": rec.explanation,
-        "source": source,
-        "note": "call prepare_registration before registering",
-    }, indent=2)}]}
-
-
-async def _handle_compare(args: dict) -> dict:
-    target_domains = [d.lower() for d in args.get("domains", [])]
-    audience = args.get("audience", "ai_agent")
-    req = RecommendRequest(description="comparison", primary_job="comparison",
-                           audience=audience)
-    cands, is_live = await _live_recommend(req)
-    matched = []
-    for c, ev in cands:
-        if c.domain_name.lower() in target_domains:
-            s, cov = weighted_score(ev, audience)
-            matched.append({
-                "domain": c.domain_name,
-                "score": round(s, 4),
-                "evidence_coverage": round(cov, 4),
-                "purchase_price": c.inventory.purchase_price,
-                "renewal_price": c.inventory.renewal_price,
-            })
-    if not matched:
-        return {"content": [{"type": "text",
-                             "text": f"none of {target_domains} found in candidate set"}]}
-    return {"content": [{"type": "text", "text": json.dumps({
-        "results": matched, "source": "name.com-live" if is_live else "demo-fixture"},
-        indent=2)}]}
-
-
-async def _handle_prepare_registration(args: dict) -> dict:
-    """Fresh availability + pricing check before purchase."""
-    domain = args["domain"]
-    decision_id = args["decision_id"]
-    max_drift = args.get("max_price_drift_pct", 10.0)
-    
-    if os.environ.get("NAMECOM_MODE") != "sandbox":
-        return {"content": [{"type": "text",
-                             "text": "registration only available in sandbox mode"}]}
-    
-    client = client_from_env()
-    try:
-        # Fresh availability check (fail-closed)
-        entry = await client.check_availability_fail_closed(domain)
-        purchasable = entry.get("purchasable")
-        if purchasable is not True:
-            return {"content": [{"type": "text", "text": json.dumps({
-                "domain": domain, "available": False,
-                "reason": f"purchasable={purchasable}",
-                "status": "UNAVAILABLE"}, indent=2)}]}
-        
-        # Fresh pricing
-        pricing = await client.get_pricing(domain)
-        
-        # Extract prices
-        def _extract_price(p):
-            if not isinstance(p, dict): return None
-            for k in ("purchasePrice", "purchase_price"):
-                if p.get(k) is not None: return p[k]
-            for t in p.get("tiers", []) or []:
-                if t.get("purchasePrice") is not None: return t["purchasePrice"]
-            return None
-        
-        new_price = _extract_price(pricing)
-        renewal_price = None
-        if isinstance(pricing, dict):
-            renewal_price = pricing.get("renewalPrice") or pricing.get("renewal_price")
-        
+        )
+        ds, cands = svc.recommend(
+            description=args["description"],
+            primary_job=args["primary_job"],
+            audience=args.get("audience", "ai_agent"),
+            constraints=constraints,
+        )
         return {"content": [{"type": "text", "text": json.dumps({
-            "domain": domain,
-            "decision_id": decision_id,
-            "available": True,
-            "purchasable": True,
-            "purchase_price": new_price,
-            "renewal_price": renewal_price,
-            "premium": entry.get("premium", False),
-            "purchase_type": entry.get("purchaseType", "registration"),
-            "status": "READY_FOR_APPROVAL",
-            "source": "name.com-live",
+            "decision_id": ds.decision_id,
+            "domain": ds.recommended_domain,
+            "status": ds.status.value,
+            "next_step": "call prepare_registration with this decision_id",
+            "source": "name.com-live" if os.environ.get("NAMECOM_USERNAME") else "fixture",
         }, indent=2)}]}
-    except NameComError as e:
-        return {"content": [{"type": "text", "text": json.dumps({
-            "domain": domain, "available": False,
-            "reason": str(e), "status": "PROVIDER_ERROR"}, indent=2)}]}
     except Exception as e:
+        return {"content": [{"type": "text", "text": f"recommendation failed: {e}"}]}
+
+
+async def _handle_prepare(args: dict) -> dict:
+    svc = get_service()
+    try:
+        result = svc.prepare_registration(
+            args["decision_id"],
+            args.get("max_price_drift_pct", 10.0),
+        )
+        return {"content": [{"type": "text", "text": json.dumps(result, indent=2)}]}
+    except (KeyError, ValueError) as e:
         return {"content": [{"type": "text", "text": f"preparation failed: {e}"}]}
-    finally:
-        await client.close()
+
+
+async def _handle_approve(args: dict) -> dict:
+    svc = get_service()
+    try:
+        result = svc.approve(args["decision_id"])
+        return {"content": [{"type": "text", "text": json.dumps({
+            **result,
+            "next_step": "call register_domain with this approval_token",
+        }, indent=2)}]}
+    except (KeyError, ValueError) as e:
+        return {"content": [{"type": "text", "text": f"approval failed: {e}"}]}
 
 
 async def _handle_register(args: dict) -> dict:
-    """Register after explicit approval."""
-    domain = args["domain"]
-    decision_id = args["decision_id"]
-    
-    if os.environ.get("NAMECOM_MODE") != "sandbox":
-        return {"content": [{"type": "text",
-                             "text": "registration only available in sandbox mode"}]}
-    
-    client = client_from_env()
+    """Register with approval token. Rejects if not prepared/approved."""
+    svc = get_service()
     try:
-        # Idempotency key from decision identity
-        idem = hashlib.sha256(
-            f"{decision_id}|{domain}|register".encode()).hexdigest()
-        
-        # Register
-        payload = {"domain": {"domainName": domain}}
-        reg = await client.register_domain(payload, idem)
-        
-        # Confirm via GetDomain
-        got = await client.get_domain(domain)
-        
+        result = svc.register(
+            args["decision_id"],
+            args["approval_token"],
+        )
         return {"content": [{"type": "text", "text": json.dumps({
-            "domain": domain, "decision_id": decision_id,
-            "status": "REGISTERED", "registration": reg,
-            "confirmation": got, "idempotency_key": idem,
-            "source": "name.com-live"}, indent=2)}]}
-    except Exception as e:
-        return {"content": [{"type": "text", "text": f"registration failed: {e}"}]}
-    finally:
-        await client.close()
+            **result,
+            "next_step": "call configure_dns to create evidence receipt",
+        }, indent=2)}]}
+    except (KeyError, ValueError) as e:
+        return {"content": [{"type": "text", "text": f"registration rejected: {e}"}]}
+    except PermissionError as e:
+        return {"content": [{"type": "text", "text": f"registration denied: {e}"}]}
 
 
 async def _handle_dns(args: dict) -> dict:
-    domain = args["domain"]
+    svc = get_service()
+    try:
+        result = svc.configure_dns(args["decision_id"])
+        return {"content": [{"type": "text", "text": json.dumps(result, indent=2)}]}
+    except (KeyError, ValueError) as e:
+        return {"content": [{"type": "text", "text": f"dns configuration failed: {e}"}]}
+
+
+async def _handle_compare(args: dict) -> dict:
+    """Pairwise comparison: availability, pricing, and semantic fit."""
+    domain_a = args["domain_a"]
+    domain_b = args["domain_b"]
+    description = args["description"]
     client = client_from_env()
     try:
-        records = await client.list_dns_records(domain)
+        # Check availability for both
+        check_results = await client.check_availability([domain_a, domain_b])
+        avail = {}
+        for r in check_results:
+            name = r.get("domainName") or r.get("domain") or ""
+            avail[name.lower()] = r
+
+        # Get pricing for both
+        pricing = {}
+        for dom in [domain_a, domain_b]:
+            try:
+                p = await client.get_pricing(dom)
+                pricing[dom] = {
+                    "purchase": p.get("purchasePrice"),
+                    "renewal": p.get("renewalPrice"),
+                }
+            except Exception:
+                pricing[dom] = {"purchase": None, "renewal": None, "error": "pricing unavailable"}
+
+        # Semantic comparison via offline heuristic
+        from ..arena.semantic_inversion import score_inference, _tokenize
+        intent_tokens = _tokenize(description)
+
+        def _domain_score(domain: str) -> dict:
+            sld = domain.split(".")[0]
+            import re
+            words = re.findall(r"[a-z]+", re.sub(r"([a-z])([A-Z])", r"\1 \2", sld.lower()))
+            score = score_inference(description, " ".join(words), words)
+            return {"inferred_concepts": words, "semantic_score": round(score, 3)}
+
+        sem_a = _domain_score(domain_a)
+        sem_b = _domain_score(domain_b)
+
+        a_avail = avail.get(domain_a.lower(), {})
+        b_avail = avail.get(domain_b.lower(), {})
+
+        return {"content": [{"type": "text", "text": json.dumps({
+            "comparison": {
+                domain_a: {
+                    "available": a_avail.get("purchasable"),
+                    "pricing": pricing.get(domain_a),
+                    "semantic": sem_a,
+                },
+                domain_b: {
+                    "available": b_avail.get("purchasable"),
+                    "pricing": pricing.get(domain_b),
+                    "semantic": sem_b,
+                },
+            },
+            "verdict": (
+                f"{domain_a} scores {sem_a['semantic_score']:.1%} semantic fit, "
+                f"{domain_b} scores {sem_b['semantic_score']:.1%} semantic fit"
+            ),
+            "source": "name.com-live+heuristic",
+        }, indent=2)}]}
     except Exception as e:
-        return {"content": [{"type": "text", "text": f"dns lookup failed: {e}"}]}
+        return {"content": [{"type": "text", "text": f"comparison failed: {e}"}]}
     finally:
         await client.close()
-    return {"content": [{"type": "text", "text": json.dumps({
-        "domain": domain, "records": records,
-        "source": "name.com-live"}, indent=2)}]}
 
-
-# ── Dispatch ───────────────────────────────────────────────────────
 
 async def _handle(method: str, params: dict) -> dict:
     if method == "tools/list":
@@ -379,10 +318,11 @@ async def _handle(method: str, params: dict) -> dict:
             "check_availability": _handle_check,
             "get_pricing": _handle_pricing,
             "recommend_domain": _handle_recommend,
-            "compare_domains": _handle_compare,
-            "prepare_registration": _handle_prepare_registration,
+            "prepare_registration": _handle_prepare,
+            "approve_domain": _handle_approve,
             "register_domain": _handle_register,
-            "get_dns": _handle_dns,
+            "configure_dns": _handle_dns,
+            "compare_domains": _handle_compare,
         }
         handler = handlers.get(name)
         if handler is None:
@@ -402,7 +342,7 @@ def main():
             result = loop.run_until_complete(
                 _handle(msg.get("method", ""), msg.get("params") or {}))
             resp = {"jsonrpc": "2.0", "id": msg.get("id"), "result": result}
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             resp = {"jsonrpc": "2.0", "id": msg.get("id"),
                     "error": {"code": -32603, "message": str(e)}}
         print(json.dumps(resp), flush=True)

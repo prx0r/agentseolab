@@ -1,9 +1,8 @@
-# DomainArena API + demo UI
 FROM python:3.12-slim
 WORKDIR /app
 COPY domainarena ./domainarena
-COPY domainarena/web ./domainarena/web
-RUN pip install --no-cache-dir fastapi uvicorn pydantic
+COPY pyproject.toml .
+RUN pip install --no-cache-dir fastapi uvicorn pydantic httpx
 ENV NAMECOM_MODE=production-readonly \
     PYTHONUNBUFFERED=1
 EXPOSE 8801 8777

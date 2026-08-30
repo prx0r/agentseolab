@@ -147,10 +147,10 @@ class NameComClient:
         if "purchasable" not in entry:
             raise NameComError(400, f"missing 'purchasable' field for {domain}")
         
-        # Fail-closed: purchaseType must be registration
-        pt = entry.get("purchaseType", "")
-        if pt and pt != "registration":
-            raise NameComError(400, f"unexpected purchaseType '{pt}' for {domain} (expected 'registration')")
+        # Fail-closed: purchaseType must be registration (None/empty is also a failure)
+        pt = entry.get("purchaseType")
+        if pt != "registration":
+            raise NameComError(400, f"unexpected purchaseType {pt!r} for {domain} (expected 'registration')")
         
         return entry
 

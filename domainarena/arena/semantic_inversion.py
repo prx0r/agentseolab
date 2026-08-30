@@ -89,8 +89,8 @@ def _cf_backend(model: str):
     import time
     import urllib.request
     import uuid
-    account = os.environ.get("CF_ACCOUNT_ID", "")
-    token = os.environ.get("CF_TOKEN") or os.environ.get("CLOUDFLARE_API_TOKEN", "")
+    account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "") or os.environ.get("CF_ACCOUNT_ID", "")
+    token = os.environ.get("CLOUDFLARE_API_TOKEN", "") or os.environ.get("CF_TOKEN", "")
 
     class _B:
         name, model_id = "cloudflare-workers-ai", model
@@ -130,9 +130,9 @@ def run_semantic_inversion(candidates: list[Candidate], intent_text: str,
     always produces evidence-shaped output.
     """
     fams = families or FAMILIES[:1]
-    token = os.environ.get("CF_TOKEN") or os.environ.get("CLOUDFLARE_API_TOKEN")
+    token = os.environ.get("CLOUDFLARE_API_TOKEN", "") or os.environ.get("CF_TOKEN", "")
     results: list[InversionResult] = []
-    use_live = bool(token and os.environ.get("CF_ACCOUNT_ID"))
+    use_live = bool(token and (os.environ.get("CLOUDFLARE_ACCOUNT_ID") or os.environ.get("CF_ACCOUNT_ID")))
 
     if use_live:
         try:

@@ -231,6 +231,8 @@ class DomainArenaWorld:
               result: ActionResult) -> DAState:
         import hashlib
         if action.kind == "INFERENCE":
+            if state.inference_result is not None:
+                raise ValueError("INFERENCE already applied; cannot apply twice")
             raw = result.payload.get("raw", "")
             inference = result.payload.get("inference", raw.strip())
             resp_hash = hashlib.sha256(inference.encode()).hexdigest()
@@ -249,12 +251,15 @@ class DomainArenaWorld:
                 committed=False)
         
         if action.kind == "SCORE_SEMANTIC":
+            if state.inference_result is None:
+                raise ValueError("SCORE_SEMANTIC requires INFERENCE first")
+            if state.evaluation is not None:
+                raise ValueError("SCORE_SEMANTIC already applied; cannot apply twice")
             # Hidden scorer produces the evaluation
             evaluation = SemanticEvaluation(
                 intent_hash=hashlib.sha256(
                     state.case.intent_description.encode()).hexdigest(),
-                inference_hash=state.inference_result.response_hash
-                    if state.inference_result else "",
+                inference_hash=state.inference_result.response_hash,
                 semantic_score=float(result.payload.get("semantic_score", 0)),
                 match_label=result.payload.get("match_label", "none"),
                 scorer_version=result.payload.get("scorer_version", "v1"),
@@ -268,6 +273,10 @@ class DomainArenaWorld:
                 committed=False)
         
         if action.kind == "COMMIT_SCORE":
+            if state.inference_result is None:
+                raise ValueError("COMMIT_SCORE requires INFERENCE first")
+            if state.evaluation is None:
+                raise ValueError("COMMIT_SCORE requires SCORE_SEMANTIC first")
             return DAState(
                 case=state.case, seed=state.seed,
                 model_family=state.model_family,

@@ -1,8 +1,30 @@
 [project]
-name = "domain-intelligence-lab"
-version = "0.1.0"
-description = "Scientific experiment/event infrastructure for agent discovery, domain intelligence and AgentSEO."
+name = "domainarena"
+version = "0.2.0"
+description = "A/B testing for domain names in the agentic web — live name.com integration, evidence-based recommendations."
 requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0",
+    "httpx>=0.24",
+    "fastapi>=0.100",
+    "uvicorn>=0.20",
+    "respx>=0.20",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "respx>=0.20",
+]
 
 [project.scripts]
-agentseo-lab = "agentseo_lab.cli:main"
+domainarena = "domainarena.api.http:app"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
