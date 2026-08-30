@@ -483,4 +483,4 @@ class HiddenScorerExecutor:
         except Exception as e:
             return ActionResult(action_id=action.action_id, status="error",
                                 error=str(e)[:200])
-EOF_MARKER = None
+

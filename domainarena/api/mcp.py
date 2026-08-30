@@ -313,6 +313,38 @@ async def _handle_compare(args: dict) -> dict:
 async def _handle(method: str, params: dict) -> dict:
     if method == "tools/list":
         return {"tools": TOOLS}
+    if method == "resources/list":
+        return {"resources": [
+            {"uri": "domainarena://decisions", "name": "All decisions",
+             "description": "List all domain selection decisions with status",
+             "mimeType": "application/json"},
+            {"uri": "domainarena://config", "name": "Configuration",
+             "description": "Current service configuration and mode",
+             "mimeType": "application/json"},
+        ]}
+    if method == "resources/read":
+        uri = params.get("uri", "")
+        if uri == "domainarena://decisions":
+            svc = get_service()
+            decisions = []
+            for did, ds in svc._decisions.items():
+                decisions.append({
+                    "decision_id": did,
+                    "domain": ds.recommended_domain,
+                    "status": ds.status.value,
+                    "created_at": ds.created_at,
+                })
+            return {"contents": [{"uri": uri, "mimeType": "application/json",
+                                  "text": json.dumps(decisions, indent=2)}]}
+        if uri == "domainarena://config":
+            mode = "live" if os.environ.get("NAMECOM_USERNAME") else "fixture"
+            return {"contents": [{"uri": uri, "mimeType": "application/json",
+                                  "text": json.dumps({
+                                      "mode": mode,
+                                      "namecom_configured": bool(os.environ.get("NAMECOM_USERNAME")),
+                                      "cloudflare_configured": bool(os.environ.get("CLOUDFLARE_ACCOUNT_ID")),
+                                  }, indent=2)}]}
+        raise ValueError(f"unknown resource: {uri}")
     if method == "tools/call":
         name = params.get("name")
         args = params.get("arguments", {})

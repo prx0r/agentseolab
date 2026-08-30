@@ -46,8 +46,8 @@ PRESETS = {
 
 PROXY_DISCOUNT = 0.5   # proxies contribute half-weight value (peer review §3.1)
 
-def _vec(ev: EvidenceVector, audience: str = "ai_agent") -> tuple[dict[str, float | None], float]:
-    """Returns (values-with-None-for-unmeasured, measured_coverage).
+def _vec(ev: EvidenceVector, audience: str = "ai_agent") -> tuple[dict[str, float | None], float, float, float]:
+    """Returns (values-with-None-for-unmeasured, measured_coverage, proxy_coverage, total_coverage).
     Coverage = measured weight / requested weight (review §3.2).
     Uses audience-specific preset weights."""
     preset_name = _preset_for(audience)

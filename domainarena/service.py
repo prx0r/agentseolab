@@ -264,78 +264,23 @@ class DomainService:
         audience: Audience,
         constraints: ConstraintSet,
     ) -> list[tuple[Candidate, EvidenceVector]]:
-        """Search Name.com → feasibility → evidence → candidates."""
-        from .arena.semantic_inversion import run_semantic_inversion, aggregate
-        from .constraints import feasible
-        from .generators import generate_candidates, intersect_inventory
+        """Search Name.com → feasibility → evidence → candidates.
+        Delegates to pipeline.recommend_live — single source of truth."""
+        from .pipeline import recommend_live
 
-        client = client_from_env()
-        try:
-            # Generate keyword candidates
-            from .intent import freeze_intent, keywords_from_intent
-            intent, _ = freeze_intent(description, primary_job, [audience], constraints)
-            kws = keywords_from_intent(intent)[:4] or [primary_job.split()[0].lower()]
+        result = await recommend_live(
+            description=description,
+            primary_job=primary_job,
+            audiences=[audience],
+            constraints=constraints,
+        )
 
-            # Search Name.com live inventory
-            snaps = []
-            seen = set()
-            tasks = [client.search(kw, constraints.allowed_tlds[:8]) for kw in kws]
-            for batch in await asyncio.gather(*tasks, return_exceptions=True):
-                if isinstance(batch, Exception):
-                    continue
-                for s in batch:
-                    if s.domain_name not in seen:
-                        seen.add(s.domain_name)
-                        snaps.append(s)
+        if not result.feasible:
+            raise ValueError(
+                f"No feasible candidates from live search. "
+                f"Rejected: {result.rejected}")
 
-            # Intersect with generated candidates
-            raw = generate_candidates(intent)
-            matched = intersect_inventory(raw + [
-                Candidate(candidate_id=f"inv_{i}", domain_name=s.domain_name,
-                          generator="namecom_search", inventory=s)
-                for i, s in enumerate(snaps)], snaps)
-
-            # Feasibility filter
-            keep = []
-            rejected = {}
-            for c in matched:
-                ok, reasons = feasible(c.inventory, constraints)
-                if ok:
-                    keep.append(c)
-                else:
-                    rejected[c.domain_name] = reasons
-
-            if not keep:
-                raise ValueError(
-                    f"No feasible candidates from live search. "
-                    f"Rejected: {rejected}")
-
-            # Semantic evidence (heuristic — PROXY, not MEASURED)
-            inv_results = run_semantic_inversion(keep[:20], f"{description} {primary_job}")
-            sem_scores = aggregate(inv_results)
-
-            evidence = {}
-            for c in keep:
-                sem = sem_scores.get(c.domain_name)
-                ev = EvidenceVector(
-                    semantic_transmission=EvidenceValue(
-                        value=float(sem) if sem is not None else None,
-                        status=EvStatus.PROXY if sem is not None else EvStatus.NOT_MEASURED,
-                        note="semantic inversion (blind name-only)"),
-                    structural_fluency_proxy=EvidenceValue(
-                        value=self._structural_score(c.domain_name),
-                        status=EvStatus.PROXY,
-                        note="vowel-ratio x length-fit heuristic"),
-                    task_success=EvidenceValue(
-                        status=EvStatus.NOT_MEASURED,
-                        note="no DA-T6 execution trial"),
-                )
-                evidence[c.domain_name] = ev
-
-            pairs = [(c, evidence[c.domain_name]) for c in keep]
-            return pairs
-        finally:
-            await client.close()
+        return [(c, result.evidence[c.domain_name]) for c in result.feasible]
 
     @staticmethod
     def _structural_score(domain: str) -> float:

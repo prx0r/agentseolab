@@ -103,19 +103,21 @@ def _cf_backend(model: str):
             req = urllib.request.Request(url, data=body, headers={
                 "Authorization": f"Bearer {token}",
                 "Content-Type": "application/json"})
+            t0 = time.time()
             try:
                 with urllib.request.urlopen(req, timeout=timeout) as r:
                     res = json.loads(r.read()).get("result", {})
+                latency_ms = int((time.time() - t0) * 1000)
                 msg = (res.get("choices") or [{}])[0].get("message", {}) \
                     if "choices" in res else {}
                 text = (msg.get("content") or res.get("response") or "").strip()
                 return {"ok": bool(text), "raw": text,
                         "session_id": "cf_" + uuid.uuid4().hex[:10],
-                        "latency_ms": 0}
+                        "latency_ms": latency_ms}
             except Exception as e:
                 return {"ok": False, "raw": "", "error": str(e)[:120],
                         "session_id": "cf_" + uuid.uuid4().hex[:10],
-                        "latency_ms": int((time.time()) * 0)}
+                        "latency_ms": int((time.time() - t0) * 1000)}
 
     return _B()
 

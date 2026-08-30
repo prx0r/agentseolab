@@ -161,7 +161,7 @@ STEP_INTENT = """
 <div class="step">
 <span class="step-num">1</span>
 <div class="step-title">YOUR INTENT</div>
-<div class="step-sub">Describe what you're building</div>
+<div class="step-sub">MCP tool: <code>recommend_domain</code> — Describe what you're building</div>
 <form method="post" action="/run" style="margin-top:12px">
 <label>What are you building?<br>
 <textarea name="description">{desc}</textarea></label><br><br>
@@ -180,11 +180,11 @@ def _step_discovery(candidates: list, source: str = "fixture") -> str:
     )
     if source == "live":
         title = "LIVE DOMAIN DISCOVERY"
-        sub = f"name.com Search API — {len(candidates)} candidates found"
+        sub = f"MCP tool: <code>search_domain</code> — name.com Search API — {len(candidates)} candidates found"
         tag = '<span class="tag tag-green">LIVE</span>'
     else:
         title = "DOMAIN DISCOVERY (DEMO)"
-        sub = f"Fixture candidates — {len(candidates)} seed domains"
+        sub = f"MCP tool: <code>search_domain</code> — Fixture candidates — {len(candidates)} seed domains"
         tag = '<span class="tag tag-yellow">FIXTURE</span>'
     return f"""
 <div class="step">
@@ -212,7 +212,7 @@ def _step_comprehension(inferences: list) -> str:
 <div class="step">
 <span class="step-num">3</span>
 <div class="step-title">AGENT COMPREHENSION</div>
-<div class="step-sub">What do AI models think this domain does? (blind — no context)</div>
+<div class="step-sub">MCP tool: <code>compare_domains</code> — What do AI models think this domain does? (blind — no context)</div>
 {cards}
 </div>"""
 
@@ -225,7 +225,7 @@ def _step_recommendation(rec: dict) -> str:
 <div class="step">
 <span class="step-num">4</span>
 <div class="step-title">DOMAIN ARENA</div>
-<div class="step-sub">Evidence-based recommendation</div>
+<div class="step-sub">MCP tool: <code>recommend_domain</code> — Evidence-based recommendation</div>
 <div class="big">{_esc(rec['domain'])}</div>
 <p>Status: <span class="status-badge {status_class}">{rec.get('status', '?')}</span></p>
 <p class="muted">decision_id: {_esc(rec.get('decision_id', '')[:20])}...</p>
@@ -244,7 +244,7 @@ def _step_checkout(domain: str, prep: dict) -> str:
 <div class="step">
 <span class="step-num">5</span>
 <div class="step-title">LIVE CHECKOUT</div>
-<div class="step-sub">Fresh availability + pricing check (fail-closed)</div>
+<div class="step-sub">MCP tool: <code>prepare_registration</code> — Fresh availability + pricing check (fail-closed)</div>
 <table>
 <tr><td>Domain</td><td><b>{_esc(domain)}</b></td></tr>
 <tr><td>Available</td><td class="ok">{'✓ Yes' if prep.get('purchasable') else '✗ No'}</td></tr>
@@ -267,7 +267,7 @@ def _step_registered(domain: str, reg: dict) -> str:
 <div class="step">
 <span class="step-num">6</span>
 <div class="step-title">NAME.COM REGISTRATION</div>
-<div class="step-sub">CreateDomain API — idempotent</div>
+<div class="step-sub">MCP tool: <code>register_domain</code> — CreateDomain API — idempotent</div>
 <table>
 <tr><td>Status</td><td class="ok">REGISTERED</td></tr>
 <tr><td>Domain</td><td>{_esc(domain)}</td></tr>
@@ -289,7 +289,7 @@ def _step_dns(domain: str, dns: dict) -> str:
 <div class="step">
 <span class="step-num">7</span>
 <div class="step-title">DNS CONFIGURATION</div>
-<div class="step-sub">CreateRecord + ListRecords verification</div>
+<div class="step-sub">MCP tool: <code>configure_dns</code> — CreateRecord + ListRecords verification</div>
 <table>
 <tr><td>Receipt Hash</td><td class="muted" style="font-size:11px">{_esc(dns.get('receipt_hash', '?')[:40])}...</td></tr>
 <tr><td>Verified</td><td>{'✓ Yes' if verified else '✗ Pending'}</td></tr>
@@ -305,7 +305,7 @@ def _step_verified(domain: str, verif: dict) -> str:
 <div class="step">
 <span class="step-num">8</span>
 <div class="step-title">VERIFIED</div>
-<div class="step-sub">Evidence receipt — content-addressed, auditable</div>
+<div class="step-sub">MCP resource: <code>domainarena://decisions</code> — Evidence receipt — content-addressed, auditable</div>
 <div class="receipt">
 <b>Receipt Hash:</b> {_esc(verif.get('receipt_hash', '?'))}<br>
 <b>Domain:</b> {_esc(domain)}<br>
