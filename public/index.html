@@ -107,6 +107,11 @@ footer a{color:#999}
 </div>
 </div>
 
+
+<div class="explain" style="margin-top:.75rem">
+<div class="explain-title">research foundation</div>
+Built on <b>16 experiments across 7+ model families</b> studying how AI agents discover and select tools. Key findings: agents are vulnerable to <b>description bias</b>, <b>position effects</b>, and <b>model-specific interpretations</b>. DomainArena uses <b>AB/BA randomized pairwise comparison</b> with <b>Wilson confidence intervals</b> — the same statistical methodology used in academic agent-comprehension research.
+</div>
 <button class="btn" style="margin-top:1.5rem" onclick="startDiscovery()">Search name.com inventory</button>
 </div>
 
@@ -132,6 +137,11 @@ footer a{color:#999}
 <div class="step-desc">Each domain shown to AI agents with <b>zero context</b>. What do they infer?</div>
 <div class="step-body" id="agent-body"><div class="loading">running blind comprehension tests...</div></div>
 </div>
+
+<div class="explain" style="margin-top:1rem">
+<div class="explain-title">cross-family testing</div>
+Each domain is tested across <b>multiple AI model families</b> (Llama, Mistral, Qwen, DeepSeek). If a domain only works on one model, that's a boundary condition, not a law. DomainArena requires agreement across families for a "match" classification. This is the same methodology used in academic agent-comprehension research.
+</div>
 <div class="explain" style="margin-top:1rem">
 <div class="explain-title">what's happening</div>
 <b>Semantic inversion</b> flips the normal evaluation: instead of asking "is this a good name?" we ask "what does an agent think this name means?" The agent sees only the domain — no description, no website, no context. Its inference is scored against your frozen product intent. <b>Generator/judge separation</b> ensures the tested model never scores itself. This is the same experimental methodology used in academic agent-comprehension research.
@@ -148,7 +158,7 @@ footer a{color:#999}
 <div class="log" id="log"></div>
 
 <footer>
-<span>DomainArena v0.2.0 — 6 name.com endpoints</span>
+<span>DomainArena v0.2.0 — 6 name.com endpoints · MCP server · 148 tests</span>
 <span><a href="https://github.com/prx0r/agentseolab">github</a></span>
 </footer>
 </div>
@@ -271,7 +281,7 @@ function showResult(){
   h+='</div></div>';
 
   // Checkout
-  h+='<div class="divider"></div><div class="step"><div class="step-num">name.com checkout</div><div class="step-title">fresh availability + pricing</div>';
+  h+='<div class="divider"></div><div class="step"><div class="step-num">name.com checkout</div><div class="step-title">fresh availability + pricing</div><div class="step-desc">Pricing verified via name.com. <b>Write guard:</b> registration requires approval code.</div>';
   h+='<div class="step-desc">Before any irreversible action, DomainArena checks name.com again. If availability changed, price moved outside budget, or evidence is missing, it fails closed.</div>';
   h+='<div class="card">';
   h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
