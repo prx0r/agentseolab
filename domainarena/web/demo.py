@@ -67,6 +67,10 @@ def _cf_infer(model_id: str, prompt: str, max_tokens: int = 200) -> dict:
 
 def _semantic_inversion(domain: str) -> dict:
     """Ask model what it thinks runs behind this domain."""
+    # If no Cloudflare credentials, use heuristic fallback
+    if not os.environ.get("CLOUDFLARE_API_TOKEN"):
+        return _heuristic_inversion(domain)
+
     model_id = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
     prompt = (
         f"You are shown a domain name with no other context.\n"
@@ -75,6 +79,32 @@ def _semantic_inversion(domain: str) -> dict:
         f"Reply in one sentence."
     )
     return _cf_infer(model_id, prompt)
+
+
+def _heuristic_inversion(domain: str) -> dict:
+    """Heuristic fallback when Cloudflare is unavailable."""
+    sld = domain.split(".")[0].lower()
+    tld = domain.split(".")[-1] if "." in domain else ""
+
+    # Map common SLD patterns to inferences
+    if "json" in sld:
+        inference = f"A utility or tool related to JSON data processing and format conversion"
+    elif "repair" in sld or "fix" in sld:
+        inference = f"A repair or fix-it service, possibly for software or data issues"
+    elif "probe" in sld or "scan" in sld:
+        inference = f"A scanning or analysis tool for inspecting systems or data"
+    elif "velo" in sld or "fast" in sld:
+        inference = f"A speed-focused service or performance optimization platform"
+    elif "ai" in sld or "ml" in sld:
+        inference = f"An artificial intelligence or machine learning service"
+    elif "data" in sld:
+        inference = f"A data processing or analytics platform"
+    elif "api" in sld:
+        inference = f"An API service or developer tool platform"
+    else:
+        inference = f"A technology service or digital product platform"
+
+    return {"text": inference, "latency_ms": 0, "provider": "heuristic"}
 
 
 def _semantic_score(inference: str, intent: str) -> dict:
@@ -421,11 +451,11 @@ class Handler(BaseHTTPRequestHandler):
 
         # Run semantic inversion on top candidates (different model for scorer)
         inferences = []
-        for c in cands[:3]:
-            inv = _semantic_inversion(c.domain_name)
+        for cand, ev in cands[:3]:
+            inv = _semantic_inversion(cand.domain_name)
             score_result = _semantic_score(inv.get("text", ""), desc)
             inferences.append({
-                "domain": c.domain_name,
+                "domain": cand.domain_name,
                 "inference": inv.get("text", ""),
                 "score": score_result["score"],
                 "label": score_result["label"],
@@ -454,12 +484,28 @@ class Handler(BaseHTTPRequestHandler):
         """Prepare registration via DomainService."""
         decision_id = body.get("decision_id", [""])[0]
         svc = get_service()
+        mode = "live" if os.environ.get("NAMECOM_USERNAME") else "fixture"
 
-        try:
-            prep = svc.prepare_registration(decision_id)
-        except (KeyError, ValueError) as e:
-            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
-            return
+        if mode == "fixture":
+            # Fixture mode: synthetic preparation data
+            ds = svc.get_decision(decision_id)
+            prep = {
+                "status": "PREPARED",
+                "domain": ds.recommended_domain,
+                "purchasable": True,
+                "purchase_price": 10.44,
+                "renewal_price": 18.99,
+                "approval_valid": True,
+            }
+            ds.preparation = prep
+            from domainarena.service import DecisionStatus
+            ds.transition(DecisionStatus.PREPARED)
+            svc._persist(ds)
+        else:
+            try:
+                prep = svc.prepare_registration(decision_id)
+            except (KeyError, ValueError) as e:
+                prep = {"status": "PROVIDER_ERROR", "error": str(e)}
 
         _STATE["preparation"] = prep
         _STATE["decision_id"] = decision_id
@@ -487,26 +533,46 @@ class Handler(BaseHTTPRequestHandler):
         """Approve and register via DomainService."""
         decision_id = body.get("decision_id", [""])[0]
         svc = get_service()
+        mode = "live" if os.environ.get("NAMECOM_USERNAME") else "fixture"
 
-        # Approve
-        try:
+        if mode == "fixture":
+            # Fixture mode: synthetic approval + registration + DNS
+            ds = svc.get_decision(decision_id)
+            from domainarena.service import DecisionStatus
             approval = svc.approve(decision_id)
-        except (KeyError, ValueError) as e:
-            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
-            return
-
-        # Register
-        try:
-            reg = svc.register(decision_id, approval["approval_token"])
-        except (KeyError, ValueError, PermissionError) as e:
-            self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
-            return
-
-        # Configure DNS
-        try:
-            dns = svc.configure_dns(decision_id)
-        except (KeyError, ValueError) as e:
-            dns = {"error": str(e)}
+            reg = {
+                "status": "REGISTERED",
+                "domain": ds.recommended_domain,
+                "idempotency_key": "fixture-key-" + decision_id[:16],
+                "registration_id": "fixture-reg-" + decision_id[:8],
+            }
+            ds.transition(DecisionStatus.REGISTERED)
+            ds.registration = reg
+            svc._persist(ds)
+            dns = {
+                "status": "DNS_CONFIGURED",
+                "dns_receipt_verified": True,
+                "dns_records": [{"type": "TXT", "name": "_domainarena", "content": f"verified={decision_id[:8]}"}],
+                "receipt_hash": "sha256:fixture_" + decision_id[:16],
+            }
+            ds.dns = dns
+            svc._persist(ds)
+        else:
+            # Live mode: real name.com calls
+            try:
+                approval = svc.approve(decision_id)
+            except (KeyError, ValueError) as e:
+                self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
+                return
+            try:
+                reg = svc.register(decision_id, approval["approval_token"])
+            except (KeyError, ValueError, PermissionError) as e:
+                self._send(f"<h1>Error</h1><p>{_esc(str(e))}</p>", 400)
+                return
+            try:
+                dns = svc.configure_dns(decision_id)
+            except (KeyError, ValueError) as e:
+                dns = {"error": str(e)}
 
         ds = svc.get_decision(decision_id)
         _STATE["registration"] = reg

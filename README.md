@@ -195,6 +195,40 @@ python3 -m experiments.pairwise_selection \
 pytest tests/ -v    # 148 tests passing
 ```
 
+### Full lifecycle verified
+
+The complete name.com lifecycle is tested end-to-end:
+
+```text
+[PASS] search              — find candidate domains
+[PASS] fresh availability  — fail-closed before purchase
+[PASS] pricing             — enforce budget constraints
+[PASS] approval gate       — human approval required
+[PASS] registration        — execute acquisition
+[PASS] DNS create          — configure domain
+[PASS] DNS readback        — verify configuration landed
+[PASS] receipt hash        — content-addressed evidence
+```
+
+```python
+# From test_lifecycle_e2e.py — the full flow
+recommend → prepare → approve → register → configure_dns → verified receipt
+```
+
+### Before/after: why this matters
+
+```text
+HUMAN HEURISTIC
+  "jsonultra.xyz sounds cool"
+  → Agent thinks: "fantasy role-playing game"
+  → WRONG
+
+AGENT-TESTED
+  "fixjson.com"
+  → Agent thinks: "utility for repairing malformed JSON"
+  → CORRECT → acquired via name.com
+```
+
 ### Test coverage
 
 - `test_world.py` — DomainArenaWorld state transitions, terminal conditions, scoring

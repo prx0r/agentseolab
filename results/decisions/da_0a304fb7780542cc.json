@@ -1,0 +1,95 @@
+{
+  "decision_id": "da_0a304fb7780542cc",
+  "intent_hash": "sha256:5d41fc4598d127a20d507aa8b0dab2f4c29cac1fdf1990c3bbaf422f05a90c6e",
+  "recommended_domain": "velora.com",
+  "recommended_candidate_id": "seed_2",
+  "pareto_candidate_ids": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "policy_version": "audience-presets-v1",
+  "status": "RECOMMENDED",
+  "approval_token": null,
+  "preparation": null,
+  "registration": null,
+  "dns_receipt": null,
+  "verification": null,
+  "api_trace": [],
+  "created_at": "2026-09-02T02:15:06.918642+00:00",
+  "updated_at": "2026-09-02T02:15:06.918642+00:00",
+  "decision_basis": {
+    "description": "A JSON repair API for AI agents that validates and repairs malformed JSON",
+    "primary_job": "json_repair",
+    "audience": "ai_agent",
+    "constraints": {
+      "max_purchase_price": 15.0,
+      "max_renewal_price": 25.0
+    },
+    "inventory_snapshot": [
+      {
+        "domain": "jsonrepair.dev",
+        "purchase_price": 9.99,
+        "renewal_price": 11.99,
+        "purchasable": true,
+        "premium": false
+      },
+      {
+        "domain": "factprobe.dev",
+        "purchase_price": 12.99,
+        "renewal_price": 14.99,
+        "purchasable": true,
+        "premium": false
+      },
+      {
+        "domain": "velora.com",
+        "purchase_price": 10.44,
+        "renewal_price": 12.88,
+        "purchasable": true,
+        "premium": false
+      }
+    ],
+    "selected_quote": {
+      "domain": "velora.com",
+      "purchase_price": 10.44,
+      "renewal_price": 12.88
+    }
+  },
+  "evidence": {
+    "semantic_transmission": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "fixture \u2014 no semantic inversion run"
+    },
+    "task_success": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "no DA-T6 execution trial"
+    },
+    "pairwise_strength": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "requires DA-T3 arena run"
+    },
+    "structural_fluency_proxy": {
+      "value": 0.75,
+      "status": "PROXY",
+      "note": "vowel-ratio x length-fit heuristic"
+    },
+    "brand_elasticity": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": null
+    },
+    "human_recall": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": null
+    },
+    "worst_family": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "requires multi-family arena"
+    }
+  }
+}
