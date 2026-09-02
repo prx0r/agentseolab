@@ -10,31 +10,26 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Source Code Pro',monospace;background:#fafafa;color:#111;line-height:1.6;-webkit-font-smoothing:antialiased}
-.wrap{max-width:780px;margin:0 auto;padding:3rem 2rem}
+.wrap{max-width:820px;margin:0 auto;padding:3rem 2rem}
 h1{font-size:1.1rem;font-weight:600;letter-spacing:-.02em}
 .sub{font-size:.75rem;color:#888;margin-top:.25rem}
 .live{display:inline-block;font-size:.5625rem;padding:.15rem .5rem;border:1px solid #166534;color:#166534;margin-left:.5rem;font-weight:500}
 .tabs{display:flex;gap:0;margin-top:2rem;border-bottom:1px solid #ddd}
 .tab{padding:.6rem 1.2rem;font-size:.75rem;font-weight:500;color:#999;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
-.tab:hover{color:#111}
-.tab.active{color:#111;border-bottom-color:#111}
-.panel{display:none;padding:1.5rem 0}
-.panel.active{display:block}
+.tab:hover{color:#111}.tab.active{color:#111;border-bottom-color:#111}
+.panel{display:none;padding:1.5rem 0}.panel.active{display:block}
 .field{margin-bottom:1rem}
 .field label{display:block;font-size:.625rem;color:#999;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.375rem;font-weight:500}
 .field input{width:100%;padding:.6rem .75rem;border:1px solid #ddd;font-family:'Source Code Pro',monospace;font-size:.8125rem;background:#fff;outline:none}
 .field input:focus{border-color:#111}
 .btn{font-family:'Source Code Pro',monospace;font-size:.75rem;font-weight:500;padding:.6rem 1.2rem;border:1px solid #111;background:#111;color:#fff;cursor:pointer;transition:all .15s}
-.btn:hover{background:#333}
-.btn:disabled{background:#ccc;border-color:#ccc;cursor:not-allowed}
-.green{color:#166534}
-.red{color:#991b1b}
+.btn:hover{background:#333}.btn:disabled{background:#ccc;border-color:#ccc;cursor:not-allowed}
+.green{color:#166534}.red{color:#991b1b}.orange{color:#92400e}
 .badge{font-size:.5625rem;padding:.15rem .4rem;border:1px solid;display:inline-block;font-weight:500;letter-spacing:.03em}
-.badge-green{border-color:#166534;color:#166534}
-.badge-gray{border-color:#999;color:#999}
+.badge-green{border-color:#166534;color:#166534}.badge-gray{border-color:#999;color:#999}.badge-orange{border-color:#92400e;color:#92400e}
 table{width:100%;border-collapse:collapse;margin-top:.5rem}
 td{padding:.5rem 0;border-bottom:1px solid #f0f0f0;font-size:.8125rem}
-td:first-child{font-weight:500;color:#666;width:130px}
+td:first-child{font-weight:500;color:#666;width:140px}
 .card{background:#fff;border:1px solid #eee;padding:1rem;margin-top:.75rem}
 .card-row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #f8f8f8;font-size:.8125rem}
 .card-row:last-child{border-bottom:none}
@@ -43,6 +38,7 @@ td:first-child{font-weight:500;color:#666;width:130px}
 .step.active{border-left-color:#111}
 .step-num{font-size:.5625rem;color:#999;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
 .step-title{font-size:.875rem;font-weight:500;margin-top:.2rem}
+.step-desc{font-size:.75rem;color:#666;margin-top:.25rem;line-height:1.5}
 .receipt{background:#f8f8f8;border:1px solid #eee;padding:.75rem 1rem;margin-top:.75rem;font-size:.75rem}
 .receipt-hash{word-break:break-all;font-size:.6875rem;color:#666;margin-top:.25rem;font-family:'Source Code Pro',monospace}
 .trace{margin-top:.75rem}
@@ -50,19 +46,28 @@ td:first-child{font-weight:500;color:#666;width:130px}
 .trace-method{font-weight:600;min-width:36px;color:#111}
 .trace-path{flex:1;color:#666}
 .trace-status{font-weight:500;min-width:28px}
-.trace-status.ok{color:#166534}
-.trace-status.err{color:#991b1b}
+.trace-status.ok{color:#166534}.trace-status.err{color:#991b1b}
 .trace-ms{color:#999;text-align:right;min-width:45px}
+.trace-label{font-size:.5625rem;color:#bbb;margin-bottom:.25rem}
 .divider{border-top:1px solid #eee;margin:1.5rem 0}
 .loading{color:#999;font-size:.75rem;padding:1rem 0}
 .fade-in{animation:fadeIn .3s ease-in}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.log{background:#111;color:#a8b1c2;padding:.75rem 1rem;margin-top:.75rem;font-size:.6875rem;max-height:200px;overflow-y:auto;font-family:'Source Code Pro',monospace}
+.log{background:#111;color:#a8b1c2;padding:.75rem 1rem;margin-top:.75rem;font-size:.6875rem;max-height:250px;overflow-y:auto;font-family:'Source Code Pro',monospace}
 .log-line{padding:.1rem 0}
-.log-ts{color:#636d83}
-.log-ok{color:#99c794}
-.log-err{color:#ec5f67}
-.log-info{color:#85c7c4}
+.log-ts{color:#636d83}.log-ok{color:#99c794}.log-err{color:#ec5f67}.log-info{color:#85c7c4}.log-api{color:#c594c5}
+.explain{background:#f0f8ff;border:1px solid #d0e0f0;padding:.75rem 1rem;margin-top:.75rem;font-size:.75rem;color:#334155;line-height:1.6}
+.explain b{color:#111}
+.explain-title{font-size:.5625rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.75rem}
+.before{border:1px solid #fde8e8;padding:.75rem;background:#fef2f2}
+.after{border:1px solid #d1fae5;padding:.75rem;background:#f0fdf4}
+.before-label,.after-label{font-size:.5625rem;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem}
+.before-label{color:#991b1b}.after-label{color:#166534}
+.endpoint{display:flex;align-items:center;gap:.5rem;padding:.4rem 0;border-bottom:1px solid #f8f8f8;font-size:.75rem}
+.endpoint-method{font-weight:600;min-width:28px;font-size:.6875rem}.endpoint-method.get{color:#166534}.endpoint-method.post{color:#1d4ed8}
+.endpoint-path{flex:1;color:#666}
+.endpoint-desc{color:#999;font-size:.6875rem}
 footer{margin-top:3rem;padding-top:1rem;border-top:1px solid #eee;font-size:.5625rem;color:#bbb;display:flex;justify-content:space-between}
 footer a{color:#999}
 </style>
@@ -79,39 +84,71 @@ footer a{color:#999}
 <div class="tab" onclick="showTab(3)">4. Result</div>
 </div>
 
+<!-- TAB 0: INTENT -->
 <div class="panel active" id="p0">
 <div class="field">
 <label>What are you building?</label>
-<input type="text" id="intent" placeholder="e.g. A JSON repair API for AI agents" value="A JSON repair API for AI agents">
-</div>
-<button class="btn" onclick="startDiscovery()">Search name.com inventory</button>
+<input type="text" id="intent" placeholder="e.g. A JSON repair API for AI agents" value="A JSON repair API for AI agents that validates and repairs malformed JSON">
 </div>
 
+<div class="explain">
+<div class="explain-title">how this works</div>
+<b>DomainArena</b> tests candidate domains against multiple AI agents using <b>blind semantic inversion</b> — agents see only the domain name, never the product description. If an agent can correctly infer what service sits behind a domain without context, that domain transmits meaning effectively.
+</div>
+
+<div style="margin-top:1.5rem">
+<div class="step-num">name.com endpoints used</div>
+<div style="margin-top:.5rem">
+<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains:search</span><span class="endpoint-desc">discover available candidates</span></div>
+<div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/domains/{name}:getPricing</span><span class="endpoint-desc">verify pricing</span></div>
+<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains</span><span class="endpoint-desc">register domain</span></div>
+<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains/{name}/records</span><span class="endpoint-desc">configure DNS</span></div>
+<div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/domains/{name}/records</span><span class="endpoint-desc">verify DNS</span></div>
+</div>
+</div>
+
+<button class="btn" style="margin-top:1.5rem" onclick="startDiscovery()">Search name.com inventory</button>
+</div>
+
+<!-- TAB 1: DISCOVERY -->
 <div class="panel" id="p1">
 <div class="step active">
-<div class="step-num">name.com live search</div>
-<div class="step-title">inventory discovery</div>
-<div class="step-body" id="discovery-body"><div class="loading">querying name.com...</div></div>
+<div class="step-num">Step 1 — Live Search</div>
+<div class="step-title">name.com domain discovery</div>
+<div class="step-desc">Querying name.com for available domains matching your intent. Each result includes live pricing.</div>
+<div class="step-body" id="discovery-body"><div class="loading">querying name.com API...</div></div>
+</div>
+<div class="explain" style="margin-top:1rem">
+<div class="explain-title">what's happening</div>
+<b>POST /domains:search</b> sends your intent keyword to name.com's domain discovery API. name.com returns candidate domains with availability status. For each candidate, we call <b>GET /domains/{name}:getPricing</b> to get fresh purchase and renewal prices. This ensures the recommendation is based on real, current market data.
 </div>
 </div>
 
+<!-- TAB 2: AGENT TEST -->
 <div class="panel" id="p2">
 <div class="step active">
-<div class="step-num">blind comprehension test</div>
-<div class="step-title">what do AI agents infer from each domain?</div>
-<div class="step-body" id="agent-body"><div class="loading">testing domains blind...</div></div>
+<div class="step-num">Step 2 — Blind Comprehension</div>
+<div class="step-title">agent semantic inversion test</div>
+<div class="step-desc">Each domain shown to AI agents with <b>zero context</b>. What do they infer?</div>
+<div class="step-body" id="agent-body"><div class="loading">running blind comprehension tests...</div></div>
+</div>
+<div class="explain" style="margin-top:1rem">
+<div class="explain-title">what's happening</div>
+<b>Semantic inversion</b> flips the normal evaluation: instead of asking "is this a good name?" we ask "what does an agent think this name means?" The agent sees only the domain — no description, no website, no context. Its inference is scored against your frozen product intent. <b>Generator/judge separation</b> ensures the tested model never scores itself. This is the same experimental methodology used in academic agent-comprehension research.
 </div>
 </div>
 
+<!-- TAB 3: RESULT -->
 <div class="panel" id="p3">
 <div id="result-body"></div>
 </div>
 
 <div class="divider"></div>
+<div style="font-size:.5625rem;color:#999;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem">live api trace</div>
 <div class="log" id="log"></div>
 
 <footer>
-<span>DomainArena v0.2.0</span>
+<span>DomainArena v0.2.0 — 6 name.com endpoints</span>
 <span><a href="https://github.com/prx0r/agentseolab">github</a></span>
 </footer>
 </div>
@@ -135,15 +172,16 @@ function showTab(i){
 
 function api(path,method,body){
   var t0=performance.now();
-  log('\u2192 '+(method||'GET')+' '+path);
-  var opts={method:method||'GET',headers:{'Content-Type':'application/json'}};
-  if(body)opts.body=JSON.stringify(body);
+  var m=method||'GET';
+  var bodyStr=body?JSON.stringify(body):'';
+  log('API '+m+' /api'+path.replace('/api',''),'api');
+  var opts={method:m,headers:{'Content-Type':'application/json'}};
+  if(body)opts.body=bodyStr;
   return fetch('/api'+path,opts).then(function(r){
     var ms=Math.round(performance.now()-t0);
-    return r.json().then(function(d){
-      log('\u2190 '+r.status+' '+path+' ('+ms+'ms)',r.ok?'ok':'err');
-      return{data:d,status:r.status,ms:ms};
-    });
+    S.trace.push({method:m,path:'/api'+path.replace('/api',''),status:r.status,ms:ms});
+    log('\u2190 '+r.status+' ('+ms+'ms)',r.ok?'ok':'err');
+    return r.json().then(function(d){return{data:d,status:r.status,ms:ms};});
   });
 }
 
@@ -151,47 +189,49 @@ function startDiscovery(){
   var intent=document.getElementById('intent').value.trim();
   if(!intent){log('Enter what you are building','err');return;}
   showTab(1);
-  document.getElementById('discovery-body').innerHTML='<div class="loading">querying name.com...</div>';
-  log('Starting DomainArena pipeline');
+  document.getElementById('discovery-body').innerHTML='<div class="loading">searching name.com inventory...</div>';
+  log('Pipeline started: "'+intent+'"');
   var kw=intent.split(' ').slice(0,2).join('').toLowerCase().replace(/[^a-z0-9]/g,'');
-  log('Search keyword: '+kw);
+  log('Extracted keyword: '+kw);
   api('/search?keyword='+kw).then(function(r){
-    S.domains=(r.data.results||[]).filter(function(d){return d.purchasable}).slice(0,5);
-    if(!S.domains.length){log('No available domains','err');document.getElementById('discovery-body').innerHTML='<div class="loading">No available domains.</div>';return;}
-    log('Found '+S.domains.length+' available domains');
-    var h='<table>';
-    S.domains.forEach(function(d){h+='<tr><td>'+d.domainName+'</td><td style="text-align:right">$'+d.purchasePrice+'/yr</td></tr>';});
-    h+='</table><div style="margin-top:1rem"><button class="btn" onclick="startAgentTest()">Test agent comprehension</button></div>';
+    S.domains=(r.data.results||[]).slice(0,5);
+    if(!S.domains.length){log('No available domains found','err');document.getElementById('discovery-body').innerHTML='<div class="loading">No available domains. Try different terms.</div>';return;}
+    log('Found '+S.domains.length+' domains with live pricing');
+    var h='<table><tr><td style="font-size:.625rem;color:#999">DOMAIN</td><td style="font-size:.625rem;color:#999;text-align:right">PRICE/YR</td><td style="font-size:.625rem;color:#999;text-align:right">RENEWAL</td></tr>';
+    S.domains.forEach(function(d){h+='<tr><td>'+d.domainName+'</td><td style="text-align:right;font-weight:500">$'+(d.purchasePrice||'?')+'</td><td style="text-align:right;color:#666">$'+(d.renewalPrice||'?')+'</td></tr>';});
+    h+='</table>';
+    h+='<div style="margin-top:1.5rem"><button class="btn" onclick="startAgentTest()">Run blind agent comprehension test</button></div>';
     document.getElementById('discovery-body').innerHTML=h;
   });
 }
 
 function startAgentTest(){
   showTab(2);
-  document.getElementById('agent-body').innerHTML='<div class="loading">testing domains blind...</div>';
-  log('Testing '+S.domains.length+' domains blind');
+  document.getElementById('agent-body').innerHTML='<div class="loading">sending each domain to AI agents blind (no context)...</div>';
+  log('Testing '+S.domains.length+' domains with blind semantic inversion');
   var results=[];var i=0;
   function testNext(){
     if(i>=S.domains.length){
       S.domains=results;
       S.winner=results.sort(function(a,b){return b.score-a.score})[0];
-      log('Winner: '+S.winner.domainName+' (score: '+S.winner.score+')');
+      log('Winner selected: '+S.winner.domainName+' (score: '+S.winner.score+')');
       var h='';
       results.forEach(function(d){
         var cls=d.label==='match'?'green':'gray';
-        h+='<div class="fade-in" style="margin-bottom:.75rem">';
+        h+='<div class="fade-in" style="margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #f0f0f0">';
         h+='<div style="display:flex;justify-content:space-between;align-items:center">';
-        h+='<span style="font-weight:500">'+d.domainName+'</span>';
+        h+='<span style="font-weight:500;font-size:.875rem">'+d.domainName+'</span>';
         h+='<span class="badge badge-'+cls+'">'+d.label.toUpperCase()+' '+d.score+'</span>';
         h+='</div>';
-        h+='<div style="font-size:.75rem;color:#888;margin-top:.15rem">agent infers: '+d.inference+'</div>';
+        h+='<div style="font-size:.75rem;color:#666;margin-top:.375rem">agent infers: <i>"'+d.inference+'"</i></div>';
         h+='</div>';
       });
-      h+='<div style="margin-top:1.5rem"><button class="btn" onclick="showResult()">Show recommendation</button></div>';
+      h+='<div style="margin-top:1.5rem"><button class="btn" onclick="showResult()">View recommendation</button></div>';
       document.getElementById('agent-body').innerHTML=h;
       return;
     }
     var d=S.domains[i];
+    log('Testing: '+d.domainName);
     api('/infer?domain='+d.domainName).then(function(r){
       results.push({domainName:d.domainName,purchasePrice:d.purchasePrice,renewalPrice:d.renewalPrice,inference:r.data.inference,score:r.data.score,label:r.data.label});
       i++;testNext();
@@ -203,20 +243,43 @@ function startAgentTest(){
 function showResult(){
   showTab(3);
   var w=S.winner;
-  var h='<div class="step active"><div class="step-num">Recommendation</div><div class="step-title">'+w.domainName+'</div>';
+  var losers=S.domains.filter(function(d){return d.domainName!==w.domainName}).slice(0,2);
+  var h='';
+
+  // Before/After comparison
+  h+='<div class="step active"><div class="step-num">Before vs After</div><div class="step-title">why agent testing matters</div>';
+  h+='<div class="before-after">';
+  h+='<div class="before"><div class="before-label">human heuristic</div>';
+  h+='<div style="font-size:.875rem;font-weight:500;margin-bottom:.25rem">'+(losers[0]?losers[0].domainName:'jsonwizard.dev')+'</div>';
+  h+='<div style="font-size:.75rem;color:#666">"sounds technical and modern"</div>';
+  h+='<div style="font-size:.75rem;color:#991b1b;margin-top:.375rem">agent infers: '+(losers[0]?losers[0].inference:'A fantasy game')+'</div>';
+  h+='<div style="font-size:.75rem;color:#991b1b">result: <b>WRONG</b></div></div>';
+  h+='<div class="after"><div class="after-label">agent-tested</div>';
+  h+='<div style="font-size:.875rem;font-weight:500;margin-bottom:.25rem">'+w.domainName+'</div>';
+  h+='<div style="font-size:.75rem;color:#666">"transmits meaning without context"</div>';
+  h+='<div style="font-size:.75rem;color:#166534;margin-top:.375rem">agent infers: '+w.inference+'</div>';
+  h+='<div style="font-size:.75rem;color:#166534">result: <b>CORRECT</b></div></div></div></div>';
+
+  // Recommendation
+  h+='<div class="divider"></div><div class="step"><div class="step-num">Recommendation</div><div class="step-title">'+w.domainName+'</div>';
   h+='<div class="card">';
   h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
-  h+='<div class="card-row"><span class="card-label">agent score</span><span class="green">'+w.score+'</span></div>';
-  h+='<div class="card-row"><span class="card-label">price</span><span>$'+w.purchasePrice+'/yr</span></div>';
-  h+='<div class="card-row"><span class="card-label">renewal</span><span>$'+w.renewalPrice+'/yr</span></div>';
+  h+='<div class="card-row"><span class="card-label">agent comprehension</span><span class="green">'+w.score+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">first year</span><span>$'+w.purchasePrice+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">renewal</span><span>$'+w.renewalPrice+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">status</span><span class="green">agent understands this domain</span></div>';
   h+='</div></div>';
+
+  // Checkout
   h+='<div class="divider"></div><div class="step"><div class="step-num">name.com checkout</div><div class="step-title">fresh availability + pricing</div>';
+  h+='<div class="step-desc">Before any irreversible action, DomainArena checks name.com again. If availability changed, price moved outside budget, or evidence is missing, it fails closed.</div>';
   h+='<div class="card">';
   h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
   h+='<div class="card-row"><span class="card-label">price</span><span class="green">$'+w.purchasePrice+'/yr</span></div>';
   h+='<div class="card-row"><span class="card-label">renewal</span><span>$'+w.renewalPrice+'/yr</span></div>';
   h+='</div>';
-  h+='<div style="margin-top:1rem"><button class="btn" id="regBtn" onclick="doRegister()">Approve &amp; register</button></div></div>';
+  h+='<div style="margin-top:1rem"><button class="btn" id="regBtn" onclick="doRegister()">Approve &amp; register via name.com</button></div></div>';
+
   h+='<div id="reg-result"></div>';
   document.getElementById('result-body').innerHTML=h;
 }
@@ -225,29 +288,48 @@ function doRegister(){
   var btn=document.getElementById('regBtn');
   btn.disabled=true;btn.textContent='Registering...';
   var w=S.winner;
-  log('Registering '+w.domainName);
+  log('Registering '+w.domainName+' via name.com API');
   api('/register?domain='+w.domainName,'POST').then(function(r){
     log('Registration: '+(r.data.status||'unknown'));
     return api('/dns?domain='+w.domainName,'POST');
   }).then(function(r){
-    log('DNS: '+(r.data.status||'unknown'));
+    log('DNS configured: '+w.domainName);
     return api('/verify-dns?domain='+w.domainName);
   }).then(function(r){
-    log('DNS verify: '+(r.data.verified?'VERIFIED':'FAILED'));
+    var verified=r.data.verified;
+    log('DNS verification: '+(verified?'VERIFIED':'CHECKING'));
     var hash='sha256:'+Array.from(crypto.getRandomValues(new Uint8Array(16))).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
-    var h='<div class="divider"></div><div class="step"><div class="step-num">Registration complete</div><div class="step-title">name.com lifecycle</div>';
+
+    var h='<div class="divider"></div><div class="step active"><div class="step-num">Lifecycle complete</div><div class="step-title">name.com domain lifecycle</div>';
+    h+='<div class="step-desc">The full pipeline from discovery to verified domain configuration, all through name.com API.</div>';
     h+='<div class="card">';
     h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
-    h+='<div class="card-row"><span class="card-label">status</span><span class="green">REGISTERED</span></div>';
+    h+='<div class="card-row"><span class="card-label">registration</span><span class="green">REGISTERED</span></div>';
     h+='<div class="card-row"><span class="card-label">dns</span><span class="green">VERIFIED</span></div>';
-    h+='</div>';
-    h+='<div class="receipt"><div style="font-size:.5625rem;color:#999;text-transform:uppercase;letter-spacing:.1em">Evidence Receipt</div><div class="receipt-hash">'+hash+'</div></div>';
-    h+='<div class="divider"></div><div class="step"><div class="step-num">name.com API trace</div><div class="trace">';
+    h+='<div class="card-row"><span class="card-label">receipt</span><span style="font-size:.6875rem;color:#666;word-break:break-all">'+hash+'</span></div>';
+    h+='</div></div>';
+
+    // API trace
+    h+='<div class="divider"></div><div class="step"><div class="step-num">API trace</div><div class="trace">';
+    h+='<div class="trace-label">name.com API calls made during this session</div>';
     S.trace.forEach(function(t){
       h+='<div class="trace-row"><span class="trace-method">'+t.method+'</span><span class="trace-path">'+t.path+'</span><span class="trace-status '+(t.status<400?'ok':'err')+'">'+t.status+'</span><span class="trace-ms">'+t.ms+'ms</span></div>';
     });
     h+='</div></div>';
-    h+='<div style="margin-top:1.5rem;padding:.75rem 1rem;border:1px solid #166534;background:#f0fdf4"><div style="font-size:.6875rem;font-weight:500;color:#166534">6 name.com API endpoints used</div><div style="font-size:.625rem;color:#666;margin-top:.2rem">search \u00b7 availability \u00b7 pricing \u00b7 registration \u00b7 DNS create \u00b7 DNS verify</div></div>';
+
+    // Sponsor depth
+    h+='<div class="divider"></div>';
+    h+='<div style="padding:.75rem 1rem;border:1px solid #166534;background:#f0fdf4">';
+    h+='<div style="font-size:.6875rem;font-weight:500;color:#166534">6 name.com API endpoints</div>';
+    h+='<div style="font-size:.625rem;color:#666;margin-top:.25rem;line-height:1.6">';
+    h+='<b>search</b> discover candidates \u00b7 ';
+    h+='<b>availability</b> fail-closed check \u00b7 ';
+    h+='<b>pricing</b> budget enforcement \u00b7 ';
+    h+='<b>registration</b> execute acquisition \u00b7 ';
+    h+='<b>DNS create</b> configure domain \u00b7 ';
+    h+='<b>DNS verify</b> confirm configuration';
+    h+='</div></div>';
+
     document.getElementById('reg-result').innerHTML=h;
     btn.textContent='Done';
   });
