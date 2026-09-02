@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
+*.pyo
 .pytest_cache/
 target/
 *.db
@@ -16,3 +17,18 @@ data/hf_datasets/*.parquet
 data/external_repos/
 data/
 data/*
+
+# Package build artifacts
+*.egg-info/
+.eggs/
+build/
+dist/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

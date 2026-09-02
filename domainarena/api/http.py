@@ -143,7 +143,12 @@ class RegisterBody(BaseModel):
 
 @app.post("/v1/decisions/{decision_id}/register", dependencies=[Depends(_verify_api_key)])
 async def register_domain(decision_id: str, body: RegisterBody):
-    """Register domain after approval. Idempotent."""
+    """Register domain after approval. Idempotent.
+    Requires DOMAINARENA_ALLOW_WRITES=1 environment variable.
+    """
+    if not os.environ.get("DOMAINARENA_ALLOW_WRITES"):
+        raise HTTPException(403,
+            "WRITE BLOCKED — set DOMAINARENA_ALLOW_WRITES=1 to allow name.com registration")
     svc = get_service()
     try:
         return await svc.register_async(
@@ -161,7 +166,12 @@ async def register_domain(decision_id: str, body: RegisterBody):
 
 @app.post("/v1/decisions/{decision_id}/configure-dns", dependencies=[Depends(_verify_api_key)])
 async def configure_dns(decision_id: str):
-    """Create DNS TXT receipt and verify."""
+    """Create DNS TXT receipt and verify.
+    Requires DOMAINARENA_ALLOW_WRITES=1 environment variable.
+    """
+    if not os.environ.get("DOMAINARENA_ALLOW_WRITES"):
+        raise HTTPException(403,
+            "WRITE BLOCKED — set DOMAINARENA_ALLOW_WRITES=1 to allow name.com DNS writes")
     svc = get_service()
     try:
         return await svc.configure_dns_async(decision_id)

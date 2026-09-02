@@ -11,12 +11,21 @@ Tests the complete flow:
 The service layer uses asyncio.run() internally which conflicts with async
 test context, so we mock the service methods for prepare/register/DNS.
 """
+import os
 import pytest
 from unittest.mock import AsyncMock, patch, MagicMock
 import httpx
 
 from domainarena.api.http import app
 from domainarena.service import get_service, DecisionStatus
+
+
+@pytest.fixture(autouse=True)
+def allow_writes():
+    """Enable write operations for lifecycle tests."""
+    os.environ["DOMAINARENA_ALLOW_WRITES"] = "1"
+    yield
+    os.environ.pop("DOMAINARENA_ALLOW_WRITES", None)
 
 
 @pytest.fixture
