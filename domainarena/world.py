@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from cogym_kernel.kernel.contracts import (
+from domainarena.worldpack.contracts import (
     ActionResult,
     ActionSpec,
     CandidateArtifact,
@@ -31,6 +31,7 @@ from cogym_kernel.kernel.contracts import (
     MetricVector,
     RunReceipt,
     WorldSpec,
+    content_id,
 )
 
 # ── DomainArena types ──────────────────────────────────────────────
@@ -197,7 +198,6 @@ class DomainArenaWorld:
 
     @property
     def worldpack_id(self) -> str:
-        from cogym_kernel.kernel.ids import content_id
         return content_id("wp", {
             "kind": "domainarena.comprehension", "v": 0,
             "cases": len(self._cases)})
