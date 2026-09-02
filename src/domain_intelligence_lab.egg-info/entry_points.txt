@@ -1,2 +1,0 @@
-[console_scripts]
-agentseo-lab = agentseo_lab.cli:main

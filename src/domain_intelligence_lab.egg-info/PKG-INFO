@@ -1,5 +1,0 @@
-Metadata-Version: 2.4
-Name: domain-intelligence-lab
-Version: 0.1.0
-Summary: Scientific experiment/event infrastructure for agent discovery, domain intelligence and AgentSEO.
-Requires-Python: >=3.11
