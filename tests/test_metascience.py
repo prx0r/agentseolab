@@ -11,6 +11,8 @@ import sys, os, json, hashlib
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "runner"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "sandbox"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "archive", "legacy", "runner"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "archive", "legacy", "sandbox"))
 
 import world
 

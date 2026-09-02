@@ -10,6 +10,8 @@ import json, os, sys, tempfile, unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "analysis", "_legacy"))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "runner"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "archive", "legacy", "analysis", "_legacy"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "archive", "legacy", "runner"))
 import sentinel  # noqa: E402
 
 
