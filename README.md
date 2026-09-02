@@ -1,6 +1,11 @@
 # DomainArena
 
-**MCP-native infrastructure for measuring whether AI agents understand domain names.**
+**A/B testing for domain names in the agentic web.**
+
+Measure which domains AI agents actually understand, then safely acquire and configure the winner with name.com.
+
+> Human domain tools ask: "Does this name sound good?"
+> DomainArena asks: "Does an AI agent infer the right product from this name with no context?"
 
 Built on 16 experiments across 7+ model families studying how AI agents discover, evaluate, and select tools.
 
@@ -35,14 +40,34 @@ This is the first benchmark that asks: "given only a domain name, can an AI mode
 
 DomainArena uses **6 name.com API endpoints** in one workflow:
 
-| Endpoint | MCP Tool | Purpose |
-|---|---|---|
-| `POST /domains:search` | `search_domain` | Find available candidates |
-| `POST /domains:checkAvailability` | `check_availability` | Fresh check before purchase |
-| `GET /domains/{domain}:getPricing` | `get_pricing` | Price verification |
-| `POST /domains` | `register_domain` | Register (idempotent, approval-gated) |
-| `POST /domains/{domain}/records` | `configure_dns` | DNS evidence receipt |
-| `GET /domains/{domain}/records` | `configure_dns` | Verify configuration |
+```text
+INTENT
+  ↓
+name.com SEARCH          — discover candidate domains
+  ↓
+AGENT COMPREHENSION TEST — blind inference, no context
+  ↓
+EVIDENCE-BASED RANKING   — Wilson CI, cross-family
+  ↓
+name.com FRESH PRICE     — recheck availability + pricing
+  ↓
+HUMAN APPROVAL           — one-time token, approval-gated
+  ↓
+name.com REGISTER        — execute approved acquisition
+  ↓
+DNS CREATE + READ-BACK   — configure + verify
+  ↓
+VERIFIED RECEIPT          — sha256, append-only
+```
+
+| name.com capability | DomainArena use |
+|---|---|
+| Search | discover candidate domains |
+| Availability | fail closed before purchase |
+| Pricing | enforce purchase + renewal budgets |
+| Registration | execute approved acquisition |
+| DNS create | configure acquired domain |
+| DNS read | verify configuration actually landed |
 
 ## Architecture — MCP is the interface
 
@@ -114,12 +139,24 @@ Per the canonical experiment principles, findings must replicate across ≥2 mod
 ## Safety and purchase approval
 
 - **Fail-closed**: Missing/malformed availability → abort
+- **Write guard**: Registration/DNS writes require `DOMAINARENA_ALLOW_WRITES=1`
 - **Approval required**: Registration needs explicit human approval (one-time token)
 - **Price drift guard**: Price changes beyond threshold invalidate approval
 - **Hard budgets**: `max_purchase_price` and `max_renewal_price` enforced at registration
 - **Idempotent**: Duplicate registration attempts can't double-charge
 - **purchaseType=registration**: Enforced on every availability check
 - **Token hashing**: Approval token hash stored on disk, raw token returned once
+
+## Environment variables
+
+```bash
+NAMECOM_USERNAME=          # name.com API username
+NAMECOM_TOKEN=             # name.com API token
+NAMECOM_MODE=sandbox       # sandbox or production-approved
+CLOUDFLARE_ACCOUNT_ID=     # for semantic inference
+CLOUDFLARE_API_TOKEN=      # for semantic inference
+DOMAINARENA_ALLOW_WRITES=0 # 0=rehearsal, 1=live registration
+```
 
 ## MCP demo transcript
 
@@ -130,20 +167,22 @@ See [docs/MCP_DEMO_TRANSCRIPT.md](docs/MCP_DEMO_TRANSCRIPT.md) for a complete se
 ```bash
 git clone https://github.com/prx0r/agentseolab.git
 cd agentseolab
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -e ".[dev]"
-cp .env.example .env       # add name.com + Cloudflare credentials
 
-# Hackathon demo (web UI)
+# Fixture mode (no credentials needed)
 python3 -m domainarena.web.demo   # http://127.0.0.1:8777
 
-# MCP server (for AI agents)
-python -m domainarena.api.mcp     # stdin/stdout JSON-RPC
+# Live mode (requires name.com credentials)
+cp .env.example .env       # add name.com + Cloudflare credentials
+DOMAINARENA_ALLOW_WRITES=1 python3 -m domainarena.web.demo
 
-# HTTP API
-domainarena                        # http://0.0.0.0:8777
+# MCP server (for AI agents)
+python3 -m domainarena.api.mcp     # stdin/stdout JSON-RPC
 
 # Pairwise experiment
-python -m experiments.pairwise_selection \
+python3 -m experiments.pairwise_selection \
   --intent "A JSON repair tool" \
   --domain-a "jsonrepair.dev" \
   --domain-b "fixjson.com" \
