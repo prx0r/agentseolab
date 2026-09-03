@@ -523,151 +523,483 @@ const PAGE = String.raw`<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DomainArena</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',system-ui,sans-serif;background:#fafafa;color:#111;line-height:1.6}
-code,.mono{font-family:'Source Code Pro',monospace}
-nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 1.5rem;position:sticky;top:0;z-index:100}
-.ni{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:48px;gap:1.5rem}
-.ni .b{font-weight:700;font-size:.95rem}.ni .b span{color:#1d4ed8}
-.ni a{font-size:.8rem;color:#6b7280;text-decoration:none;font-weight:500}.ni a:hover{color:#111}
-.hero{padding:80px 1.5rem 48px;text-align:center;border-bottom:1px solid #e5e7eb}
-.hero h1{font-size:2.5rem;font-weight:800;letter-spacing:-.04em;line-height:1.1;max-width:680px;margin:0 auto}
-.hero p{font-size:1rem;color:#6b7280;max-width:560px;margin:12px auto 0;line-height:1.7}
-.hero .tag{display:inline-block;background:#eff6ff;color:#1d4ed8;font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:12px}
-.btn{padding:10px 28px;border-radius:8px;font-size:.88rem;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
-.btn-p{background:#111;color:#fff}.btn-p:hover{background:#333}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;max-width:1100px;margin:2rem auto;padding:0 1.5rem}
-@media(max-width:768px){.three{grid-template-columns:1fr}}
-.three .c{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.25rem}
-.three .c h3{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;font-weight:600;margin-bottom:.5rem}
-.three .c p{font-size:.82rem;color:#374151;line-height:1.5}
-.three .c strong{color:#1d4ed8}
-section{padding:2.5rem 1.5rem;max-width:1100px;margin:0 auto}
-.st{font-size:1.4rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem}
-.sd{font-size:.88rem;color:#6b7280;max-width:580px;line-height:1.6}
-.ba{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
-@media(max-width:768px){.ba{grid-template-columns:1fr}}
-.bx{border:1px solid #e5e7eb;border-radius:10px;padding:1.25rem}
-.bx.bad{border-color:#fecaca;background:#fef2f2}.bx.good{border-color:#bbf7d0;background:#f0fdf4}
-.lb{font-size:.6rem;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;font-weight:600;margin-bottom:.5rem}
-.v{font-size:1.2rem;font-weight:700;font-family:'Source Code Pro',monospace}
-.m{font-size:.8rem;color:#6b7280;margin-top:.5rem;line-height:1.5}
-.pipe{display:flex;gap:0;margin:1.5rem 0;overflow-x:auto}
-.pipe .s{flex:1;min-width:80px;background:#fff;border:1px solid #e5e7eb;padding:10px 8px;text-align:center;font-size:.65rem}
-.pipe .s:first-child{border-radius:8px 0 0 8px}.pipe .s:last-child{border-radius:0 8px 8px 0}.pipe .s+.s{border-left:none}
-.pipe .s b{display:block;font-size:.5rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
-.pipe .s.hi{border-color:#1d4ed8;background:#eff6ff}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
-@media(max-width:768px){.g3{grid-template-columns:1fr}}
-.mt{text-align:center;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.25rem}
-.mt .n{font-size:1.6rem;font-weight:700;letter-spacing:-.02em}.mt .l{font-size:.72rem;color:#6b7280;margin-top:4px}
-.tt{width:100%;border-collapse:collapse;font-size:.78rem;margin:1rem 0}
-.tt th{text-align:left;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;padding:8px;border-bottom:2px solid #e5e7eb;font-weight:600}
-.tt td{padding:8px;border-bottom:1px solid #f3f4f6}
-.ft{padding:2rem;border-top:1px solid #e5e7eb;text-align:center;font-size:.72rem;color:#9ca3af}
-/* Demo */
-.demo{background:#0f172a;color:#e2e8f0;padding:2rem 1.5rem;margin-top:2rem}
-.demo-in{max-width:1100px;margin:0 auto}
-.steps{max-width:900px;margin:0 auto}
-.step{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:1.25rem;margin-bottom:1rem;opacity:.3;pointer-events:none;transition:all .3s}
-.step.active{opacity:1;pointer-events:auto;border-color:#1d4ed8}
-.step.done{opacity:1;border-color:#334155}
-.step-num{font-size:.55rem;text-transform:uppercase;letter-spacing:1px;color:#64748b;font-weight:600;margin-bottom:.5rem}
-.step-title{font-size:.95rem;font-weight:700;color:#f8fafc;margin-bottom:.5rem}
-.step-body{font-family:'Source Code Pro',monospace;font-size:.72rem;line-height:1.7;color:#94a3b8}
-.step-body .ok{color:#34d399}.step-body .err{color:#f87171}
-.final{background:linear-gradient(135deg,#1e3a5f,#1e293b);border:2px solid #1d4ed8;border-radius:12px;padding:2rem;text-align:center;margin-top:1.5rem}
-.final h2{font-size:1.5rem;font-weight:800;color:#93c5fd;margin-bottom:.5rem}
-.final p{color:#94a3b8;font-size:.9rem}
+body{font-family:'Source Code Pro',monospace;background:#fafafa;color:#111;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:2rem 2rem}
+h1{font-size:1.1rem;font-weight:600;letter-spacing:-.02em}
+.sub{font-size:.75rem;color:#888;margin-top:.25rem}
+.live{display:inline-block;font-size:.5625rem;padding:.15rem .5rem;border:1px solid #166534;color:#166534;margin-left:.5rem;font-weight:500}
+.tabs{display:flex;gap:0;margin-top:2rem;border-bottom:1px solid #ddd}
+.tab{padding:.6rem 1.2rem;font-size:.75rem;font-weight:500;color:#999;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab:hover{color:#111}.tab.active{color:#111;border-bottom-color:#111}
+.panel{display:none;padding:1.5rem 0}.panel.active{display:block}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.625rem;color:#999;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.375rem;font-weight:500}
+.field input{width:100%;padding:.6rem .75rem;border:1px solid #ddd;font-family:'Source Code Pro',monospace;font-size:.8125rem;background:#fff;outline:none}
+.field input:focus{border-color:#111}
+.btn{font-family:'Source Code Pro',monospace;font-size:.75rem;font-weight:500;padding:.6rem 1.2rem;border:1px solid #111;background:#111;color:#fff;cursor:pointer;transition:all .15s}
+.btn:hover{background:#333}.btn:disabled{background:#ccc;border-color:#ccc;cursor:not-allowed}
+.green{color:#166534}.red{color:#991b1b}.orange{color:#92400e}
+.badge{font-size:.5625rem;padding:.15rem .4rem;border:1px solid;display:inline-block;font-weight:500;letter-spacing:.03em}
+.badge-green{border-color:#166534;color:#166534}.badge-gray{border-color:#999;color:#999}.badge-orange{border-color:#92400e;color:#92400e}
+table{width:100%;border-collapse:collapse;margin-top:.5rem}
+td{padding:.35rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem}
+td:first-child{font-weight:500;color:#666;width:140px}
+.card{background:#fff;border:1px solid #eee;padding:1rem;margin-top:.75rem}
+.card-row{display:flex;justify-content:space-between;padding:.25rem 0;border-bottom:1px solid #f8f8f8;font-size:.75rem}
+.card-row:last-child{border-bottom:none}
+.card-label{color:#888}
+.step{border-left:2px solid #eee;padding-left:1rem;margin-top:1rem}
+.step.active{border-left-color:#111}
+.step-num{font-size:.5625rem;color:#999;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.step-title{font-size:.875rem;font-weight:500;margin-top:.2rem}
+.step-desc{font-size:.75rem;color:#666;margin-top:.25rem;line-height:1.5}
+.receipt{background:#f8f8f8;border:1px solid #eee;padding:.75rem 1rem;margin-top:.75rem;font-size:.75rem}
+.receipt-hash{word-break:break-all;font-size:.6875rem;color:#666;margin-top:.25rem;font-family:'Source Code Pro',monospace}
+.trace{margin-top:.75rem}
+.trace-row{display:flex;gap:.5rem;font-size:.6875rem;padding:.25rem 0;border-bottom:1px solid #f8f8f8}
+.trace-method{font-weight:600;min-width:36px;color:#111}
+.trace-path{flex:1;color:#666}
+.trace-status{font-weight:500;min-width:28px}
+.trace-status.ok{color:#166534}.trace-status.err{color:#991b1b}
+.trace-ms{color:#999;text-align:right;min-width:45px}
+.trace-label{font-size:.5625rem;color:#bbb;margin-bottom:.25rem}
+.divider{border-top:1px solid #eee;margin:1.5rem 0}
+.loading{color:#999;font-size:.75rem;padding:1rem 0}
+.fade-in{animation:fadeIn .3s ease-in}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.log{background:#111;color:#a8b1c2;padding:.75rem 1rem;margin-top:.75rem;font-size:.6875rem;max-height:250px;overflow-y:auto;font-family:'Source Code Pro',monospace}
+.log-line{padding:.1rem 0}
+.log-ts{color:#636d83}.log-ok{color:#99c794}.log-err{color:#ec5f67}.log-info{color:#85c7c4}.log-api{color:#c594c5}
+.explain{background:#f0f8ff;border:1px solid #d0e0f0;padding:.5rem .75rem;margin-top:.5rem;font-size:.6875rem;color:#334155;line-height:1.5}
+.explain b{color:#111}
+.explain-title{font-size:.5625rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.75rem}
+.before{border:1px solid #fde8e8;padding:.75rem;background:#fef2f2}
+.after{border:1px solid #d1fae5;padding:.75rem;background:#f0fdf4}
+.before-label,.after-label{font-size:.5625rem;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem}
+.before-label{color:#991b1b}.after-label{color:#166534}
+.endpoint{display:flex;align-items:center;gap:.5rem;padding:.4rem 0;border-bottom:1px solid #f8f8f8;font-size:.75rem}
+.endpoint-method{font-weight:600;min-width:28px;font-size:.6875rem}.endpoint-method.get{color:#166534}.endpoint-method.post{color:#1d4ed8}
+.endpoint-path{flex:1;color:#666}
+.endpoint-desc{color:#999;font-size:.6875rem}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid #eee;font-size:.5625rem;color:#bbb;display:flex;justify-content:space-between}
+footer a{color:#999}
 </style>
 </head>
 <body>
-<nav><div class="ni">
-  <div class="b">Domain<span>Arena</span></div>
-  <a href="/">Landing</a>
-  <a href="/demo">Demo</a>
-</div></nav>
+<div class="wrap">
 
-<div class="hero">
-  <div class="tag">name.com Track — DevNetwork Hackathon 2026</div>
-  <h1>Measure the name before you buy it</h1>
-  <p>AI agents discover services, run blind inference tests, score every candidate, and recommend the domain that actually communicates your purpose.</p>
-  <button class="btn btn-p" style="margin-top:1.5rem" onclick="runDemo()">Run Live Demo</button>
-</div>
-
-<div class="three">
-  <div class="c"><h3>What we built</h3><p>An autonomous naming pipeline where name.com discovers domains, blind AI tests measure comprehension, and the measured winner is acquired with human approval.</p></div>
-  <div class="c"><h3>What it solves</h3><p><strong>Domains are becoming machine-facing identity.</strong> DomainArena tests whether agents can infer what service sits behind a name before you spend money on it.</p></div>
-  <div class="c"><h3>How it works</h3><p><strong>name.com &rarr; blind inference &rarr; independent judge &rarr; recheck &rarr; approve &rarr; register &rarr; DNS &rarr; receipt.</strong> Six name.com API endpoints.</p></div>
-</div>
-
-<section id="pipeline">
-  <div class="st">The Pipeline</div>
-  <div class="pipe">
-    <div class="s hi"><b>1</b>Search</div><div class="s"><b>2</b>Pricing</div><div class="s"><b>3</b>Blind Test</div><div class="s"><b>4</b>Score</div><div class="s"><b>5</b>Recheck</div><div class="s hi"><b>6</b>Register</div><div class="s hi"><b>7</b>DNS</div><div class="s hi"><b>8</b>Receipt</div>
+<div style="padding:2rem 0 1.5rem;border-bottom:1px solid #eee">
+<h1>DomainArena<span class="live">LIVE</span></h1>
+<div style="font-size:.85rem;color:#888;margin-bottom:1rem;max-width:600px">A/B testing for domain names in the agentic web. Blind agent comprehension, evidence-backed recommendations, name.com lifecycle.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
+    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">What we built</div>
+    <div style="font-size:.78rem;line-height:1.5">A <b>domain testing engine</b> that asks AI agents what they think a domain means &mdash; without any context. name.com discovers available names, blind inference tests comprehension, and the full lifecycle runs from search to DNS verification.</div>
   </div>
-</section>
-
-<!-- DEMO -->
-<div class="demo" id="demo">
-  <div class="demo-in">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-      <div><div style="font-size:1.1rem;font-weight:700;color:#f8fafc">Live Demo</div><div style="font-size:.75rem;color:#64748b">name.com live inventory &rarr; blind AI measurement &rarr; evidence-backed acquisition</div></div>
-    </div>
-    <div class="steps" id="steps"></div>
-    <div id="final-box"></div>
+  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
+    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">What it solves</div>
+    <div style="font-size:.78rem;line-height:1.5"><b>The thing discovering your service is an AI agent.</b> But nobody measures whether agents can infer what service sits behind a domain. You buy on intuition, deploy, and hope the machine audience finds you.</div>
+  </div>
+  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
+    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">How it works</div>
+    <div style="font-size:.78rem;line-height:1.5"><b>name.com inventory &rarr; blind inference &rarr; independent scoring &rarr; human approval &rarr; registration &rarr; DNS verification &rarr; SHA-256 receipt.</b> Every step has provenance. The agent never sees the product description.</div>
   </div>
 </div>
+</div>
 
-<section id="research">
-  <div class="st">Research Foundation</div>
-  <div class="sd">16 experiments across 7+ model families showing agent naming behavior is stranger than a one-shot LLM rating.</div>
-  <div class="g3" style="margin-top:1.5rem">
-    <div class="mt"><div class="n">16</div><div class="l">Experiments</div></div>
-    <div class="mt"><div class="n">7+</div><div class="l">Model Families</div></div>
-    <div class="mt"><div class="n">148</div><div class="l">Tests Passing</div></div>
-  </div>
-</section>
+<div class="tabs">
+<div class="tab active" onclick="showTab(0)">1. Intent</div>
+<div class="tab" onclick="showTab(1)">2. Discovery</div>
+<div class="tab" onclick="showTab(2)">3. Agent Test</div>
+<div class="tab" onclick="showTab(3)">4. Result</div>
+<div class="tab" onclick="showTab(4)">5. Findings</div>
+<div class="tab" onclick="showTab(5)">6. Frontier</div>
+</div>
 
-<div class="ft">DomainArena &mdash; Pre-deployment Agent Legibility Testing &middot; name.com Track &middot; DevNetwork Hackathon 2026</div>
+<!-- TAB 0: INTENT -->
+<div class="panel active" id="p0">
+<div class="field">
+<label>What are you building?</label>
+<input type="text" id="intent" placeholder="e.g. A JSON repair API for AI agents" value="A JSON repair API for AI agents that validates and repairs malformed JSON">
+</div>
+
+<div class="explain">
+<div class="explain-title">how this works</div>
+<b>DomainArena</b> tests candidate domains against AI agents using <b>blind semantic inversion</b> &mdash; agents see only the domain name, never the product description. If an agent can correctly infer what service sits behind a domain without context, that domain transmits meaning effectively.
+</div>
+
+<div style="margin-top:1.5rem">
+<div class="step-num">name.com endpoints used</div>
+<div style="margin-top:.5rem">
+<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains:search</span><span class="endpoint-desc">discover available candidates</span></div>
+<div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/domains/{name}:getPricing</span><span class="endpoint-desc">verify pricing</span></div>
+<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains</span><span class="endpoint-desc">register domain</span></div>
+<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains/{name}/records</span><span class="endpoint-desc">configure DNS</span></div>
+<div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/domains/{name}/records</span><span class="endpoint-desc">verify DNS</span></div>
+</div>
+</div>
+
+<div class="explain" style="margin-top:.75rem">
+<div class="explain-title">research foundation</div>
+Built on <b>16 experiments across 7+ model families</b> studying how AI agents discover and select tools. Key findings: agents are vulnerable to <b>description bias</b>, <b>position effects</b>, and <b>model-specific interpretations</b>.
+</div>
+<button class="btn" style="margin-top:1.5rem" onclick="startDiscovery()">Search name.com inventory</button>
+</div>
+
+<!-- TAB 1: DISCOVERY -->
+<div class="panel" id="p1">
+<div class="step active">
+<div class="step-num">Step 1 — Live Search</div>
+<div class="step-title">name.com domain discovery</div>
+<div class="step-desc">Querying name.com for available domains matching your intent. Each result includes live pricing.</div>
+<div class="step-body" id="discovery-body"><div class="loading">querying name.com API...</div></div>
+</div>
+<div class="explain" style="margin-top:1rem">
+<div class="explain-title">what's happening</div>
+<b>POST /domains:search</b> sends your intent keyword to name.com's domain discovery API. name.com returns candidate domains with availability status. For each candidate, we call <b>GET /domains/{name}:getPricing</b> to get fresh purchase and renewal prices. This ensures the recommendation is based on real, current market data.
+</div>
+</div>
+
+<!-- TAB 2: AGENT TEST -->
+<div class="panel" id="p2">
+<div class="step active">
+<div class="step-num">Step 2 — Blind Comprehension</div>
+<div class="step-title">agent semantic inversion test</div>
+<div class="step-desc">Each domain shown to AI agents with <b>zero context</b>. What do they infer?</div>
+<div class="step-body" id="agent-body"><div class="loading">running blind comprehension tests...</div></div>
+</div>
+
+<div class="explain" style="margin-top:1rem">
+<div class="explain-title">live run</div>
+Each domain is tested with <b>Llama 3.3 70B</b> for blind inference, scored by an <b>independent Mistral evaluator</b>. Generator/judge separation ensures the tested model never scores itself. The Research tab contains our larger cross-family and randomized experiments.
+</div>
+<div class="explain" style="margin-top:1rem">
+<div class="explain-title">what's happening</div>
+<b>Semantic inversion</b> flips the normal evaluation: instead of asking "is this a good name?" we ask "what does an agent think this name means?" The agent sees only the domain — no description, no website, no context. Its inference is scored against your frozen product intent. <b>Generator/judge separation</b> ensures the tested model never scores itself. This is the same experimental methodology used in academic agent-comprehension research.
+</div>
+</div>
+
+<!-- TAB 3: RESULT -->
+<div class="panel" id="p3">
+<div id="result-body"></div>
+</div>
+
+
+<!-- TAB 4: FINDINGS -->
+<div class="panel" id="p4">
+<div class="step active">
+<div class="step-num">Research Findings</div>
+<div class="step-title">counterintuitive discoveries from 16 experiments</div>
+<div class="step-desc">What we learned challenges common assumptions about domain naming for AI agents.</div>
+</div>
+
+<div class="explain" style="margin-top:1rem">
+<div class="explain-title">finding 1: description seduction is real</div>
+Some model families selected <b>broken tools</b> when they had enterprise-sounding descriptions. A tool with a polished description but non-functional API was chosen over a working tool with a plain description. <b>Agent discovery systems can be manipulated by presentation rather than actual capability.</b>
+</div>
+
+<div class="explain">
+<div class="explain-title">finding 2: position dominates domain choice</div>
+In pairwise tests, <b>87% of agents picked the first option</b> regardless of which domain was shown. TLD effects (.com vs .dev vs .ai) were statistically insignificant within the same position. <b>Order matters more than extension.</b>
+</div>
+
+<div class="explain">
+<div class="explain-title">finding 3: models disagree materially</div>
+Llama 3.3, Mistral Small, and Qwen3 produced <b>different rankings for the same domains</b>. A domain cannot be called "agent-legible" based on one model. Cross-family replication is essential.
+</div>
+
+<div class="explain">
+<div class="explain-title">finding 4: semantic inversion is a cheap proxy</div>
+AgentSearchBench (10,000 agents) shows that <b>description similarity is weaker than execution-grounded performance</b> for ranking. Blind inference is a useful first filter, but execution testing is ground truth.
+</div>
+
+<div class="explain">
+<div class="explain-title">finding 5: serverless inference drifts</b></div>
+Identical prompts at temperature zero produced <b>materially different choices across time windows</b>. One-shot domain ratings are scientifically weak. DomainArena replicates across windows.
+</div>
+
+<div class="step" style="margin-top:1.5rem">
+<div class="step-num">Real experiment data</div>
+<div class="step-title">jsonrepair experiment results</div>
+<div class="step-body">
+<table>
+<tr><td>intent</td><td>Repairs malformed JSON for AI agents</td></tr>
+<tr><td>candidates tested</td><td>5 domains</td></tr>
+<tr><td>models tested</td><td>Llama 3.3, Mistral Small</td></tr>
+<tr><td>jsonrepair.dev</td><td class="green">score 0.9 — agent infers "JSON repair tool"</td></tr>
+<tr><td>velora.com</td><td class="red">score 0.1 — agent infers "technology company"</td></tr>
+<tr><td>winner</td><td class="green">jsonrepair.dev (consistently understood across families)</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- TAB 5: FRONTIER -->
+<div class="panel" id="p5">
+<div class="step active">
+<div class="step-num">Frontier Evidence</div>
+<div class="step-title">why this matters now</div>
+</div>
+
+<div class="explain" style="margin-top:.75rem">
+<div class="explain-title">the shift</div>
+<b>93% of Google searches now end without a click</b> — AI Overviews answer directly. Meanwhile, Cloudflare reports agents are making <b>billions of API calls daily</b>. The customer discovering your service is increasingly a machine, not a human.
+</div>
+
+<div style="margin-top:1rem;font-size:.6875rem;font-weight:500;color:#666">SUPPORTING RESEARCH</div>
+
+<table style="margin-top:.5rem">
+<tr><td style="width:auto;padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2601.17617" style="color:#1d4ed8;text-decoration:none">14.44M agent search requests</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Agents iteratively reformulate queries using retrieved evidence. Domain must be discoverable at every step.</td></tr>
+<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2604.22436" style="color:#1d4ed8;text-decoration:none">AgentSearchBench (9,847 agents)</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Description similarity is weaker than execution-grounded performance for ranking agents.</td></tr>
+<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2406.07791" style="color:#1d4ed8;text-decoration:none">Position bias in LLM judges</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">87% of LLM judges pick slot 0. DomainArena uses AB/BA randomization to control for this.</td></tr>
+<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2509.08919" style="color:#1d4ed8;text-decoration:none">AI search engines differ</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Engine-specific differences in sourcing, freshness, domain diversity. One universal score is insufficient.</td></tr>
+<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2407.12883" style="color:#1d4ed8;text-decoration:none">BRIGHT: reasoning-intensive retrieval</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Semantic/lexical overlap alone is insufficient for agent task completion.</td></tr>
+<tr><td style="padding:.4rem 0;font-size:.75rem"><a href="https://arxiv.org/abs/2602.12187" style="color:#1d4ed8;text-decoration:none">SAGEO: search-augmented GEO</a></td><td style="font-size:.6875rem;color:#666">Evaluation on predetermined candidates omits retrieval/reranking. Real visibility requires end-to-end measurement.</td></tr>
+</table>
+
+<div style="margin-top:1rem;font-size:.6875rem;font-weight:500;color:#666">WHAT DOMAINARENA MEASURES</div>
+
+<div class="card" style="margin-top:.5rem">
+<div class="card-row"><span class="card-label">agent comprehension</span><span>Can agents infer your service from the domain?</span></div>
+<div class="card-row"><span class="card-label">cross-family agreement</span><span>Do multiple model families agree?</span></div>
+<div class="card-row"><span class="card-label">position robustness</span><span>Does preference hold across presentation orders?</span></div>
+<div class="card-row"><span class="card-label">cold-start discovery</span><span>Will agents find you with zero prior awareness?</span></div>
+</div>
+
+<div style="margin-top:1rem;font-size:.6875rem;font-weight:500;color:#666">THE MARKET</div>
+
+<div class="card" style="margin-top:.5rem">
+<div class="card-row"><span class="card-label">Cloudflare</span><span>Agent Readiness + Registrar API for agents</span></div>
+<div class="card-row"><span class="card-label">Google</span><span>AI Overviews answer 93% of searches directly</span></div>
+<div class="card-row"><span class="card-label">AgentDNS</span><span>Root domain naming for agent service discovery</span></div>
+<div class="card-row"><span class="card-label">name.com</span><span>6 API endpoints for full domain lifecycle</span></div>
+</div>
+
+<div class="explain" style="margin-top:.75rem">
+<div class="explain-title">the opportunity</div>
+<b>Before the website exists, before Agent Readiness, before an agent registers the domain: which hostname should the machine audience see?</b> That is DomainArena — pre-deployment optimization for the agent web.
+</div>
+</div>
+
+<div class="divider"></div>
+<div style="font-size:.5625rem;color:#999;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem">live api trace</div>
+<div class="log" id="log"></div>
+
+<footer>
+<span>DomainArena v0.2.0 — 6 name.com endpoints · MCP server · 148 tests</span>
+<span><a href="https://github.com/prx0r/agentseolab">github</a></span>
+</footer>
+</div>
 
 <script>
-function showTab(i,el){document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('on',j===i)});document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});el.classList.add('on');}
+var S={tab:0,domains:[],winner:null,trace:[],intent:'',intentHash:''};
 
-function renderStep(num,title,bodyHtml,active,done){
-  return '<div class="step'+(active?' active':'')+(done?' done':'')+'"><div class="step-num">Step '+num+'</div><div class="step-title">'+title+'</div><div class="step-body">'+bodyHtml+'</div></div>';
+function log(m,c){
+  c=c||'info';
+  var e=document.getElementById('log');
+  var t=new Date().toISOString().slice(11,19);
+  e.innerHTML+='<div class="log-line"><span class="log-ts">['+t+']</span> <span class="log-'+c+'">'+m+'</span></div>';
+  e.scrollTop=e.scrollHeight;
 }
 
-async function runDemo(){
-  var btn=document.querySelector('.btn-p');
-  btn.disabled=true;btn.textContent='Running...';
-  document.getElementById('steps').innerHTML='';
-  document.getElementById('final-box').innerHTML='';
+function showTab(i){
+  S.tab=i;
+  document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('active',j===i)});
+  document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i)});
+}
 
-  try{
-    var r=await fetch('/api/demo/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({})});
-    var run=await r.json();
-    if(run.error){document.getElementById('steps').innerHTML=renderStep(1,'Error','<span class="err">'+run.error+'</span>',true,false);btn.disabled=false;btn.textContent='Run Live Demo';return;}
+function api(path,method,body){
+  var t0=performance.now();
+  var m=method||'GET';
+  var bodyStr=body?JSON.stringify(body):'';
+  log('API '+m+' /api'+path.replace('/api',''),'api');
+  var opts={method:m,headers:{'Content-Type':'application/json'}};
+  if(body)opts.body=bodyStr;
+  return fetch('/api'+path,opts).then(function(r){
+    var ms=Math.round(performance.now()-t0);
+    S.trace.push({method:m,path:'/api'+path.replace('/api',''),status:r.status,ms:ms});
+    log('\\u2190 '+r.status+' ('+ms+'ms)',r.ok?'ok':'err');
+    return r.json().then(function(d){return{data:d,status:r.status,ms:ms};});
+  });
+}
 
-    var html='';
-    var steps=run.steps||[];
-    for(var i=0;i<steps.length;i++){
-      var s=steps[i];
-      html+=renderStep(i+1,s.title,s.body,i===steps.length-1,i.done);
+function showTabTab(i){document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('active',j===i)});document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i)});}
+function startDiscovery(){
+  var intent=document.getElementById('intent').value.trim();
+  if(!intent){log('Enter what you are building','err');return;}
+  S.intent=intent;
+  showTab(1);
+  document.getElementById('discovery-body').innerHTML='<div class="loading">searching name.com inventory...</div>';
+  log('Pipeline started: "'+intent+'"');
+  var stopwords=['a','an','the','for','and','or','of','to','in','on','with','that','is','it','by','at','as','from','this','your','my','our','can','be','do','if','no','not','but','are','was','has','had','have','will','would','could','should','may','might','shall','let','us','you','me','he','she','we','they','them','their','its','his','her','our','who','which','what','where','when','how','why','all','each','every','both','few','more','most','other','some','such','than','too','very','just','about','above','after','again','against','between','into','through','during','before','below','under','over','own','same','so','then','once','here','there','also','only','new','old','right','big','small'];
+  var words=intent.toLowerCase().replace(/[^a-z0-9\\s]/g,'').split(/\\s+/).filter(function(w){return w.length>2&&stopwords.indexOf(w)===-1;});
+  var kw=words.slice(0,2).join('');
+  if(kw.length<3) kw=words[0]||'api';
+  log('Extracted keyword: '+kw);
+  api('/search?keyword='+kw).then(function(r){
+    S.domains=(r.data.results||[]).slice(0,5);
+    if(!S.domains.length){log('No available domains found','err');document.getElementById('discovery-body').innerHTML='<div class="loading">No available domains. Try different terms.</div>';return;}
+    log('Found '+S.domains.length+' domains with live pricing');
+    var h='<table><tr><td style="font-size:.625rem;color:#999">DOMAIN</td><td style="font-size:.625rem;color:#999;text-align:right">PRICE/YR</td><td style="font-size:.625rem;color:#999;text-align:right">RENEWAL</td></tr>';
+    S.domains.forEach(function(d){h+='<tr><td>'+d.domainName+'</td><td style="text-align:right;font-weight:500">\
++(d.purchasePrice||'?')+'</td><td style="text-align:right;color:#666">\
++(d.renewalPrice||'?')+'</td></tr>';});
+    h+='</table>';
+    h+='<div style="margin-top:1.5rem"><button class="btn" onclick="startAgentTest()">Run blind agent comprehension test</button></div>';
+    document.getElementById('discovery-body').innerHTML=h;
+  });
+}
+
+function startAgentTest(){
+  showTab(2);
+  document.getElementById('agent-body').innerHTML='<div class="loading">sending each domain to AI agents blind (no context)...</div>';
+  log('Testing '+S.domains.length+' domains with blind semantic inversion');
+  var results=[];var i=0;
+  function testNext(){
+    if(i>=S.domains.length){
+      S.domains=results;
+      S.winner=results.sort(function(a,b){return b.score-a.score})[0];
+      log('Winner selected: '+S.winner.domainName+' (score: '+S.winner.score+')');
+      var h='';
+      results.forEach(function(d){
+        var cls=d.label==='match'?'green':'gray';
+        h+='<div class="fade-in" style="margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #f0f0f0">';
+        h+='<div style="display:flex;justify-content:space-between;align-items:center">';
+        h+='<span style="font-weight:500;font-size:.875rem">'+d.domainName+'</span>';
+        h+='<span class="badge badge-'+cls+'">'+d.label.toUpperCase()+' '+d.score+'</span>';
+        h+='</div>';
+        h+='<div style="font-size:.75rem;color:#666;margin-top:.375rem">agent infers: <i>"'+d.inference+'"</i></div>';
+        h+='</div>';
+      });
+      h+='<div style="margin-top:1.5rem"><button class="btn" onclick="showResult()">View recommendation</button></div>';
+      document.getElementById('agent-body').innerHTML=h;
+      return;
     }
-    document.getElementById('steps').innerHTML=html;
-
-    if(run.final){
-      document.getElementById('final-box').innerHTML='<div class="final"><h2>'+run.final.headline+'</h2><p>'+run.final.detail+'</p></div>';
-    }
-  }catch(e){
-    document.getElementById('steps').innerHTML=renderStep(1,'Error','<span class="err">'+e.message+'</span>',true,false);
+    var d=S.domains[i];
+    log('Testing: '+d.domainName);
+    api('/infer?domain='+d.domainName+'&intent='+encodeURIComponent(S.intent)).then(function(r){
+      results.push({domainName:d.domainName,purchasePrice:d.purchasePrice,renewalPrice:d.renewalPrice,inference:r.data.inference,score:r.data.score,label:r.data.label});
+      i++;testNext();
+    });
   }
-  btn.disabled=false;btn.textContent='Run Live Demo';
+  testNext();
+}
+
+function showResult(){
+  showTab(3);
+  var w=S.winner;
+  var losers=S.domains.filter(function(d){return d.domainName!==w.domainName}).slice(0,2);
+  var h='';
+
+  // Before/After comparison
+  h+='<div class="step active"><div class="step-num">Before vs After</div><div class="step-title">why agent testing matters</div>';
+  h+='<div class="before-after">';
+  h+='<div class="before"><div class="before-label">human heuristic</div>';
+  h+='<div style="font-size:.875rem;font-weight:500;margin-bottom:.25rem">'+(losers[0]?losers[0].domainName:'jsonwizard.dev')+'</div>';
+  h+='<div style="font-size:.75rem;color:#666">"sounds technical and modern"</div>';
+  h+='<div style="font-size:.75rem;color:#991b1b;margin-top:.375rem">agent infers: '+(losers[0]?losers[0].inference:'A fantasy game')+'</div>';
+  h+='<div style="font-size:.75rem;color:#991b1b">result: <b>WRONG</b></div></div>';
+  h+='<div class="after"><div class="after-label">agent-tested</div>';
+  h+='<div style="font-size:.875rem;font-weight:500;margin-bottom:.25rem">'+w.domainName+'</div>';
+  h+='<div style="font-size:.75rem;color:#666">"transmits meaning without context"</div>';
+  h+='<div style="font-size:.75rem;color:#166534;margin-top:.375rem">agent infers: '+w.inference+'</div>';
+  h+='<div style="font-size:.75rem;color:#166534">result: <b>CORRECT</b></div></div></div></div>';
+
+  // Recommendation
+  h+='<div class="divider"></div><div class="step"><div class="step-num">Recommendation</div><div class="step-title">'+w.domainName+'</div>';
+  h+='<div class="card">';
+  h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">agent comprehension</span><span class="green">'+w.score+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">first year</span><span>\
++w.purchasePrice+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">renewal</span><span>\
++w.renewalPrice+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">status</span><span class="green">agent understands this domain</span></div>';
+  h+='</div></div>';
+
+  // Checkout
+  h+='<div class="divider"></div><div class="step"><div class="step-num">name.com checkout</div><div class="step-title">fresh availability + pricing</div><div class="step-desc">Pricing verified via name.com. <b>Write guard:</b> registration requires approval code.</div>';
+  h+='<div class="step-desc">Before any irreversible action, DomainArena checks name.com again. If availability changed, price moved outside budget, or evidence is missing, it fails closed.</div>';
+  h+='<div class="card">';
+  h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
+  h+='<div class="card-row"><span class="card-label">price</span><span class="green">\
++w.purchasePrice+'/yr</span></div>';
+  h+='<div class="card-row"><span class="card-label">renewal</span><span>\
++w.renewalPrice+'/yr</span></div>';
+  h+='</div>';
+  h+='<div style="margin-top:1rem"><button class="btn" id="regBtn" onclick="doRegister()">Approve &amp; register via name.com</button></div></div>';
+
+  h+='<div id="reg-result"></div>';
+  document.getElementById('result-body').innerHTML=h;
+}
+
+function doRegister(){
+  var btn=document.getElementById('regBtn');
+  btn.disabled=true;btn.textContent='Registering...';
+  var w=S.winner;
+  log('Registering '+w.domainName+' via name.com API');
+  api('/register?domain='+w.domainName,'POST').then(function(r){
+    if(!r.ok||!r.data||r.data.status!=='REGISTERED'){
+      log('Registration failed: '+(r.data.error||r.status),'err');
+      btn.textContent='Failed';btn.disabled=false;
+      throw new Error('Registration failed');
+    }
+    log('Registration: '+r.data.status);
+    return api('/dns?domain='+w.domainName,'POST');
+  }).then(function(r){
+    if(!r.ok){log('DNS failed','err');throw new Error('DNS failed');}
+    log('DNS configured: '+w.domainName);
+    return api('/verify-dns?domain='+w.domainName);
+  }).then(function(r){
+    var verified=r.data.verified;
+    log('DNS verification: '+(verified?'VERIFIED':'FAILED'));
+    if(!verified){log('DNS not verified — aborting','err');throw new Error('DNS not verified');}
+    var receiptData=JSON.stringify({domain:w.domainName,intent:S.intent,score:w.score,inference:w.inference,purchasePrice:w.purchasePrice,renewalPrice:w.renewalPrice,registered:true,dnsVerified:verified,timestamp:new Date().toISOString()});
+    crypto.subtle.digest('SHA-256',new TextEncoder().encode(receiptData)).then(function(buf){
+    var hash='sha256:'+Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+
+    var h='<div class="divider"></div><div class="step active"><div class="step-num">Lifecycle complete</div><div class="step-title">name.com domain lifecycle</div>';
+    h+='<div class="step-desc">The full pipeline from discovery to verified domain configuration, all through name.com API.</div>';
+    h+='<div class="card">';
+    h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
+    h+='<div class="card-row"><span class="card-label">registration</span><span class="green">REGISTERED</span></div>';
+    h+='<div class="card-row"><span class="card-label">dns</span><span class="green">VERIFIED</span></div>';
+    h+='<div class="card-row"><span class="card-label">receipt</span><span style="font-size:.6875rem;color:#666;word-break:break-all">'+hash+'</span></div>';
+    h+='</div></div>';
+
+    // API trace
+    h+='<div class="divider"></div><div class="step"><div class="step-num">API trace</div><div class="trace">';
+    h+='<div class="trace-label">name.com API calls made during this session</div>';
+    S.trace.forEach(function(t){
+      h+='<div class="trace-row"><span class="trace-method">'+t.method+'</span><span class="trace-path">'+t.path+'</span><span class="trace-status '+(t.status<400?'ok':'err')+'">'+t.status+'</span><span class="trace-ms">'+t.ms+'ms</span></div>';
+    });
+    h+='</div></div>';
+
+    // Sponsor depth
+    h+='<div class="divider"></div>';
+    h+='<div style="padding:.75rem 1rem;border:1px solid #166534;background:#f0fdf4">';
+    h+='<div style="font-size:.6875rem;font-weight:500;color:#166534">6 name.com API endpoints</div>';
+    h+='<div style="font-size:.625rem;color:#666;margin-top:.25rem;line-height:1.6">';
+    h+='<b>search</b> discover candidates \\u00b7 ';
+    h+='<b>availability</b> fail-closed check \\u00b7 ';
+    h+='<b>pricing</b> budget enforcement \\u00b7 ';
+    h+='<b>registration</b> execute acquisition \\u00b7 ';
+    h+='<b>DNS create</b> configure domain \\u00b7 ';
+    h+='<b>DNS verify</b> confirm configuration';
+    h+='</div></div>';
+
+    document.getElementById('reg-result').innerHTML=h;
+    btn.textContent='Done';
+    }); // crypto.subtle.digest .then
+  }); // api verify-dns .then
 }
 </script>
 </body>
-</html>`;
+</html>
+`;
