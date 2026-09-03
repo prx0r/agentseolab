@@ -309,10 +309,15 @@ function extractKeywords(intent) {
 
 function nc(method, path, body, env) {
   const base = env.NAMECOM_BASE_URL || "https://api.name.com/v4";
-  const auth = btoa((env.NAMECOM_USERNAME || "") + ":" + (env.NAMECOM_TOKEN || ""));
+  const user = env.NAMECOM_USERNAME || "";
+  const token = env.NAMECOM_TOKEN || "";
+  if (!user || !token) {
+    return Promise.resolve({ error: "name.com credentials not configured (NAMECOM_USERNAME / NAMECOM_TOKEN)", status: 0 });
+  }
+  const auth = btoa(user + ":" + token);
   return fetch(base + path, {
     method,
-    headers: { "Authorization": "Basic " + auth, "Content-Type": "application/json" },
+    headers: { "Authorization": "Basic " + auth, "Content-Type": "application/json", "User-Agent": "DomainArena/0.2" },
     body: body ? JSON.stringify(body) : undefined,
   }).then(async r => {
     const text = await r.text();
@@ -485,7 +490,9 @@ export default {
     // GET /api/search (backward compat)
     if (url.pathname === "/api/search") {
       const keyword = url.searchParams.get("keyword") || "";
+      if (!keyword) return new Response(JSON.stringify({ error: "missing keyword", results: [] }), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
       const results = await nc("POST", "/domains:search", { keyword }, env);
+      if (results.error) return new Response(JSON.stringify({ error: results.error, status: results.status, results: [] }), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
       const enriched = [];
       for (const d of (results.results || []).slice(0, 8)) {
         const price = await nc("GET", "/domains/" + d.domainName + ":getPricing", null, env).catch(() => ({}));
@@ -513,493 +520,32 @@ export default {
       } catch (e) { return new Response(JSON.stringify({ error: e.message }), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }); }
     }
 
+    // GET /api/check — check availability
+    if (url.pathname === "/api/check") {
+      const domain = url.searchParams.get("domain") || "";
+      const r = await nc("POST", "/domains:checkAvailability", { domains: [domain] }, env);
+      return new Response(JSON.stringify({ available: !r.error, domain, status: r.error ? "unavailable" : "available" }), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
+    }
+
+    // GET /api/register — register domain
+    if (url.pathname === "/api/register") {
+      const domain = url.searchParams.get("domain") || "";
+      const r = await nc("POST", "/domains", { domain: { domainName: domain } }, env);
+      return new Response(JSON.stringify({ status: r.error ? "failed" : "registered", domain, order: r.order_number || r.domain?.order_number || null, error: r.error || null }), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
+    }
+
+    // GET /api/dns — create DNS TXT record and verify
+    if (url.pathname === "/api/dns") {
+      const domain = url.searchParams.get("domain") || "";
+      await nc("POST", "/domains/" + domain + "/records", { record: { type: "TXT", name: "_domainarena", data: "domainarena-run=" + Date.now(), ttl: 300 } }, env);
+      const readback = await nc("GET", "/domains/" + domain + "/records", null, env);
+      const records = readback.records || readback.result || [];
+      const verified = records.some(r => (r.name || r.Name || "").includes("_domainarena"));
+      return new Response(JSON.stringify({ verified, records: records.length, domain }), { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } });
+    }
+
     return new Response("not found", { status: 404 });
   },
 };
 
-const PAGE = String.raw`<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DomainArena</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Source Code Pro',monospace;background:#fafafa;color:#111;line-height:1.6;-webkit-font-smoothing:antialiased}
-.wrap{max-width:820px;margin:0 auto;padding:2rem 2rem}
-h1{font-size:1.1rem;font-weight:600;letter-spacing:-.02em}
-.sub{font-size:.75rem;color:#888;margin-top:.25rem}
-.live{display:inline-block;font-size:.5625rem;padding:.15rem .5rem;border:1px solid #166534;color:#166534;margin-left:.5rem;font-weight:500}
-.tabs{display:flex;gap:0;margin-top:2rem;border-bottom:1px solid #ddd}
-.tab{padding:.6rem 1.2rem;font-size:.75rem;font-weight:500;color:#999;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
-.tab:hover{color:#111}.tab.active{color:#111;border-bottom-color:#111}
-.panel{display:none;padding:1.5rem 0}.panel.active{display:block}
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:.625rem;color:#999;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.375rem;font-weight:500}
-.field input{width:100%;padding:.6rem .75rem;border:1px solid #ddd;font-family:'Source Code Pro',monospace;font-size:.8125rem;background:#fff;outline:none}
-.field input:focus{border-color:#111}
-.btn{font-family:'Source Code Pro',monospace;font-size:.75rem;font-weight:500;padding:.6rem 1.2rem;border:1px solid #111;background:#111;color:#fff;cursor:pointer;transition:all .15s}
-.btn:hover{background:#333}.btn:disabled{background:#ccc;border-color:#ccc;cursor:not-allowed}
-.green{color:#166534}.red{color:#991b1b}.orange{color:#92400e}
-.badge{font-size:.5625rem;padding:.15rem .4rem;border:1px solid;display:inline-block;font-weight:500;letter-spacing:.03em}
-.badge-green{border-color:#166534;color:#166534}.badge-gray{border-color:#999;color:#999}.badge-orange{border-color:#92400e;color:#92400e}
-table{width:100%;border-collapse:collapse;margin-top:.5rem}
-td{padding:.35rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem}
-td:first-child{font-weight:500;color:#666;width:140px}
-.card{background:#fff;border:1px solid #eee;padding:1rem;margin-top:.75rem}
-.card-row{display:flex;justify-content:space-between;padding:.25rem 0;border-bottom:1px solid #f8f8f8;font-size:.75rem}
-.card-row:last-child{border-bottom:none}
-.card-label{color:#888}
-.step{border-left:2px solid #eee;padding-left:1rem;margin-top:1rem}
-.step.active{border-left-color:#111}
-.step-num{font-size:.5625rem;color:#999;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
-.step-title{font-size:.875rem;font-weight:500;margin-top:.2rem}
-.step-desc{font-size:.75rem;color:#666;margin-top:.25rem;line-height:1.5}
-.receipt{background:#f8f8f8;border:1px solid #eee;padding:.75rem 1rem;margin-top:.75rem;font-size:.75rem}
-.receipt-hash{word-break:break-all;font-size:.6875rem;color:#666;margin-top:.25rem;font-family:'Source Code Pro',monospace}
-.trace{margin-top:.75rem}
-.trace-row{display:flex;gap:.5rem;font-size:.6875rem;padding:.25rem 0;border-bottom:1px solid #f8f8f8}
-.trace-method{font-weight:600;min-width:36px;color:#111}
-.trace-path{flex:1;color:#666}
-.trace-status{font-weight:500;min-width:28px}
-.trace-status.ok{color:#166534}.trace-status.err{color:#991b1b}
-.trace-ms{color:#999;text-align:right;min-width:45px}
-.trace-label{font-size:.5625rem;color:#bbb;margin-bottom:.25rem}
-.divider{border-top:1px solid #eee;margin:1.5rem 0}
-.loading{color:#999;font-size:.75rem;padding:1rem 0}
-.fade-in{animation:fadeIn .3s ease-in}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.log{background:#111;color:#a8b1c2;padding:.75rem 1rem;margin-top:.75rem;font-size:.6875rem;max-height:250px;overflow-y:auto;font-family:'Source Code Pro',monospace}
-.log-line{padding:.1rem 0}
-.log-ts{color:#636d83}.log-ok{color:#99c794}.log-err{color:#ec5f67}.log-info{color:#85c7c4}.log-api{color:#c594c5}
-.explain{background:#f0f8ff;border:1px solid #d0e0f0;padding:.5rem .75rem;margin-top:.5rem;font-size:.6875rem;color:#334155;line-height:1.5}
-.explain b{color:#111}
-.explain-title{font-size:.5625rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem}
-.before-after{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.75rem}
-.before{border:1px solid #fde8e8;padding:.75rem;background:#fef2f2}
-.after{border:1px solid #d1fae5;padding:.75rem;background:#f0fdf4}
-.before-label,.after-label{font-size:.5625rem;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem}
-.before-label{color:#991b1b}.after-label{color:#166534}
-.endpoint{display:flex;align-items:center;gap:.5rem;padding:.4rem 0;border-bottom:1px solid #f8f8f8;font-size:.75rem}
-.endpoint-method{font-weight:600;min-width:28px;font-size:.6875rem}.endpoint-method.get{color:#166534}.endpoint-method.post{color:#1d4ed8}
-.endpoint-path{flex:1;color:#666}
-.endpoint-desc{color:#999;font-size:.6875rem}
-footer{margin-top:3rem;padding-top:1rem;border-top:1px solid #eee;font-size:.5625rem;color:#bbb;display:flex;justify-content:space-between}
-footer a{color:#999}
-</style>
-</head>
-<body>
-<div class="wrap">
-
-<div style="padding:2rem 0 1.5rem;border-bottom:1px solid #eee">
-<h1>DomainArena<span class="live">LIVE</span></h1>
-<div style="font-size:.85rem;color:#888;margin-bottom:1rem;max-width:600px">A/B testing for domain names in the agentic web. Blind agent comprehension, evidence-backed recommendations, name.com lifecycle.</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
-  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
-    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">What we built</div>
-    <div style="font-size:.78rem;line-height:1.5">A <b>domain testing engine</b> that asks AI agents what they think a domain means &mdash; without any context. name.com discovers available names, blind inference tests comprehension, and the full lifecycle runs from search to DNS verification.</div>
-  </div>
-  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
-    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">What it solves</div>
-    <div style="font-size:.78rem;line-height:1.5"><b>The thing discovering your service is an AI agent.</b> But nobody measures whether agents can infer what service sits behind a domain. You buy on intuition, deploy, and hope the machine audience finds you.</div>
-  </div>
-  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
-    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">How it works</div>
-    <div style="font-size:.78rem;line-height:1.5"><b>name.com inventory &rarr; blind inference &rarr; independent scoring &rarr; human approval &rarr; registration &rarr; DNS verification &rarr; SHA-256 receipt.</b> Every step has provenance. The agent never sees the product description.</div>
-  </div>
-</div>
-</div>
-
-<div class="tabs">
-<div class="tab active" onclick="showTab(0)">1. Intent</div>
-<div class="tab" onclick="showTab(1)">2. Discovery</div>
-<div class="tab" onclick="showTab(2)">3. Agent Test</div>
-<div class="tab" onclick="showTab(3)">4. Result</div>
-<div class="tab" onclick="showTab(4)">5. Findings</div>
-<div class="tab" onclick="showTab(5)">6. Frontier</div>
-</div>
-
-<!-- TAB 0: INTENT -->
-<div class="panel active" id="p0">
-<div class="field">
-<label>What are you building?</label>
-<input type="text" id="intent" placeholder="e.g. A JSON repair API for AI agents" value="A JSON repair API for AI agents that validates and repairs malformed JSON">
-</div>
-
-<div class="explain">
-<div class="explain-title">how this works</div>
-<b>DomainArena</b> tests candidate domains against AI agents using <b>blind semantic inversion</b> &mdash; agents see only the domain name, never the product description. If an agent can correctly infer what service sits behind a domain without context, that domain transmits meaning effectively.
-</div>
-
-<div style="margin-top:1.5rem">
-<div class="step-num">name.com endpoints used</div>
-<div style="margin-top:.5rem">
-<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains:search</span><span class="endpoint-desc">discover available candidates</span></div>
-<div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/domains/{name}:getPricing</span><span class="endpoint-desc">verify pricing</span></div>
-<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains</span><span class="endpoint-desc">register domain</span></div>
-<div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/domains/{name}/records</span><span class="endpoint-desc">configure DNS</span></div>
-<div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/domains/{name}/records</span><span class="endpoint-desc">verify DNS</span></div>
-</div>
-</div>
-
-<div class="explain" style="margin-top:.75rem">
-<div class="explain-title">research foundation</div>
-Built on <b>16 experiments across 7+ model families</b> studying how AI agents discover and select tools. Key findings: agents are vulnerable to <b>description bias</b>, <b>position effects</b>, and <b>model-specific interpretations</b>.
-</div>
-<button class="btn" style="margin-top:1.5rem" onclick="startDiscovery()">Search name.com inventory</button>
-</div>
-
-<!-- TAB 1: DISCOVERY -->
-<div class="panel" id="p1">
-<div class="step active">
-<div class="step-num">Step 1 — Live Search</div>
-<div class="step-title">name.com domain discovery</div>
-<div class="step-desc">Querying name.com for available domains matching your intent. Each result includes live pricing.</div>
-<div class="step-body" id="discovery-body"><div class="loading">querying name.com API...</div></div>
-</div>
-<div class="explain" style="margin-top:1rem">
-<div class="explain-title">what's happening</div>
-<b>POST /domains:search</b> sends your intent keyword to name.com's domain discovery API. name.com returns candidate domains with availability status. For each candidate, we call <b>GET /domains/{name}:getPricing</b> to get fresh purchase and renewal prices. This ensures the recommendation is based on real, current market data.
-</div>
-</div>
-
-<!-- TAB 2: AGENT TEST -->
-<div class="panel" id="p2">
-<div class="step active">
-<div class="step-num">Step 2 — Blind Comprehension</div>
-<div class="step-title">agent semantic inversion test</div>
-<div class="step-desc">Each domain shown to AI agents with <b>zero context</b>. What do they infer?</div>
-<div class="step-body" id="agent-body"><div class="loading">running blind comprehension tests...</div></div>
-</div>
-
-<div class="explain" style="margin-top:1rem">
-<div class="explain-title">live run</div>
-Each domain is tested with <b>Llama 3.3 70B</b> for blind inference, scored by an <b>independent Mistral evaluator</b>. Generator/judge separation ensures the tested model never scores itself. The Research tab contains our larger cross-family and randomized experiments.
-</div>
-<div class="explain" style="margin-top:1rem">
-<div class="explain-title">what's happening</div>
-<b>Semantic inversion</b> flips the normal evaluation: instead of asking "is this a good name?" we ask "what does an agent think this name means?" The agent sees only the domain — no description, no website, no context. Its inference is scored against your frozen product intent. <b>Generator/judge separation</b> ensures the tested model never scores itself. This is the same experimental methodology used in academic agent-comprehension research.
-</div>
-</div>
-
-<!-- TAB 3: RESULT -->
-<div class="panel" id="p3">
-<div id="result-body"></div>
-</div>
-
-
-<!-- TAB 4: FINDINGS -->
-<div class="panel" id="p4">
-<div class="step active">
-<div class="step-num">Research Findings</div>
-<div class="step-title">counterintuitive discoveries from 16 experiments</div>
-<div class="step-desc">What we learned challenges common assumptions about domain naming for AI agents.</div>
-</div>
-
-<div class="explain" style="margin-top:1rem">
-<div class="explain-title">finding 1: description seduction is real</div>
-Some model families selected <b>broken tools</b> when they had enterprise-sounding descriptions. A tool with a polished description but non-functional API was chosen over a working tool with a plain description. <b>Agent discovery systems can be manipulated by presentation rather than actual capability.</b>
-</div>
-
-<div class="explain">
-<div class="explain-title">finding 2: position dominates domain choice</div>
-In pairwise tests, <b>87% of agents picked the first option</b> regardless of which domain was shown. TLD effects (.com vs .dev vs .ai) were statistically insignificant within the same position. <b>Order matters more than extension.</b>
-</div>
-
-<div class="explain">
-<div class="explain-title">finding 3: models disagree materially</div>
-Llama 3.3, Mistral Small, and Qwen3 produced <b>different rankings for the same domains</b>. A domain cannot be called "agent-legible" based on one model. Cross-family replication is essential.
-</div>
-
-<div class="explain">
-<div class="explain-title">finding 4: semantic inversion is a cheap proxy</div>
-AgentSearchBench (10,000 agents) shows that <b>description similarity is weaker than execution-grounded performance</b> for ranking. Blind inference is a useful first filter, but execution testing is ground truth.
-</div>
-
-<div class="explain">
-<div class="explain-title">finding 5: serverless inference drifts</b></div>
-Identical prompts at temperature zero produced <b>materially different choices across time windows</b>. One-shot domain ratings are scientifically weak. DomainArena replicates across windows.
-</div>
-
-<div class="step" style="margin-top:1.5rem">
-<div class="step-num">Real experiment data</div>
-<div class="step-title">jsonrepair experiment results</div>
-<div class="step-body">
-<table>
-<tr><td>intent</td><td>Repairs malformed JSON for AI agents</td></tr>
-<tr><td>candidates tested</td><td>5 domains</td></tr>
-<tr><td>models tested</td><td>Llama 3.3, Mistral Small</td></tr>
-<tr><td>jsonrepair.dev</td><td class="green">score 0.9 — agent infers "JSON repair tool"</td></tr>
-<tr><td>velora.com</td><td class="red">score 0.1 — agent infers "technology company"</td></tr>
-<tr><td>winner</td><td class="green">jsonrepair.dev (consistently understood across families)</td></tr>
-</table>
-</div>
-</div>
-</div>
-
-<!-- TAB 5: FRONTIER -->
-<div class="panel" id="p5">
-<div class="step active">
-<div class="step-num">Frontier Evidence</div>
-<div class="step-title">why this matters now</div>
-</div>
-
-<div class="explain" style="margin-top:.75rem">
-<div class="explain-title">the shift</div>
-<b>93% of Google searches now end without a click</b> — AI Overviews answer directly. Meanwhile, Cloudflare reports agents are making <b>billions of API calls daily</b>. The customer discovering your service is increasingly a machine, not a human.
-</div>
-
-<div style="margin-top:1rem;font-size:.6875rem;font-weight:500;color:#666">SUPPORTING RESEARCH</div>
-
-<table style="margin-top:.5rem">
-<tr><td style="width:auto;padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2601.17617" style="color:#1d4ed8;text-decoration:none">14.44M agent search requests</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Agents iteratively reformulate queries using retrieved evidence. Domain must be discoverable at every step.</td></tr>
-<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2604.22436" style="color:#1d4ed8;text-decoration:none">AgentSearchBench (9,847 agents)</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Description similarity is weaker than execution-grounded performance for ranking agents.</td></tr>
-<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2406.07791" style="color:#1d4ed8;text-decoration:none">Position bias in LLM judges</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">87% of LLM judges pick slot 0. DomainArena uses AB/BA randomization to control for this.</td></tr>
-<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2509.08919" style="color:#1d4ed8;text-decoration:none">AI search engines differ</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Engine-specific differences in sourcing, freshness, domain diversity. One universal score is insufficient.</td></tr>
-<tr><td style="padding:.4rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><a href="https://arxiv.org/abs/2407.12883" style="color:#1d4ed8;text-decoration:none">BRIGHT: reasoning-intensive retrieval</a></td><td style="font-size:.6875rem;color:#666;border-bottom:1px solid #f0f0f0">Semantic/lexical overlap alone is insufficient for agent task completion.</td></tr>
-<tr><td style="padding:.4rem 0;font-size:.75rem"><a href="https://arxiv.org/abs/2602.12187" style="color:#1d4ed8;text-decoration:none">SAGEO: search-augmented GEO</a></td><td style="font-size:.6875rem;color:#666">Evaluation on predetermined candidates omits retrieval/reranking. Real visibility requires end-to-end measurement.</td></tr>
-</table>
-
-<div style="margin-top:1rem;font-size:.6875rem;font-weight:500;color:#666">WHAT DOMAINARENA MEASURES</div>
-
-<div class="card" style="margin-top:.5rem">
-<div class="card-row"><span class="card-label">agent comprehension</span><span>Can agents infer your service from the domain?</span></div>
-<div class="card-row"><span class="card-label">cross-family agreement</span><span>Do multiple model families agree?</span></div>
-<div class="card-row"><span class="card-label">position robustness</span><span>Does preference hold across presentation orders?</span></div>
-<div class="card-row"><span class="card-label">cold-start discovery</span><span>Will agents find you with zero prior awareness?</span></div>
-</div>
-
-<div style="margin-top:1rem;font-size:.6875rem;font-weight:500;color:#666">THE MARKET</div>
-
-<div class="card" style="margin-top:.5rem">
-<div class="card-row"><span class="card-label">Cloudflare</span><span>Agent Readiness + Registrar API for agents</span></div>
-<div class="card-row"><span class="card-label">Google</span><span>AI Overviews answer 93% of searches directly</span></div>
-<div class="card-row"><span class="card-label">AgentDNS</span><span>Root domain naming for agent service discovery</span></div>
-<div class="card-row"><span class="card-label">name.com</span><span>6 API endpoints for full domain lifecycle</span></div>
-</div>
-
-<div class="explain" style="margin-top:.75rem">
-<div class="explain-title">the opportunity</div>
-<b>Before the website exists, before Agent Readiness, before an agent registers the domain: which hostname should the machine audience see?</b> That is DomainArena — pre-deployment optimization for the agent web.
-</div>
-</div>
-
-<div class="divider"></div>
-<div style="font-size:.5625rem;color:#999;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:.375rem">live api trace</div>
-<div class="log" id="log"></div>
-
-<footer>
-<span>DomainArena v0.2.0 — 6 name.com endpoints · MCP server · 148 tests</span>
-<span><a href="https://github.com/prx0r/agentseolab">github</a></span>
-</footer>
-</div>
-
-<script>
-var S={tab:0,domains:[],winner:null,trace:[],intent:'',intentHash:''};
-
-function log(m,c){
-  c=c||'info';
-  var e=document.getElementById('log');
-  var t=new Date().toISOString().slice(11,19);
-  e.innerHTML+='<div class="log-line"><span class="log-ts">['+t+']</span> <span class="log-'+c+'">'+m+'</span></div>';
-  e.scrollTop=e.scrollHeight;
-}
-
-function showTab(i){
-  S.tab=i;
-  document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('active',j===i)});
-  document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i)});
-}
-
-function api(path,method,body){
-  var t0=performance.now();
-  var m=method||'GET';
-  var bodyStr=body?JSON.stringify(body):'';
-  log('API '+m+' /api'+path.replace('/api',''),'api');
-  var opts={method:m,headers:{'Content-Type':'application/json'}};
-  if(body)opts.body=bodyStr;
-  return fetch('/api'+path,opts).then(function(r){
-    var ms=Math.round(performance.now()-t0);
-    S.trace.push({method:m,path:'/api'+path.replace('/api',''),status:r.status,ms:ms});
-    log('\\u2190 '+r.status+' ('+ms+'ms)',r.ok?'ok':'err');
-    return r.json().then(function(d){return{data:d,status:r.status,ms:ms};});
-  });
-}
-
-function showTabTab(i){document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('active',j===i)});document.querySelectorAll('.panel').forEach(function(p,j){p.classList.toggle('active',j===i)});}
-function startDiscovery(){
-  var intent=document.getElementById('intent').value.trim();
-  if(!intent){log('Enter what you are building','err');return;}
-  S.intent=intent;
-  showTab(1);
-  document.getElementById('discovery-body').innerHTML='<div class="loading">searching name.com inventory...</div>';
-  log('Pipeline started: "'+intent+'"');
-  var stopwords=['a','an','the','for','and','or','of','to','in','on','with','that','is','it','by','at','as','from','this','your','my','our','can','be','do','if','no','not','but','are','was','has','had','have','will','would','could','should','may','might','shall','let','us','you','me','he','she','we','they','them','their','its','his','her','our','who','which','what','where','when','how','why','all','each','every','both','few','more','most','other','some','such','than','too','very','just','about','above','after','again','against','between','into','through','during','before','below','under','over','own','same','so','then','once','here','there','also','only','new','old','right','big','small'];
-  var words=intent.toLowerCase().replace(/[^a-z0-9\\s]/g,'').split(/\\s+/).filter(function(w){return w.length>2&&stopwords.indexOf(w)===-1;});
-  var kw=words.slice(0,2).join('');
-  if(kw.length<3) kw=words[0]||'api';
-  log('Extracted keyword: '+kw);
-  api('/search?keyword='+kw).then(function(r){
-    S.domains=(r.data.results||[]).slice(0,5);
-    if(!S.domains.length){log('No available domains found','err');document.getElementById('discovery-body').innerHTML='<div class="loading">No available domains. Try different terms.</div>';return;}
-    log('Found '+S.domains.length+' domains with live pricing');
-    var h='<table><tr><td style="font-size:.625rem;color:#999">DOMAIN</td><td style="font-size:.625rem;color:#999;text-align:right">PRICE/YR</td><td style="font-size:.625rem;color:#999;text-align:right">RENEWAL</td></tr>';
-    S.domains.forEach(function(d){h+='<tr><td>'+d.domainName+'</td><td style="text-align:right;font-weight:500">\
-+(d.purchasePrice||'?')+'</td><td style="text-align:right;color:#666">\
-+(d.renewalPrice||'?')+'</td></tr>';});
-    h+='</table>';
-    h+='<div style="margin-top:1.5rem"><button class="btn" onclick="startAgentTest()">Run blind agent comprehension test</button></div>';
-    document.getElementById('discovery-body').innerHTML=h;
-  });
-}
-
-function startAgentTest(){
-  showTab(2);
-  document.getElementById('agent-body').innerHTML='<div class="loading">sending each domain to AI agents blind (no context)...</div>';
-  log('Testing '+S.domains.length+' domains with blind semantic inversion');
-  var results=[];var i=0;
-  function testNext(){
-    if(i>=S.domains.length){
-      S.domains=results;
-      S.winner=results.sort(function(a,b){return b.score-a.score})[0];
-      log('Winner selected: '+S.winner.domainName+' (score: '+S.winner.score+')');
-      var h='';
-      results.forEach(function(d){
-        var cls=d.label==='match'?'green':'gray';
-        h+='<div class="fade-in" style="margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #f0f0f0">';
-        h+='<div style="display:flex;justify-content:space-between;align-items:center">';
-        h+='<span style="font-weight:500;font-size:.875rem">'+d.domainName+'</span>';
-        h+='<span class="badge badge-'+cls+'">'+d.label.toUpperCase()+' '+d.score+'</span>';
-        h+='</div>';
-        h+='<div style="font-size:.75rem;color:#666;margin-top:.375rem">agent infers: <i>"'+d.inference+'"</i></div>';
-        h+='</div>';
-      });
-      h+='<div style="margin-top:1.5rem"><button class="btn" onclick="showResult()">View recommendation</button></div>';
-      document.getElementById('agent-body').innerHTML=h;
-      return;
-    }
-    var d=S.domains[i];
-    log('Testing: '+d.domainName);
-    api('/infer?domain='+d.domainName+'&intent='+encodeURIComponent(S.intent)).then(function(r){
-      results.push({domainName:d.domainName,purchasePrice:d.purchasePrice,renewalPrice:d.renewalPrice,inference:r.data.inference,score:r.data.score,label:r.data.label});
-      i++;testNext();
-    });
-  }
-  testNext();
-}
-
-function showResult(){
-  showTab(3);
-  var w=S.winner;
-  var losers=S.domains.filter(function(d){return d.domainName!==w.domainName}).slice(0,2);
-  var h='';
-
-  // Before/After comparison
-  h+='<div class="step active"><div class="step-num">Before vs After</div><div class="step-title">why agent testing matters</div>';
-  h+='<div class="before-after">';
-  h+='<div class="before"><div class="before-label">human heuristic</div>';
-  h+='<div style="font-size:.875rem;font-weight:500;margin-bottom:.25rem">'+(losers[0]?losers[0].domainName:'jsonwizard.dev')+'</div>';
-  h+='<div style="font-size:.75rem;color:#666">"sounds technical and modern"</div>';
-  h+='<div style="font-size:.75rem;color:#991b1b;margin-top:.375rem">agent infers: '+(losers[0]?losers[0].inference:'A fantasy game')+'</div>';
-  h+='<div style="font-size:.75rem;color:#991b1b">result: <b>WRONG</b></div></div>';
-  h+='<div class="after"><div class="after-label">agent-tested</div>';
-  h+='<div style="font-size:.875rem;font-weight:500;margin-bottom:.25rem">'+w.domainName+'</div>';
-  h+='<div style="font-size:.75rem;color:#666">"transmits meaning without context"</div>';
-  h+='<div style="font-size:.75rem;color:#166534;margin-top:.375rem">agent infers: '+w.inference+'</div>';
-  h+='<div style="font-size:.75rem;color:#166534">result: <b>CORRECT</b></div></div></div></div>';
-
-  // Recommendation
-  h+='<div class="divider"></div><div class="step"><div class="step-num">Recommendation</div><div class="step-title">'+w.domainName+'</div>';
-  h+='<div class="card">';
-  h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
-  h+='<div class="card-row"><span class="card-label">agent comprehension</span><span class="green">'+w.score+'</span></div>';
-  h+='<div class="card-row"><span class="card-label">first year</span><span>\
-+w.purchasePrice+'</span></div>';
-  h+='<div class="card-row"><span class="card-label">renewal</span><span>\
-+w.renewalPrice+'</span></div>';
-  h+='<div class="card-row"><span class="card-label">status</span><span class="green">agent understands this domain</span></div>';
-  h+='</div></div>';
-
-  // Checkout
-  h+='<div class="divider"></div><div class="step"><div class="step-num">name.com checkout</div><div class="step-title">fresh availability + pricing</div><div class="step-desc">Pricing verified via name.com. <b>Write guard:</b> registration requires approval code.</div>';
-  h+='<div class="step-desc">Before any irreversible action, DomainArena checks name.com again. If availability changed, price moved outside budget, or evidence is missing, it fails closed.</div>';
-  h+='<div class="card">';
-  h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
-  h+='<div class="card-row"><span class="card-label">price</span><span class="green">\
-+w.purchasePrice+'/yr</span></div>';
-  h+='<div class="card-row"><span class="card-label">renewal</span><span>\
-+w.renewalPrice+'/yr</span></div>';
-  h+='</div>';
-  h+='<div style="margin-top:1rem"><button class="btn" id="regBtn" onclick="doRegister()">Approve &amp; register via name.com</button></div></div>';
-
-  h+='<div id="reg-result"></div>';
-  document.getElementById('result-body').innerHTML=h;
-}
-
-function doRegister(){
-  var btn=document.getElementById('regBtn');
-  btn.disabled=true;btn.textContent='Registering...';
-  var w=S.winner;
-  log('Registering '+w.domainName+' via name.com API');
-  api('/register?domain='+w.domainName,'POST').then(function(r){
-    if(!r.ok||!r.data||r.data.status!=='REGISTERED'){
-      log('Registration failed: '+(r.data.error||r.status),'err');
-      btn.textContent='Failed';btn.disabled=false;
-      throw new Error('Registration failed');
-    }
-    log('Registration: '+r.data.status);
-    return api('/dns?domain='+w.domainName,'POST');
-  }).then(function(r){
-    if(!r.ok){log('DNS failed','err');throw new Error('DNS failed');}
-    log('DNS configured: '+w.domainName);
-    return api('/verify-dns?domain='+w.domainName);
-  }).then(function(r){
-    var verified=r.data.verified;
-    log('DNS verification: '+(verified?'VERIFIED':'FAILED'));
-    if(!verified){log('DNS not verified — aborting','err');throw new Error('DNS not verified');}
-    var receiptData=JSON.stringify({domain:w.domainName,intent:S.intent,score:w.score,inference:w.inference,purchasePrice:w.purchasePrice,renewalPrice:w.renewalPrice,registered:true,dnsVerified:verified,timestamp:new Date().toISOString()});
-    crypto.subtle.digest('SHA-256',new TextEncoder().encode(receiptData)).then(function(buf){
-    var hash='sha256:'+Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
-
-    var h='<div class="divider"></div><div class="step active"><div class="step-num">Lifecycle complete</div><div class="step-title">name.com domain lifecycle</div>';
-    h+='<div class="step-desc">The full pipeline from discovery to verified domain configuration, all through name.com API.</div>';
-    h+='<div class="card">';
-    h+='<div class="card-row"><span class="card-label">domain</span><span style="font-weight:500">'+w.domainName+'</span></div>';
-    h+='<div class="card-row"><span class="card-label">registration</span><span class="green">REGISTERED</span></div>';
-    h+='<div class="card-row"><span class="card-label">dns</span><span class="green">VERIFIED</span></div>';
-    h+='<div class="card-row"><span class="card-label">receipt</span><span style="font-size:.6875rem;color:#666;word-break:break-all">'+hash+'</span></div>';
-    h+='</div></div>';
-
-    // API trace
-    h+='<div class="divider"></div><div class="step"><div class="step-num">API trace</div><div class="trace">';
-    h+='<div class="trace-label">name.com API calls made during this session</div>';
-    S.trace.forEach(function(t){
-      h+='<div class="trace-row"><span class="trace-method">'+t.method+'</span><span class="trace-path">'+t.path+'</span><span class="trace-status '+(t.status<400?'ok':'err')+'">'+t.status+'</span><span class="trace-ms">'+t.ms+'ms</span></div>';
-    });
-    h+='</div></div>';
-
-    // Sponsor depth
-    h+='<div class="divider"></div>';
-    h+='<div style="padding:.75rem 1rem;border:1px solid #166534;background:#f0fdf4">';
-    h+='<div style="font-size:.6875rem;font-weight:500;color:#166534">6 name.com API endpoints</div>';
-    h+='<div style="font-size:.625rem;color:#666;margin-top:.25rem;line-height:1.6">';
-    h+='<b>search</b> discover candidates \\u00b7 ';
-    h+='<b>availability</b> fail-closed check \\u00b7 ';
-    h+='<b>pricing</b> budget enforcement \\u00b7 ';
-    h+='<b>registration</b> execute acquisition \\u00b7 ';
-    h+='<b>DNS create</b> configure domain \\u00b7 ';
-    h+='<b>DNS verify</b> confirm configuration';
-    h+='</div></div>';
-
-    document.getElementById('reg-result').innerHTML=h;
-    btn.textContent='Done';
-    }); // crypto.subtle.digest .then
-  }); // api verify-dns .then
-}
-</script>
-</body>
-</html>
-`;
+const PAGE = atob("PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+RG9tYWluQXJlbmE8L3RpdGxlPgo8c3R5bGU+Cip7bWFyZ2luOjA7cGFkZGluZzowO2JveC1zaXppbmc6Ym9yZGVyLWJveH0KYm9keXtmb250LWZhbWlseTonU291cmNlIENvZGUgUHJvJyxtb25vc3BhY2U7YmFja2dyb3VuZDojZmFmYWZhO2NvbG9yOiMxMTE7bGluZS1oZWlnaHQ6MS42fQoud3JhcHttYXgtd2lkdGg6ODIwcHg7bWFyZ2luOjAgYXV0bztwYWRkaW5nOjJyZW19Cmgxe2ZvbnQtc2l6ZToxLjFyZW07Zm9udC13ZWlnaHQ6NjAwfQoubGl2ZXtkaXNwbGF5OmlubGluZS1ibG9jaztmb250LXNpemU6LjU2MjVyZW07cGFkZGluZzouMTVyZW0gLjVyZW07Ym9yZGVyOjFweCBzb2xpZCAjMTY2NTM0O2NvbG9yOiMxNjY1MzQ7bWFyZ2luLWxlZnQ6LjVyZW19Ci5idG57Zm9udC1mYW1pbHk6bW9ub3NwYWNlO2ZvbnQtc2l6ZTouNzVyZW07cGFkZGluZzouNnJlbSAxLjJyZW07Ym9yZGVyOjFweCBzb2xpZCAjMTExO2JhY2tncm91bmQ6IzExMTtjb2xvcjojZmZmO2N1cnNvcjpwb2ludGVyfQouYnRuOmhvdmVye2JhY2tncm91bmQ6IzMzM30KLmJ0bjpkaXNhYmxlZHtiYWNrZ3JvdW5kOiNjY2M7Ym9yZGVyLWNvbG9yOiNjY2M7Y3Vyc29yOm5vdC1hbGxvd2VkfQouZ3JlZW57Y29sb3I6IzE2NjUzNH0ucmVke2NvbG9yOiM5OTFiMWJ9Ci5jYXJke2JhY2tncm91bmQ6I2ZmZjtib3JkZXI6MXB4IHNvbGlkICNlZWU7cGFkZGluZzoxcmVtO21hcmdpbi10b3A6Ljc1cmVtfQouY2FyZC1yb3d7ZGlzcGxheTpmbGV4O2p1c3RpZnktY29udGVudDpzcGFjZS1iZXR3ZWVuO3BhZGRpbmc6LjI1cmVtIDA7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgI2Y4ZjhmODtmb250LXNpemU6Ljc1cmVtfQouY2FyZC1sYWJlbHtjb2xvcjojODg4fQoubG9ne2JhY2tncm91bmQ6IzExMTtjb2xvcjojYThiMWMyO3BhZGRpbmc6Ljc1cmVtIDFyZW07bWFyZ2luLXRvcDoxcmVtO2ZvbnQtc2l6ZTouNjg3NXJlbTttYXgtaGVpZ2h0OjMwMHB4O292ZXJmbG93LXk6YXV0bzt3aGl0ZS1zcGFjZTpwcmUtd3JhcDt3b3JkLWJyZWFrOmJyZWFrLWFsbH0KLmVyci1ib3h7Y29sb3I6Izk5MWIxYjtwYWRkaW5nOjFyZW07YmFja2dyb3VuZDojZmVmMmYyO2JvcmRlcjoxcHggc29saWQgI2ZlY2FjYTttYXJnaW4tdG9wOjFyZW19Ci5vay1ib3h7Y29sb3I6IzE2NjUzNDtwYWRkaW5nOjFyZW07YmFja2dyb3VuZDojZjBmZGY0O2JvcmRlcjoxcHggc29saWQgI2JiZjdkMDttYXJnaW4tdG9wOjFyZW19CnRhYmxle3dpZHRoOjEwMCU7Ym9yZGVyLWNvbGxhcHNlOmNvbGxhcHNlO21hcmdpbi10b3A6LjVyZW19CnRke3BhZGRpbmc6LjM1cmVtIDA7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgI2YwZjBmMDtmb250LXNpemU6Ljc1cmVtfQp0ZDpmaXJzdC1jaGlsZHtmb250LXdlaWdodDo1MDA7Y29sb3I6IzY2Nn0KLmxvYWRpbmd7Y29sb3I6Izk5OTtmb250LXNpemU6Ljc1cmVtO3BhZGRpbmc6MXJlbSAwfQo8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5Pgo8ZGl2IGNsYXNzPSJ3cmFwIj4KPGgxPkRvbWFpbkFyZW5hPHNwYW4gY2xhc3M9ImxpdmUiPkxJVkU8L3NwYW4+PC9oMT4KPHAgc3R5bGU9ImZvbnQtc2l6ZTouODVyZW07Y29sb3I6Izg4ODttYXJnaW46LjVyZW0gMCAxLjVyZW0iPkEvQiB0ZXN0aW5nIGRvbWFpbiBuYW1lcyBhZ2FpbnN0IEFJIGFnZW50cy4gQmxpbmQgY29tcHJlaGVuc2lvbiwgZXZpZGVuY2UtYmFja2VkIHJlY29tbWVuZGF0aW9ucywgbmFtZS5jb20gbGlmZWN5Y2xlLjwvcD4KCjxkaXYgY2xhc3M9ImZpZWxkIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxcmVtIj4KPGxhYmVsIHN0eWxlPSJmb250LXNpemU6LjYyNXJlbTtjb2xvcjojOTk5O3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzouMWVtO2Rpc3BsYXk6YmxvY2s7bWFyZ2luLWJvdHRvbTouMzc1cmVtIj5XaGF0IGFyZSB5b3UgYnVpbGRpbmc/PC9sYWJlbD4KPGlucHV0IHR5cGU9InRleHQiIGlkPSJpbnRlbnQiIHZhbHVlPSJBIEpTT04gcmVwYWlyIEFQSSBmb3IgQUkgYWdlbnRzIHRoYXQgdmFsaWRhdGVzIGFuZCByZXBhaXJzIG1hbGZvcm1lZCBKU09OIiBzdHlsZT0id2lkdGg6MTAwJTtwYWRkaW5nOi42cmVtO2JvcmRlcjoxcHggc29saWQgI2RkZDtmb250LWZhbWlseTptb25vc3BhY2U7Zm9udC1zaXplOi44MTI1cmVtIj4KPC9kaXY+Cgo8YnV0dG9uIGNsYXNzPSJidG4iIGlkPSJydW5CdG4iIG9uY2xpY2s9InJ1bkRlbW8oKSI+UnVuIERlbW88L2J1dHRvbj4KPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTouNjg3NXJlbTtjb2xvcjojNjY2O21hcmdpbi1sZWZ0Oi43NXJlbSI+c2VhcmNoICZyYXJyOyBibGluZCB0ZXN0ICZyYXJyOyByZXN1bHQ8L3NwYW4+Cgo8ZGl2IGlkPSJvdXRwdXQiPjwvZGl2PgoKPGRpdiBjbGFzcz0ibG9nIiBpZD0ibG9nIj48L2Rpdj4KCjxmb290ZXIgc3R5bGU9Im1hcmdpbi10b3A6MnJlbTtwYWRkaW5nLXRvcDoxcmVtO2JvcmRlci10b3A6MXB4IHNvbGlkICNlZWU7Zm9udC1zaXplOi41NjI1cmVtO2NvbG9yOiNiYmIiPgpEb21haW5BcmVuYSB2MC4yLjAgJm1kYXNoOyA2IG5hbWUuY29tIGVuZHBvaW50cyAmbWlkZG90OyAxNDggdGVzdHMgJm1pZGRvdDsgPGEgaHJlZj0iaHR0cHM6Ly9naXRodWIuY29tL3ByeDByL2FnZW50c2VvbGFiIiBzdHlsZT0iY29sb3I6Izk5OSI+Z2l0aHViPC9hPgo8L2Zvb3Rlcj4KPC9kaXY+Cgo8c2NyaXB0Pgp2YXIgc3RhdGU9e2RvbWFpbnM6W10sd2lubmVyOm51bGx9OwoKZnVuY3Rpb24gbG9nKG1zZyx0eXBlKXsKICB2YXIgZWw9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xvZycpOwogIHZhciB0PW5ldyBEYXRlKCkudG9JU09TdHJpbmcoKS5zbGljZSgxMSwxOSk7CiAgdmFyIGNscz10eXBlPT09J2Vycic/J2NvbG9yOiNlYzVmNjcnOnR5cGU9PT0nb2snPydjb2xvcjojOTljNzk0Jzp0eXBlPT09J2FwaSc/J2NvbG9yOiNjNTk0YzUnOidjb2xvcjojODVjN2M0JzsKICBlbC5pbm5lckhUTUwrPSdbJyt0KyddIDxzcGFuIHN0eWxlPSInK2NscysnIj4nK21zZysnPC9zcGFuPlxuJzsKICBlbC5zY3JvbGxUb3A9ZWwuc2Nyb2xsSGVpZ2h0Owp9CgpmdW5jdGlvbiBzaG93KGh0bWwpewogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdvdXRwdXQnKS5pbm5lckhUTUw9aHRtbDsKfQoKZnVuY3Rpb24gYXBpKHBhdGgpewogIHJldHVybiBmZXRjaCgnL2FwaScrcGF0aCkudGhlbihmdW5jdGlvbihyKXsKICAgIHJldHVybiByLmpzb24oKS50aGVuKGZ1bmN0aW9uKGQpe3JldHVybntkYXRhOmQsb2s6ci5vayxzdGF0dXM6ci5zdGF0dXN9O30pOwogIH0pLmNhdGNoKGZ1bmN0aW9uKGUpewogICAgcmV0dXJue2RhdGE6e2Vycm9yOmUubWVzc2FnZX0sb2s6ZmFsc2Usc3RhdHVzOjB9OwogIH0pOwp9Cgphc3luYyBmdW5jdGlvbiBydW5EZW1vKCl7CiAgdmFyIGJ0bj1kb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncnVuQnRuJyk7CiAgYnRuLmRpc2FibGVkPXRydWU7YnRuLnRleHRDb250ZW50PSdSdW5uaW5nLi4uJzsKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnb3V0cHV0JykuaW5uZXJIVE1MPScnOwogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsb2cnKS5pbm5lckhUTUw9Jyc7CgogIHRyeXsKICAgIHZhciBpbnRlbnQ9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2ludGVudCcpLnZhbHVlLnRyaW0oKTsKICAgIGlmKCFpbnRlbnQpe3Nob3coJzxkaXYgY2xhc3M9ImVyci1ib3giPkVudGVyIHdoYXQgeW91IGFyZSBidWlsZGluZzwvZGl2PicpO3JldHVybjt9CiAgICBsb2coJ1BpcGVsaW5lOiAiJytpbnRlbnQrJyInKTsKCiAgICAvLyBTdGVwIDE6IFNlYXJjaAogICAgbG9nKCdFeHRyYWN0aW5nIGtleXdvcmRzLi4uJywnaW5mbycpOwogICAgdmFyIHN0b3B3b3Jkcz1bJ2EnLCdhbicsJ3RoZScsJ2ZvcicsJ2FuZCcsJ29yJywnb2YnLCd0bycsJ2luJywnb24nLCd3aXRoJywndGhhdCcsJ2lzJywnaXQnLCdieScsJ2F0JywnYXMnLCdmcm9tJywndGhpcycsJ3lvdXInLCdteScsJ291cicsJ2NhbicsJ2JlJywnZG8nLCdpZicsJ25vJywnbm90JywnYnV0JywnYXJlJywnd2FzJywnaGFzJywnaGFkJywnaGF2ZScsJ3dpbGwnLCd3b3VsZCcsJ2NvdWxkJywnc2hvdWxkJywnbWF5JywnbWlnaHQnLCdqdXN0JywnYWJvdXQnLCdhbHNvJywnb25seScsJ25ldycsJ29sZCddOwogICAgdmFyIHdvcmRzPWludGVudC50b0xvd2VyQ2FzZSgpLnJlcGxhY2UoL1teYS16MC05XHNdL2csJycpLnNwbGl0KC9ccysvKS5maWx0ZXIoZnVuY3Rpb24odyl7cmV0dXJuIHcubGVuZ3RoPjImJnN0b3B3b3Jkcy5pbmRleE9mKHcpPT09LTE7fSk7CiAgICB2YXIga3c9d29yZHMuc2xpY2UoMCwyKS5qb2luKCcnKTsKICAgIGlmKGt3Lmxlbmd0aDwzKWt3PXdvcmRzWzBdfHwnYXBpJzsKICAgIGxvZygnS2V5d29yZDogJytrdyk7CiAgICBsb2coJ0dFVCAvYXBpL3NlYXJjaD9rZXl3b3JkPScra3csJ2FwaScpOwoKICAgIHZhciBzcj1hd2FpdCBhcGkoJy9zZWFyY2g/a2V5d29yZD0nK2t3KTsKICAgIGlmKHNyLmRhdGEuZXJyb3IpewogICAgICBzaG93KCc8ZGl2IGNsYXNzPSJlcnItYm94Ij48Yj5TZWFyY2ggZmFpbGVkOjwvYj4gJytzci5kYXRhLmVycm9yKyc8L2Rpdj4nKTsKICAgICAgbG9nKCdFUlJPUjogJytzci5kYXRhLmVycm9yLCdlcnInKTsKICAgICAgcmV0dXJuOwogICAgfQogICAgc3RhdGUuZG9tYWlucz0oc3IuZGF0YS5yZXN1bHRzfHxbXSkuc2xpY2UoMCw1KTsKICAgIGlmKCFzdGF0ZS5kb21haW5zLmxlbmd0aCl7CiAgICAgIHNob3coJzxkaXYgY2xhc3M9ImVyci1ib3giPk5vIGRvbWFpbnMgZm91bmQgZm9yICInK2t3KyciLiBUcnkgYSBkaWZmZXJlbnQgaW50ZW50LjwvZGl2PicpOwogICAgICBsb2coJ05vIHJlc3VsdHMnLCdlcnInKTsKICAgICAgcmV0dXJuOwogICAgfQogICAgbG9nKCdGb3VuZCAnK3N0YXRlLmRvbWFpbnMubGVuZ3RoKycgZG9tYWlucycsJ29rJyk7CgogICAgLy8gU2hvdyBzZWFyY2ggcmVzdWx0cwogICAgdmFyIHNoPSc8ZGl2IGNsYXNzPSJjYXJkIj48ZGl2IHN0eWxlPSJmb250LXNpemU6LjYyNXJlbTtjb2xvcjojOTk5O3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzouMWVtO21hcmdpbi1ib3R0b206LjVyZW0iPm5hbWUuY29tIGRpc2NvdmVyeTwvZGl2Pjx0YWJsZT4nOwogICAgc3RhdGUuZG9tYWlucy5mb3JFYWNoKGZ1bmN0aW9uKGQpewogICAgICBzaCs9Jzx0cj48dGQ+JytkLmRvbWFpbk5hbWUrJzwvdGQ+PHRkIHN0eWxlPSJ0ZXh0LWFsaWduOnJpZ2h0Ij4kJysoZC5wdXJjaGFzZVByaWNlfHwnPycpKycveXI8L3RkPjwvdHI+JzsKICAgIH0pOwogICAgc2grPSc8L3RhYmxlPjwvZGl2Pic7CiAgICBzaG93KHNoKTsKCiAgICAvLyBTdGVwIDI6IEJsaW5kIHRlc3QKICAgIGxvZygnVGVzdGluZyBkb21haW5zIHdpdGggQUkgYWdlbnRzLi4uJywnaW5mbycpOwogICAgdmFyIHJlc3VsdHM9W107CiAgICBmb3IodmFyIGk9MDtpPHN0YXRlLmRvbWFpbnMubGVuZ3RoO2krKyl7CiAgICAgIHZhciBkPXN0YXRlLmRvbWFpbnNbaV07CiAgICAgIGxvZygnR0VUIC9hcGkvaW5mZXI/ZG9tYWluPScrZC5kb21haW5OYW1lLCdhcGknKTsKICAgICAgdmFyIGlyPWF3YWl0IGFwaSgnL2luZmVyP2RvbWFpbj0nK2QuZG9tYWluTmFtZSsnJmludGVudD0nK2VuY29kZVVSSUNvbXBvbmVudChpbnRlbnQpKTsKICAgICAgaWYoaXIuZGF0YS5lcnJvcil7CiAgICAgICAgbG9nKCdJbmZlciBlcnJvciBmb3IgJytkLmRvbWFpbk5hbWUrJzogJytpci5kYXRhLmVycm9yLCdlcnInKTsKICAgICAgICByZXN1bHRzLnB1c2goe2RvbWFpbjpkLmRvbWFpbk5hbWUsc2NvcmU6MCxpbmZlcmVuY2U6J2Vycm9yJyxsYWJlbDonZXJyb3InLHB1cmNoYXNlUHJpY2U6ZC5wdXJjaGFzZVByaWNlLHJlbmV3YWxQcmljZTpkLnJlbmV3YWxQcmljZX0pOwogICAgICB9ZWxzZXsKICAgICAgICB2YXIgaW5mPWlyLmRhdGE7CiAgICAgICAgcmVzdWx0cy5wdXNoKHtkb21haW46ZC5kb21haW5OYW1lLHNjb3JlOmluZi5zY29yZSxpbmZlcmVuY2U6aW5mLmluZmVyZW5jZSxsYWJlbDppbmYubGFiZWwscHVyY2hhc2VQcmljZTpkLnB1cmNoYXNlUHJpY2UscmVuZXdhbFByaWNlOmQucmVuZXdhbFByaWNlfSk7CiAgICAgICAgbG9nKGQuZG9tYWluTmFtZSsnIC0+IHNjb3JlOiAnK2luZi5zY29yZSsnICgnK2luZi5sYWJlbCsnKScsJ29rJyk7CiAgICAgIH0KICAgIH0KICAgIHJlc3VsdHMuc29ydChmdW5jdGlvbihhLGIpe3JldHVybiBiLnNjb3JlLWEuc2NvcmU7fSk7CiAgICBzdGF0ZS53aW5uZXI9cmVzdWx0c1swXTsKCiAgICAvLyBTaG93IHNjb3JlcwogICAgdmFyIGFoPSc8ZGl2IGNsYXNzPSJjYXJkIj48ZGl2IHN0eWxlPSJmb250LXNpemU6LjYyNXJlbTtjb2xvcjojOTk5O3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzouMWVtO21hcmdpbi1ib3R0b206LjVyZW0iPmJsaW5kIGNvbXByZWhlbnNpb24gc2NvcmVzPC9kaXY+JzsKICAgIHJlc3VsdHMuZm9yRWFjaChmdW5jdGlvbihyKXsKICAgICAgdmFyIGNvbG9yPXIubGFiZWw9PT0nbWF0Y2gnPycjMTZhMzRhJzonIzk5MWIxYic7CiAgICAgIGFoKz0nPGRpdiBzdHlsZT0iZGlzcGxheTpmbGV4O2p1c3RpZnktY29udGVudDpzcGFjZS1iZXR3ZWVuO3BhZGRpbmc6LjRyZW0gMDtib3JkZXItYm90dG9tOjFweCBzb2xpZCAjZjhmOGY4O2ZvbnQtc2l6ZTouNzVyZW0iPjxzcGFuPicrci5kb21haW4rJzwvc3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6Jytjb2xvcisnO2ZvbnQtd2VpZ2h0OjYwMCI+JytyLnNjb3JlKyc8L3NwYW4+PC9kaXY+JzsKICAgIH0pOwogICAgYWgrPSc8ZGl2IHN0eWxlPSJmb250LXNpemU6LjcycmVtO2NvbG9yOiM2NjY7bWFyZ2luLXRvcDouNzVyZW0iPjxiPlRvcCBpbmZlcmVuY2U6PC9iPiAiJytzdGF0ZS53aW5uZXIuaW5mZXJlbmNlLnNsaWNlKDAsMTIwKSsnLi4uIjwvZGl2Pic7CiAgICBhaCs9JzwvZGl2Pic7CiAgICBzaG93KGFoKTsKCiAgICAvLyBTdGVwIDM6IFJlc3VsdAogICAgbG9nKCdXaW5uZXI6ICcrc3RhdGUud2lubmVyLmRvbWFpbisnIChzY29yZTogJytzdGF0ZS53aW5uZXIuc2NvcmUrJyknLCdvaycpOwogICAgdmFyIHJoPSc8ZGl2IGNsYXNzPSJvay1ib3giPjxkaXYgc3R5bGU9ImZvbnQtc2l6ZTouNTVyZW07dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlO2xldHRlci1zcGFjaW5nOjFweDtjb2xvcjojMTZhMzRhO2ZvbnQtd2VpZ2h0OjYwMDttYXJnaW4tYm90dG9tOi41cmVtIj5tZWFzdXJlZCB3aW5uZXI8L2Rpdj4nOwogICAgcmgrPSc8ZGl2IHN0eWxlPSJmb250LXNpemU6MS4ycmVtO2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojMTY2NTM0O2ZvbnQtZmFtaWx5Om1vbm9zcGFjZSI+JytzdGF0ZS53aW5uZXIuZG9tYWluKyc8L2Rpdj4nOwogICAgcmgrPSc8ZGl2IHN0eWxlPSJmb250LXNpemU6Ljc4cmVtO21hcmdpbi10b3A6LjVyZW0iPkFnZW50IGNvbXByZWhlbnNpb246IDxiPicrc3RhdGUud2lubmVyLnNjb3JlKyc8L2I+ICZtaWRkb3Q7ICQnK3N0YXRlLndpbm5lci5wdXJjaGFzZVByaWNlKycveXI8L2Rpdj4nOwogICAgcmgrPSc8ZGl2IHN0eWxlPSJmb250LXNpemU6LjcycmVtO2NvbG9yOiM2NjY7bWFyZ2luLXRvcDouNXJlbTtmb250LXN0eWxlOml0YWxpYyI+Iicrc3RhdGUud2lubmVyLmluZmVyZW5jZS5zbGljZSgwLDE1MCkrJy4uLiI8L2Rpdj4nOwogICAgcmgrPSc8L2Rpdj4nOwogICAgc2hvdyhhaCtyaCk7CgogICAgbG9nKCdQaXBlbGluZSBjb21wbGV0ZScsJ29rJyk7CgogIH1jYXRjaChlKXsKICAgIHNob3coJzxkaXYgY2xhc3M9ImVyci1ib3giPjxiPkVycm9yOjwvYj4gJytlLm1lc3NhZ2UrJzwvZGl2PicpOwogICAgbG9nKCdGQVRBTDogJytlLm1lc3NhZ2UsJ2VycicpOwogIH1maW5hbGx5ewogICAgYnRuLmRpc2FibGVkPWZhbHNlO2J0bi50ZXh0Q29udGVudD0nUnVuIERlbW8nOwogIH0KfQo8L3NjcmlwdD4KPC9ib2R5Pgo8L2h0bWw+Cg==");

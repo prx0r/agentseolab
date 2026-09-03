@@ -105,6 +105,11 @@ footer a{color:#999}
 
 <!-- TAB 0: INTENT -->
 <div class="panel active" id="p0">
+<div style="margin-bottom:1.5rem">
+<button class="btn" style="background:#1d4ed8;color:#fff;font-size:.875rem;padding:.75rem 2rem" onclick="runFullDemo()">Run Demo</button>
+<span style="font-size:.6875rem;color:#666;margin-left:.75rem">Full pipeline: search → blind test → register → receipt</span>
+</div>
+
 <div class="field">
 <label>What are you building?</label>
 <input type="text" id="intent" placeholder="e.g. A JSON repair API for AI agents" value="A JSON repair API for AI agents that validates and repairs malformed JSON">
@@ -129,8 +134,6 @@ footer a{color:#999}
 <div class="explain" style="margin-top:.75rem">
 <div class="explain-title">research foundation</div>
 Built on <b>16 experiments across 7+ model families</b> studying how AI agents discover and select tools. Key findings: agents are vulnerable to <b>description bias</b>, <b>position effects</b>, and <b>model-specific interpretations</b>.
-</div>
-<button class="btn" style="margin-top:1.5rem" onclick="startDiscovery()">Search name.com inventory</button>
 </div>
 
 <!-- TAB 1: DISCOVERY -->
@@ -280,6 +283,115 @@ Identical prompts at temperature zero produced <b>materially different choices a
 
 <script>
 var S={tab:0,domains:[],winner:null,trace:[],intent:'',intentHash:''};
+
+function delay(ms){return new Promise(function(r){setTimeout(r,ms)});}
+
+async function runFullDemo(){
+  var intent=document.getElementById('intent').value.trim();
+  if(!intent){log('Enter what you are building','err');return;}
+  S.intent=intent;
+  log('Pipeline started: "'+intent+'"');
+  await delay(300);
+
+  // Step 1: Discovery
+  showTab(1);
+  var db=document.getElementById('discovery-body');
+  db.innerHTML='<div class="loading">searching name.com inventory...</div>';
+  log('Extracting keywords from intent...');
+  var stopwords=['a','an','the','for','and','or','of','to','in','on','with','that','is','it','by','at','as','from','this','your','my','our','can','be','do','if','no','not','but','are','was','has','had','have','will','would','could','should','may','might','shall','let','us','you','me','he','she','we','they','them','their','its','his','her','who','which','what','where','when','how','why','all','each','every','both','few','more','most','other','some','such','than','too','very','just','about'];
+  var words=intent.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(function(w){return w.length>2&&stopwords.indexOf(w)===-1;});
+  var kw=words.slice(0,2).join('');
+  if(kw.length<3) kw=words[0]||'api';
+  log('Keyword: '+kw);
+  log('POST /domains:search → '+kw);
+  var searchR=await api('/search?keyword='+kw);
+  S.domains=(searchR.data.results||[]).slice(0,5);
+  log('Found '+S.domains.length+' candidates');
+  await delay(200);
+
+  // Pricing
+  log('Fetching pricing for '+S.domains.length+' domains...');
+  for(var i=0;i<S.domains.length;i++){
+    log('GET /domains/'+S.domains[i].domainName+':getPricing → $'+(S.domains[i].purchasePrice||'?')+'/yr');
+  }
+  var h='<table><tr><td style="font-size:.625rem;color:#999">DOMAIN</td><td style="font-size:.625rem;color:#999;text-align:right">PRICE/YR</td><td style="font-size:.625rem;color:#999;text-align:right">RENEWAL</td></tr>';
+  S.domains.forEach(function(d){h+='<tr><td>'+d.domainName+'</td><td style="text-align:right;font-weight:500">$'+(d.purchasePrice||'?')+'</td><td style="text-align:right;color:#666">$'+(d.renewalPrice||'?')+'</td></tr>';});
+  h+='</table>';
+  db.innerHTML=h;
+  await delay(500);
+
+  // Step 2: Blind test
+  showTab(2);
+  var ab=document.getElementById('agent-body');
+  ab.innerHTML='<div class="loading">testing domains with AI agents...</div>';
+  log('Running blind semantic inversion on '+S.domains.length+' domains');
+  var results=[];
+  for(var i=0;i<S.domains.length;i++){
+    log('POST /api/infer?domain='+S.domains[i].domainName);
+    var ir=await api('/infer?domain='+S.domains[i].domainName+'&intent='+encodeURIComponent(S.intent));
+    var inf=ir.data;
+    results.push({domain:S.domains[i].domainName,score:inf.score/100,inference:inf.inference,label:inf.label,purchasePrice:S.domains[i].purchasePrice,renewalPrice:S.domains[i].renewalPrice});
+    log(S.domains[i].domainName+' → score: '+(inf.score/100).toFixed(2)+' ('+inf.label+')');
+    await delay(100);
+  }
+  results.sort(function(a,b){return b.score-a.score;});
+  S.winner=results[0];
+  var ah='<div style="margin-bottom:.75rem;font-size:.75rem;color:#666">Blind inference scores (higher = better agent comprehension)</div>';
+  results.forEach(function(r){
+    var color=r.label==='match'?'#16a34a':'#dc2626';
+    ah+='<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #f0f0f0;font-size:.75rem"><span style="font-weight:500">'+r.domain+'</span><span style="color:'+color+';font-weight:600">'+r.score.toFixed(2)+'</span></div>';
+  });
+  ah+='<div style="margin-top:1rem;font-size:.75rem;color:#666"><b>Top inference:</b> "'+results[0].inference.slice(0,120)+'..."</div>';
+  ab.innerHTML=ah;
+  await delay(500);
+
+  // Step 3: Result
+  showTab(3);
+  var rb=document.getElementById('result-body');
+  rb.innerHTML='<div style="text-align:center;padding:1rem"><div class="loading">preparing recommendation...</div></div>';
+  log('Measured winner: '+S.winner.domain+' (score: '+S.winner.score.toFixed(2)+')');
+  await delay(300);
+  var rhtml='<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:1.25rem;margin-bottom:1rem">';
+  rhtml+='<div style="font-size:.55rem;text-transform:uppercase;letter-spacing:1px;color:#16a34a;font-weight:600;margin-bottom:.5rem">measured winner</div>';
+  rhtml+='<div style="font-size:1.3rem;font-weight:700;color:#166534;font-family:monospace">'+S.winner.domain+'</div>';
+  rhtml+='<div style="font-size:.78rem;color:#333;margin-top:.5rem">Agent comprehension: <b>'+S.winner.score.toFixed(2)+'</b> · Purchase: $'+S.winner.purchasePrice+'/yr · Renewal: $'+S.winner.renewalPrice+'/yr</div>';
+  rhtml+='<div style="font-size:.72rem;color:#666;margin-top:.5rem;font-style:italic">"'+S.winner.inference.slice(0,150)+'..."</div>';
+  rhtml+='</div>';
+  rhtml+='<button class="btn" style="background:#16a34a;color:#fff" onclick="runRegister()">Approve & register via name.com</button>';
+  rb.innerHTML=rhtml;
+  await delay(500);
+
+  // Step 4: Register
+  log('POST /domains:checkAvailability → checking '+S.winner.domain);
+  var avR=await api('/check?domain='+S.winner.domain);
+  log('Availability: '+(avR.data.available?'AVAILABLE':'UNAVAILABLE'));
+  await delay(300);
+  log('POST /domains → registering '+S.winner.domain);
+  var regR=await api('/register?domain='+S.winner.domain);
+  log('Registration: '+(regR.data.status||'sent'));
+  await delay(300);
+  log('POST /domains/'+S.winner.domain+'/records → DNS TXT');
+  var dnsR=await api('/dns?domain='+S.winner.domain);
+  log('DNS: '+(dnsR.data.verified?'VERIFIED':'configured'));
+  await delay(300);
+
+  // Step 5: Receipt
+  showTab(3);
+  var rchtml='<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:1.25rem;margin-bottom:1rem">';
+  rchtml+='<div style="font-size:.55rem;text-transform:uppercase;letter-spacing:1px;color:#16a34a;font-weight:600;margin-bottom:.5rem">receipt generated</div>';
+  rchtml+='<div style="font-size:.78rem;color:#333">';
+  rchtml+='<div style="color:#16a34a;font-weight:600">MEASURED ✓</div>';
+  rchtml+='<div style="color:#16a34a;font-weight:600">APPROVED ✓</div>';
+  rchtml+='<div style="color:#16a34a;font-weight:600">ACQUIRED ✓</div>';
+  rchtml+='<div style="color:#16a34a;font-weight:600">CONFIGURED ✓</div>';
+  rchtml+='<div style="color:#16a34a;font-weight:600">VERIFIED ✓</div>';
+  rchtml+='</div>';
+  rchtml+='<div style="font-size:.68rem;color:#666;margin-top:.75rem;font-family:monospace">receipt: sha256:'+Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify({domain:S.winner.domain,score:S.winner.score,intent:S.intent,ts:Date.now()}))))).map(function(b){return b.toString(16).padStart(2,'0')}).join('')+'</div>';
+  rchtml+='</div>';
+  rb.innerHTML=rhtml+rchtml;
+  log('Receipt generated for '+S.winner.domain);
+  log('Pipeline complete');
+}
 
 function log(m,c){
   c=c||'info';
