@@ -170,7 +170,7 @@ def test_semantic_evaluation_records_scorer_model():
 def test_world_rejects_score_without_inference():
     """Score before inference must raise ValueError."""
     from domainarena.world import DomainArenaWorld, DomainCase
-    from cogym_kernel.kernel.contracts import ActionSpec, ActionResult
+    from domainarena.worldpack.contracts import ActionSpec, ActionResult
     from pathlib import Path
 
     case = DomainCase(
@@ -193,7 +193,7 @@ def test_world_rejects_score_without_inference():
 def test_world_rejects_commit_without_score():
     """Commit before score must raise ValueError."""
     from domainarena.world import DomainArenaWorld, DomainCase, InferenceResult
-    from cogym_kernel.kernel.contracts import ActionSpec, ActionResult
+    from domainarena.worldpack.contracts import ActionSpec, ActionResult
     from pathlib import Path
     import hashlib
 
@@ -225,7 +225,7 @@ def test_world_rejects_commit_without_score():
 def test_world_rejects_double_inference():
     """Double INFERENCE must raise ValueError."""
     from domainarena.world import DomainArenaWorld, DomainCase
-    from cogym_kernel.kernel.contracts import ActionSpec, ActionResult
+    from domainarena.worldpack.contracts import ActionSpec, ActionResult
     from pathlib import Path
 
     case = DomainCase(

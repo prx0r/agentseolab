@@ -7,7 +7,7 @@ from domainarena.world import (
     DAState, DomainArenaWorld, DomainCase,
     InferenceResult, SemanticEvaluation,
 )
-from cogym_kernel.kernel.contracts import ActionSpec, ActionResult
+from domainarena.worldpack.contracts import ActionSpec, ActionResult
 
 
 def _make_case(case_id="0", domain="test.com", intent="testing", match=True):

@@ -74,8 +74,25 @@ footer a{color:#999}
 </head>
 <body>
 <div class="wrap">
+
+<div style="padding:2rem 0 1.5rem;border-bottom:1px solid #eee">
 <h1>DomainArena<span class="live">LIVE</span></h1>
-<div class="sub">A/B testing for domain names in the agentic web — powered by name.com</div>
+<div style="font-size:.85rem;color:#888;margin-bottom:1rem;max-width:600px">A/B testing for domain names in the agentic web. Blind agent comprehension, evidence-backed recommendations, name.com lifecycle.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
+    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">What we built</div>
+    <div style="font-size:.78rem;line-height:1.5">A <b>domain testing engine</b> that asks AI agents what they think a domain means &mdash; without any context. name.com discovers available names, blind inference tests comprehension, and the full lifecycle runs from search to DNS verification.</div>
+  </div>
+  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
+    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">What it solves</div>
+    <div style="font-size:.78rem;line-height:1.5"><b>The thing discovering your service is an AI agent.</b> But nobody measures whether agents can infer what service sits behind a domain. You buy on intuition, deploy, and hope the machine audience finds you.</div>
+  </div>
+  <div style="padding:.75rem 1rem;background:#fff;border:1px solid #eee;border-radius:6px">
+    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:.375rem;font-weight:600">How it works</div>
+    <div style="font-size:.78rem;line-height:1.5"><b>name.com inventory &rarr; blind inference &rarr; independent scoring &rarr; human approval &rarr; registration &rarr; DNS verification &rarr; SHA-256 receipt.</b> Every step has provenance. The agent never sees the product description.</div>
+  </div>
+</div>
+</div>
 
 <div class="tabs">
 <div class="tab active" onclick="showTab(0)">1. Intent</div>
@@ -95,7 +112,7 @@ footer a{color:#999}
 
 <div class="explain">
 <div class="explain-title">how this works</div>
-<b>DomainArena</b> tests candidate domains against multiple AI agents using <b>blind semantic inversion</b> — agents see only the domain name, never the product description. If an agent can correctly infer what service sits behind a domain without context, that domain transmits meaning effectively.
+<b>DomainArena</b> tests candidate domains against AI agents using <b>blind semantic inversion</b> &mdash; agents see only the domain name, never the product description. If an agent can correctly infer what service sits behind a domain without context, that domain transmits meaning effectively.
 </div>
 
 <div style="margin-top:1.5rem">
@@ -109,10 +126,9 @@ footer a{color:#999}
 </div>
 </div>
 
-
 <div class="explain" style="margin-top:.75rem">
 <div class="explain-title">research foundation</div>
-Built on <b>16 experiments across 7+ model families</b> studying how AI agents discover and select tools. Key findings: agents are vulnerable to <b>description bias</b>, <b>position effects</b>, and <b>model-specific interpretations</b>. DomainArena uses <b>AB/BA randomized pairwise comparison</b> with <b>Wilson confidence intervals</b> — the same statistical methodology used in academic agent-comprehension research.
+Built on <b>16 experiments across 7+ model families</b> studying how AI agents discover and select tools. Key findings: agents are vulnerable to <b>description bias</b>, <b>position effects</b>, and <b>model-specific interpretations</b>.
 </div>
 <button class="btn" style="margin-top:1.5rem" onclick="startDiscovery()">Search name.com inventory</button>
 </div>
@@ -141,8 +157,8 @@ Built on <b>16 experiments across 7+ model families</b> studying how AI agents d
 </div>
 
 <div class="explain" style="margin-top:1rem">
-<div class="explain-title">cross-family testing</div>
-Each domain is tested across <b>multiple AI model families</b> (Llama, Mistral, Qwen, DeepSeek). If a domain only works on one model, that's a boundary condition, not a law. DomainArena requires agreement across families for a "match" classification. This is the same methodology used in academic agent-comprehension research.
+<div class="explain-title">live run</div>
+Each domain is tested with <b>Llama 3.3 70B</b> for blind inference, scored by an <b>independent Mistral evaluator</b>. Generator/judge separation ensures the tested model never scores itself. The Research tab contains our larger cross-family and randomized experiments.
 </div>
 <div class="explain" style="margin-top:1rem">
 <div class="explain-title">what's happening</div>
@@ -263,7 +279,7 @@ Identical prompts at temperature zero produced <b>materially different choices a
 </div>
 
 <script>
-var S={tab:0,domains:[],winner:null,trace:[]};
+var S={tab:0,domains:[],winner:null,trace:[],intent:'',intentHash:''};
 
 function log(m,c){
   c=c||'info';
@@ -298,10 +314,14 @@ function showTabTab(i){document.querySelectorAll('.tab').forEach(function(t,j){t
 function startDiscovery(){
   var intent=document.getElementById('intent').value.trim();
   if(!intent){log('Enter what you are building','err');return;}
+  S.intent=intent;
   showTab(1);
   document.getElementById('discovery-body').innerHTML='<div class="loading">searching name.com inventory...</div>';
   log('Pipeline started: "'+intent+'"');
-  var kw=intent.split(' ').slice(0,2).join('').toLowerCase().replace(/[^a-z0-9]/g,'');
+  var stopwords=['a','an','the','for','and','or','of','to','in','on','with','that','is','it','by','at','as','from','this','your','my','our','can','be','do','if','no','not','but','are','was','has','had','have','will','would','could','should','may','might','shall','let','us','you','me','he','she','we','they','them','their','its','his','her','our','who','which','what','where','when','how','why','all','each','every','both','few','more','most','other','some','such','than','too','very','just','about','above','after','again','against','between','into','through','during','before','below','under','over','own','same','so','then','once','here','there','also','only','new','old','right','big','small'];
+  var words=intent.toLowerCase().replace(/[^a-z0-9\s]/g,'').split(/\s+/).filter(function(w){return w.length>2&&stopwords.indexOf(w)===-1;});
+  var kw=words.slice(0,2).join('');
+  if(kw.length<3) kw=words[0]||'api';
   log('Extracted keyword: '+kw);
   api('/search?keyword='+kw).then(function(r){
     S.domains=(r.data.results||[]).slice(0,5);
@@ -342,7 +362,7 @@ function startAgentTest(){
     }
     var d=S.domains[i];
     log('Testing: '+d.domainName);
-    api('/infer?domain='+d.domainName).then(function(r){
+    api('/infer?domain='+d.domainName+'&intent='+encodeURIComponent(S.intent)).then(function(r){
       results.push({domainName:d.domainName,purchasePrice:d.purchasePrice,renewalPrice:d.renewalPrice,inference:r.data.inference,score:r.data.score,label:r.data.label});
       i++;testNext();
     });
@@ -400,15 +420,24 @@ function doRegister(){
   var w=S.winner;
   log('Registering '+w.domainName+' via name.com API');
   api('/register?domain='+w.domainName,'POST').then(function(r){
-    log('Registration: '+(r.data.status||'unknown'));
+    if(!r.ok||!r.data||r.data.status!=='REGISTERED'){
+      log('Registration failed: '+(r.data.error||r.status),'err');
+      btn.textContent='Failed';btn.disabled=false;
+      throw new Error('Registration failed');
+    }
+    log('Registration: '+r.data.status);
     return api('/dns?domain='+w.domainName,'POST');
   }).then(function(r){
+    if(!r.ok){log('DNS failed','err');throw new Error('DNS failed');}
     log('DNS configured: '+w.domainName);
     return api('/verify-dns?domain='+w.domainName);
   }).then(function(r){
     var verified=r.data.verified;
-    log('DNS verification: '+(verified?'VERIFIED':'CHECKING'));
-    var hash='sha256:'+Array.from(crypto.getRandomValues(new Uint8Array(16))).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+    log('DNS verification: '+(verified?'VERIFIED':'FAILED'));
+    if(!verified){log('DNS not verified — aborting','err');throw new Error('DNS not verified');}
+    var receiptData=JSON.stringify({domain:w.domainName,intent:S.intent,score:w.score,inference:w.inference,purchasePrice:w.purchasePrice,renewalPrice:w.renewalPrice,registered:true,dnsVerified:verified,timestamp:new Date().toISOString()});
+    crypto.subtle.digest('SHA-256',new TextEncoder().encode(receiptData)).then(function(buf){
+    var hash='sha256:'+Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
 
     var h='<div class="divider"></div><div class="step active"><div class="step-num">Lifecycle complete</div><div class="step-title">name.com domain lifecycle</div>';
     h+='<div class="step-desc">The full pipeline from discovery to verified domain configuration, all through name.com API.</div>';
@@ -442,7 +471,8 @@ function doRegister(){
 
     document.getElementById('reg-result').innerHTML=h;
     btn.textContent='Done';
-  });
+    }); // crypto.subtle.digest .then
+  }); // api verify-dns .then
 }
 </script>
 </body>
