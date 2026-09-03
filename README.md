@@ -9,21 +9,44 @@
 > Human domain tools ask: "Does this name sound good?"
 > DomainArena asks: "Does an AI agent infer the right product from this name with no context?"
 
-**[Demo Video](DomainArena-Demo.mp4)** | **[Live Demo](http://127.0.0.1:8777)** | **[MCP Server](#mcp-server)**
+**[Watch Demo](https://youtu.be/PLACEHOLDER)** | **[Try Live Demo](https://domainarena.prx0r.workers.dev)** | **[View Source](https://github.com/prx0r/domainarena)**
+
+---
+
+## Judge in 30 Seconds
+
+**Sponsor API:** [name.com](https://name.com) — 6 API endpoints used in a single workflow: Search, Availability, Pricing, Registration, DNS Create, DNS Read.
+
+**Core workflow:**
+```
+Task description (intent)
+  → name.com SEARCH (discover candidates)
+  → Agent comprehension test (blind inference, no context)
+  → Evidence-based ranking (Wilson CI, cross-family)
+  → name.com FRESH PRICE (recheck availability + pricing)
+  → Human approval (one-time token, approval-gated)
+  → name.com REGISTER (execute approved acquisition)
+  → DNS CREATE + READ-BACK (configure + verify)
+  → Verified receipt (sha256, append-only)
+```
+
+**The magic moment:** We measure which domain names AI agents actually understand — then safely acquire the winner. A domain that sounds good to humans might be meaningless to an agent. DomainArena finds the ones that work for both.
+
+**Live demo:** `https://domainarena.prx0r.workers.dev` — interactive MCP-driven domain evaluation and acquisition pipeline.
+
+**name.com integration depth:** 6 endpoints in one workflow. Not surface-level — Search discovers, Availability fails closed, Pricing enforces budgets, Registration executes, DNS configures, Read-back verifies.
 
 ---
 
 ## The Problem
 
-Before an agent can use a service, it has to decide which service a domain represents. Nobody has measured whether agents actually understand domain names — until now.
-
-The domain name market sits at the intersection of linguistics, psychology, and commerce, but until recently relied on human intuition and small-sample heuristics ([DN.org, Jan 2026](https://dn.org/using-llms-to-score-brandability-at-scale/)). LLMs can now operationalize brand intuition, turning what was once artisanal judgment into a measurable, repeatable signal.
+Before an agent can use a service, it has to decide which service a domain represents. Nobody has measured whether agents actually understand domain names — until now. The domain name market sits at the intersection of linguistics, psychology, and commerce, but until recently relied on human intuition and small-sample heuristics ([DN.org, Jan 2026](https://dn.org/using-llms-to-score-brandability-at-scale/)). LLMs can now operationalize brand intuition, turning what was once artisanal judgment into a measurable, repeatable signal.
 
 ## What DomainArena Measures
 
 > Given a task description, which domain names do AI agents infer are relevant, which do they select, and does the hostname itself affect their choice?
 
-This is the first benchmark that asks: **"given only a domain name, can an AI model infer what service runs behind it?"** The answer has implications for domain investors, registries, and anyone building agent-native products.
+This is the first benchmark that asks: **"given only a domain name, can an AI model infer what service runs behind it?"**
 
 ---
 
@@ -38,33 +61,12 @@ Built on **16 experiments** across **7+ model families** studying how AI agents 
 | Serverless LLM inference is non-deterministic | Confirmed | Same prompt flips behavior across time windows |
 | Position primacy dominates SERP choice | Provisional | 87% pick slot 0; TLD matters only within-slot |
 | Tool name style has zero effect | Provisional | When descriptions are clear, name is noise |
-| Decoy resistance varies by model | Provisional | ox-alpha-free resists 95.8% of adversarial descriptions |
 
 ---
 
 ## How name.com Is Central
 
 DomainArena uses **6 name.com API endpoints** in one workflow:
-
-```
-INTENT
-  ↓
-name.com SEARCH           — discover candidate domains
-  ↓
-AGENT COMPREHENSION TEST  — blind inference, no context
-  ↓
-EVIDENCE-BASED RANKING    — Wilson CI, cross-family
-  ↓
-name.com FRESH PRICE      — recheck availability + pricing
-  ↓
-HUMAN APPROVAL            — one-time token, approval-gated
-  ↓
-name.com REGISTER         — execute approved acquisition
-  ↓
-DNS CREATE + READ-BACK    — configure + verify
-  ↓
-VERIFIED RECEIPT           — sha256, append-only
-```
 
 | name.com Capability | DomainArena Use |
 |---|---|
@@ -116,23 +118,21 @@ Provider      Workers AI    (semantic inversion)
 
 ## Evidence Model
 
-DomainArena distinguishes three evidence statuses — never collapsing them:
-
 | Status | Meaning | Weight |
 |---|---|---|
 | `MEASURED` | Real measurement from experiment | 1.0 |
 | `PROXY` | Heuristic approximation | 0.5 |
 | `NOT_MEASURED` | No data collected | — |
 
-A recommendation can be `VALIDATED` only when **measured coverage ≥ 70%**. Proxies improve provisional rankings but cannot promote to scientifically validated status.
+A recommendation can be `VALIDATED` only when **measured coverage ≥ 70%**.
 
 ---
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/prx0r/agentseolab.git
-cd agentseolab
+git clone https://github.com/prx0r/domainarena.git
+cd domainarena
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
@@ -148,13 +148,6 @@ DOMAINARENA_ALLOW_WRITES=1 python3 -m domainarena.web.demo
 
 # MCP server (for AI agents)
 python3 -m domainarena.api.mcp     # stdin/stdout JSON-RPC
-
-# Pairwise experiment
-python3 -m experiments.pairwise_selection \
-  --intent "A JSON repair tool" \
-  --domain-a "jsonrepair.dev" \
-  --domain-b "fixjson.com" \
-  --trials 20
 ```
 
 ---
@@ -167,9 +160,8 @@ python3 -m experiments.pairwise_selection \
 | Write guard | Registration/DNS writes require `DOMAINARENA_ALLOW_WRITES=1` |
 | Approval required | Registration needs explicit human approval (one-time token) |
 | Price drift guard | Price changes beyond threshold invalidate approval |
-| Hard budgets | `max_purchase_price` and `max_renewal_price` enforced at registration |
+| Hard budgets | `max_purchase_price` and `max_renewal_price` enforced |
 | Idempotent | Duplicate registration attempts can't double-charge |
-| Token hashing | Approval token hash stored on disk, raw token returned once |
 
 ---
 
@@ -192,36 +184,6 @@ pytest tests/ -v    # 148 tests passing
 [PASS] receipt hash        — content-addressed evidence
 ```
 
-### Before/After
-
-```
-HUMAN HEURISTIC
-  "jsonultra.xyz sounds cool"
-  → Agent thinks: "fantasy role-playing game"
-  → WRONG
-
-AGENT-TESTED
-  "fixjson.com"
-  → Agent thinks: "utility for repairing malformed JSON"
-  → CORRECT → acquired via name.com
-```
-
----
-
-## What's Built
-
-| Component | Status | Evidence Dimension |
-|---|---|---|
-| Live name.com search | Built | — |
-| MCP server (9 tools + 2 resources) | Built | — |
-| Approval-gated registration | Built | — |
-| Price drift guard | Built | — |
-| Structural fluency heuristic | Built | `PROXY` |
-| Semantic inversion (blind) | Built | `PROXY` |
-| Pairwise AB/BA experiment | Built | `MEASURED` |
-| Cross-family replication | Built | `MEASURED` |
-| Execution-grounded selection | Prototype | `NOT_MEASURED` |
-
 ---
 
 ## Tech Stack
@@ -231,7 +193,7 @@ AGENT-TESTED
 - **Protocol:** MCP (Model Context Protocol)
 - **Statistics:** Wilson score intervals, pairwise AB/BA comparison
 - **Testing:** pytest (148 tests)
-- **Deployment:** Cloudflare Workers (optional)
+- **Deployment:** Cloudflare Workers
 
 ---
 

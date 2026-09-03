@@ -1,0 +1,106 @@
+{
+  "decision_id": "da_6ecc62b02035454e",
+  "intent_hash": "sha256:459a80e7673244a27dd1f600669f9e4c8426bf17a02efecbba167fffd6064dbd",
+  "recommended_domain": "velora.com",
+  "recommended_candidate_id": "seed_2",
+  "pareto_candidate_ids": [
+    "seed_0",
+    "seed_1",
+    "seed_2"
+  ],
+  "policy_version": "audience-presets-v1",
+  "status": "DNS_CONFIGURED",
+  "approval_token": "0c4358a9d70dad6b485a9477f621787361a56aec08908652098c02abde3a53bf",
+  "preparation": {
+    "approval_valid": true,
+    "purchasable": true,
+    "status": "PREPARED",
+    "domain": "velora.com"
+  },
+  "registration": {
+    "decision_id": "da_6ecc62b02035454e",
+    "domain": "velora.com"
+  },
+  "dns_receipt": {
+    "receipt_hash": "d38dd11f0dc1698e3e2d834345b9758b84bbc1b2849b2745b569c86885c9e4a1",
+    "dns_receipt_verified": true
+  },
+  "verification": null,
+  "api_trace": [],
+  "created_at": "2026-09-02T16:21:40.730387+00:00",
+  "updated_at": "2026-09-02T16:21:40.736039+00:00",
+  "decision_basis": {
+    "description": "A JSON repair tool",
+    "primary_job": "fix malformed JSON",
+    "audience": "developer",
+    "constraints": {
+      "max_purchase_price": null,
+      "max_renewal_price": null
+    },
+    "inventory_snapshot": [
+      {
+        "domain": "jsonrepair.dev",
+        "purchase_price": 9.99,
+        "renewal_price": 11.99,
+        "purchasable": true,
+        "premium": false
+      },
+      {
+        "domain": "factprobe.dev",
+        "purchase_price": 12.99,
+        "renewal_price": 14.99,
+        "purchasable": true,
+        "premium": false
+      },
+      {
+        "domain": "velora.com",
+        "purchase_price": 10.44,
+        "renewal_price": 12.88,
+        "purchasable": true,
+        "premium": false
+      }
+    ],
+    "selected_quote": {
+      "domain": "velora.com",
+      "purchase_price": 10.44,
+      "renewal_price": 12.88
+    }
+  },
+  "evidence": {
+    "semantic_transmission": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "fixture \u2014 no semantic inversion run"
+    },
+    "task_success": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "no DA-T6 execution trial"
+    },
+    "pairwise_strength": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "requires DA-T3 arena run"
+    },
+    "structural_fluency_proxy": {
+      "value": 0.75,
+      "status": "PROXY",
+      "note": "vowel-ratio x length-fit heuristic"
+    },
+    "brand_elasticity": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": null
+    },
+    "human_recall": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": null
+    },
+    "worst_family": {
+      "value": null,
+      "status": "NOT_MEASURED",
+      "note": "requires multi-family arena"
+    }
+  }
+}
