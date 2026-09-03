@@ -9,7 +9,7 @@
 > Human domain tools ask: "Does this name sound good?"
 > DomainArena asks: "Does an AI agent infer the right product from this name with no context?"
 
-**[Watch Demo](https://youtu.be/PLACEHOLDER)** | **[Try Live Demo](https://domainarena.prx0r.workers.dev)** | **[View Source](https://github.com/prx0r/domainarena)**
+**[Watch Demo](https://youtu.be/ucm5W9WwZaI)** | **[Try Live Demo](https://domainarena.prx0r.workers.dev)** | **[View Source](https://github.com/prx0r/domainarena)**
 
 ---
 
